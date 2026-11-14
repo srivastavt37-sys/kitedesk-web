@@ -6,7 +6,7 @@ window.KITEDESK_POSTS = [
     category: "Operations",
     date: "November 14, 2026",
     readTime: "4 min read",
-    image: "images/hero.jpg",
+    image: "https://img.magnific.com/free-photo/still-life-graphic-design-studio_23-2151320699.jpg?semt=ais_hybrid&w=740&q=80",
     excerpt: "A simple checklist for small shops and freelancers to send crisp, error-free PDF invoices in under a minute.",
     content: [
       "Sending a clear invoice is one of the fastest ways to get paid on time. Yet many solo founders and local businesses still send blurry photos of handwritten bills or pay for heavy accounting suites they barely use.",
@@ -20,7 +20,7 @@ window.KITEDESK_POSTS = [
     category: "Sales",
     date: "November 13, 2026",
     readTime: "3 min read",
-    image: "images/studio.jpg",
+    image: "https://www.callas.in/cdn/shop/files/61PBeEEXYbL._SX679.jpg?v=1773994861",
     excerpt: "Remove friction from your Instagram bio and packaging by letting customers message you with one tap.",
     content: [
       "Asking a buyer to save your phone number, open WhatsApp, and type out what they want kills half your impulse inquiries.",
@@ -48,7 +48,7 @@ window.KITEDESK_POSTS = [
     category: "Sales",
     date: "November 11, 2026",
     readTime: "3 min read",
-    image: "images/hero.jpg",
+    image: "https://www.callas.in/cdn/shop/files/61PBeEEXYbL._SX679.jpg?v=1773994861",
     excerpt: "Three quick formatting habits that make your Instagram, WhatsApp, and Google Business listings easier to trust.",
     content: [
       "Shoppers scan on mobile in under three seconds. Dense paragraphs of text get skipped, even when your product is great.",
