@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BillFold by KiteDesk — Free GST &amp; Non-GST Invoice Generator</title>
+  <meta name="description" content="BillFold is a free browser-based invoice and receipt generator by KiteDesk. Create printable PDF invoices with GST/tax in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/jpeg" href="images/billfold-logo.jpg" />
+</head>
+<body data-brand="billfold">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand-group">
+        <a href="#" class="brand">
+          <img src="images/billfold-logo.jpg" alt="BillFold Logo" class="brand-logo" />
+          <span class="brand-name">BillFold</span>
+        </a>
+        <a href="index.html" class="by-kitedesk">by KiteDesk</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">KiteDesk Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="journal.html">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <div class="sub-hero">
+        <img src="images/billfold-logo.jpg" alt="BillFold Logo" class="sub-hero-logo" />
+        <div>
+          <span class="eyebrow">BillFold by KiteDesk</span>
+          <h1>Instant Invoice &amp; Receipt Builder</h1>
+          <p class="muted">Create crisp, watermark-free GST or non-GST PDF invoices right in your browser.</p>
+        </div>
+      </div>
+      <div class="tool-layout">
+        <div class="card form-card">
+          <h3>Invoice Details</h3>
+          <div class="form-row">
+            <label>Your Business Name <input type="text" id="invFrom" value="BillFold Studio" oninput="renderInvoice()" /></label>
+            <label>Client / Customer Name <input type="text" id="invTo" value="Aarav Traders" oninput="renderInvoice()" /></label>
+          </div>
+          <div class="form-row">
+            <label>Invoice Number <input type="text" id="invNum" value="INV-2026-001" oninput="renderInvoice()" /></label>
+            <label>Currency
+              <select id="invCurrency" onchange="renderInvoice()">
+                <option value="&#8377;">&#8377; INR</option>
+                <option value="$">$ USD</option>
+                <option value="&euro;">&euro; EUR</option>
+              </select>
+            </label>
+            <label>Tax / GST (%) <input type="number" id="invTax" value="18" min="0" max="50" oninput="renderInvoice()" /></label>
+          </div>
+          <div class="items-header">
+            <strong>Line Items</strong>
+            <button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Item</button>
+          </div>
+          <div id="invoiceItemsList"></div>
+          <label>Notes / Payment Instructions
+            <textarea id="invNotes" rows="2" oninput="renderInvoice()">Thank you for your business. Payment due within 7 days via UPI or bank transfer.</textarea>
+          </label>
+          <div class="tool-actions">
+            <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="resetInvoice()">Reset</button>
+          </div>
+        </div>
+        <div class="card invoice-preview" id="invoicePreview">
+          <div class="inv-top">
+            <div><h2 id="prevFrom">BillFold Studio</h2><p class="muted">INVOICE</p></div>
+            <div class="inv-meta">
+              <div><strong>No:</strong> <span id="prevNum">INV-2026-001</span></div>
+              <div><strong>Date:</strong> <span id="prevDate"></span></div>
+            </div>
+          </div>
+          <div class="inv-billto"><span class="muted">Billed To</span><strong id="prevTo">Aarav Traders</strong></div>
+          <table class="inv-table">
+            <thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+            <tbody id="prevItemsBody"></tbody>
+          </table>
+          <div class="inv-totals">
+            <div><span>Subtotal</span><strong id="prevSub">0.00</strong></div>
+            <div><span>Tax (<span id="prevTaxRate">18</span>%)</span><strong id="prevTaxAmt">0.00</strong></div>
+            <div class="inv-grand"><span>Total</span><strong id="prevTotal">0.00</strong></div>
+          </div>
+          <p class="inv-notes" id="prevNotes"></p>
+        </div>
+      </div>
+      <div class="ad-slot" aria-label="Advertisement">
+        <span class="ad-label">Advertisement</span>
+        <div class="ad-box">BillFold Ad Slot — Paste AdSense or Adsterra code here</div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
+        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Sub-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
+          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
+          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
+          <li><a href="journal.html">Daily Journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="about.html">About KiteDesk</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
