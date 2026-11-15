@@ -8,11 +8,15 @@ function renderPostCard(post) {
   return `
     <article class="card post-card">
       <div>
-        <span class="card-tag">${post.category}</span>
+        ${post.image ? `<a href="post.html?slug=${encodeURIComponent(post.slug)}"><img src="${post.image}" alt="${post.title}" class="post-card-thumb" loading="lazy" /></a>` : ''}
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
+          <span class="card-tag" style="margin:0;">${post.category}</span>
+          ${post.youtubeId ? `<span class="mini-badge">▶ Video + Guide</span>` : ''}
+        </div>
         <h3><a href="post.html?slug=${encodeURIComponent(post.slug)}">${post.title}</a></h3>
         <p class="muted">${post.excerpt}</p>
       </div>
-      <div class="post-meta">${post.date} &bull; ${post.readTime}</div>
+      <div class="post-meta">${post.date} &bull; ${post.readTime} ${post.wordCount ? `&bull; ${post.wordCount} words` : ''}</div>
     </article>
   `;
 }
@@ -54,12 +58,25 @@ if (articleBody && window.KITEDESK_POSTS) {
   articleBody.innerHTML = `
     <span class="card-tag">${post.category}</span>
     <h1>${post.title}</h1>
-    <div class="post-meta" style="margin-bottom:20px;">${post.date} &bull; ${post.readTime}</div>
-    ${post.content.map(p => `<p>${p}</p>`).join('')}
-    <div style="margin-top:28px;padding-top:18px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;">
-      <a href="billfold.html" class="btn btn-sm btn-outline">Open BillFold Invoicing</a>
-      <a href="tapping.html" class="btn btn-sm btn-outline">Open TapPing WhatsApp QR</a>
-      <a href="marginmint.html" class="btn btn-sm btn-outline">Open MarginMint Calculator</a>
+    <div class="post-meta" style="margin-bottom:16px;">${post.date} &bull; ${post.readTime} ${post.wordCount ? `&bull; ${post.wordCount} words` : ''} &bull; Plain-English Playbook</div>
+    ${post.image ? `<img src="${post.image}" alt="${post.title}" class="article-hero-img" />` : ''}
+    ${post.youtubeId ? `
+      <div style="margin: 24px 0 28px;">
+        <span class="inv-badge" style="margin-bottom:8px;">WATCH STEP-BY-STEP VIDEO WALKTHROUGH</span>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/${post.youtubeId}" title="${post.title} Video Tutorial" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    ` : ''}
+    ${post.bodyHtml ? post.bodyHtml : post.content.map(p => `<p>${p}</p>`).join('')}
+    <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+      <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+        <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+        <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+        <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+      </div>
     </div>
   `;
 }
