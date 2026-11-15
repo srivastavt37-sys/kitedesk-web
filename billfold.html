@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BillFold by KiteDesk — Free GST &amp; Non-GST Invoice Generator</title>
-  <meta name="description" content="BillFold is a free browser-based invoice and receipt generator by KiteDesk. Create printable PDF invoices with GST/tax in seconds." />
+  <meta name="description" content="BillFold is a free, zero-signup alternative to Zoho Invoice and Vyapar. Create printable GST/non-GST PDF invoices in seconds." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -27,19 +27,23 @@
         <a href="billfold.html">BillFold</a>
         <a href="tapping.html">TapPing</a>
         <a href="copycraft.html">CopyCraft</a>
+        <a href="marginmint.html">MarginMint</a>
         <a href="journal.html">Journal</a>
       </nav>
     </div>
   </header>
   <main class="section">
     <div class="container">
-      <div class="sub-hero">
-        <img src="images/billfold-logo.jpg" alt="BillFold Logo" class="sub-hero-logo" />
-        <div>
-          <span class="eyebrow">BillFold by KiteDesk</span>
-          <h1>Instant Invoice &amp; Receipt Builder</h1>
-          <p class="muted">Create crisp, watermark-free GST or non-GST PDF invoices right in your browser.</p>
+      <div class="sub-hero-grid">
+        <div class="sub-hero">
+          <img src="images/billfold-logo.jpg" alt="BillFold Logo" class="sub-hero-logo" />
+          <div>
+            <span class="eyebrow">BillFold by KiteDesk</span>
+            <h1>Instant Invoice &amp; Receipt Builder</h1>
+            <p class="muted">Create crisp, watermark-free GST or non-GST PDF invoices right in your browser—no account required.</p>
+          </div>
         </div>
+        <div class="sub-hero-photo"><img src="https://img.magnific.com/free-photo/still-life-graphic-design-studio_23-2151320699.jpg?semt=ais_hybrid&w=740&q=80" alt="Laptop showing clean invoice dashboard on wooden desk" /></div>
       </div>
       <div class="tool-layout">
         <div class="card form-card">
@@ -59,14 +63,9 @@
             </label>
             <label>Tax / GST (%) <input type="number" id="invTax" value="18" min="0" max="50" oninput="renderInvoice()" /></label>
           </div>
-          <div class="items-header">
-            <strong>Line Items</strong>
-            <button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Item</button>
-          </div>
+          <div class="items-header"><strong>Line Items</strong><button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Item</button></div>
           <div id="invoiceItemsList"></div>
-          <label>Notes / Payment Instructions
-            <textarea id="invNotes" rows="2" oninput="renderInvoice()">Thank you for your business. Payment due within 7 days via UPI or bank transfer.</textarea>
-          </label>
+          <label>Notes / Payment Instructions <textarea id="invNotes" rows="2" oninput="renderInvoice()">Thank you for your business. Payment due within 7 days via UPI or bank transfer.</textarea></label>
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
             <button type="button" class="btn btn-secondary" onclick="resetInvoice()">Reset</button>
@@ -75,16 +74,10 @@
         <div class="card invoice-preview" id="invoicePreview">
           <div class="inv-top">
             <div><h2 id="prevFrom">BillFold Studio</h2><p class="muted">INVOICE</p></div>
-            <div class="inv-meta">
-              <div><strong>No:</strong> <span id="prevNum">INV-2026-001</span></div>
-              <div><strong>Date:</strong> <span id="prevDate"></span></div>
-            </div>
+            <div class="inv-meta"><div><strong>No:</strong> <span id="prevNum">INV-2026-001</span></div><div><strong>Date:</strong> <span id="prevDate"></span></div></div>
           </div>
           <div class="inv-billto"><span class="muted">Billed To</span><strong id="prevTo">Aarav Traders</strong></div>
-          <table class="inv-table">
-            <thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
-            <tbody id="prevItemsBody"></tbody>
-          </table>
+          <table class="inv-table"><thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="prevItemsBody"></tbody></table>
           <div class="inv-totals">
             <div><span>Subtotal</span><strong id="prevSub">0.00</strong></div>
             <div><span>Tax (<span id="prevTaxRate">18</span>%)</span><strong id="prevTaxAmt">0.00</strong></div>
@@ -93,17 +86,28 @@
           <p class="inv-notes" id="prevNotes"></p>
         </div>
       </div>
-      <div class="ad-slot" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <div class="ad-box">BillFold Ad Slot — Paste AdSense or Adsterra code here</div>
-      </div>
+      <section class="alt-section">
+        <span class="eyebrow">Why BillFold?</span>
+        <h2>A faster, zero-signup alternative to Zoho Invoice &amp; Vyapar</h2>
+        <p class="muted">Full accounting apps are great when you have 500 monthly bills—but if you just need to send a clean PDF invoice to a client right now, BillFold skips the onboarding, logins, and watermarks.</p>
+        <table class="cmp-table">
+          <thead><tr><th>Feature</th><th>BillFold (by KiteDesk)</th><th>Typical Paid Invoice Apps</th></tr></thead>
+          <tbody>
+            <tr><td>Account / Login Required</td><td><strong>No — open &amp; export in 30s</strong></td><td>Yes, email &amp; phone verification</td></tr>
+            <tr><td>Data Privacy</td><td><strong>100% in your browser</strong></td><td>Uploaded to third-party cloud</td></tr>
+            <tr><td>PDF Watermark</td><td><strong>None</strong></td><td>Often added on free tiers</td></tr>
+            <tr><td>Cost</td><td><strong>&#8377;0 Forever</strong></td><td>Monthly / annual plans</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">BillFold Ad Slot — Paste AdSense or Adsterra code here</div></div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
         <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, and CopyCraft.</p>
+        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
         <h4>Sub-Brands</h4>
@@ -111,12 +115,13 @@
           <li><a href="billfold.html">BillFold (Invoicing)</a></li>
           <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
           <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="journal.html">Daily Journal</a></li>
+          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
         </ul>
       </div>
       <div>
         <h4>Studio</h4>
         <ul>
+          <li><a href="journal.html">Daily Journal</a></li>
           <li><a href="about.html">About KiteDesk</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>

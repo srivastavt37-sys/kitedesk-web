@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TapPing by KiteDesk — Free WhatsApp Link &amp; QR Code Builder</title>
-  <meta name="description" content="TapPing is a free WhatsApp click-to-chat link and scannable QR code generator by KiteDesk for local shops and online sellers." />
+  <meta name="description" content="TapPing is a free, no-tracking alternative to Bitly and paid WhatsApp link tools. Build wa.me links and printable QR codes." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -27,29 +27,29 @@
         <a href="billfold.html">BillFold</a>
         <a href="tapping.html">TapPing</a>
         <a href="copycraft.html">CopyCraft</a>
+        <a href="marginmint.html">MarginMint</a>
         <a href="journal.html">Journal</a>
       </nav>
     </div>
   </header>
   <main class="section">
     <div class="container">
-      <div class="sub-hero">
-        <img src="images/tapping-logo.jpg" alt="TapPing Logo" class="sub-hero-logo" />
-        <div>
-          <span class="eyebrow">TapPing by KiteDesk</span>
-          <h1>WhatsApp Link &amp; QR Code Builder</h1>
-          <p class="muted">Turn profile visitors and packaging scans into instant WhatsApp orders.</p>
+      <div class="sub-hero-grid">
+        <div class="sub-hero">
+          <img src="images/tapping-logo.jpg" alt="TapPing Logo" class="sub-hero-logo" />
+          <div>
+            <span class="eyebrow">TapPing by KiteDesk</span>
+            <h1>WhatsApp Link &amp; QR Code Builder</h1>
+            <p class="muted">Turn profile visitors and packaging scans into instant WhatsApp orders—with zero redirects or tracking.</p>
+          </div>
         </div>
+        <div class="sub-hero-photo"><img src="https://www.callas.in/cdn/shop/files/61PBeEEXYbL._SX679.jpg?v=1773994861" alt="Minimalist workspace desk for online sellers" /></div>
       </div>
       <div class="tool-layout">
         <div class="card form-card">
           <h3>Click-to-Chat Details</h3>
-          <label>Phone Number (with country code, digits only)
-            <input type="text" id="waPhone" value="919876543210" oninput="buildWhatsApp()" />
-          </label>
-          <label>Pre-filled Customer Message
-            <textarea id="waMsg" rows="4" oninput="buildWhatsApp()">Hi! I saw your catalog and would like to place an order.</textarea>
-          </label>
+          <label>Phone Number (with country code, digits only) <input type="text" id="waPhone" value="919876543210" oninput="buildWhatsApp()" /></label>
+          <label>Pre-filled Customer Message <textarea id="waMsg" rows="4" oninput="buildWhatsApp()">Hi! I saw your catalog and would like to place an order.</textarea></label>
           <label>Generated Link <input type="text" id="waOutput" readonly /></label>
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="copyText('waOutput', this)">Copy Link</button>
@@ -63,17 +63,27 @@
           <a id="waQrDownload" href="#" download="tapping-whatsapp-qr.png" class="btn btn-outline">Download QR PNG</a>
         </div>
       </div>
-      <div class="ad-slot" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <div class="ad-box">TapPing Ad Slot — Paste AdSense or Adsterra code here</div>
-      </div>
+      <section class="alt-section">
+        <span class="eyebrow">Why TapPing?</span>
+        <h2>A direct, no-expiry alternative to Bitly &amp; paid QR generators</h2>
+        <p class="muted">Many free QR and link tools put an expiration timer on your QR code or route your customers through slow tracking redirects. TapPing generates a direct, permanent <code>wa.me</code> link that never breaks.</p>
+        <table class="cmp-table">
+          <thead><tr><th>Feature</th><th>TapPing (by KiteDesk)</th><th>Typical QR / Link Tools</th></tr></thead>
+          <tbody>
+            <tr><td>Link Expiration</td><td><strong>Never expires (direct wa.me)</strong></td><td>Often pauses after 14-day trial</td></tr>
+            <tr><td>Pre-filled Order Text</td><td><strong>Included free</strong></td><td>Often gated behind login</td></tr>
+            <tr><td>Redirects / Tracking</td><td><strong>None — direct to WhatsApp</strong></td><td>Interstitial ads or trackers</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">TapPing Ad Slot — Paste AdSense or Adsterra code here</div></div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
         <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, and CopyCraft.</p>
+        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
         <h4>Sub-Brands</h4>
@@ -81,12 +91,13 @@
           <li><a href="billfold.html">BillFold (Invoicing)</a></li>
           <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
           <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="journal.html">Daily Journal</a></li>
+          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
         </ul>
       </div>
       <div>
         <h4>Studio</h4>
         <ul>
+          <li><a href="journal.html">Daily Journal</a></li>
           <li><a href="about.html">About KiteDesk</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>

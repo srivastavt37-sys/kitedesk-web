@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarginMint by KiteDesk — Free Product Pricing, GST &amp; Profit Calculator</title>
+  <meta name="description" content="MarginMint is a free D2C and small-seller profit margin calculator by KiteDesk. Factor in COGS, shipping, packaging, GST, and payment fees." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/jpeg" href="images/marginmint-logo.jpg" />
+</head>
+<body data-brand="marginmint">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand-group">
+        <a href="#" class="brand">
+          <img src="images/marginmint-logo.jpg" alt="MarginMint Logo" class="brand-logo" />
+          <span class="brand-name">MarginMint</span>
+        </a>
+        <a href="index.html" class="by-kitedesk">by KiteDesk</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">KiteDesk Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="journal.html">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <div class="sub-hero-grid">
+        <div class="sub-hero">
+          <img src="images/marginmint-logo.jpg" alt="MarginMint Logo" class="sub-hero-logo" />
+          <div>
+            <span class="eyebrow">MarginMint by KiteDesk</span>
+            <h1>Product Pricing &amp; Profit Margin Calculator</h1>
+            <p class="muted">Know your true net profit per order after COGS, shipping, packaging, GST, and payment fees.</p>
+          </div>
+        </div>
+        <div class="sub-hero-photo"><img src="https://www.callas.in/cdn/shop/files/61PBeEEXYbL._SX679.jpg?v=1773994861" alt="Small business desk for calculating product pricing" /></div>
+      </div>
+      <div class="tool-layout">
+        <div class="card form-card">
+          <h3>Unit Economics Inputs</h3>
+          <div class="form-row">
+            <label>Currency
+              <select id="mmCur" onchange="calcMargin()">
+                <option value="&#8377;">&#8377; INR</option>
+                <option value="$">$ USD</option>
+              </select>
+            </label>
+            <label>Selling Price (incl. GST) <input type="number" id="mmSell" value="1299" min="0" oninput="calcMargin()" /></label>
+          </div>
+          <div class="form-row">
+            <label>Product Cost (COGS) <input type="number" id="mmCogs" value="520" min="0" oninput="calcMargin()" /></label>
+            <label>Shipping Cost <input type="number" id="mmShip" value="85" min="0" oninput="calcMargin()" /></label>
+          </div>
+          <div class="form-row">
+            <label>Packaging &amp; Inserts <input type="number" id="mmPack" value="35" min="0" oninput="calcMargin()" /></label>
+            <label>Payment / Platform Fee (%) <input type="number" id="mmFee" value="2.5" step="0.1" min="0" oninput="calcMargin()" /></label>
+            <label>GST Included (%) <input type="number" id="mmGst" value="12" min="0" max="28" oninput="calcMargin()" /></label>
+          </div>
+        </div>
+        <div class="card form-card">
+          <h3>True Profit Breakdown</h3>
+          <div class="kpi-grid">
+            <div class="kpi-box"><span>Net Profit / Order</span><strong id="mmNet">&#8377;0.00</strong></div>
+            <div class="kpi-box"><span>Net Profit Margin</span><strong id="mmMarginPct">0.0%</strong></div>
+            <div class="kpi-box"><span>Markup on Cost</span><strong id="mmMarkupPct">0.0%</strong></div>
+            <div class="kpi-box"><span>Total All-In Cost</span><strong id="mmCostTotal">&#8377;0.00</strong></div>
+          </div>
+          <div class="inv-totals" style="align-items: stretch; margin-top: 8px;">
+            <div style="justify-content: space-between;"><span>Payment / Marketplace Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
+            <div style="justify-content: space-between;"><span>GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
+          </div>
+          <p class="muted">Tip: Once your price is locked in, generate a clean invoice in <a href="billfold.html">BillFold</a> or a direct order link in <a href="tapping.html">TapPing</a>.</p>
+        </div>
+      </div>
+      <section class="alt-section">
+        <span class="eyebrow">Why MarginMint?</span>
+        <h2>Built for real D2C sellers—unlike basic markup calculators</h2>
+        <p class="muted">Generic margin calculators only ask for cost and selling price, forgetting shipping, packaging, payment gateway fees, and inclusive GST—causing sellers to lose money on every "profitable" order.</p>
+        <table class="cmp-table">
+          <thead><tr><th>Feature</th><th>MarginMint (by KiteDesk)</th><th>Generic Margin Calculators</th></tr></thead>
+          <tbody>
+            <tr><td>Shipping &amp; Packaging</td><td><strong>Built-in per-order fields</strong></td><td>Usually omitted</td></tr>
+            <tr><td>GST-Inclusive Math</td><td><strong>Automatic tax extraction</strong></td><td>Manual spreadsheet formula needed</td></tr>
+            <tr><td>Payment / Platform Fee (%)</td><td><strong>Included in net margin</strong></td><td>Rarely supported</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">MarginMint Ad Slot — Paste AdSense or Adsterra code here</div></div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
+        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+      </div>
+      <div>
+        <h4>Sub-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
+          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
+          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
+          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="journal.html">Daily Journal</a></li>
+          <li><a href="about.html">About KiteDesk</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
