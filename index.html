@@ -3,147 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KiteDesk Studio — Independent Micro-Brands &amp; Free Digital Tools</title>
-  <meta name="description" content="KiteDesk is a neutral product studio building focused, free browser tools: BillFold, TapPing, CopyCraft, and MarginMint." />
+  <title>KiteDesk Studio — Zero-Signup Business Micro-Brands</title>
+  <meta name="description" content="KiteDesk Studio builds fast, browser-local micro-brands for Indian and global sellers: BillFold (GST & UPI Invoicing), TapPing (WhatsApp QR), CopyCraft (SERP & Bio Studio), and MarginMint (D2C Profit & COD RTO Calculator)." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/jpeg" href="images/logo.jpg" />
 </head>
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
       <a href="index.html" class="brand">
-        <img src="images/logo.jpg" alt="KiteDesk Studio Logo" class="brand-logo" />
-        <span class="brand-name">KiteDesk</span>
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
         <span class="studio-pill">Studio</span>
       </a>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html">Home</a>
-        <a href="billfold.html">BillFold</a>
-        <a href="tapping.html">TapPing</a>
-        <a href="copycraft.html">CopyCraft</a>
-        <a href="marginmint.html">MarginMint</a>
-        <a href="journal.html">Journal</a>
+        <a href="index.html" class="active">Studio</a>
+        <a href="billfold.html" class="">BillFold</a>
+        <a href="tapping.html" class="">TapPing</a>
+        <a href="copycraft.html" class="">CopyCraft</a>
+        <a href="marginmint.html" class="">MarginMint</a>
+        <a href="journal.html" class="">Journal</a>
       </nav>
     </div>
   </header>
   <main>
     <section class="hero">
       <div class="container hero-grid">
-        <div class="hero-copy">
-          <span class="eyebrow">Independent Digital Tool Studio</span>
-          <h1>Focused micro-brands for everyday business work.</h1>
+        <div>
+          <span class="eyebrow">KiteDesk Product Studio &bull; 4 Live Micro-Brands</span>
+          <h1>Sharp, single-purpose software for independent businesses.</h1>
           <p class="lead">
-            KiteDesk is a lean product studio that builds specialized, zero-signup web utilities. Instead of one bloated subscription app, each tool lives under its own dedicated brand—free to use forever, supported by lightweight ads.
+            We don't build bloated monthly SaaS or hide downloads behind email walls. Every KiteDesk sub-brand is a fast, client-side web application engineered to finish one critical business job in under 30 seconds.
           </p>
           <div class="hero-actions">
-            <a href="#brands" class="btn btn-primary">Explore 4 Sub-Brands</a>
-            <a href="journal.html" class="btn btn-secondary">Read Daily Journal</a>
+            <a href="#portfolio" class="btn btn-primary">Launch Studio Apps &darr;</a>
+            <a href="billfold.html" class="btn btn-secondary">Create GST + UPI Invoice</a>
           </div>
           <div class="hero-stats">
-            <div><strong>4</strong><span>Sub-Brands</span></div>
-            <div><strong>&#8377;0</strong><span>No Subscriptions</span></div>
-            <div><strong>Daily</strong><span>SEO Guides</span></div>
+            <div><strong>4 Apps</strong><span>Specialized Sub-Brands</span></div>
+            <div><strong>0 ms</strong><span>Server Latency (Local JS)</span></div>
+            <div><strong>&#8377;0</strong><span>No Login or Watermarks</span></div>
           </div>
         </div>
-        <div class="hero-media">
-          <img src="https://img.magnific.com/free-photo/still-life-graphic-design-studio_23-2151320699.jpg?semt=ais_hybrid&w=740&q=80" alt="Minimalist creative studio desk" />
+        <div class="ui-window" aria-label="Live KiteDesk Studio Workspace Preview">
+          <div class="ui-window-bar">
+            <div class="ui-dots"><span></span><span></span><span></span></div>
+            <span>kitedesk://studio-launcher</span>
+            <span>v2.4 LIVE</span>
+          </div>
+          <div class="ui-window-body">
+            <div class="mini-grid">
+              <a href="billfold.html" class="mini-card">
+                <div class="mini-card-head"><strong>BillFold</strong><span class="mini-badge">BILLING</span></div>
+                <p>CGST/SGST/IGST split + dynamic UPI QR code on PDF</p>
+                <div class="mini-metric">INV-2026 &rarr; &#8377;3,599.00</div>
+              </a>
+              <a href="tapping.html" class="mini-card">
+                <div class="mini-card-head"><strong>TapPing</strong><span class="mini-badge">WHATSAPP</span></div>
+                <p>Direct wa.me order links, high-res QR &amp; HTML buttons</p>
+                <div class="mini-metric">wa.me/91... &rarr; 0 Redirects</div>
+              </a>
+              <a href="marginmint.html" class="mini-card">
+                <div class="mini-card-head"><strong>MarginMint</strong><span class="mini-badge">UNIT ECON</span></div>
+                <p>True D2C profit after COGS, GST, shipping &amp; COD RTO</p>
+                <div class="mini-metric">Net: 29.4% &bull; 1.84x ROAS</div>
+              </a>
+              <a href="copycraft.html" class="mini-card">
+                <div class="mini-card-head"><strong>CopyCraft</strong><span class="mini-badge">SEO &amp; BIO</span></div>
+                <p>1-tap bullet clean, slug builder &amp; live Google SERP card</p>
+                <div class="mini-metric">150 IG / 160 Meta Check</div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <div class="container">
-      <div class="ad-slot" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <div class="ad-box">Studio Display Ad Slot (728x90 / Auto) — Paste AdSense or Adsterra code here</div>
-      </div>
-    </div>
-    <section class="section" id="brands">
+
+    <section class="section" id="portfolio">
       <div class="container">
         <div class="section-head">
           <div>
-            <span class="eyebrow">Our Portfolio</span>
-            <h2>Four focused brands under KiteDesk</h2>
+            <span class="eyebrow">Product Portfolio</span>
+            <h2>Four dedicated brands. Zero account friction.</h2>
           </div>
-          <a href="tools.html" class="text-link">View directory &rarr;</a>
+          <a href="tools.html" class="text-link">Full technical directory &rarr;</a>
         </div>
-        <div class="cards-3">
+        <div class="cards-4">
           <article class="card subbrand-card is-billfold">
-            <div class="subbrand-head"><img src="images/billfold-logo.jpg" alt="BillFold Logo" /><div><h3>BillFold</h3><span>Billing &amp; Invoices</span></div></div>
-            <p>Clean, print-ready GST and non-GST PDF invoices in 30 seconds. A fast, zero-signup alternative to bloated accounting suites.</p>
-            <a href="billfold.html" class="btn btn-primary">Open BillFold &rarr;</a>
+            <div>
+              <div class="subbrand-head">
+                <div class="subbrand-title-wrap">
+                  <div class="subbrand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
+                  <div><h3>BillFold</h3><span>GST, UPI QR &amp; Receipt Suite</span></div>
+                </div>
+                <span class="studio-pill">v2.4</span>
+              </div>
+              <p style="margin-top:12px;">Generate print-ready tax invoices with automatic CGST/SGST or IGST splits, seller/buyer GSTIN fields, and an embedded UPI payment QR code.</p>
+              <ul class="subbrand-features">
+                <li>CGST+SGST / IGST Split</li>
+                <li>Live UPI Payment QR</li>
+                <li>Auto-saved in Browser</li>
+                <li>Zero PDF Watermarks</li>
+              </ul>
+            </div>
+            <a href="billfold.html" class="btn btn-primary">Launch BillFold Workspace &rarr;</a>
           </article>
+
           <article class="card subbrand-card is-tapping">
-            <div class="subbrand-head"><img src="images/tapping-logo.jpg" alt="TapPing Logo" /><div><h3>TapPing</h3><span>WhatsApp &amp; QR Commerce</span></div></div>
-            <p>Turn your phone number and order template into instant wa.me click-to-chat links and printable QR codes without link-shortener tracking.</p>
-            <a href="tapping.html" class="btn btn-primary">Open TapPing &rarr;</a>
+            <div>
+              <div class="subbrand-head">
+                <div class="subbrand-title-wrap">
+                  <div class="subbrand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+                  <div><h3>TapPing</h3><span>WhatsApp Commerce &amp; QR Studio</span></div>
+                </div>
+                <span class="studio-pill">v2.4</span>
+              </div>
+              <p style="margin-top:12px;">Create permanent <code>wa.me</code> click-to-chat links with pre-filled Indian commerce templates, downloadable packaging QR codes, and website embed snippets.</p>
+              <ul class="subbrand-features">
+                <li>5 Commerce Presets</li>
+                <li>300-DPI Print QR PNG</li>
+                <li>Copy-Paste HTML Button</li>
+                <li>Never Expires</li>
+              </ul>
+            </div>
+            <a href="tapping.html" class="btn btn-primary">Launch TapPing Workspace &rarr;</a>
           </article>
-          <article class="card subbrand-card is-copycraft">
-            <div class="subbrand-head"><img src="images/copycraft-logo.jpg" alt="CopyCraft Logo" /><div><h3>CopyCraft</h3><span>Bios, Listings &amp; SEO</span></div></div>
-            <p>Format messy product descriptions, convert notes into crisp bullets, and check Instagram and Google Meta limits instantly.</p>
-            <a href="copycraft.html" class="btn btn-primary">Open CopyCraft &rarr;</a>
-          </article>
+
           <article class="card subbrand-card is-marginmint">
-            <div class="subbrand-head"><img src="images/marginmint-logo.jpg" alt="MarginMint Logo" /><div><h3>MarginMint</h3><span>D2C Pricing &amp; Profit</span></div></div>
-            <p>Calculate true net profit per order after COGS, shipping, packaging, GST, and marketplace fees—no messy spreadsheets needed.</p>
-            <a href="marginmint.html" class="btn btn-primary">Open MarginMint &rarr;</a>
+            <div>
+              <div class="subbrand-head">
+                <div class="subbrand-title-wrap">
+                  <div class="subbrand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                  <div><h3>MarginMint</h3><span>D2C Pricing, COD RTO &amp; ROAS Lab</span></div>
+                </div>
+                <span class="studio-pill">v2.4</span>
+              </div>
+              <p style="margin-top:12px;">Stop losing money on "profitable" orders. Calculate net take-home profit after inclusive GST, courier charges, payment gateway fees, and COD Return-to-Origin (RTO) losses.</p>
+              <ul class="subbrand-features">
+                <li>COD RTO Loss Modeling</li>
+                <li>Break-Even ROAS Target</li>
+                <li>Inclusive GST Extraction</li>
+                <li>Visual Cost Breakdown Bar</li>
+              </ul>
+            </div>
+            <a href="marginmint.html" class="btn btn-primary">Launch MarginMint Workspace &rarr;</a>
           </article>
+
+          <article class="card subbrand-card is-copycraft">
+            <div>
+              <div class="subbrand-head">
+                <div class="subbrand-title-wrap">
+                  <div class="subbrand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+                  <div><h3>CopyCraft</h3><span>Storefront Bio &amp; Google SERP Studio</span></div>
+                </div>
+                <span class="studio-pill">v2.4</span>
+              </div>
+              <p style="margin-top:12px;">Format raw product notes into clean bullet lists, generate SEO URL slugs, verify Instagram/Meta character limits, and preview your live Google Search snippet.</p>
+              <ul class="subbrand-features">
+                <li>Live Google SERP Preview</li>
+                <li>Bullet &amp; Checkmark Clean</li>
+                <li>URL Slug Generator</li>
+                <li>IG &amp; Meta Meters</li>
+              </ul>
+            </div>
+            <a href="copycraft.html" class="btn btn-primary">Launch CopyCraft Workspace &rarr;</a>
+          </article>
+        </div>
+
+        <div class="ad-slot" aria-label="Sponsor">
+          <div><span class="ad-label">Sponsor Slot</span> &nbsp; <strong>Ad-Ready Placement</strong> — Clean, single-line native sponsor bar (AdSense / Adsterra / Direct Sponsor ready).</div>
+          <a href="contact.html" class="text-link">Sponsor KiteDesk &rarr;</a>
         </div>
       </div>
     </section>
+
     <section class="section section-tinted">
       <div class="container">
         <div class="section-head">
           <div>
-            <span class="eyebrow">Daily Journal</span>
-            <h2>Fresh guides for organic growth</h2>
+            <span class="eyebrow">Daily Playbooks</span>
+            <h2>Practical guides on organic search &amp; lean operations</h2>
           </div>
-          <a href="journal.html" class="text-link">Browse all posts &rarr;</a>
+          <a href="journal.html" class="text-link">Read all playbooks &rarr;</a>
         </div>
         <div class="cards-3" id="homePostsGrid"></div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container split-feature">
-        <div class="split-media"><img src="https://www.callas.in/cdn/shop/files/61PBeEEXYbL._SX679.jpg?v=1773994861" alt="Minimalist home office setup" /></div>
-        <div class="split-copy">
-          <span class="eyebrow">Studio Model</span>
-          <h2>One parent studio. Specialized tools.</h2>
-          <p>Every KiteDesk sub-brand solves one job well without logins, watermarks, or monthly paywalls. When you need billing, go to BillFold. When you need product pricing math, go to MarginMint.</p>
-          <a href="about.html" class="btn btn-outline">About KiteDesk Studio</a>
-        </div>
       </div>
     </section>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
-        <h4>Sub-Brands</h4>
+        <h4>Micro-Brands</h4>
         <ul>
-          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
-          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
-          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
         </ul>
       </div>
       <div>
-        <h4>Studio</h4>
+        <h4>Company &amp; Legal</h4>
         <ul>
-          <li><a href="journal.html">Daily Journal</a></li>
-          <li><a href="about.html">About KiteDesk</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
-    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
   </footer>
   <script src="posts-data.js"></script>
   <script src="app.js"></script>

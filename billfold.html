@@ -3,57 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BillFold by KiteDesk — Free GST &amp; Non-GST Invoice Generator</title>
-  <meta name="description" content="BillFold is a free, zero-signup alternative to Zoho Invoice and Vyapar. Create printable GST/non-GST PDF invoices in seconds." />
+  <title>BillFold by KiteDesk — Free GST &amp; UPI QR Invoice Generator</title>
+  <meta name="description" content="Create print-ready GST (CGST/SGST or IGST) and non-GST PDF invoices with an embedded UPI payment QR code. 100% free, zero-signup alternative to Zoho Invoice and Vyapar." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/jpeg" href="images/billfold-logo.jpg" />
 </head>
 <body data-brand="billfold">
   <header class="site-header">
     <div class="container nav-wrap">
       <div class="brand-group">
-        <a href="#" class="brand">
-          <img src="images/billfold-logo.jpg" alt="BillFold Logo" class="brand-logo" />
-          <span class="brand-name">BillFold</span>
+        <a href="billfold.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
+          <span>BillFold</span>
         </a>
         <a href="index.html" class="by-kitedesk">by KiteDesk</a>
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html">KiteDesk Studio</a>
-        <a href="billfold.html">BillFold</a>
-        <a href="tapping.html">TapPing</a>
-        <a href="copycraft.html">CopyCraft</a>
-        <a href="marginmint.html">MarginMint</a>
-        <a href="journal.html">Journal</a>
+        <a href="index.html" class="">Studio</a>
+        <a href="billfold.html" class="active">BillFold</a>
+        <a href="tapping.html" class="">TapPing</a>
+        <a href="copycraft.html" class="">CopyCraft</a>
+        <a href="marginmint.html" class="">MarginMint</a>
+        <a href="journal.html" class="">Journal</a>
       </nav>
     </div>
   </header>
   <main class="section">
     <div class="container">
-      <div class="sub-hero-grid">
-        <div class="sub-hero">
-          <img src="images/billfold-logo.jpg" alt="BillFold Logo" class="sub-hero-logo" />
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
           <div>
-            <span class="eyebrow">BillFold by KiteDesk</span>
-            <h1>Instant Invoice &amp; Receipt Builder</h1>
-            <p class="muted">Create crisp, watermark-free GST or non-GST PDF invoices right in your browser—no account required.</p>
+            <h1>BillFold — GST &amp; UPI QR Invoice Builder</h1>
+            <p>Generate compliant CGST/SGST or IGST invoices with a scannable UPI payment QR code in 30 seconds.</p>
           </div>
         </div>
-        <div class="sub-hero-photo"><img src="images/billfold-preview.jpg" alt="Laptop showing clean invoice dashboard on wooden desk" /></div>
+        <div class="trust-pills">
+          <span class="trust-pill">&#10003; Auto CGST/SGST Split</span>
+          <span class="trust-pill">&#10003; Live UPI QR</span>
+          <span class="trust-pill">&#10003; Saved Locally</span>
+        </div>
       </div>
+
       <div class="tool-layout">
         <div class="card form-card">
-          <h3>Invoice Details</h3>
+          <h3>1. Seller &amp; Buyer Details</h3>
           <div class="form-row">
-            <label>Your Business Name <input type="text" id="invFrom" value="BillFold Studio" oninput="renderInvoice()" /></label>
-            <label>Client / Customer Name <input type="text" id="invTo" value="Aarav Traders" oninput="renderInvoice()" /></label>
+            <label>Your Business Name <input type="text" id="invFrom" value="KiteDesk Crafts" oninput="renderInvoice()" /></label>
+            <label>Your GSTIN (Optional) <input type="text" class="mono-input" id="invFromGstin" placeholder="09ABCDE1234F1Z5" oninput="renderInvoice()" /></label>
           </div>
           <div class="form-row">
-            <label>Invoice Number <input type="text" id="invNum" value="INV-2026-001" oninput="renderInvoice()" /></label>
+            <label>Billed To (Customer / Company) <input type="text" id="invTo" value="Aarav Retail Pvt Ltd" oninput="renderInvoice()" /></label>
+            <label>Customer GSTIN (Optional) <input type="text" class="mono-input" id="invToGstin" placeholder="09XYZAB5678G1Z2" oninput="renderInvoice()" /></label>
+          </div>
+          <div class="form-row">
+            <label>Invoice No. <input type="text" class="mono-input" id="invNum" value="INV-2026-104" oninput="renderInvoice()" /></label>
             <label>Currency
               <select id="invCurrency" onchange="renderInvoice()">
                 <option value="&#8377;">&#8377; INR</option>
@@ -61,75 +68,133 @@
                 <option value="&euro;">&euro; EUR</option>
               </select>
             </label>
-            <label>Tax / GST (%) <input type="number" id="invTax" value="18" min="0" max="50" oninput="renderInvoice()" /></label>
+            <label>Flat Discount <input type="number" class="mono-input" id="invDiscount" value="0" min="0" oninput="renderInvoice()" /></label>
           </div>
-          <div class="items-header"><strong>Line Items</strong><button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Item</button></div>
+          <div class="form-row">
+            <label>Tax Mode
+              <select id="invTaxMode" onchange="renderInvoice()">
+                <option value="cgst_sgst">Intra-State (CGST + SGST)</option>
+                <option value="igst">Inter-State (IGST)</option>
+                <option value="none">Non-GST / Exempt (0%)</option>
+              </select>
+            </label>
+            <label>GST Rate (%) <input type="number" class="mono-input" id="invTax" value="12" min="0" max="28" oninput="renderInvoice()" /></label>
+            <label>UPI ID for QR (Optional) <input type="text" class="mono-input" id="invUpi" value="merchant@upi" placeholder="yourname@upi" oninput="renderInvoice()" /></label>
+          </div>
+
+          <div class="items-header">
+            <strong>2. Line Items (Description, Qty, Rate)</strong>
+            <button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Line Item</button>
+          </div>
           <div id="invoiceItemsList"></div>
-          <label>Notes / Payment Instructions <textarea id="invNotes" rows="2" oninput="renderInvoice()">Thank you for your business. Payment due within 7 days via UPI or bank transfer.</textarea></label>
+
+          <label>Payment Terms &amp; Notes
+            <textarea id="invNotes" rows="2" oninput="renderInvoice()">Scan the UPI QR code to pay instantly, or remit via NEFT within 7 days. Thank you for your business!</textarea>
+          </label>
           <div class="tool-actions">
-            <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
-            <button type="button" class="btn btn-secondary" onclick="resetInvoice()">Reset</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save Clean PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="resetInvoice()">Reset Fields</button>
           </div>
         </div>
+
         <div class="card invoice-preview" id="invoicePreview">
           <div class="inv-top">
-            <div><h2 id="prevFrom">BillFold Studio</h2><p class="muted">INVOICE</p></div>
-            <div class="inv-meta"><div><strong>No:</strong> <span id="prevNum">INV-2026-001</span></div><div><strong>Date:</strong> <span id="prevDate"></span></div></div>
+            <div>
+              <span class="inv-badge">TAX INVOICE</span>
+              <h2 id="prevFrom" style="margin-bottom:2px;">KiteDesk Crafts</h2>
+              <div class="muted mono-val" id="prevFromGstin"></div>
+            </div>
+            <div class="inv-meta">
+              <div><strong>NO:</strong> <span id="prevNum">INV-2026-104</span></div>
+              <div><strong>DATE:</strong> <span id="prevDate"></span></div>
+            </div>
           </div>
-          <div class="inv-billto"><span class="muted">Billed To</span><strong id="prevTo">Aarav Traders</strong></div>
-          <table class="inv-table"><thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="prevItemsBody"></tbody></table>
+          <div class="inv-parties">
+            <div>
+              <span class="muted" style="display:block;font-size:0.74rem;text-transform:uppercase;font-weight:700;">Billed To</span>
+              <strong id="prevTo">Aarav Retail Pvt Ltd</strong>
+              <div class="muted mono-val" id="prevToGstin"></div>
+            </div>
+            <div style="text-align:right;">
+              <span class="muted" style="display:block;font-size:0.74rem;text-transform:uppercase;font-weight:700;">Status</span>
+              <strong style="color:var(--success);">Payable on Receipt</strong>
+            </div>
+          </div>
+          <table class="inv-table">
+            <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+            <tbody id="prevItemsBody"></tbody>
+          </table>
           <div class="inv-totals">
-            <div><span>Subtotal</span><strong id="prevSub">0.00</strong></div>
-            <div><span>Tax (<span id="prevTaxRate">18</span>%)</span><strong id="prevTaxAmt">0.00</strong></div>
-            <div class="inv-grand"><span>Total</span><strong id="prevTotal">0.00</strong></div>
+            <div><span>Subtotal</span><strong id="prevSub">&#8377;0.00</strong></div>
+            <div id="prevDiscRow" style="display:none;"><span>Discount</span><strong id="prevDisc">-&#8377;0.00</strong></div>
+            <div id="prevTaxBreakdown" style="display:flex;flex-direction:column;gap:6px;width:min(260px,100%);"></div>
+            <div class="inv-grand"><span>Total Payable</span><strong id="prevTotal">&#8377;0.00</strong></div>
           </div>
-          <p class="inv-notes" id="prevNotes"></p>
+          <div class="inv-footer-grid">
+            <p class="muted" id="prevNotes" style="margin:0;max-width:340px;"></p>
+            <div class="inv-upi-box" id="prevUpiWrap">
+              <img id="prevUpiQr" alt="UPI Payment QR" />
+              <span>Scan to Pay via UPI</span><br />
+              <strong class="mono-val" id="prevUpiId" style="font-size:0.7rem;color:var(--ink);"></strong>
+            </div>
+          </div>
         </div>
       </div>
+
       <section class="alt-section">
-        <span class="eyebrow">Why BillFold?</span>
-        <h2>A faster, zero-signup alternative to Zoho Invoice &amp; Vyapar</h2>
-        <p class="muted">Full accounting apps are great when you have 500 monthly bills—but if you just need to send a clean PDF invoice to a client right now, BillFold skips the onboarding, logins, and watermarks.</p>
+        <span class="eyebrow">Why Choose BillFold?</span>
+        <h2>A zero-signup alternative to Zoho Invoice, Vyapar &amp; Swipe</h2>
+        <p class="muted">When you need to send a compliant bill right now, creating an account, verifying OTPs, and navigating complex ledgers wastes time. BillFold runs entirely inside your browser.</p>
         <table class="cmp-table">
-          <thead><tr><th>Feature</th><th>BillFold (by KiteDesk)</th><th>Typical Paid Invoice Apps</th></tr></thead>
+          <thead><tr><th>Capability</th><th>BillFold (by KiteDesk)</th><th>Traditional Billing Suites</th></tr></thead>
           <tbody>
-            <tr><td>Account / Login Required</td><td><strong>No — open &amp; export in 30s</strong></td><td>Yes, email &amp; phone verification</td></tr>
-            <tr><td>Data Privacy</td><td><strong>100% in your browser</strong></td><td>Uploaded to third-party cloud</td></tr>
-            <tr><td>PDF Watermark</td><td><strong>None</strong></td><td>Often added on free tiers</td></tr>
-            <tr><td>Cost</td><td><strong>&#8377;0 Forever</strong></td><td>Monthly / annual plans</td></tr>
+            <tr><td>Time to First PDF</td><td><strong>Under 30 seconds (Zero login)</strong></td><td>5–10 mins (Account + OTP setup)</td></tr>
+            <tr><td>CGST/SGST &amp; IGST Split</td><td><strong>Built-in 1-click toggle</strong></td><td>Requires company tax profile setup</td></tr>
+            <tr><td>Dynamic UPI QR on Invoice</td><td><strong>Included free (Exact total pre-filled)</strong></td><td>Often locked to paid tiers</td></tr>
+            <tr><td>Client Data Privacy</td><td><strong>100% LocalStorage (Never uploaded)</strong></td><td>Stored on external cloud servers</td></tr>
           </tbody>
         </table>
       </section>
-      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">BillFold Ad Slot — Paste AdSense or Adsterra code here</div></div>
+
+      <div class="ad-slot" aria-label="Sponsor">
+        <div><span class="ad-label">Sponsor Slot</span> &nbsp; Need to calculate your net product margin before billing? Try <a href="marginmint.html"><strong>MarginMint</strong></a>.</div>
+        <a href="marginmint.html" class="text-link">Open MarginMint &rarr;</a>
+      </div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
-        <h4>Sub-Brands</h4>
+        <h4>Micro-Brands</h4>
         <ul>
-          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
-          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
-          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
         </ul>
       </div>
       <div>
-        <h4>Studio</h4>
+        <h4>Company &amp; Legal</h4>
         <ul>
-          <li><a href="journal.html">Daily Journal</a></li>
-          <li><a href="about.html">About KiteDesk</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
-    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
   </footer>
   <script src="app.js"></script>
 </body>

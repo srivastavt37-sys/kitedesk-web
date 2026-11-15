@@ -3,109 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TapPing by KiteDesk — Free WhatsApp Link &amp; QR Code Builder</title>
-  <meta name="description" content="TapPing is a free, no-tracking alternative to Bitly and paid WhatsApp link tools. Build wa.me links and printable QR codes." />
+  <title>TapPing by KiteDesk — WhatsApp Order Link, QR &amp; Widget Studio</title>
+  <meta name="description" content="Generate permanent wa.me click-to-chat links, 1-click Indian commerce message templates, printable QR codes, and HTML website buttons." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/jpeg" href="images/tapping-logo.jpg" />
 </head>
 <body data-brand="tapping">
   <header class="site-header">
     <div class="container nav-wrap">
       <div class="brand-group">
-        <a href="#" class="brand">
-          <img src="images/tapping-logo.jpg" alt="TapPing Logo" class="brand-logo" />
-          <span class="brand-name">TapPing</span>
+        <a href="tapping.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+          <span>TapPing</span>
         </a>
         <a href="index.html" class="by-kitedesk">by KiteDesk</a>
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html">KiteDesk Studio</a>
-        <a href="billfold.html">BillFold</a>
-        <a href="tapping.html">TapPing</a>
-        <a href="copycraft.html">CopyCraft</a>
-        <a href="marginmint.html">MarginMint</a>
-        <a href="journal.html">Journal</a>
+        <a href="index.html" class="">Studio</a>
+        <a href="billfold.html" class="">BillFold</a>
+        <a href="tapping.html" class="active">TapPing</a>
+        <a href="copycraft.html" class="">CopyCraft</a>
+        <a href="marginmint.html" class="">MarginMint</a>
+        <a href="journal.html" class="">Journal</a>
       </nav>
     </div>
   </header>
   <main class="section">
     <div class="container">
-      <div class="sub-hero-grid">
-        <div class="sub-hero">
-          <img src="images/tapping-logo.jpg" alt="TapPing Logo" class="sub-hero-logo" />
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
           <div>
-            <span class="eyebrow">TapPing by KiteDesk</span>
-            <h1>WhatsApp Link &amp; QR Code Builder</h1>
-            <p class="muted">Turn profile visitors and packaging scans into instant WhatsApp orders—with zero redirects or tracking.</p>
+            <h1>TapPing — WhatsApp Link, QR &amp; Widget Studio</h1>
+            <p>Convert Instagram bio visitors and parcel box scans into pre-filled WhatsApp orders with zero redirect tracking.</p>
           </div>
         </div>
-        <div class="sub-hero-photo"><img src="images/tapping-preview.jpg" alt="Minimalist workspace desk for online sellers" /></div>
+        <div class="trust-pills">
+          <span class="trust-pill">&#10003; Permanent wa.me URL</span>
+          <span class="trust-pill">&#10003; 5 Order Presets</span>
+          <span class="trust-pill">&#10003; HTML Button Code</span>
+        </div>
       </div>
+
       <div class="tool-layout">
         <div class="card form-card">
-          <h3>Click-to-Chat Details</h3>
-          <label>Phone Number (with country code, digits only) <input type="text" id="waPhone" value="919876543210" oninput="buildWhatsApp()" /></label>
-          <label>Pre-filled Customer Message <textarea id="waMsg" rows="4" oninput="buildWhatsApp()">Hi! I saw your catalog and would like to place an order.</textarea></label>
-          <label>Generated Link <input type="text" id="waOutput" readonly /></label>
+          <h3>1. WhatsApp Number &amp; Preset Templates</h3>
+          <label>WhatsApp Number (Country code + digits, no + or spaces)
+            <input type="text" class="mono-input" id="waPhone" value="919876543210" oninput="buildWhatsApp()" />
+          </label>
+          <div>
+            <label style="margin-bottom:6px;">Quick Commerce Templates (Click to fill)</label>
+            <div class="preset-chips">
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.')">Catalog Order</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! I would like to confirm my Cash-on-Delivery (COD) order and delivery pin code.')">COD Confirmation</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hello! I would like to book an appointment slot. Please share today\'s available timings.')">Appointment Booking</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! I scanned the QR on my parcel and want to reorder / share feedback.')">Packaging Reorder</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! Can you share bulk / wholesale pricing for my store?')">Wholesale Inquiry</button>
+            </div>
+          </div>
+          <label>Custom Pre-filled Customer Message
+            <textarea id="waMsg" rows="3" oninput="buildWhatsApp()">Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.</textarea>
+          </label>
+          <label>Direct Permanent Link (wa.me)
+            <input type="text" class="mono-input" id="waOutput" readonly />
+          </label>
           <div class="tool-actions">
-            <button type="button" class="btn btn-primary" onclick="copyText('waOutput', this)">Copy Link</button>
-            <a id="waTestLink" href="#" target="_blank" rel="noopener" class="btn btn-secondary">Test in WhatsApp</a>
+            <button type="button" class="btn btn-primary" onclick="copyText('waOutput', this)">Copy wa.me Link</button>
+            <a id="waTestLink" href="#" target="_blank" rel="noopener" class="btn btn-secondary">Test Live Chat &rarr;</a>
+          </div>
+          <label style="margin-top:8px;">Embeddable HTML Website Button
+            <input type="text" class="mono-input" id="waEmbedCode" readonly />
+          </label>
+          <div class="tool-actions">
+            <button type="button" class="btn btn-sm btn-outline" onclick="copyText('waEmbedCode', this)">Copy HTML Snippet</button>
           </div>
         </div>
+
         <div class="card qr-card">
-          <h3>Scannable QR Code</h3>
-          <p class="muted">Print this on packaging, receipts, or counter stands.</p>
-          <img id="waQrImg" alt="WhatsApp QR Code" class="qr-img" />
-          <a id="waQrDownload" href="#" download="tapping-whatsapp-qr.png" class="btn btn-outline">Download QR PNG</a>
+          <span class="inv-badge">PRINT-READY ASSET</span>
+          <h3 style="margin-bottom:2px;">Packaging &amp; Counter QR Code</h3>
+          <p class="muted">Print on thank-you cards, shoe boxes, or shop counters so buyers message you in one scan.</p>
+          <img id="waQrImg" alt="WhatsApp Order QR Code" class="qr-img" />
+          <div class="tool-actions">
+            <a id="waQrDownload" href="#" download="tapping-whatsapp-qr.png" class="btn btn-primary">Download PNG QR</a>
+          </div>
         </div>
       </div>
+
       <section class="alt-section">
-        <span class="eyebrow">Why TapPing?</span>
-        <h2>A direct, no-expiry alternative to Bitly &amp; paid QR generators</h2>
-        <p class="muted">Many free QR and link tools put an expiration timer on your QR code or route your customers through slow tracking redirects. TapPing generates a direct, permanent <code>wa.me</code> link that never breaks.</p>
+        <span class="eyebrow">Why Choose TapPing?</span>
+        <h2>A permanent, no-redirect alternative to Bitly, Linktree &amp; Wati Generators</h2>
+        <p class="muted">Third-party shorteners add an extra redirect hop that slows down mobile buyers—and "free" dynamic QR generators often deactivate your printed QR codes after 14 days unless you pay.</p>
         <table class="cmp-table">
-          <thead><tr><th>Feature</th><th>TapPing (by KiteDesk)</th><th>Typical QR / Link Tools</th></tr></thead>
+          <thead><tr><th>Capability</th><th>TapPing (by KiteDesk)</th><th>Paid Link / QR Shorteners</th></tr></thead>
           <tbody>
-            <tr><td>Link Expiration</td><td><strong>Never expires (direct wa.me)</strong></td><td>Often pauses after 14-day trial</td></tr>
-            <tr><td>Pre-filled Order Text</td><td><strong>Included free</strong></td><td>Often gated behind login</td></tr>
-            <tr><td>Redirects / Tracking</td><td><strong>None — direct to WhatsApp</strong></td><td>Interstitial ads or trackers</td></tr>
+            <tr><td>QR Code Lifespan</td><td><strong>Permanent forever (Encodes raw wa.me)</strong></td><td>Deactivates if trial expires</td></tr>
+            <tr><td>Redirect Latency</td><td><strong>0 ms (Opens WhatsApp directly)</strong></td><td>1–2 sec tracking redirect page</td></tr>
+            <tr><td>Indian Commerce Presets</td><td><strong>Built-in (COD, Catalog, Reorder)</strong></td><td>Blank text box only</td></tr>
           </tbody>
         </table>
       </section>
-      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">TapPing Ad Slot — Paste AdSense or Adsterra code here</div></div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
-        <h4>Sub-Brands</h4>
+        <h4>Micro-Brands</h4>
         <ul>
-          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
-          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
-          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
         </ul>
       </div>
       <div>
-        <h4>Studio</h4>
+        <h4>Company &amp; Legal</h4>
         <ul>
-          <li><a href="journal.html">Daily Journal</a></li>
-          <li><a href="about.html">About KiteDesk</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
-    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
   </footer>
   <script src="app.js"></script>
 </body>
