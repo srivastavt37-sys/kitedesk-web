@@ -11,7 +11,7 @@ function renderPostCard(post) {
         ${post.image ? `<a href="post.html?slug=${encodeURIComponent(post.slug)}"><img src="${post.image}" alt="${post.title}" class="post-card-thumb" loading="lazy" /></a>` : ''}
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
           <span class="card-tag" style="margin:0;">${post.category}</span>
-          ${(post.aiVideoKey || post.youtubeId) ? `<span class="mini-badge">▶ AI Video + Guide</span>` : \'\'}
+          ${(post.aiVideoKey) ? `<span class="mini-badge">▶ AI Video + Guide</span>` : \'\'}
         </div>
         <h3><a href="post.html?slug=${encodeURIComponent(post.slug)}">${post.title}</a></h3>
         <p class="muted">${post.excerpt}</p>
@@ -60,7 +60,7 @@ if (articleBody && window.KITEDESK_POSTS) {
     <h1>${post.title}</h1>
     <div class="post-meta" style="margin-bottom:16px;">${post.date} &bull; ${post.readTime} ${post.wordCount ? `&bull; ${post.wordCount} words` : ''} &bull; Plain-English Playbook</div>
     ${post.image ? `<img src="${post.image}" alt="${post.title}" class="article-hero-img" />` : ''}
-    ${(post.aiVideoKey || post.youtubeId) ? `
+    ${(post.aiVideoKey) ? `
           <div style="margin: 0 0 28px 0;">
             <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
             ${window.renderAiVideoPlayer(post.aiVideoKey || "kitedesk-studio", post.videoCaption || post.title)}

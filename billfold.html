@@ -150,8 +150,35 @@
         </div>
         <div class="media-card">
           <span class="inv-badge" style="margin-bottom:8px;">VIDEO WALKTHROUGH</span>
-          <div class="video-frame" style="margin-bottom:10px;">
-            <iframe src="https://www.youtube.com/embed/3eotPsfp9q4" title="GST Billing Walkthrough: CGST, SGST & IGST Explained" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="ai-video-player" data-ai-video="billfold-demo">
+            <audio class="ai-vp-audio" src="audio/billfold-demo.mp3" preload="metadata"></audio>
+            <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
+              <img class="ai-vp-backdrop" src="images/billfold-preview.jpg" alt="BillFold Walkthrough — GST Split Math & Dynamic UPI QR Invoices" loading="lazy" />
+              <div class="ai-vp-gradient"></div>
+              <div class="ai-vp-topbar">
+                <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
+                <span class="ai-vp-step-pill">STEP 1 / 3 • STATE ROUTING</span>
+              </div>
+              <div class="ai-vp-center">
+                <div class="ai-vp-kicker">Intra-State vs Inter-State GST</div>
+                <h4 class="ai-vp-headline">Select supplier & client states to auto-split CGST + SGST or IGST</h4>
+                <div class="ai-vp-metrics"><span class="ai-vp-metric-chip">Same State → 9% CGST + 9% SGST</span><span class="ai-vp-metric-chip">Cross State → 18% IGST</span><span class="ai-vp-metric-chip">HSN / SAC Line-Item Table</span></div>
+              </div>
+              <button type="button" class="ai-vp-bigplay" aria-label="Play AI Video">▶</button>
+              <div class="ai-vp-caption-bar">In BillFold, select your supplier and client states first so the engine automatically routes CGST + SGST or IGST.</div>
+            </div>
+            <div class="ai-vp-controls">
+              <button type="button" class="ai-vp-btn">▶ Play AI Video</button>
+              <div class="ai-vp-timeline" title="Seek walkthrough">
+                <div class="ai-vp-progress"></div>
+              </div>
+              <div class="ai-vp-steps-nav">
+                <button type="button" class="ai-vp-step-btn active" data-step-idx="0">01</button>
+                <button type="button" class="ai-vp-step-btn" data-step-idx="1">02</button>
+                <button type="button" class="ai-vp-step-btn" data-step-idx="2">03</button>
+              </div>
+              <span class="ai-vp-time">0:00 / 0:24</span>
+            </div>
           </div>
           <p class="muted" style="margin:0;"><strong>GST Billing Walkthrough: CGST, SGST & IGST Explained</strong> — practical guide for Indian sellers.</p>
         </div>
