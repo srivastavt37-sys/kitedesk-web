@@ -3,101 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CopyCraft by KiteDesk — Bio, Product Listing &amp; SEO Formatter</title>
-  <meta name="description" content="CopyCraft is a distraction-free alternative to WordCounter and bloated writing suites. Format bios, listings, and check SEO limits." />
+  <title>CopyCraft by KiteDesk — Storefront Bio, Listing &amp; Google SERP Studio</title>
+  <meta name="description" content="Format product listings into crisp bullet points, generate SEO slugs, check Instagram/Meta character limits, and preview your live Google Search snippet." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/jpeg" href="images/copycraft-logo.jpg" />
 </head>
 <body data-brand="copycraft">
   <header class="site-header">
     <div class="container nav-wrap">
       <div class="brand-group">
-        <a href="#" class="brand">
-          <img src="images/copycraft-logo.jpg" alt="CopyCraft Logo" class="brand-logo" />
-          <span class="brand-name">CopyCraft</span>
+        <a href="copycraft.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span>
+          <span>CopyCraft</span>
         </a>
         <a href="index.html" class="by-kitedesk">by KiteDesk</a>
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html">KiteDesk Studio</a>
-        <a href="billfold.html">BillFold</a>
-        <a href="tapping.html">TapPing</a>
-        <a href="copycraft.html">CopyCraft</a>
-        <a href="marginmint.html">MarginMint</a>
-        <a href="journal.html">Journal</a>
+        <a href="index.html" class="">Studio</a>
+        <a href="billfold.html" class="">BillFold</a>
+        <a href="tapping.html" class="">TapPing</a>
+        <a href="copycraft.html" class="active">CopyCraft</a>
+        <a href="marginmint.html" class="">MarginMint</a>
+        <a href="journal.html" class="">Journal</a>
       </nav>
     </div>
   </header>
   <main class="section">
     <div class="container">
-      <div class="sub-hero-grid">
-        <div class="sub-hero">
-          <img src="images/copycraft-logo.jpg" alt="CopyCraft Logo" class="sub-hero-logo" />
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
           <div>
-            <span class="eyebrow">CopyCraft by KiteDesk</span>
-            <h1>Bio, Listing &amp; SEO Text Formatter</h1>
-            <p class="muted">Clean messy notes, convert lines into crisp bullets, and check Instagram and Google Meta limits.</p>
+            <h1>CopyCraft — Bio, Listing &amp; Google SERP Studio</h1>
+            <p>Format messy product notes into high-converting bullets and preview how your store appears on Google Search.</p>
           </div>
         </div>
-        <div class="sub-hero-photo"><img src="images/copycraft-preview.jpg" alt="Creative studio desk for copywriting and design" /></div>
-      </div>
-      <div class="card form-card">
-        <textarea id="fmtInput" rows="7" oninput="updateFormatter()">Handcrafted leather jootis
-Free shipping across India
-DM or WhatsApp to order
-Custom sizes available</textarea>
-        <div class="tool-actions">
-          <button type="button" class="btn btn-outline" onclick="formatAs('bullets')">Convert to Bullets</button>
-          <button type="button" class="btn btn-outline" onclick="formatAs('clean')">Clean Extra Spaces</button>
-          <button type="button" class="btn btn-outline" onclick="formatAs('title')">Title Case</button>
-          <button type="button" class="btn btn-primary" onclick="copyText('fmtInput', this)">Copy Text</button>
-        </div>
-        <div class="char-meters">
-          <div class="meter"><span>Characters</span><strong id="cntChars">0</strong></div>
-          <div class="meter"><span>Words</span><strong id="cntWords">0</strong></div>
-          <div class="meter"><span>Instagram Bio (150)</span><strong id="cntIg">OK</strong></div>
-          <div class="meter"><span>Meta Description (160)</span><strong id="cntSeo">OK</strong></div>
+        <div class="trust-pills">
+          <span class="trust-pill">&#10003; 1-Tap Bullet &amp; Checkmark</span>
+          <span class="trust-pill">&#10003; Live Google SERP Card</span>
+          <span class="trust-pill">&#10003; URL Slug Builder</span>
         </div>
       </div>
+
+      <div class="tool-layout">
+        <div class="card form-card">
+          <h3>1. Bio / Product Description Editor</h3>
+          <div class="form-row">
+            <label>Page / Product Title (For Google SERP Preview)
+              <input type="text" id="serpTitleInput" value="Handcrafted Leather Jootis — Custom Bridal &amp; Festive Pair" oninput="updateFormatter()" />
+            </label>
+            <label>Store URL
+              <input type="text" class="mono-input" id="serpUrlInput" value="https://kitedesk.in/shop/festive-jootis" oninput="updateFormatter()" />
+            </label>
+          </div>
+          <label>Description / Bio Copy
+            <textarea id="fmtInput" rows="6" oninput="updateFormatter()">Handcrafted double-cushioned leather jootis
+Free express shipping across India
+Custom sizes &amp; bridal embroidery available
+Order directly on WhatsApp in 1 tap</textarea>
+          </label>
+          <div class="tool-actions">
+            <button type="button" class="btn btn-sm btn-outline" onclick="formatAs('bullets')">&bull; Bullet List</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="formatAs('checks')">&#10003; Checkmark List</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="formatAs('clean')">Clean Extra Spaces</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="formatAs('title')">Title Case</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="formatAs('slug')">url-slug</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="copyText('fmtInput', this)">Copy Formatted Copy</button>
+          </div>
+        </div>
+
+        <div class="card form-card">
+          <h3>2. Live Platform Meters &amp; Google SERP Preview</h3>
+          <div class="char-meters">
+            <div class="meter"><span>Characters</span><strong id="cntChars">0</strong></div>
+            <div class="meter"><span>Words</span><strong id="cntWords">0</strong></div>
+            <div class="meter"><span>Instagram Bio (150)</span><strong id="cntIg">OK</strong></div>
+            <div class="meter"><span>Google Meta (160)</span><strong id="cntSeo">OK</strong></div>
+          </div>
+          <div class="serp-card">
+            <span class="inv-badge" style="margin-bottom:8px;">GOOGLE SEARCH PREVIEW</span>
+            <div class="serp-url" id="serpPrevUrl">https://kitedesk.in/shop/festive-jootis</div>
+            <div class="serp-title" id="serpPrevTitle">Handcrafted Leather Jootis — Custom Bridal &amp; Festive Pair</div>
+            <p class="serp-desc" id="serpPrevDesc"></p>
+          </div>
+          <p class="muted" style="margin:0;">Tip: Keep your Google meta description between 120 and 158 characters so mobile search results never truncate your call-to-action.</p>
+        </div>
+      </div>
+
       <section class="alt-section">
-        <span class="eyebrow">Why CopyCraft?</span>
-        <h2>A cleaner alternative to cluttered word-counter &amp; formatting sites</h2>
-        <p class="muted">Instead of dodging pop-ups on generic character counters, CopyCraft gives sellers and creators one-click bullet formatting plus live Instagram Bio (150 chars) and Google Meta Description (160 chars) checks.</p>
+        <span class="eyebrow">Why Choose CopyCraft?</span>
+        <h2>A distraction-free alternative to ad-bloated word counters &amp; SEO plugins</h2>
+        <table class="cmp-table">
+          <thead><tr><th>Capability</th><th>CopyCraft (by KiteDesk)</th><th>Generic Word Counter Sites</th></tr></thead>
+          <tbody>
+            <tr><td>Live Google SERP Preview</td><td><strong>Included side-by-side</strong></td><td>Separate SEO tool required</td></tr>
+            <tr><td>1-Click Checkmark &amp; Bullet Formatting</td><td><strong>Built for social &amp; catalog sellers</strong></td><td>Plain character count only</td></tr>
+            <tr><td>URL Slug Converter</td><td><strong>Instant clean hyphenated slugs</strong></td><td>Not included</td></tr>
+          </tbody>
+        </table>
       </section>
-      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">CopyCraft Ad Slot — Paste AdSense or Adsterra code here</div></div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
-        <h4>Sub-Brands</h4>
+        <h4>Micro-Brands</h4>
         <ul>
-          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
-          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
-          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
         </ul>
       </div>
       <div>
-        <h4>Studio</h4>
+        <h4>Company &amp; Legal</h4>
         <ul>
-          <li><a href="journal.html">Daily Journal</a></li>
-          <li><a href="about.html">About KiteDesk</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
-    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
   </footer>
   <script src="app.js"></script>
 </body>

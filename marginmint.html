@@ -3,51 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MarginMint by KiteDesk — Free Product Pricing, GST &amp; Profit Calculator</title>
-  <meta name="description" content="MarginMint is a free D2C and small-seller profit margin calculator by KiteDesk. Factor in COGS, shipping, packaging, GST, and payment fees." />
+  <title>MarginMint by KiteDesk — D2C Profit Margin, COD RTO &amp; ROAS Calculator</title>
+  <meta name="description" content="Calculate true D2C e-commerce profit per order after COGS, inclusive GST, courier shipping, packaging, payment gateway fees, and COD Return-to-Origin (RTO) losses." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/jpeg" href="images/marginmint-logo.jpg" />
 </head>
 <body data-brand="marginmint">
   <header class="site-header">
     <div class="container nav-wrap">
       <div class="brand-group">
-        <a href="#" class="brand">
-          <img src="images/marginmint-logo.jpg" alt="MarginMint Logo" class="brand-logo" />
-          <span class="brand-name">MarginMint</span>
+        <a href="marginmint.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+          <span>MarginMint</span>
         </a>
         <a href="index.html" class="by-kitedesk">by KiteDesk</a>
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html">KiteDesk Studio</a>
-        <a href="billfold.html">BillFold</a>
-        <a href="tapping.html">TapPing</a>
-        <a href="copycraft.html">CopyCraft</a>
-        <a href="marginmint.html">MarginMint</a>
-        <a href="journal.html">Journal</a>
+        <a href="index.html" class="">Studio</a>
+        <a href="billfold.html" class="">BillFold</a>
+        <a href="tapping.html" class="">TapPing</a>
+        <a href="copycraft.html" class="">CopyCraft</a>
+        <a href="marginmint.html" class="active">MarginMint</a>
+        <a href="journal.html" class="">Journal</a>
       </nav>
     </div>
   </header>
   <main class="section">
     <div class="container">
-      <div class="sub-hero-grid">
-        <div class="sub-hero">
-          <img src="images/marginmint-logo.jpg" alt="MarginMint Logo" class="sub-hero-logo" />
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
           <div>
-            <span class="eyebrow">MarginMint by KiteDesk</span>
-            <h1>Product Pricing &amp; Profit Margin Calculator</h1>
-            <p class="muted">Know your true net profit per order after COGS, shipping, packaging, GST, and payment fees.</p>
+            <h1>MarginMint — D2C Profit, COD RTO &amp; ROAS Lab</h1>
+            <p>Know your real net profit per delivered order after COGS, inclusive GST, courier fees, and COD returns.</p>
           </div>
         </div>
-        <div class="sub-hero-photo"><img src="images/marginmint-preview.jpg" alt="Small business desk for calculating product pricing" /></div>
+        <div class="trust-pills">
+          <span class="trust-pill">&#10003; COD RTO Loss Engine</span>
+          <span class="trust-pill">&#10003; Break-Even ROAS</span>
+          <span class="trust-pill">&#10003; Inclusive GST Split</span>
+        </div>
       </div>
+
       <div class="tool-layout">
         <div class="card form-card">
-          <h3>Unit Economics Inputs</h3>
+          <h3>1. Order Unit Economics</h3>
           <div class="form-row">
             <label>Currency
               <select id="mmCur" onchange="calcMargin()">
@@ -55,76 +58,114 @@
                 <option value="$">$ USD</option>
               </select>
             </label>
-            <label>Selling Price (incl. GST) <input type="number" id="mmSell" value="1299" min="0" oninput="calcMargin()" /></label>
+            <label>Customer Selling Price (incl. GST)
+              <input type="number" class="mono-input" id="mmSell" value="1499" min="0" oninput="calcMargin()" />
+            </label>
+            <label>Product Making Cost (COGS)
+              <input type="number" class="mono-input" id="mmCogs" value="540" min="0" oninput="calcMargin()" />
+            </label>
           </div>
           <div class="form-row">
-            <label>Product Cost (COGS) <input type="number" id="mmCogs" value="520" min="0" oninput="calcMargin()" /></label>
-            <label>Shipping Cost <input type="number" id="mmShip" value="85" min="0" oninput="calcMargin()" /></label>
+            <label>Forward Courier Cost
+              <input type="number" class="mono-input" id="mmShip" value="85" min="0" oninput="calcMargin()" />
+            </label>
+            <label>Box &amp; Packaging Cost
+              <input type="number" class="mono-input" id="mmPack" value="35" min="0" oninput="calcMargin()" />
+            </label>
           </div>
           <div class="form-row">
-            <label>Packaging &amp; Inserts <input type="number" id="mmPack" value="35" min="0" oninput="calcMargin()" /></label>
-            <label>Payment / Platform Fee (%) <input type="number" id="mmFee" value="2.5" step="0.1" min="0" oninput="calcMargin()" /></label>
-            <label>GST Included (%) <input type="number" id="mmGst" value="12" min="0" max="28" oninput="calcMargin()" /></label>
+            <label>Payment / Marketplace Fee (%)
+              <input type="number" class="mono-input" id="mmFee" value="2.5" step="0.1" min="0" oninput="calcMargin()" />
+            </label>
+            <label>Included GST Rate (%)
+              <input type="number" class="mono-input" id="mmGst" value="12" min="0" max="28" oninput="calcMargin()" />
+            </label>
+            <label>COD Return / RTO Rate (%)
+              <input type="number" class="mono-input" id="mmRto" value="15" min="0" max="90" oninput="calcMargin()" />
+            </label>
           </div>
+          <p class="muted" style="margin:0;">Note: COD RTO models forward + return courier penalty plus wasted packaging spread across successfully delivered orders.</p>
         </div>
+
         <div class="card form-card">
-          <h3>True Profit Breakdown</h3>
+          <h3>2. True Net Profit &amp; ROAS Output</h3>
           <div class="kpi-grid">
-            <div class="kpi-box"><span>Net Profit / Order</span><strong id="mmNet">&#8377;0.00</strong></div>
-            <div class="kpi-box"><span>Net Profit Margin</span><strong id="mmMarginPct">0.0%</strong></div>
-            <div class="kpi-box"><span>Markup on Cost</span><strong id="mmMarkupPct">0.0%</strong></div>
-            <div class="kpi-box"><span>Total All-In Cost</span><strong id="mmCostTotal">&#8377;0.00</strong></div>
+            <div class="kpi-box"><span>Net Profit / Delivered Order</span><strong id="mmNet">&#8377;0.00</strong></div>
+            <div class="kpi-box"><span>Net Take-Home Margin</span><strong id="mmMarginPct">0.0%</strong></div>
+            <div class="kpi-box"><span>Break-Even Ad ROAS</span><strong id="mmRoas">0.00x</strong></div>
+            <div class="kpi-box"><span>Total All-In Deductions</span><strong id="mmCostTotal">&#8377;0.00</strong></div>
           </div>
-          <div class="inv-totals" style="align-items: stretch; margin-top: 8px;">
-            <div style="justify-content: space-between;"><span>Payment / Marketplace Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
-            <div style="justify-content: space-between;"><span>GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
+
+          <div class="cost-bar-wrap">
+            <div class="cost-bar">
+              <div id="barCogs" class="cost-seg-cogs" style="width:35%;"></div>
+              <div id="barOps" class="cost-seg-ops" style="width:25%;"></div>
+              <div id="barTax" class="cost-seg-tax" style="width:10%;"></div>
+              <div id="barProfit" class="cost-seg-profit" style="width:30%;"></div>
+            </div>
+            <div class="cost-legend">
+              <span class="leg-cogs">COGS</span>
+              <span class="leg-ops">Ship + Pack + Fee + RTO</span>
+              <span class="leg-tax">GST</span>
+              <span class="leg-profit">Net Profit</span>
+            </div>
           </div>
-          <p class="muted">Tip: Once your price is locked in, generate a clean invoice in <a href="billfold.html">BillFold</a> or a direct order link in <a href="tapping.html">TapPing</a>.</p>
+
+          <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
+            <div style="width:100%;"><span>Included GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
+            <div style="width:100%;"><span>Gateway / Platform Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
+            <div style="width:100%;"><span>COD RTO Drag per Delivered Order</span><strong id="mmRtoAmt">&#8377;0.00</strong></div>
+          </div>
         </div>
       </div>
+
       <section class="alt-section">
-        <span class="eyebrow">Why MarginMint?</span>
-        <h2>Built for real D2C sellers—unlike basic markup calculators</h2>
-        <p class="muted">Generic margin calculators only ask for cost and selling price, forgetting shipping, packaging, payment gateway fees, and inclusive GST—causing sellers to lose money on every "profitable" order.</p>
+        <span class="eyebrow">Why Choose MarginMint?</span>
+        <h2>Built for Indian D2C &amp; Meesho/Amazon/Shopify realities—unlike basic percentage calculators</h2>
         <table class="cmp-table">
-          <thead><tr><th>Feature</th><th>MarginMint (by KiteDesk)</th><th>Generic Margin Calculators</th></tr></thead>
+          <thead><tr><th>Capability</th><th>MarginMint (by KiteDesk)</th><th>Generic Margin Calculators</th></tr></thead>
           <tbody>
-            <tr><td>Shipping &amp; Packaging</td><td><strong>Built-in per-order fields</strong></td><td>Usually omitted</td></tr>
-            <tr><td>GST-Inclusive Math</td><td><strong>Automatic tax extraction</strong></td><td>Manual spreadsheet formula needed</td></tr>
-            <tr><td>Payment / Platform Fee (%)</td><td><strong>Included in net margin</strong></td><td>Rarely supported</td></tr>
+            <tr><td>COD Return-to-Origin (RTO) Drag</td><td><strong>Models forward + reverse courier loss</strong></td><td>Completely ignored</td></tr>
+            <tr><td>Break-Even ROAS Target</td><td><strong>Instant ad-spend ceiling</strong></td><td>Not calculated</td></tr>
+            <tr><td>Inclusive GST Extraction</td><td><strong>Reverse-calculates exact tax from MRP</strong></td><td>Requires manual math</td></tr>
           </tbody>
         </table>
       </section>
-      <div class="ad-slot" aria-label="Advertisement"><span class="ad-label">Advertisement</span><div class="ad-box">MarginMint Ad Slot — Paste AdSense or Adsterra code here</div></div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="brand footer-brand"><img src="images/logo.jpg" alt="KiteDesk Logo" class="brand-logo" /><span class="brand-name">KiteDesk Studio</span></div>
-        <p class="footer-note">An independent studio building free, browser-first micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
       </div>
       <div>
-        <h4>Sub-Brands</h4>
+        <h4>Micro-Brands</h4>
         <ul>
-          <li><a href="billfold.html">BillFold (Invoicing)</a></li>
-          <li><a href="tapping.html">TapPing (WhatsApp &amp; QR)</a></li>
-          <li><a href="copycraft.html">CopyCraft (Bio &amp; SEO)</a></li>
-          <li><a href="marginmint.html">MarginMint (Profit &amp; GST)</a></li>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
         </ul>
       </div>
       <div>
-        <h4>Studio</h4>
+        <h4>Company &amp; Legal</h4>
         <ul>
-          <li><a href="journal.html">Daily Journal</a></li>
-          <li><a href="about.html">About KiteDesk</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
-    <div class="container footer-bottom"><span>&copy; 2026 KiteDesk Studio. All tools free &amp; ad-supported.</span></div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
   </footer>
   <script src="app.js"></script>
 </body>
