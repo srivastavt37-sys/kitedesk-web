@@ -176,3 +176,28 @@ function handleContact(e) {
   const st = document.getElementById('contactStatus');
   if (st) st.textContent = 'Message saved! Connect Formspree or Netlify Forms to receive submissions in your inbox.';
 }
+
+
+function calcMargin() {
+  const sell = Number(document.getElementById('mmSell')?.value) || 0;
+  const cogs = Number(document.getElementById('mmCogs')?.value) || 0;
+  const ship = Number(document.getElementById('mmShip')?.value) || 0;
+  const pack = Number(document.getElementById('mmPack')?.value) || 0;
+  const feePct = Number(document.getElementById('mmFee')?.value) || 0;
+  const gstPct = Number(document.getElementById('mmGst')?.value) || 0;
+  const cur = document.getElementById('mmCur')?.value || '₹';
+  if (!document.getElementById('mmNet')) return;
+  const feeAmt = sell * (feePct / 100);
+  const gstAmt = sell - (sell / (1 + gstPct / 100));
+  const totalCost = cogs + ship + pack + feeAmt + gstAmt;
+  const net = sell - totalCost;
+  const marginPct = sell > 0 ? (net / sell) * 100 : 0;
+  const markupPct = cogs > 0 ? (net / cogs) * 100 : 0;
+  document.getElementById('mmNet').textContent = `${cur}${net.toFixed(2)}`;
+  document.getElementById('mmMarginPct').textContent = `${marginPct.toFixed(1)}%`;
+  document.getElementById('mmMarkupPct').textContent = `${markupPct.toFixed(1)}%`;
+  document.getElementById('mmCostTotal').textContent = `${cur}${totalCost.toFixed(2)}`;
+  document.getElementById('mmFeeAmt').textContent = `${cur}${feeAmt.toFixed(2)}`;
+  document.getElementById('mmGstAmt').textContent = `${cur}${gstAmt.toFixed(2)}`;
+}
+calcMargin();
