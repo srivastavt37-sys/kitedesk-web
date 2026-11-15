@@ -1,6 +1,21 @@
 
 window.KITEDESK_POSTS = [
   {
+    slug: "google-business-profile-free-leads",
+    title: "How to Turn Your Google Business Profile Into a Free Daily Lead Engine",
+    category: "Growth & SEO",
+    date: "November 15, 2026",
+    readTime: "4 min read",
+    image: "https://img.magnific.com/free-photo/still-life-graphic-design-studio_23-2151320699.jpg?semt=ais_hybrid&w=740&q=80",
+    excerpt: "Practical steps for local shops and service providers to rank on Google Maps and capture direct WhatsApp inquiries without paying for ads.",
+    content: [
+      "For local shops, studios, and service providers, a complete Google Business Profile often brings warmer leads than social media—because people searching on Maps already want to buy.",
+      "Start by filling out every core field accurately: your exact business category, opening hours, service areas, and real photos of your workspace or products. Profiles with clear, up-to-date details earn noticeably higher click-through rates.",
+      "Use your business description wisely by leading with what you offer, who you serve, and how to reach you. You can format your description cleanly and check character limits in seconds using KiteDesk's free Bio & Listing Formatter before pasting it in.",
+      "Finally, make it effortless for visitors to contact you: add a direct WhatsApp click-to-chat link (generated with KiteDesk's WhatsApp Link & QR Builder) as your appointment or website link, and send every happy customer a crisp PDF invoice with a polite review request."
+    ]
+  },
+  {
     slug: "free-gst-and-non-gst-invoices",
     title: "How to Create Clean GST & Non-GST Invoices Without Paid Software",
     category: "Operations",
