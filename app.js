@@ -11,7 +11,7 @@ function renderPostCard(post) {
         ${post.image ? `<a href="post.html?slug=${encodeURIComponent(post.slug)}"><img src="${post.image}" alt="${post.title}" class="post-card-thumb" loading="lazy" /></a>` : ''}
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
           <span class="card-tag" style="margin:0;">${post.category}</span>
-          ${post.youtubeId ? `<span class="mini-badge">▶ Video + Guide</span>` : ''}
+          ${(post.aiVideoKey || post.youtubeId) ? `<span class="mini-badge">▶ AI Video + Guide</span>` : \'\'}
         </div>
         <h3><a href="post.html?slug=${encodeURIComponent(post.slug)}">${post.title}</a></h3>
         <p class="muted">${post.excerpt}</p>
@@ -60,14 +60,11 @@ if (articleBody && window.KITEDESK_POSTS) {
     <h1>${post.title}</h1>
     <div class="post-meta" style="margin-bottom:16px;">${post.date} &bull; ${post.readTime} ${post.wordCount ? `&bull; ${post.wordCount} words` : ''} &bull; Plain-English Playbook</div>
     ${post.image ? `<img src="${post.image}" alt="${post.title}" class="article-hero-img" />` : ''}
-    ${post.youtubeId ? `
-      <div style="margin: 24px 0 28px;">
-        <span class="inv-badge" style="margin-bottom:8px;">WATCH STEP-BY-STEP VIDEO WALKTHROUGH</span>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/${post.youtubeId}" title="${post.title} Video Tutorial" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
-    ` : ''}
+    ${(post.aiVideoKey || post.youtubeId) ? `
+          <div style="margin: 0 0 28px 0;">
+            <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+            ${window.renderAiVideoPlayer(post.aiVideoKey || "kitedesk-studio", post.videoCaption || post.title)}
+          </div>` : ''}
     ${post.bodyHtml ? post.bodyHtml : post.content.map(p => `<p>${p}</p>`).join('')}
     <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
       <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
@@ -329,3 +326,308 @@ function handleContact(e) {
   const st = document.getElementById('contactStatus');
   if (st) st.textContent = 'Message recorded locally. Connect Netlify Forms or Formspree to route to your email.';
 }
+
+
+/* === KiteDesk Self-Hosted AI Video Walkthrough Engine === */
+window.KITEDESK_AI_VIDEOS = {
+  "kitedesk-studio": {
+    title: "KiteDesk Studio — 4 Zero-Cost Browser Tools for Indian Operators",
+    audioSrc: "audio/kitedesk-studio.mp3",
+    poster: "images/kitedesk-hero.jpg",
+    durationLabel: "0:22",
+    steps: [
+      {
+        tStart: 0, tEnd: 7.5,
+        stepBadge: "STEP 1 / 3 • ARCHITECTURE",
+        kicker: "Zero-Signup Browser Suite",
+        headline: "Four specialized micro-brands running 100% in your local browser",
+        metrics: ["₹0 Monthly SaaS Fees", "Zero Login Walls", "Instant Client-Side Math"],
+        caption: "Welcome to KiteDesk Studio — four focused browser tools built for Indian D2C brands, freelancers, and local businesses."
+      },
+      {
+        tStart: 7.5, tEnd: 15.0,
+        stepBadge: "STEP 2 / 3 • BILLING & WHATSAPP",
+        kicker: "BillFold + TapPing",
+        headline: "Generate GST invoices with UPI QR codes & pre-filled wa.me order links",
+        metrics: ["CGST / SGST / IGST Split", "Dynamic UPI QR String", "300px Print-Ready PNG"],
+        caption: "Use BillFold to generate GST invoices with dynamic UPI QR codes, and TapPing to build direct WhatsApp order links."
+      },
+      {
+        tStart: 15.0, tEnd: 30.0,
+        stepBadge: "STEP 3 / 3 • MARGINS & COPY",
+        kicker: "MarginMint + CopyCraft",
+        headline: "Stress-test COD RTO unit economics & format clean storefront copy",
+        metrics: ["Real COD RTO Penalty Math", "Pixel-Accurate Google SERP", "Anti-Slop Bio Formatter"],
+        caption: "Run MarginMint to protect net profit after COD RTO losses, and CopyCraft to ship high-converting storefront bios and SERP snippets."
+      }
+    ]
+  },
+  "billfold-demo": {
+    title: "BillFold Walkthrough — GST Split Math & Dynamic UPI QR Invoices",
+    audioSrc: "audio/billfold-demo.mp3",
+    poster: "images/billfold-preview.jpg",
+    durationLabel: "0:24",
+    steps: [
+      {
+        tStart: 0, tEnd: 8.0,
+        stepBadge: "STEP 1 / 3 • STATE ROUTING",
+        kicker: "Intra-State vs Inter-State GST",
+        headline: "Select supplier & client states to auto-split CGST + SGST or IGST",
+        metrics: ["Same State → 9% CGST + 9% SGST", "Cross State → 18% IGST", "HSN / SAC Line-Item Table"],
+        caption: "In BillFold, select your supplier and client states first so the engine automatically routes CGST + SGST or IGST."
+      },
+      {
+        tStart: 8.0, tEnd: 16.0,
+        stepBadge: "STEP 2 / 3 • DYNAMIC UPI QR",
+        kicker: "Zero-Reconciliation Collection",
+        headline: "Embed your UPI VPA so the exact grand total is locked into the QR code",
+        metrics: ["upi://pay?pa=merchant@upi", "Exact Grand Total Locked", "Works with GPay / PhonePe / Paytm"],
+        caption: "Enter your UPI ID so BillFold encodes the exact invoice grand total and invoice number directly inside the payment QR."
+      },
+      {
+        tStart: 16.0, tEnd: 30.0,
+        stepBadge: "STEP 3 / 3 • A4 PDF EXPORT",
+        kicker: "Instant Client Delivery",
+        headline: "Export a clean A4 tax invoice PDF in 30 seconds with zero watermarks",
+        metrics: ["Print-Ready A4 Layout", "Saved Locally in Browser", "₹0 Per Invoice"],
+        caption: "Click Print or Save PDF to send a clean A4 GST invoice on WhatsApp or email without paying monthly billing software fees."
+      }
+    ]
+  },
+  "tapping-demo": {
+    title: "TapPing Walkthrough — Pre-Filled wa.me Links & Packaging QR Funnels",
+    audioSrc: "audio/tapping-demo.mp3",
+    poster: "images/tapping-preview.jpg",
+    durationLabel: "0:20",
+    steps: [
+      {
+        tStart: 0, tEnd: 6.5,
+        stepBadge: "STEP 1 / 3 • PHONE NORMALIZATION",
+        kicker: "Direct wa.me Routing",
+        headline: "Strip spaces and dashes into a clean country-code WhatsApp endpoint",
+        metrics: ["Auto-Formats +91 Numbers", "Zero Redirect Hop Latency", "No ₹2,500/mo BSP API Fee"],
+        caption: "TapPing normalizes your business phone number and builds an official wa.me deep link that opens WhatsApp in one tap."
+      },
+      {
+        tStart: 6.5, tEnd: 13.5,
+        stepBadge: "STEP 2 / 3 • INTENT PAYLOAD",
+        kicker: "Kill the 'Hi' Dead-End",
+        headline: "Pre-fill SKU, quantity, and delivery PIN code inside the buyer's chat box",
+        metrics: ["3x Faster Order Qualification", "URL-Encoded Utterance", "One-Click Presets"],
+        caption: "Add a pre-filled buyer message with item name and city PIN code so leads never stall after sending a blank 'Hi'."
+      },
+      {
+        tStart: 13.5, tEnd: 30.0,
+        stepBadge: "STEP 3 / 3 • 300PX QR EXPORT",
+        kicker: "Offline-to-WhatsApp Funnel",
+        headline: "Download the 300px PNG QR code for box inserts, counter stands & flyers",
+        metrics: ["High-Contrast 300px PNG", "Instant Smartphone Scan", "100% Free Forever"],
+        caption: "Download the high-contrast QR PNG and print it on packaging inserts or shop counters to turn offline buyers into repeat WhatsApp chats."
+      }
+    ]
+  },
+  "marginmint-demo": {
+    title: "MarginMint Walkthrough — Indian D2C COD RTO & Net Margin Simulator",
+    audioSrc: "audio/marginmint-demo.mp3",
+    poster: "images/marginmint-preview.jpg",
+    durationLabel: "0:21",
+    steps: [
+      {
+        tStart: 0, tEnd: 7.0,
+        stepBadge: "STEP 1 / 3 • TRUE LANDED COST",
+        kicker: "Selling Price vs Tax & COGS",
+        headline: "Strip inclusive GST out of MRP before calculating gross product margin",
+        metrics: [" Tax-Exclusive Realization", "Landed COGS + Packaging", "Forward Courier Slab"],
+        caption: "MarginMint starts by backing out inclusive GST from your MRP and deducting landed manufacturing and packaging costs."
+      },
+      {
+        tStart: 7.0, tEnd: 14.0,
+        stepBadge: "STEP 2 / 3 • COD RTO PENALTY",
+        kicker: "The Hidden Profit Killer",
+        headline: "Simulate 20%–35% COD RTO rates where failed orders burn 2x shipping",
+        metrics: ["Forward + Reverse Freight Burn", "Delivered Order Absorption", "CPA / ROAS Stress Test"],
+        caption: "Dial in your realistic COD Return-to-Origin percentage so you see exactly how failed deliveries tax every successful order."
+      },
+      {
+        tStart: 14.0, tEnd: 30.0,
+        stepBadge: "STEP 3 / 3 • BREAK-EVEN ROAS",
+        kicker: "Scale Ads Safely",
+        headline: "Read your exact net profit per dispatched order before raising ad spend",
+        metrics: ["Exact Net Margin %", "Safe Max CPA Limit", "Prepaid Incentive Math"],
+        caption: "Check your net rupee profit per dispatched unit and break-even ROAS before scaling Meta or Google campaigns."
+      }
+    ]
+  },
+  "copycraft-demo": {
+    title: "CopyCraft Walkthrough — Anti-Slop Storefront Bios & Pixel SERP Simulator",
+    audioSrc: "audio/copycraft-demo.mp3",
+    poster: "images/copycraft-preview.jpg",
+    durationLabel: "0:21",
+    steps: [
+      {
+        tStart: 0, tEnd: 7.0,
+        stepBadge: "STEP 1 / 3 • ANTI-SLOP BIO STRUCTURE",
+        kicker: "150-Character Conversion Formula",
+        headline: "What you sell + who it is for + hard proof + direct action trigger",
+        metrics: ["Native Line-Break Preservation", "Live 150-Char Counter", "Zero AI Buzzwords"],
+        caption: "CopyCraft formats your Instagram, WhatsApp Business, and LinkedIn bios using a crisp 4-line conversion formula."
+      },
+      {
+        tStart: 7.0, tEnd: 14.0,
+        stepBadge: "STEP 2 / 3 • PIXEL SERP CHECK",
+        kicker: "Prevent Google Truncation",
+        headline: "Test your title tag against Google's 580px / 60-char cutoff in real time",
+        metrics: ["Live Desktop & Mobile Preview", "155-Char Meta Description", "Higher Organic CTR"],
+        caption: "Switch to the SERP simulator to verify your page title and meta description never get cut off with ellipses on Google."
+      },
+      {
+        tStart: 14.0, tEnd: 30.0,
+        stepBadge: "STEP 3 / 3 • ONE-CLICK DEPLOY",
+        kicker: "Clean Unicode & HTML Meta",
+        headline: "Copy formatted storefront bios or ready-to-paste SEO meta tags instantly",
+        metrics: ["Preserves Clean Spacing", "Instant Clipboard Copy", "Built for Local & D2C Brands"],
+        caption: "Copy your finished bio or HTML meta snippet in one click and paste it straight into your storefront or website header."
+      }
+    ]
+  }
+};
+
+window.renderAiVideoPlayer = function(videoKey, customTitle) {
+  const cfg = window.KITEDESK_AI_VIDEOS[videoKey] || window.KITEDESK_AI_VIDEOS["kitedesk-studio"];
+  const s0 = cfg.steps[0];
+  const titleText = customTitle || cfg.title;
+  const metricsHtml = s0.metrics.map(m => `<span class="ai-vp-metric-chip">${m}</span>`).join("");
+  return `
+    <div class="ai-video-player" data-ai-video="${videoKey}">
+      <audio class="ai-vp-audio" src="${cfg.audioSrc}" preload="metadata"></audio>
+      <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
+        <img class="ai-vp-backdrop" src="${cfg.poster}" alt="${titleText}" loading="lazy" />
+        <div class="ai-vp-gradient"></div>
+        <div class="ai-vp-topbar">
+          <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
+          <span class="ai-vp-step-pill">${s0.stepBadge}</span>
+        </div>
+        <div class="ai-vp-center">
+          <div class="ai-vp-kicker">${s0.kicker}</div>
+          <h4 class="ai-vp-headline">${s0.headline}</h4>
+          <div class="ai-vp-metrics">${metricsHtml}</div>
+        </div>
+        <button type="button" class="ai-vp-bigplay" aria-label="Play AI Video">▶</button>
+        <div class="ai-vp-caption-bar">${s0.caption}</div>
+      </div>
+      <div class="ai-vp-controls">
+        <button type="button" class="ai-vp-btn">▶ Play AI Video</button>
+        <div class="ai-vp-timeline" title="Seek walkthrough">
+          <div class="ai-vp-progress"></div>
+        </div>
+        <div class="ai-vp-steps-nav">
+          <button type="button" class="ai-vp-step-btn active" data-step-idx="0">01</button>
+          <button type="button" class="ai-vp-step-btn" data-step-idx="1">02</button>
+          <button type="button" class="ai-vp-step-btn" data-step-idx="2">03</button>
+        </div>
+        <span class="ai-vp-time">0:00 / ${cfg.durationLabel}</span>
+      </div>
+    </div>
+  `;
+};
+
+window.initAiVideoPlayers = function(rootEl) {
+  const scope = rootEl || document;
+  const players = scope.querySelectorAll(".ai-video-player:not([data-bound='1'])");
+  players.forEach(player => {
+    player.setAttribute("data-bound", "1");
+    const key = player.getAttribute("data-ai-video") || "kitedesk-studio";
+    const cfg = window.KITEDESK_AI_VIDEOS[key] || window.KITEDESK_AI_VIDEOS["kitedesk-studio"];
+    const audio = player.querySelector(".ai-vp-audio");
+    const stage = player.querySelector(".ai-vp-stage");
+    const playBtn = player.querySelector(".ai-vp-btn");
+    const progressEl = player.querySelector(".ai-vp-progress");
+    const timelineEl = player.querySelector(".ai-vp-timeline");
+    const timeEl = player.querySelector(".ai-vp-time");
+    const stepPill = player.querySelector(".ai-vp-step-pill");
+    const kickerEl = player.querySelector(".ai-vp-kicker");
+    const headlineEl = player.querySelector(".ai-vp-headline");
+    const metricsEl = player.querySelector(".ai-vp-metrics");
+    const captionEl = player.querySelector(".ai-vp-caption-bar");
+    const stepBtns = player.querySelectorAll(".ai-vp-step-btn");
+
+    function fmtTime(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return m + ":" + (r < 10 ? "0" + r : r);
+    }
+
+    function applyStep(idx) {
+      const st = cfg.steps[idx] || cfg.steps[0];
+      stepPill.textContent = st.stepBadge;
+      kickerEl.textContent = st.kicker;
+      headlineEl.textContent = st.headline;
+      metricsEl.innerHTML = st.metrics.map(m => `<span class="ai-vp-metric-chip">${m}</span>`).join("");
+      captionEl.textContent = st.caption;
+      stepBtns.forEach((b, i) => b.classList.toggle("active", i === idx));
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        document.querySelectorAll(".ai-vp-audio").forEach(other => {
+          if (other !== audio && !other.paused) other.pause();
+        });
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    }
+
+    stage.addEventListener("click", togglePlay);
+    playBtn.addEventListener("click", togglePlay);
+
+    audio.addEventListener("play", () => {
+      player.classList.add("is-playing");
+      playBtn.textContent = "❚❚ Pause";
+    });
+    audio.addEventListener("pause", () => {
+      player.classList.remove("is-playing");
+      playBtn.textContent = "▶ Play AI Video";
+    });
+    audio.addEventListener("ended", () => {
+      player.classList.remove("is-playing");
+      playBtn.textContent = "↻ Replay AI Video";
+      progressEl.style.width = "100%";
+    });
+    audio.addEventListener("timeupdate", () => {
+      const dur = audio.duration || 22;
+      const cur = audio.currentTime || 0;
+      progressEl.style.width = Math.min(100, (cur / dur) * 100).toFixed(1) + "%";
+      timeEl.textContent = fmtTime(cur) + " / " + fmtTime(dur);
+      let activeIdx = 0;
+      for (let i = 0; i < cfg.steps.length; i++) {
+        if (cur >= cfg.steps[i].tStart) activeIdx = i;
+      }
+      applyStep(activeIdx);
+    });
+
+    timelineEl.addEventListener("click", (e) => {
+      const rect = timelineEl.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const dur = audio.duration || 22;
+      audio.currentTime = pct * dur;
+      if (audio.paused) togglePlay();
+    });
+
+    stepBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.getAttribute("data-step-idx"), 10) || 0;
+        applyStep(idx);
+        if (cfg.steps[idx]) {
+          audio.currentTime = cfg.steps[idx].tStart;
+          if (audio.paused) togglePlay();
+        }
+      });
+    });
+  });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  window.initAiVideoPlayers(document);
+});

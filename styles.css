@@ -773,3 +773,225 @@ input:focus, select:focus, textarea:focus {
 @media (max-width: 900px) {
   .video-grid, .media-showcase { grid-template-columns: 1fr; }
 }
+
+
+/* === KiteDesk Self-Hosted AI Walkthrough Video Player === */
+.ai-video-player {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #090d16;
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 22px 48px -12px rgba(9, 13, 22, 0.45);
+  color: #f8fafc;
+  user-select: none;
+}
+.ai-vp-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  background: #090d16;
+  cursor: pointer;
+}
+.ai-vp-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.34;
+  filter: saturate(1.1) contrast(1.06);
+  transition: transform 6s ease-out, opacity 0.35s ease;
+}
+.ai-video-player.is-playing .ai-vp-backdrop {
+  transform: scale(1.06);
+  opacity: 0.42;
+}
+.ai-vp-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9,13,22,0.75) 0%, rgba(9,13,22,0.52) 48%, rgba(9,13,22,0.94) 100%);
+}
+.ai-vp-topbar {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  z-index: 3;
+}
+.ai-vp-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #38bdf8;
+}
+.ai-vp-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+.ai-vp-step-pill {
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  background: rgba(255,255,255,0.12);
+  color: #f8fafc;
+}
+.ai-vp-center {
+  position: absolute;
+  inset: 58px 24px 68px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 3;
+  max-width: 640px;
+}
+.ai-vp-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #f59e0b;
+  margin-bottom: 6px;
+}
+.ai-vp-headline {
+  font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.ai-vp-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ai-vp-metric-chip {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.86);
+  border: 1px solid rgba(255,255,255,0.16);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+.ai-vp-bigplay {
+  position: absolute;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f97316;
+  color: #ffffff;
+  border: 3px solid rgba(255,255,255,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  box-shadow: 0 14px 30px rgba(249, 115, 22, 0.45);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 4;
+}
+.ai-video-player.is-playing .ai-vp-bigplay {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.85);
+}
+.ai-vp-caption-bar {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(9, 13, 22, 0.88);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: #f1f5f9;
+  z-index: 3;
+}
+.ai-vp-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  background: #0f172a;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.ai-vp-btn {
+  background: #f97316;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ai-vp-btn:hover {
+  background: #ea580c;
+}
+.ai-vp-timeline {
+  flex: 1;
+  height: 7px;
+  background: rgba(255,255,255,0.16);
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.ai-vp-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f97316, #38bdf8);
+  border-radius: 999px;
+  transition: width 0.12s linear;
+}
+.ai-vp-steps-nav {
+  display: flex;
+  gap: 4px;
+}
+.ai-vp-step-btn {
+  background: rgba(255,255,255,0.08);
+  color: #cbd5e1;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ai-vp-step-btn.active {
+  background: #38bdf8;
+  color: #090d16;
+  border-color: #38bdf8;
+}
+.ai-vp-time {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  color: #94a3b8;
+  min-width: 72px;
+  text-align: right;
+}
