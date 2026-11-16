@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Playbook — KiteDesk Daily Journal</title>
+  <meta name="description" id="metaDescription" content="Plain-English playbooks for Indian sellers and D2C brands on GST invoicing, HSN codes, unit economics, WhatsApp QR links, and local SEO." />
+  <link rel="canonical" id="canonicalLink" href="https://srivastavt37-sys.github.io/kitedesk-web/post.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json" id="blogPostingSchema">{}</script>
 </head>
 <body>
   <header class="site-header">
@@ -32,6 +35,32 @@
     <div class="container article-container">
       <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
       <article id="articleBody" class="article-body"></article>
+      <section class="card" style="margin-top:32px;padding:24px;" aria-label="Try the Free KiteDesk Tools">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+          <div>
+            <h3 style="margin:0 0 4px 0;">Try the Free KiteDesk Tools</h3>
+            <p style="margin:0;color:var(--muted,#64748b);font-size:0.95rem;">Zero-signup, 100% browser-first utilities built for Indian sellers and creators.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+          <a href="billfold.html" class="btn btn-outline" style="justify-content:flex-start;text-align:left;padding:12px 14px;height:auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+            <strong>BillFold</strong>
+            <span style="font-size:0.84rem;font-weight:400;opacity:0.85;">GST &amp; UPI Invoicing</span>
+          </a>
+          <a href="tapping.html" class="btn btn-outline" style="justify-content:flex-start;text-align:left;padding:12px 14px;height:auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+            <strong>TapPing</strong>
+            <span style="font-size:0.84rem;font-weight:400;opacity:0.85;">WhatsApp &amp; QR Links</span>
+          </a>
+          <a href="marginmint.html" class="btn btn-outline" style="justify-content:flex-start;text-align:left;padding:12px 14px;height:auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+            <strong>MarginMint</strong>
+            <span style="font-size:0.84rem;font-weight:400;opacity:0.85;">D2C Profit &amp; RTO Lab</span>
+          </a>
+          <a href="copycraft.html" class="btn btn-outline" style="justify-content:flex-start;text-align:left;padding:12px 14px;height:auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+            <strong>CopyCraft</strong>
+            <span style="font-size:0.84rem;font-weight:400;opacity:0.85;">Bio &amp; SERP Studio</span>
+          </a>
+        </div>
+      </section>
     </div>
   </main>
   <footer class="site-footer">
@@ -70,5 +99,59 @@
   </footer>
   <script src="posts-data.js"></script>
   <script src="app.js"></script>
+  <script>
+    (function () {
+      if (!Array.isArray(window.KITEDESK_POSTS) || !window.KITEDESK_POSTS.length) return;
+      var params = new URLSearchParams(window.location.search);
+      var slug = params.get("slug");
+      var post = (slug && window.KITEDESK_POSTS.find(function (p) { return p.slug === slug; })) || window.KITEDESK_POSTS[0];
+      if (!post) return;
+
+      var baseUrl = "https://srivastavt37-sys.github.io/kitedesk-web/";
+      var canonicalUrl = baseUrl + "post.html?slug=" + encodeURIComponent(post.slug);
+      document.title = post.title + " — KiteDesk Studio";
+
+      var metaDesc = document.getElementById("metaDescription");
+      if (metaDesc) metaDesc.setAttribute("content", post.excerpt || post.title);
+
+      var canonicalEl = document.getElementById("canonicalLink");
+      if (canonicalEl) canonicalEl.setAttribute("href", canonicalUrl);
+
+      var parsedDate = new Date(post.date);
+      var isoDate = isNaN(parsedDate.getTime()) ? "2026-11-17" : parsedDate.toISOString().slice(0, 10);
+      var plainText = (post.content || "").replace(/<[^>]+>/g, " ").trim();
+      var computedWords = post.wordCount || (plainText ? plainText.split(/\s+/).length : 0);
+
+      var schema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "description": post.excerpt || post.title,
+        "image": post.image ? (baseUrl + post.image) : (baseUrl + "images/post-gst-invoicing.jpg"),
+        "datePublished": isoDate,
+        "dateModified": isoDate,
+        "articleSection": post.category || "Operations",
+        "wordCount": computedWords,
+        "url": canonicalUrl,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": canonicalUrl
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "KiteDesk Studio",
+          "url": baseUrl
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "KiteDesk Studio",
+          "url": baseUrl
+        }
+      };
+
+      var schemaEl = document.getElementById("blogPostingSchema");
+      if (schemaEl) schemaEl.textContent = JSON.stringify(schema);
+    })();
+  </script>
 </body>
 </html>
