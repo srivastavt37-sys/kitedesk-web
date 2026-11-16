@@ -72,6 +72,18 @@
         </div>
       </div>
 
+      <div class="card" style="margin-bottom:18px;padding:16px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <strong style="font-size:0.95rem;display:block;">One-Click Indian Storefront &amp; SERP Presets</strong>
+          <span class="muted" style="font-size:0.84rem;">Populate realistic Indian bio, URL, and Google Search snippet copy in 1 click.</span>
+        </div>
+        <div class="tool-actions" style="margin:0;">
+          <button type="button" class="btn btn-sm btn-outline preset-btn" data-preset="footwear" onclick="applyCopyCraftPreset('footwear', this)">D2C Footwear Brand</button>
+          <button type="button" class="btn btn-sm btn-outline preset-btn" data-preset="clinic" onclick="applyCopyCraftPreset('clinic', this)">Local Clinic / Studio</button>
+          <button type="button" class="btn btn-sm btn-outline preset-btn" data-preset="wholesale" onclick="applyCopyCraftPreset('wholesale', this)">B2B Wholesale Supplier</button>
+        </div>
+      </div>
+
       <div class="tool-layout">
         <div class="card form-card">
           <h3>1. Bio / Product Description Editor</h3>
@@ -209,5 +221,47 @@ Order directly on WhatsApp in 1 tap</textarea>
     </div>
   </footer>
   <script src="app.js"></script>
+  <script>
+    const COPYCRAFT_PRESETS = {
+      footwear: {
+        title: "Bridal Leather Jootis Jaipur | Custom Fit & Free COD",
+        url: "https://kitedesk.in/shop/bridal-jootis-jaipur",
+        copy: "Handcrafted double-cushioned bridal jootis in Jaipur\nStarting ₹1,499 with free COD across India\nCustom sizes & 48-hr dispatch\nOrder on WhatsApp in 1 tap"
+      },
+      clinic: {
+        title: "Physiotherapy Clinic Indiranagar Bangalore | Same-Day Slot",
+        url: "https://kitedesk.in/indiranagar-physiotherapy-clinic",
+        copy: "Sports & ortho physiotherapy near 100 Ft Rd, Indiranagar\n₹700 consultation | Male & female therapists\nOpen 8 AM - 8 PM daily\nBook slot on WhatsApp"
+      },
+      wholesale: {
+        title: "Wholesale Cotton Kurtis Surat | 10-Piece MOQ & GST Bill",
+        url: "https://kitedesk.in/surat-cotton-kurti-wholesale",
+        copy: "Factory-direct 60-60 cotton kurtis from Ring Road, Surat\n₹285/pc wholesale | 10-piece MOQ\n100% GST tax invoice & pan-India transport\nTap for catalog"
+      }
+    };
+
+    function applyCopyCraftPreset(key, btnEl) {
+      const preset = COPYCRAFT_PRESETS[key];
+      if (!preset) return;
+      const titleEl = document.getElementById('serpTitleInput');
+      const urlEl = document.getElementById('serpUrlInput');
+      const copyEl = document.getElementById('fmtInput');
+      if (titleEl) titleEl.value = preset.title;
+      if (urlEl) urlEl.value = preset.url;
+      if (copyEl) copyEl.value = preset.copy;
+
+      document.querySelectorAll('.preset-btn').forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-outline');
+      });
+      if (btnEl) {
+        btnEl.classList.remove('btn-outline');
+        btnEl.classList.add('btn-primary');
+      }
+      if (typeof updateFormatter === 'function') {
+        updateFormatter();
+      }
+    }
+  </script>
 </body>
 </html>
