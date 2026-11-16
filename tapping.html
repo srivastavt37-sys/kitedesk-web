@@ -72,6 +72,18 @@
         </div>
       </div>
 
+            <div class="card" id="indianPresetsBar" style="margin-bottom:18px;padding:14px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <strong style="font-size:0.95rem;color:#0f4c5c;">One-Click Indian Business Message Presets</strong>
+          <div class="muted" style="font-size:0.82rem;">Populate phone + message fields and regenerate your wa.me link &amp; QR code in one click.</div>
+        </div>
+        <div class="preset-chips" style="margin:0;">
+          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919810112233', 'Hi! I saw your Reel and want to order [Product Name] (Size: __). My delivery PIN code is ______. Please share the UPI payment QR.', this)">D2C Order + PIN Code</button>
+          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919820445566', 'Hello! I want to book a Salon / Clinic appointment for [Service] on [Day] around [Time]. Please confirm available slots.', this)">Salon / Clinic Appointment</button>
+          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919833778899', 'Namaste! I run a retail store in [City] and want your wholesale price list, MOQ details, and GST billing terms.', this)">Wholesale Price List Request</button>
+        </div>
+      </div>
+
       <div class="tool-layout">
         <div class="card form-card">
           <h3>1. WhatsApp Number &amp; Preset Templates</h3>
@@ -210,5 +222,26 @@
     </div>
   </footer>
   <script src="app.js"></script>
+  <script>
+    function applyTapPingPreset(phone, message, btn) {
+      var phoneEl = document.getElementById('waPhone');
+      var msgEl = document.getElementById('waMsg');
+      if (phoneEl) phoneEl.value = phone;
+      if (msgEl) msgEl.value = message;
+      document.querySelectorAll('.tp-preset-btn').forEach(function (el) {
+        el.style.borderColor = '';
+        el.style.background = '';
+        el.style.color = '';
+      });
+      if (btn) {
+        btn.style.borderColor = '#059669';
+        btn.style.background = '#ecfdf5';
+        btn.style.color = '#065f46';
+      }
+      if (typeof buildWhatsApp === 'function') {
+        buildWhatsApp();
+      }
+    }
+  </script>
 </body>
 </html>
