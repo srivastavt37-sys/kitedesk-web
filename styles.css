@@ -857,6 +857,7 @@ input:focus, select:focus, textarea:focus {
 .ai-vp-center {
   position: absolute;
   inset: 58px 24px 68px 24px;
+  padding-right: 96px;
   display: flex;
   flex-direction: column;
   justify-content: center;
