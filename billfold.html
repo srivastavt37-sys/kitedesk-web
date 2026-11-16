@@ -74,6 +74,17 @@
 
       <div class="tool-layout">
         <div class="card form-card">
+          <div class="preset-bar" style="padding:12px 14px;background:var(--surface-tint);border:1px solid var(--border);border-radius:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+              <strong style="font-size:0.82rem;color:var(--ink);">One-Click Indian GST Invoice Presets</strong>
+              <span class="muted" style="font-size:0.74rem;">Populates GSTIN, HSN/SAC &amp; live UPI QR</span>
+            </div>
+            <div class="preset-chips" id="bfPresetChips">
+              <button type="button" class="chip" data-preset="intra_retail" onclick="applyBillFoldPreset('intra_retail', this)">Intra-State Retail (CGST+SGST)</button>
+              <button type="button" class="chip" data-preset="inter_b2b" onclick="applyBillFoldPreset('inter_b2b', this)">Inter-State B2B Service (IGST)</button>
+              <button type="button" class="chip" data-preset="msme_milestone" onclick="applyBillFoldPreset('msme_milestone', this)">MSME 50% Advance Milestone</button>
+            </div>
+          </div>
           <h3>1. Seller &amp; Buyer Details</h3>
           <div class="form-row">
             <label>Your Business Name <input type="text" id="invFrom" value="KiteDesk Crafts" oninput="renderInvoice()" /></label>
@@ -264,5 +275,89 @@
     </div>
   </footer>
   <script src="app.js"></script>
+  <script>
+    const BF_PRESETS = {
+      intra_retail: {
+        from: 'Jaipur Craft & Jootis Co.',
+        fromGstin: '08AABCJ4821K1Z4',
+        to: 'Rathore Footwear & Retail',
+        toGstin: '08AABCR9102M1Z8',
+        num: 'INV-2026-208',
+        currency: '₹',
+        discount: 250,
+        taxMode: 'cgst_sgst',
+        tax: 12,
+        upi: 'jaipurcraft@okicici',
+        notes: 'Intra-State supply within Rajasthan (6% CGST + 6% SGST). Scan the UPI QR code for instant settlement.',
+        items: [
+          { desc: 'Handcrafted Bridal Jootis (HSN 6403)', qty: 4, rate: 1499 },
+          { desc: '3-Ply Branded Shoe Boxes (HSN 4819)', qty: 4, rate: 85 }
+        ]
+      },
+      inter_b2b: {
+        from: 'KiteDesk Digital Labs LLP',
+        fromGstin: '09AABCK7741P1Z2',
+        to: 'Vanguard D2C Foods Pvt Ltd',
+        toGstin: '27AAACV5519R1Z6',
+        num: 'B2B-2026-041',
+        currency: '₹',
+        discount: 0,
+        taxMode: 'igst',
+        tax: 18,
+        upi: 'kitedesklabs@hdfcbank',
+        notes: 'Inter-State B2B service (UP to Maharashtra, 18% IGST). Eligible for full GSTR-2B Input Tax Credit. Payment due within 15 days under MSME Sec 43B(h).',
+        items: [
+          { desc: 'Performance Ads & Local SEO Retainer (SAC 998361)', qty: 1, rate: 35000 },
+          { desc: 'WhatsApp Catalog & QR Funnel Setup (SAC 998314)', qty: 1, rate: 12000 }
+        ]
+      },
+      msme_milestone: {
+        from: 'Shree Ganesh Packaging Works',
+        fromGstin: '24AAECS3310L1Z9',
+        to: 'Narmada Agro Exports Pvt Ltd',
+        toGstin: '24AAACN8824D1Z1',
+        num: 'MSME-ADV-019',
+        currency: '₹',
+        discount: 0,
+        taxMode: 'cgst_sgst',
+        tax: 18,
+        upi: 'ganeshpack@sbi',
+        notes: '50% Advance Milestone Invoice (Udyam MSME). Balance 50% payable upon dispatch inspection.',
+        items: [
+          { desc: 'Custom Corrugated Export Cartons - 50% Advance (HSN 4819)', qty: 500, rate: 32 },
+          { desc: 'Die-Cut Printing Plate Setup - 50% Advance (HSN 8442)', qty: 1, rate: 2500 }
+        ]
+      }
+    };
+
+    function applyBillFoldPreset(key, btnEl) {
+      const p = BF_PRESETS[key];
+      if (!p) return;
+      document.getElementById('invFrom').value = p.from;
+      document.getElementById('invFromGstin').value = p.fromGstin;
+      document.getElementById('invTo').value = p.to;
+      document.getElementById('invToGstin').value = p.toGstin;
+      document.getElementById('invNum').value = p.num;
+      document.getElementById('invCurrency').value = p.currency;
+      document.getElementById('invDiscount').value = p.discount;
+      document.getElementById('invTaxMode').value = p.taxMode;
+      document.getElementById('invTax').value = p.tax;
+      document.getElementById('invUpi').value = p.upi;
+      document.getElementById('invNotes').value = p.notes;
+      invoiceItems = p.items.map(i => ({ ...i }));
+      document.querySelectorAll('#bfPresetChips .chip').forEach(c => {
+        c.style.background = '';
+        c.style.color = '';
+        c.style.borderColor = '';
+      });
+      if (btnEl) {
+        btnEl.style.background = 'var(--brand)';
+        btnEl.style.color = '#fff';
+        btnEl.style.borderColor = 'var(--brand)';
+      }
+      renderInvoiceInputs();
+      renderInvoice();
+    }
+  </script>
 </body>
 </html>
