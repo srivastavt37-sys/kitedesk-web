@@ -59,7 +59,18 @@
           <button class="pill" onclick="filterPosts('Growth & SEO', this)">Growth &amp; SEO</button>
           <button class="pill" onclick="filterPosts('Sales', this)">Sales</button>
         </div>
-        <input type="search" id="journalSearch" placeholder="Search playbooks..." oninput="renderJournalPage()" class="search-input" />
+        <input type="search" id="journalSearch" placeholder="Search playbooks (GST, RTO, UPI, WhatsApp, SEO)..." aria-label="Search playbooks by keyword" oninput="renderJournalPage()" class="search-input" />
+      </div>
+      <div class="journal-status-bar" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:-10px 0 22px 0;">
+        <div id="playbookCounter" style="font-family:'JetBrains Mono',monospace;font-size:0.84rem;font-weight:600;color:var(--ink-secondary,#475569);">Showing 0 of 0 Playbooks</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:0.8rem;color:var(--muted,#64748b);">Quick keywords:</span>
+          <button type="button" class="pill" style="padding:3px 10px;font-size:0.78rem;" onclick="applyJournalKeyword('GST')">GST</button>
+          <button type="button" class="pill" style="padding:3px 10px;font-size:0.78rem;" onclick="applyJournalKeyword('RTO')">RTO</button>
+          <button type="button" class="pill" style="padding:3px 10px;font-size:0.78rem;" onclick="applyJournalKeyword('UPI')">UPI</button>
+          <button type="button" class="pill" style="padding:3px 10px;font-size:0.78rem;" onclick="applyJournalKeyword('WhatsApp')">WhatsApp</button>
+          <button type="button" class="pill" style="padding:3px 10px;font-size:0.78rem;" onclick="applyJournalKeyword('SEO')">SEO</button>
+        </div>
       </div>
       <div class="cards-3" id="journalGrid"></div>
     </div>

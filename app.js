@@ -358,18 +358,42 @@ function filterPosts(cat, btn) {
   renderJournalPage();
 }
 
+function applyJournalKeyword(kw) {
+  const input = document.getElementById('journalSearch');
+  if (!input) return;
+  input.value = (input.value.trim().toLowerCase() === kw.toLowerCase()) ? '' : kw;
+  renderJournalPage();
+}
+
+function resetJournalFilters() {
+  const input = document.getElementById('journalSearch');
+  if (input) input.value = '';
+  const allBtn = document.querySelector('#journalFilters .pill');
+  filterPosts('All', allBtn);
+}
+
 function renderJournalPage() {
   const grid = document.getElementById('journalGrid');
   if (!grid || !window.KITEDESK_POSTS) return;
-  const q = (document.getElementById('journalSearch')?.value || '').toLowerCase();
+  const total = window.KITEDESK_POSTS.length;
+  const q = (document.getElementById('journalSearch')?.value || '').trim().toLowerCase();
   const filtered = window.KITEDESK_POSTS.filter(p => {
     const matchCat = activeCategory === 'All' || p.category === activeCategory;
-    const matchQ = !q || p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q);
+    if (!q) return matchCat;
+    const bodyPlain = (typeof getPostBodyHtml === 'function' ? getPostBodyHtml(p) : (p.content || '')).replace(/<[^>]+>/g, ' ').toLowerCase();
+    const matchQ = p.title.toLowerCase().includes(q) ||
+      (p.excerpt || '').toLowerCase().includes(q) ||
+      (p.category || '').toLowerCase().includes(q) ||
+      bodyPlain.includes(q);
     return matchCat && matchQ;
   });
+  const counterEl = document.getElementById('playbookCounter');
+  if (counterEl) {
+    counterEl.textContent = `Showing ${filtered.length} of ${total} Playbooks`;
+  }
   grid.innerHTML = filtered.length
     ? filtered.map(renderPostCard).join('')
-    : '<p class="muted">No matching articles found.</p>';
+    : '<div class="muted" style="grid-column:1/-1;padding:24px;border:1px dashed var(--border-strong);border-radius:12px;">No matching playbooks found. <button type="button" class="pill" style="margin-left:8px;" onclick="resetJournalFilters()">Reset Filters</button></div>';
 }
 renderJournalPage();
 
