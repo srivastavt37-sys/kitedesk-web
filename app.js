@@ -1160,6 +1160,34 @@ function calcMargin() {
   const rtoEl = document.getElementById('mmRtoAmt');
   if (rtoEl) rtoEl.textContent = `${cur}${rtoLossPerDelivered.toFixed(2)}`;
 
+  const prepaidShareRaw = Number(document.getElementById('mmPrepaidShare')?.value);
+  const prepaidShare = Number.isFinite(prepaidShareRaw) ? Math.min(100, Math.max(0, prepaidShareRaw)) : 35;
+  const prepaidDiscRaw = Number(document.getElementById('mmPrepaidDisc')?.value);
+  const prepaidDisc = Number.isFinite(prepaidDiscRaw) ? Math.max(0, prepaidDiscRaw) : 75;
+
+  const rtoFrac = Math.min(0.99, Math.max(0, rtoPct / 100));
+  const codNetPerPlaced = net * (1 - rtoFrac);
+  const prepaidSell = Math.max(0, sell - prepaidDisc);
+  const prepaidFee = prepaidSell * (feePct / 100);
+  const prepaidGst = prepaidSell - (prepaidSell / (1 + gstPct / 100));
+  const prepaidNetPerOrder = prepaidSell - cogs - ship - pack - prepaidFee - prepaidGst;
+
+  const blended100 = (prepaidShare * prepaidNetPerOrder) + ((100 - prepaidShare) * codNetPerPlaced);
+  const allCod100 = 100 * codNetPerPlaced;
+  const codGain = blended100 - allCod100;
+
+  const blendedEl = document.getElementById('mmBlended100');
+  if (blendedEl) {
+    blendedEl.textContent = `${cur}${Math.round(blended100).toLocaleString('en-IN')}`;
+    blendedEl.style.color = blended100 >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+  const gainEl = document.getElementById('mmCodGain');
+  if (gainEl) {
+    const sign = codGain >= 0 ? '+' : '-';
+    gainEl.textContent = `${sign}${cur}${Math.round(Math.abs(codGain)).toLocaleString('en-IN')}`;
+    gainEl.style.color = codGain >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+
   if (sell > 0) {
     const pCogs = Math.min(100, Math.max(0, (cogs / sell) * 100));
     const pOps = Math.min(100, Math.max(0, (opsTotal / sell) * 100));
