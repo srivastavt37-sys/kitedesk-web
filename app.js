@@ -1443,6 +1443,28 @@ function calcMargin() {
 }
 calcMargin();
 
+function copySerpMetaTags(btn) {
+  const titleText = (document.getElementById('serpTitleInput')?.value || '').trim() || 'Your Brand — Official Store & Custom Orders';
+  const descRaw = (document.getElementById('fmtInput')?.value || '').replace(/\s+/g, ' ').trim();
+  const descText = descRaw || 'Shop quality products with fast pan-India dispatch and UPI support.';
+  const metaHtml = `<title>${escapeHtml(titleText)}</title>\n<meta name="description" content="${escapeHtml(descText)}" />`;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(metaHtml);
+  } else {
+    const tmp = document.createElement('textarea');
+    tmp.value = metaHtml;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+  }
+  if (btn) {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied <meta> Tags ✓';
+    setTimeout(() => btn.textContent = orig, 1600);
+  }
+}
+
 function copyText(id, btn) {
   const el = document.getElementById(id);
   if (!el) return;
