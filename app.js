@@ -416,6 +416,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
     buildWhatsApp();
   }
+  if (document.getElementById("fmtInput")) {
+    updateFormatter();
+  }
+  if (document.getElementById("gbpDescInput")) {
+    updateGbpProfile();
+  }
+  if (document.getElementById("mmSell")) {
+    calcMargin();
+  }
 });
 
 function toggleNav() {
@@ -961,6 +970,231 @@ function setWaTemplate(text) {
   }
 }
 
+/* Minimal Pure-JS QR Code SVG Generator (Byte mode, ECC Level L, Versions 1-10) */
+const buildQrSvgDataUri = (() => {
+  const EXP = new Uint8Array(512);
+  const LOG = new Uint8Array(256);
+  let x = 1;
+  for (let i = 0; i < 255; i++) {
+    EXP[i] = x;
+    LOG[x] = i;
+    x <<= 1;
+    if (x & 256) x ^= 285;
+  }
+  for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+
+  function gfMul(a, b) {
+    return a && b ? EXP[LOG[a] + LOG[b]] : 0;
+  }
+  function rsGenPoly(deg) {
+    let p = [1];
+    for (let i = 0; i < deg; i++) {
+      const next = new Array(p.length + 1).fill(0);
+      for (let j = 0; j < p.length; j++) {
+        next[j] ^= p[j];
+        next[j + 1] ^= gfMul(p[j], EXP[i]);
+      }
+      p = next;
+    }
+    return p;
+  }
+  function rsEncode(data, ecLen) {
+    const gen = rsGenPoly(ecLen);
+    const res = new Array(data.length + ecLen).fill(0);
+    for (let i = 0; i < data.length; i++) res[i] = data[i];
+    for (let i = 0; i < data.length; i++) {
+      const c = res[i];
+      if (!c) continue;
+      for (let j = 0; j < gen.length; j++) res[i + j] ^= gfMul(gen[j], c);
+    }
+    return res.slice(data.length);
+  }
+
+  const SPECS = [
+    null,
+    [26, 7, 1, 19, 0, 0, []],
+    [44, 10, 1, 34, 0, 0, [6, 18]],
+    [70, 15, 1, 55, 0, 0, [6, 22]],
+    [100, 20, 1, 80, 0, 0, [6, 26]],
+    [134, 26, 1, 108, 0, 0, [6, 30]],
+    [172, 18, 2, 68, 0, 0, [6, 34]],
+    [196, 20, 2, 78, 0, 0, [6, 22, 38]],
+    [242, 24, 2, 97, 0, 0, [6, 24, 42]],
+    [292, 30, 2, 116, 0, 0, [6, 26, 46]],
+    [346, 18, 2, 68, 2, 69, [6, 28, 50]]
+  ];
+
+  function encodeMatrix(text) {
+    const bytes = new TextEncoder().encode(text);
+    let ver = 1;
+    while (ver <= 10) {
+      const s = SPECS[ver];
+      const cap = s[2] * s[3] + s[4] * s[5];
+      const lenBits = ver <= 9 ? 8 : 16;
+      if (4 + lenBits + bytes.length * 8 <= cap * 8) break;
+      ver++;
+    }
+    if (ver > 10) return null;
+
+    const s = SPECS[ver];
+    const dataCap = s[2] * s[3] + s[4] * s[5];
+    const bits = [];
+    const pushBits = (val, n) => {
+      for (let i = n - 1; i >= 0; i--) bits.push((val >> i) & 1);
+    };
+    pushBits(0b0100, 4);
+    pushBits(bytes.length, ver <= 9 ? 8 : 16);
+    for (const b of bytes) pushBits(b, 8);
+    const maxBits = dataCap * 8;
+    for (let i = 0; i < 4 && bits.length < maxBits; i++) bits.push(0);
+    while (bits.length % 8 !== 0) bits.push(0);
+    const padBytes = [0xec, 0x11];
+    let pi = 0;
+    while (bits.length < maxBits) {
+      pushBits(padBytes[pi++ % 2], 8);
+    }
+
+    const dataBytes = [];
+    for (let i = 0; i < bits.length; i += 8) {
+      let b = 0;
+      for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+      dataBytes.push(b);
+    }
+
+    const blocks = [];
+    const ecBlocks = [];
+    let off = 0;
+    for (let i = 0; i < s[2]; i++) {
+      const blk = dataBytes.slice(off, off + s[3]);
+      off += s[3];
+      blocks.push(blk);
+      ecBlocks.push(rsEncode(blk, s[1]));
+    }
+    for (let i = 0; i < s[4]; i++) {
+      const blk = dataBytes.slice(off, off + s[5]);
+      off += s[5];
+      blocks.push(blk);
+      ecBlocks.push(rsEncode(blk, s[1]));
+    }
+
+    const codewords = [];
+    const maxDataLen = Math.max(s[3], s[5]);
+    for (let i = 0; i < maxDataLen; i++) {
+      for (let b = 0; b < blocks.length; b++) {
+        if (i < blocks[b].length) codewords.push(blocks[b][i]);
+      }
+    }
+    for (let i = 0; i < s[1]; i++) {
+      for (let b = 0; b < ecBlocks.length; b++) codewords.push(ecBlocks[b][i]);
+    }
+
+    const size = ver * 4 + 17;
+    const grid = Array.from({ length: size }, () => new Int8Array(size).fill(-1));
+    const isFunc = Array.from({ length: size }, () => new Uint8Array(size));
+
+    const setMod = (r, c, v) => {
+      if (r >= 0 && r < size && c >= 0 && c < size) {
+        grid[r][c] = v ? 1 : 0;
+        isFunc[r][c] = 1;
+      }
+    };
+    const drawFinder = (r, c) => {
+      for (let dr = -1; dr <= 7; dr++) {
+        for (let dc = -1; dc <= 7; dc++) {
+          const rr = r + dr, cc = c + dc;
+          if (rr < 0 || rr >= size || cc < 0 || cc >= size) continue;
+          const inBox = dr >= 0 && dr <= 6 && dc >= 0 && dc <= 6;
+          const dark = inBox && (dr === 0 || dr === 6 || dc === 0 || dc === 6 || (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4));
+          setMod(rr, cc, dark ? 1 : 0);
+        }
+      }
+    };
+    drawFinder(0, 0);
+    drawFinder(0, size - 7);
+    drawFinder(size - 7, 0);
+
+    for (let i = 8; i < size - 8; i++) {
+      setMod(6, i, i % 2 === 0 ? 1 : 0);
+      setMod(i, 6, i % 2 === 0 ? 1 : 0);
+    }
+    setMod(size - 8, 8, 1);
+
+    const coords = s[6];
+    for (let i = 0; i < coords.length; i++) {
+      for (let j = 0; j < coords.length; j++) {
+        const r = coords[i], c = coords[j];
+        if ((r === 6 && c === 6) || (r === 6 && c === coords[coords.length - 1]) || (r === coords[coords.length - 1] && c === 6)) continue;
+        if (isFunc[r][c]) continue;
+        for (let dr = -2; dr <= 2; dr++) {
+          for (let dc = -2; dc <= 2; dc++) {
+            const dark = Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0);
+            setMod(r + dr, c + dc, dark ? 1 : 0);
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < 9; i++) {
+      if (!isFunc[8][i]) { grid[8][i] = 0; isFunc[8][i] = 1; }
+      if (!isFunc[i][8]) { grid[i][8] = 0; isFunc[i][8] = 1; }
+    }
+    for (let i = 0; i < 8; i++) {
+      if (!isFunc[8][size - 1 - i]) { grid[8][size - 1 - i] = 0; isFunc[8][size - 1 - i] = 1; }
+      if (!isFunc[size - 1 - i][8]) { grid[size - 1 - i][8] = 0; isFunc[size - 1 - i][8] = 1; }
+    }
+
+    const allBits = [];
+    for (const cw of codewords) {
+      for (let i = 7; i >= 0; i--) allBits.push((cw >> i) & 1);
+    }
+    let bi = 0;
+    let up = true;
+    for (let col = size - 1; col >= 1; col -= 2) {
+      if (col === 6) col--;
+      for (let step = 0; step < size; step++) {
+        const r = up ? size - 1 - step : step;
+        for (let dc = 0; dc < 2; dc++) {
+          const c = col - dc;
+          if (!isFunc[r][c]) {
+            const bit = bi < allBits.length ? allBits[bi++] : 0;
+            grid[r][c] = bit ^ (((r + c) % 2 === 0) ? 1 : 0);
+          }
+        }
+      }
+      up = !up;
+    }
+
+    const fmtBits = 0x77c4;
+    for (let i = 0; i < 15; i++) {
+      const bit = (fmtBits >> i) & 1;
+      if (i < 6) grid[8][i] = bit;
+      else if (i < 8) grid[8][i + 1] = bit;
+      else grid[8][size - 15 + i] = bit;
+      if (i < 8) grid[size - 1 - i][8] = bit;
+      else if (i < 9) grid[15 - i][8] = bit;
+      else grid[14 - i][8] = bit;
+    }
+
+    return grid;
+  }
+
+  return function (text) {
+    const grid = encodeMatrix(text);
+    if (!grid) return '';
+    const n = grid.length;
+    const quiet = 2;
+    const total = n + quiet * 2;
+    let d = '';
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        if (grid[r][c] === 1) d += `M${c + quiet},${r + quiet}h1v1h-1z`;
+      }
+    }
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}" shape-rendering="crispEdges"><rect width="${total}" height="${total}" fill="#ffffff"/><path d="${d}" fill="#0f172a"/></svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  };
+})();
+
 function buildWhatsApp() {
   const phoneEl = document.getElementById('waPhone');
   const qrImgEl = document.getElementById('waQrImg');
@@ -975,7 +1209,16 @@ function buildWhatsApp() {
   const testEl = document.getElementById('waTestLink');
   if (testEl) testEl.href = url;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(url)}`;
-  if (qrImgEl) qrImgEl.src = qrUrl;
+  const svgQr = buildQrSvgDataUri(url);
+  if (qrImgEl) {
+    qrImgEl.onerror = function () {
+      if (this.dataset.fallbackApplied) return;
+      this.dataset.fallbackApplied = '1';
+      if (svgQr) this.src = svgQr;
+    };
+    qrImgEl.dataset.fallbackApplied = '';
+    qrImgEl.src = svgQr || qrUrl;
+  }
   const qrDlEl = document.getElementById('waQrDownload');
   if (qrDlEl) qrDlEl.href = qrUrl;
   const htmlCode = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#059669;color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>`;
@@ -1023,6 +1266,7 @@ function formatAs(mode) {
   }
   el.value = t;
   updateFormatter();
+}
 
 function updateGbpProfile() {
   const descEl = document.getElementById('gbpDescInput');
@@ -1079,8 +1323,6 @@ function formatGbpClean() {
   updateGbpProfile();
 }
 updateGbpProfile();
-
-}
 updateFormatter();
 
 /* 4. MARGINMINT — D2C UNIT ECONOMICS, VOLUMETRIC WEIGHT, COD RTO & ROAS CALCULATOR */
