@@ -81,6 +81,9 @@
           <label>WhatsApp Number (Country code + digits, no + or spaces)
             <input type="text" class="mono-input" id="waPhone" value="919876543210" oninput="buildWhatsApp()" />
           </label>
+          <label>Shop / Brand Name <span class="muted">(Optional — for Counter QR Standee)</span>
+            <input type="text" id="waBrand" value="Your Shop Name" placeholder="Your Shop Name" maxlength="48" oninput="updateStandeeBrand()" />
+          </label>
           <div>
             <label style="margin-bottom:6px;">Quick Commerce Templates (Click to fill)</label>
             <div class="preset-chips">
@@ -110,11 +113,17 @@
         </div>
 
         <div class="card qr-card">
-          <h3 style="margin-bottom:2px;">Packaging &amp; Counter QR Code</h3>
-          <p class="muted" style="margin-bottom:4px;">Print on parcel inserts, shoe boxes, or shop counters so buyers message you in one scan.</p>
-          <img id="waQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=https%3A%2F%2Fwa.me%2F919876543210%3Ftext%3DHi!%2520I%2520saw%2520your%2520catalog%2520and%2520want%2520to%2520place%2520an%2520order.%2520Please%2520share%2520available%2520sizes%2520and%2520payment%2520link." alt="WhatsApp Order QR Code" class="qr-img" />
-          <div class="tool-actions">
+          <h3 class="no-print" style="margin-bottom:2px;">Packaging &amp; Counter QR Code</h3>
+          <p class="muted no-print" style="margin-bottom:4px;">Print on parcel inserts, shoe boxes, or shop counters so buyers message you in one scan.</p>
+          <div class="standee-frame">
+            <div class="standee-brand" id="standeeBrandPreview">Your Shop Name</div>
+            <div class="standee-tagline">Scan to Order on WhatsApp</div>
+            <img id="waQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=https%3A%2F%2Fwa.me%2F919876543210%3Ftext%3DHi!%2520I%2520saw%2520your%2520catalog%2520and%2520want%2520to%2520place%2520an%2520order.%2520Please%2520share%2520available%2520sizes%2520and%2520payment%2520link." alt="WhatsApp Order QR Code" class="qr-img" />
+            <div class="standee-sub">Point your phone camera to chat &amp; order directly</div>
+          </div>
+          <div class="tool-actions no-print">
             <a id="waQrDownload" href="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=https%3A%2F%2Fwa.me%2F919876543210%3Ftext%3DHi!%2520I%2520saw%2520your%2520catalog%2520and%2520want%2520to%2520place%2520an%2520order.%2520Please%2520share%2520available%2520sizes%2520and%2520payment%2520link." download="tapping-whatsapp-qr.png" class="btn btn-primary" rel="noopener noreferrer">Download 300px PNG QR</a>
+            <button type="button" class="btn btn-secondary" onclick="printCounterStandee()">Print Counter QR Card</button>
           </div>
         </div>
       </div>
@@ -222,8 +231,21 @@
         buildWhatsApp();
       }
     }
+    function updateStandeeBrand() {
+      var brandInput = document.getElementById('waBrand');
+      var previewEl = document.getElementById('standeeBrandPreview');
+      if (previewEl) {
+        var val = brandInput && brandInput.value ? brandInput.value.trim() : '';
+        previewEl.textContent = val || 'Your Shop Name';
+      }
+    }
+    function printCounterStandee() {
+      updateStandeeBrand();
+      window.print();
+    }
     document.addEventListener('DOMContentLoaded', function () {
       if (typeof buildWhatsApp === 'function') buildWhatsApp();
+      updateStandeeBrand();
     });
   </script>
 </body>

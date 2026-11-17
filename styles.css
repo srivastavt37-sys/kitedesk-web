@@ -1099,3 +1099,60 @@ input:focus, select:focus, textarea:focus {
   .tool-layout { grid-template-columns: 1fr; }
   .invoice-preview { border: none; box-shadow: none; padding: 0; }
 }
+
+/* TapPing Printable Counter QR Standee */
+.standee-brand, .standee-tagline, .standee-sub { display: none; }
+
+@media print {
+  .no-print { display: none !important; }
+  .qr-card { border: none !important; box-shadow: none !important; padding: 0 !important; background: transparent !important; }
+  .standee-frame {
+    width: 105mm;
+    min-height: 148mm;
+    margin: 10mm auto;
+    padding: 14mm 10mm;
+    border: 1.5pt solid #0f172a;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #ffffff;
+    page-break-inside: avoid;
+  }
+  .standee-brand {
+    display: block !important;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 24pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4mm;
+    line-height: 1.15;
+  }
+  .standee-tagline {
+    display: block !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #059669;
+    letter-spacing: 0.02em;
+    margin-bottom: 6mm;
+  }
+  .standee-frame .qr-img {
+    width: 64mm !important;
+    height: 64mm !important;
+    max-width: 64mm !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 3mm;
+    background: #ffffff;
+  }
+  .standee-sub {
+    display: block !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 9.5pt;
+    color: #475569;
+    margin-top: 6mm;
+  }
+}
