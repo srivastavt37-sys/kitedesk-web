@@ -82,9 +82,15 @@
           <div class="bf-history-bar" id="bfHistoryBar">
             <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px;flex-wrap:wrap;">
               <strong style="font-size:0.78rem;color:var(--ink);">Recent Saved Invoices (Browser LocalStorage)</strong>
-              <button type="button" class="btn btn-sm btn-outline" onclick="saveInvoiceToHistory()">+ Save Current Invoice</button>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="btn btn-sm btn-outline" onclick="saveInvoiceToHistory()">+ Save Current Invoice</button>
+                <button type="button" class="btn btn-sm btn-outline" onclick="exportSavedInvoicesJson()" title="Export saved invoices as JSON backup">Export JSON</button>
+                <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('bfImportJsonInput').click()" title="Import saved invoices from JSON backup">Import JSON</button>
+                <input type="file" id="bfImportJsonInput" accept="application/json,.json" style="display:none;" onchange="importSavedInvoicesJson(event)" />
+              </div>
             </div>
             <div class="bf-saved-chips" id="bfSavedList"></div>
+            <div id="bfBackupStatus" class="muted" style="font-size:0.74rem;display:none;width:100%;"></div>
           </div>
 
           <h3>1. Seller &amp; Buyer Details</h3>
@@ -121,7 +127,18 @@
 
           <div class="items-header">
             <strong>2. Line Items (Description, Qty, Rate)</strong>
-            <button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Line Item</button>
+            <div class="items-header-actions">
+              <select id="bfHsnQuickFill" class="hsn-quick-select" aria-label="HSN / SAC Quick-Fill Selector" onchange="applyHsnQuickFill(this)">
+                <option value="">+ HSN / SAC Quick-Fill...</option>
+                <option value="6403|Footwear (HSN 6403)|12|1499">6403 Footwear (12%)</option>
+                <option value="6205|Apparel (HSN 6205)|12|1299">6205 Apparel (12%)</option>
+                <option value="3304|Skincare &amp; Cosmetics (HSN 3304)|18|899">3304 Skincare (18%)</option>
+                <option value="998314|Design &amp; Tech Services (SAC 998314)|18|15000">998314 Design/Tech (18%)</option>
+                <option value="998361|Marketing &amp; SEO Retainer (SAC 998361)|18|12000">998361 Marketing/SEO (18%)</option>
+                <option value="4819|Corrugated Packaging Cartons (HSN 4819)|18|45">4819 Packaging (18%)</option>
+              </select>
+              <button type="button" class="btn btn-sm btn-outline" onclick="addInvoiceItem()">+ Add Line Item</button>
+            </div>
           </div>
           <div id="invoiceItemsList"></div>
 

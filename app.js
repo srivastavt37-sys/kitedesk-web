@@ -732,6 +732,109 @@ function deleteSavedInvoice(idx, ev) {
   renderSavedInvoicesBar();
 }
 
+function setBackupStatus(msg, isError) {
+  const el = document.getElementById('bfBackupStatus');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.color = isError ? '#b91c1c' : '#0f766e';
+}
+
+function exportSavedInvoicesJson() {
+  const list = getSavedInvoicesList();
+  if (!list.length) {
+    setBackupStatus('No saved invoices to export yet.', true);
+    return;
+  }
+  const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `billfold-invoices-backup-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setBackupStatus(`Exported ${list.length} saved invoice(s) to JSON backup.`, false);
+}
+
+function importSavedInvoicesJson(ev) {
+  const file = ev?.target?.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const parsed = JSON.parse(String(e.target?.result || ''));
+      if (!Array.isArray(parsed)) throw new Error('Backup must be a JSON array.');
+      const valid = parsed
+        .filter(item => item && typeof item === 'object' && Array.isArray(item.items))
+        .map(item => ({
+          num: String(item.num || 'INV-2026-001').slice(0, 60),
+          from: String(item.from || 'Your Business').slice(0, 120),
+          fromGstin: String(item.fromGstin || '').slice(0, 20),
+          to: String(item.to || 'Customer').slice(0, 120),
+          toGstin: String(item.toGstin || '').slice(0, 20),
+          currency: ['₹', '$', '€', '£'].includes(item.currency) ? item.currency : '₹',
+          discount: Math.max(0, Number(item.discount) || 0),
+          taxMode: ['cgst_sgst', 'igst', 'none'].includes(item.taxMode) ? item.taxMode : 'cgst_sgst',
+          tax: Math.min(28, Math.max(0, Number(item.tax) || 0)),
+          upi: String(item.upi || '').slice(0, 100),
+          notes: String(item.notes || '').slice(0, 500),
+          items: item.items.slice(0, 50).map(i => ({
+            desc: String(i?.desc || 'Item').slice(0, 200),
+            qty: Math.max(1, Number(i?.qty) || 1),
+            rate: Math.max(0, Number(i?.rate) || 0)
+          })),
+          total: Math.max(0, Number(item.total) || 0)
+        }));
+      if (!valid.length) throw new Error('No valid invoices found in JSON.');
+      const existing = getSavedInvoicesList();
+      const merged = [...valid];
+      existing.forEach(oldInv => {
+        if (!merged.some(m => m.num === oldInv.num)) merged.push(oldInv);
+      });
+      const finalList = merged.slice(0, 12);
+      localStorage.setItem('bf_saved_invoices', JSON.stringify(finalList));
+      renderSavedInvoicesBar();
+      setBackupStatus(`Imported ${valid.length} invoice(s). ${finalList.length} total saved locally.`, false);
+    } catch (err) {
+      setBackupStatus('Invalid backup file. Please select a valid BillFold JSON export.', true);
+    } finally {
+      if (ev?.target) ev.target.value = '';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function applyHsnQuickFill(selectEl) {
+  const val = selectEl?.value || '';
+  if (!val) return;
+  const parts = val.split('|');
+  if (parts.length < 4) return;
+  const label = parts[1];
+  const gstRate = Number(parts[2]) || 18;
+  const defaultRate = Number(parts[3]) || 500;
+
+  const taxInput = document.getElementById('invTax');
+  const taxModeSel = document.getElementById('invTaxMode');
+  if (taxInput) taxInput.value = gstRate;
+  if (taxModeSel && taxModeSel.value === 'none') {
+    taxModeSel.value = 'cgst_sgst';
+  }
+
+  const placeholderIdx = invoiceItems.findIndex(i => i.desc === 'New Line Item');
+  if (placeholderIdx !== -1) {
+    invoiceItems[placeholderIdx] = { desc: label, qty: 1, rate: defaultRate };
+  } else {
+    invoiceItems.push({ desc: label, qty: 1, rate: defaultRate });
+  }
+
+  selectEl.value = '';
+  renderInvoiceInputs();
+  renderInvoice();
+}
+
 function renderInvoiceInputs() {
   const list = document.getElementById('invoiceItemsList');
   if (!list) return;

@@ -419,7 +419,9 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px var(--brand-soft);
 }
 .mono-input, .mono-val { font-family: var(--font-mono); }
-.items-header { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+.items-header { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-top: 2px; }
+.items-header-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.hsn-quick-select { width: auto; min-width: 190px; font-size: 0.78rem; padding: 5px 10px; }
 .item-row {
   display: grid;
   grid-template-columns: 2.2fr 0.7fr 1fr auto;
