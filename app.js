@@ -1,4 +1,77 @@
-/* KiteDesk Studio — Interactive Application Engine (Argon Overhaul) */
+/* KiteDesk Studio — Interactive Application Engine (Founder Security & Utility Overhaul) */
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+window.escapeHtml = escapeHtml;
+
+/* === Indian Rupee Amount-in-Words Formatter (Lakhs / Crores System) === */
+function numberToIndianWords(amount, currencySymbol) {
+  const num = Number(amount);
+  if (!isFinite(num) || num <= 0) {
+    const unitZero = currencySymbol === '$' ? 'Dollars' : (currencySymbol === '€' ? 'Euros' : 'Rupees');
+    return unitZero + ' Zero Only';
+  }
+  const ones = [
+    '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+    'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen',
+    'Seventeen', 'Eighteen', 'Nineteen'
+  ];
+  const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function twoDigits(n) {
+    if (n === 0) return '';
+    if (n < 20) return ones[n];
+    const t = Math.floor(n / 10);
+    const o = n % 10;
+    return tens[t] + (o ? ' ' + ones[o] : '');
+  }
+
+  function threeDigits(n) {
+    if (n === 0) return '';
+    const h = Math.floor(n / 100);
+    const rem = n % 100;
+    const hPart = h ? ones[h] + ' Hundred' : '';
+    const rPart = twoDigits(rem);
+    return hPart && rPart ? hPart + ' ' + rPart : (hPart || rPart);
+  }
+
+  function convertIndianInt(n) {
+    if (n === 0) return 'Zero';
+    const parts = [];
+    const crore = Math.floor(n / 10000000);
+    n %= 10000000;
+    const lakh = Math.floor(n / 100000);
+    n %= 100000;
+    const thousand = Math.floor(n / 1000);
+    n %= 1000;
+    const rest = n;
+
+    if (crore > 0) parts.push(threeDigits(crore) + ' Crore');
+    if (lakh > 0) parts.push(twoDigits(lakh) + ' Lakh');
+    if (thousand > 0) parts.push(twoDigits(thousand) + ' Thousand');
+    if (rest > 0) parts.push(threeDigits(rest));
+    return parts.join(' ').trim();
+  }
+
+  const whole = Math.floor(num + 1e-9);
+  const paise = Math.round((num - whole) * 100);
+  const mainLabel = currencySymbol === '$' ? 'Dollars' : (currencySymbol === '€' ? 'Euros' : 'Rupees');
+  const subLabel = currencySymbol === '$' ? 'Cents' : (currencySymbol === '€' ? 'Cents' : 'Paise');
+
+  let out = mainLabel + ' ' + convertIndianInt(whole);
+  if (paise > 0 && paise < 100) {
+    out += ' and ' + twoDigits(paise) + ' ' + subLabel;
+  }
+  return out + ' Only';
+}
+window.numberToIndianWords = numberToIndianWords;
 
 /* === KiteDesk Self-Hosted AI Video Walkthrough Engine === */
 window.KITEDESK_AI_VIDEOS = {
@@ -45,7 +118,7 @@ window.KITEDESK_AI_VIDEOS = {
         stepBadge: "STEP 1 / 3 • STATE ROUTING",
         kicker: "Intra-State vs Inter-State GST",
         headline: "Select supplier & client states to auto-split CGST + SGST or IGST",
-        metrics: ["Same State → 9% CGST + 9% SGST", "Cross State → 18% IGST", "HSN / SAC Line-Item Table"],
+        metrics: ["Same State → 9% CGST + 9% SGST", "Cross State → 18% IGST", "Amount in Words (Lakhs/Thousands)"],
         caption: "In BillFold, select your supplier and client states first so the engine automatically routes CGST + SGST or IGST."
       },
       {
@@ -109,7 +182,7 @@ window.KITEDESK_AI_VIDEOS = {
         stepBadge: "STEP 1 / 3 • TRUE LANDED COST",
         kicker: "Selling Price vs Tax & COGS",
         headline: "Strip inclusive GST out of MRP before calculating gross product margin",
-        metrics: [" Tax-Exclusive Realization", "Landed COGS + Packaging", "Forward Courier Slab"],
+        metrics: ["Tax-Exclusive Realization", "Volumetric Weight L×W×H/5000", "Forward Courier Slab"],
         caption: "MarginMint starts by backing out inclusive GST from your MRP and deducting landed manufacturing and packaging costs."
       },
       {
@@ -165,27 +238,28 @@ window.KITEDESK_AI_VIDEOS = {
 };
 
 window.renderAiVideoPlayer = function(videoKey, customTitle) {
-  const cfg = window.KITEDESK_AI_VIDEOS[videoKey] || window.KITEDESK_AI_VIDEOS["kitedesk-studio"];
+  const safeKey = (videoKey && window.KITEDESK_AI_VIDEOS[videoKey]) ? videoKey : "kitedesk-studio";
+  const cfg = window.KITEDESK_AI_VIDEOS[safeKey];
   const s0 = cfg.steps[0];
   const titleText = customTitle || cfg.title;
-  const metricsHtml = s0.metrics.map(m => `<span class="ai-vp-metric-chip">${m}</span>`).join("");
+  const metricsHtml = s0.metrics.map(m => `<span class="ai-vp-metric-chip">${escapeHtml(m)}</span>`).join("");
   return `
-    <div class="ai-video-player" data-ai-video="${videoKey}">
-      <audio class="ai-vp-audio" src="${cfg.audioSrc}" preload="metadata"></audio>
+    <div class="ai-video-player" data-ai-video="${escapeHtml(safeKey)}">
+      <audio class="ai-vp-audio" src="${escapeHtml(cfg.audioSrc)}" preload="metadata"></audio>
       <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
-        <img class="ai-vp-backdrop" src="${cfg.poster}" alt="${titleText}" loading="lazy" />
+        <img class="ai-vp-backdrop" src="${escapeHtml(cfg.poster)}" alt="${escapeHtml(titleText)}" loading="lazy" />
         <div class="ai-vp-gradient"></div>
         <div class="ai-vp-topbar">
           <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
-          <span class="ai-vp-step-pill">${s0.stepBadge}</span>
+          <span class="ai-vp-step-pill">${escapeHtml(s0.stepBadge)}</span>
         </div>
         <div class="ai-vp-center">
-          <div class="ai-vp-kicker">${s0.kicker}</div>
-          <h4 class="ai-vp-headline">${s0.headline}</h4>
+          <div class="ai-vp-kicker">${escapeHtml(s0.kicker)}</div>
+          <h4 class="ai-vp-headline">${escapeHtml(s0.headline)}</h4>
           <div class="ai-vp-metrics">${metricsHtml}</div>
         </div>
         <button type="button" class="ai-vp-bigplay" aria-label="Play AI Video">▶</button>
-        <div class="ai-vp-caption-bar">${s0.caption}</div>
+        <div class="ai-vp-caption-bar">${escapeHtml(s0.caption)}</div>
       </div>
       <div class="ai-vp-controls">
         <button type="button" class="ai-vp-btn">▶ Play AI Video</button>
@@ -197,7 +271,7 @@ window.renderAiVideoPlayer = function(videoKey, customTitle) {
           <button type="button" class="ai-vp-step-btn" data-step-idx="1">02</button>
           <button type="button" class="ai-vp-step-btn" data-step-idx="2">03</button>
         </div>
-        <span class="ai-vp-time">0:00 / ${cfg.durationLabel}</span>
+        <span class="ai-vp-time">0:00 / ${escapeHtml(cfg.durationLabel)}</span>
       </div>
     </div>
   `;
@@ -235,7 +309,7 @@ window.initAiVideoPlayers = function(rootEl) {
       stepPill.textContent = st.stepBadge;
       kickerEl.textContent = st.kicker;
       headlineEl.textContent = st.headline;
-      metricsEl.innerHTML = st.metrics.map(m => `<span class="ai-vp-metric-chip">${m}</span>`).join("");
+      metricsEl.innerHTML = st.metrics.map(m => `<span class="ai-vp-metric-chip">${escapeHtml(m)}</span>`).join("");
       captionEl.textContent = st.caption;
       stepBtns.forEach((b, i) => b.classList.toggle("active", i === idx));
     }
@@ -322,25 +396,32 @@ function getPostBodyHtml(post) {
   if (post.bodyHtml) return post.bodyHtml;
   const raw = post.content || post.body || '';
   if (Array.isArray(raw)) {
-    return raw.map(p => `<p>${p}</p>`).join('');
+    return raw.map(p => `<p>${escapeHtml(p)}</p>`).join('');
   }
   return String(raw);
 }
 
 function renderPostCard(post) {
   const wc = getPostWordCount(post);
+  const safeSlug = encodeURIComponent(post.slug || '');
+  const safeImg = post.image ? escapeHtml(post.image) : '';
+  const safeTitle = escapeHtml(post.title || '');
+  const safeCat = escapeHtml(post.category || '');
+  const safeExcerpt = escapeHtml(post.excerpt || '');
+  const safeDate = escapeHtml(post.date || '');
+  const safeRead = escapeHtml(post.readTime || '');
   return `
     <article class="card post-card">
       <div>
-        ${post.image ? `<a href="post.html?slug=${encodeURIComponent(post.slug)}"><img src="${post.image}" alt="${post.title}" class="post-card-thumb" loading="lazy" /></a>` : ''}
+        ${safeImg ? `<a href="post.html?slug=${safeSlug}"><img src="${safeImg}" alt="${safeTitle}" class="post-card-thumb" loading="lazy" /></a>` : ''}
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
-          <span class="card-tag" style="margin:0;">${post.category}</span>
+          <span class="card-tag" style="margin:0;">${safeCat}</span>
           ${(post.aiVideoKey) ? `<span class="mini-badge">▶ AI Video + Guide</span>` : ''}
         </div>
-        <h3><a href="post.html?slug=${encodeURIComponent(post.slug)}">${post.title}</a></h3>
-        <p class="muted">${post.excerpt}</p>
+        <h3><a href="post.html?slug=${safeSlug}">${safeTitle}</a></h3>
+        <p class="muted">${safeExcerpt}</p>
       </div>
-      <div class="post-meta">${post.date} &bull; ${post.readTime} ${wc ? `&bull; ${wc} words` : ''}</div>
+      <div class="post-meta">${safeDate} &bull; ${safeRead} ${wc ? `&bull; ${escapeHtml(wc)} words` : ''}</div>
     </article>
   `;
 }
@@ -376,7 +457,8 @@ function renderJournalPage() {
   const grid = document.getElementById('journalGrid');
   if (!grid || !window.KITEDESK_POSTS) return;
   const total = window.KITEDESK_POSTS.length;
-  const q = (document.getElementById('journalSearch')?.value || '').trim().toLowerCase();
+  const rawQuery = (document.getElementById('journalSearch')?.value || '').trim();
+  const q = rawQuery.toLowerCase();
   const filtered = window.KITEDESK_POSTS.filter(p => {
     const matchCat = activeCategory === 'All' || p.category === activeCategory;
     if (!q) return matchCat;
@@ -393,17 +475,23 @@ function renderJournalPage() {
   }
   grid.innerHTML = filtered.length
     ? filtered.map(renderPostCard).join('')
-    : '<div class="muted" style="grid-column:1/-1;padding:24px;border:1px dashed var(--border-strong);border-radius:12px;">No matching playbooks found. <button type="button" class="pill" style="margin-left:8px;" onclick="resetJournalFilters()">Reset Filters</button></div>';
+    : `<div class="muted" style="grid-column:1/-1;padding:24px;border:1px dashed var(--border-strong);border-radius:12px;">No matching playbooks found${rawQuery ? ` for "${escapeHtml(rawQuery)}"` : ''}. <button type="button" class="pill" style="margin-left:8px;" onclick="resetJournalFilters()">Reset Filters</button></div>`;
 }
 renderJournalPage();
 
 const renderJournal = renderJournalPage;
 
 function openArticleModal(slugOrIndex) {
-  if (!window.KITEDESK_POSTS) return;
-  const post = typeof slugOrIndex === 'number'
-    ? window.KITEDESK_POSTS[slugOrIndex]
-    : (window.KITEDESK_POSTS.find(p => p.slug === slugOrIndex) || window.KITEDESK_POSTS[0]);
+  if (!window.KITEDESK_POSTS || !window.KITEDESK_POSTS.length) return;
+  let matched = null;
+  let notFoundSlug = '';
+  if (typeof slugOrIndex === 'number') {
+    matched = window.KITEDESK_POSTS[slugOrIndex];
+  } else if (slugOrIndex) {
+    matched = window.KITEDESK_POSTS.find(p => p.slug === slugOrIndex);
+    if (!matched) notFoundSlug = String(slugOrIndex);
+  }
+  const post = matched || window.KITEDESK_POSTS[0];
   if (!post) return;
   const articleBodyEl = document.getElementById('articleBody');
   if (!articleBodyEl) {
@@ -412,11 +500,15 @@ function openArticleModal(slugOrIndex) {
   }
   const wc = getPostWordCount(post);
   document.title = `${post.title} — KiteDesk Studio`;
+  const missingBanner = notFoundSlug
+    ? `<div class="article-callout" style="margin-top:0;margin-bottom:18px;">Requested playbook <code>${escapeHtml(notFoundSlug)}</code> was not found. Showing our latest featured playbook below.</div>`
+    : '';
   articleBodyEl.innerHTML = `
-    <span class="card-tag">${post.category}</span>
-    <h1>${post.title}</h1>
-    <div class="post-meta" style="margin-bottom:16px;">${post.date} &bull; ${post.readTime} ${wc ? `&bull; ${wc} words` : ''} &bull; Plain-English Playbook</div>
-    ${post.image ? `<img src="${post.image}" alt="${post.title}" class="article-hero-img" />` : ''}
+    ${missingBanner}
+    <span class="card-tag">${escapeHtml(post.category)}</span>
+    <h1>${escapeHtml(post.title)}</h1>
+    <div class="post-meta" style="margin-bottom:16px;">${escapeHtml(post.date)} &bull; ${escapeHtml(post.readTime)} ${wc ? `&bull; ${escapeHtml(wc)} words` : ''} &bull; Plain-English Playbook</div>
+    ${post.image ? `<img src="${escapeHtml(post.image)}" alt="${escapeHtml(post.title)}" class="article-hero-img" />` : ''}
     ${(post.aiVideoKey && typeof window.renderAiVideoPlayer === 'function') ? `
           <div style="margin: 0 0 28px 0;">
             <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
@@ -445,24 +537,169 @@ if (articleBody && window.KITEDESK_POSTS) {
   openArticleModal(slug);
 }
 
-/* 1. BILLFOLD — GST INVOICE & UPI QR ENGINE */
+/* 1. BILLFOLD — GST INVOICE, AMOUNT IN WORDS, SAVED HISTORY & UPI QR ENGINE */
 let invoiceItems = [
   { desc: 'Handcrafted Jooti Pair — Festive Edition', qty: 2, rate: 1450 },
   { desc: 'Express Courier & Gift Packaging', qty: 1, rate: 150 }
 ];
 try {
   const savedInv = localStorage.getItem('bf_items');
-  if (savedInv) invoiceItems = JSON.parse(savedInv);
+  if (savedInv) {
+    const parsed = JSON.parse(savedInv);
+    if (Array.isArray(parsed) && parsed.length) invoiceItems = parsed;
+  }
 } catch (e) {}
+
+const DEFAULT_SAVED_INVOICES = [
+  {
+    num: 'INV-2026-104',
+    from: 'KiteDesk Crafts',
+    fromGstin: '09AABCK7741P1Z2',
+    to: 'Aarav Retail Pvt Ltd',
+    toGstin: '09XYZAB5678G1Z2',
+    currency: '₹',
+    discount: 0,
+    taxMode: 'cgst_sgst',
+    tax: 12,
+    upi: 'merchant@upi',
+    notes: 'Scan the UPI QR code to pay instantly, or remit via NEFT within 7 days.',
+    items: [
+      { desc: 'Handcrafted Jooti Pair — Festive Edition', qty: 2, rate: 1450 },
+      { desc: 'Express Courier & Gift Packaging', qty: 1, rate: 150 }
+    ],
+    total: 3416
+  },
+  {
+    num: 'B2B-2026-041',
+    from: 'KiteDesk Digital Labs LLP',
+    fromGstin: '09AABCK7741P1Z2',
+    to: 'Vanguard D2C Foods Pvt Ltd',
+    toGstin: '27AAACV5519R1Z6',
+    currency: '₹',
+    discount: 0,
+    taxMode: 'igst',
+    tax: 18,
+    upi: 'kitedesklabs@hdfcbank',
+    notes: 'Inter-State B2B supply (18% IGST). Eligible for full GSTR-2B Input Tax Credit.',
+    items: [
+      { desc: 'Performance Ads & Local SEO Retainer (SAC 998361)', qty: 1, rate: 35000 }
+    ],
+    total: 41300
+  }
+];
+
+function getSavedInvoicesList() {
+  try {
+    const raw = localStorage.getItem('bf_saved_invoices');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+    localStorage.setItem('bf_saved_invoices', JSON.stringify(DEFAULT_SAVED_INVOICES));
+    return DEFAULT_SAVED_INVOICES.slice();
+  } catch (e) {
+    return DEFAULT_SAVED_INVOICES.slice();
+  }
+}
+
+function renderSavedInvoicesBar() {
+  const container = document.getElementById('bfSavedList');
+  if (!container) return;
+  const list = getSavedInvoicesList();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No saved bills yet. Click "Save Current Bill" to store up to 8 invoices locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((inv, idx) => {
+    const safeNum = escapeHtml(inv.num || 'INV');
+    const safeTo = escapeHtml((inv.to || 'Client').slice(0, 20));
+    const safeCur = escapeHtml(inv.currency || '₹');
+    const safeTot = Number(inv.total || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    return `
+      <span class="bf-saved-chip" onclick="loadSavedInvoice(${idx})" title="Click to load ${safeNum}">
+        <span>${safeNum} &bull; ${safeTo} (${safeCur}${escapeHtml(safeTot)})</span>
+        <button type="button" class="bf-saved-del" onclick="deleteSavedInvoice(${idx}, event)" aria-label="Delete saved invoice ${safeNum}" title="Remove saved invoice">&times;</button>
+      </span>
+    `;
+  }).join('');
+}
+
+function saveInvoiceToHistory() {
+  if (!document.getElementById('invoicePreview')) return;
+  const cur = document.getElementById('invCurrency')?.value || '₹';
+  const taxRate = Number(document.getElementById('invTax')?.value) || 0;
+  const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
+  const discount = Number(document.getElementById('invDiscount')?.value) || 0;
+  const sub = invoiceItems.reduce((acc, i) => acc + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0);
+  const taxable = Math.max(0, sub - discount);
+  const taxAmt = (taxMode === 'none' || taxRate === 0) ? 0 : taxable * (taxRate / 100);
+  const total = taxable + taxAmt;
+
+  const entry = {
+    num: (document.getElementById('invNum')?.value || 'INV-2026-001').trim(),
+    from: document.getElementById('invFrom')?.value || 'Your Business',
+    fromGstin: document.getElementById('invFromGstin')?.value || '',
+    to: document.getElementById('invTo')?.value || 'Customer',
+    toGstin: document.getElementById('invToGstin')?.value || '',
+    currency: cur,
+    discount: discount,
+    taxMode: taxMode,
+    tax: taxRate,
+    upi: (document.getElementById('invUpi')?.value || '').trim(),
+    notes: document.getElementById('invNotes')?.value || '',
+    items: invoiceItems.map(i => ({ desc: String(i.desc || ''), qty: Number(i.qty) || 0, rate: Number(i.rate) || 0 })),
+    total: total
+  };
+
+  const list = getSavedInvoicesList().filter(item => item.num !== entry.num);
+  list.unshift(entry);
+  const trimmed = list.slice(0, 8);
+  try {
+    localStorage.setItem('bf_saved_invoices', JSON.stringify(trimmed));
+  } catch (e) {}
+  renderSavedInvoicesBar();
+}
+
+function loadSavedInvoice(idx) {
+  const list = getSavedInvoicesList();
+  const p = list[idx];
+  if (!p) return;
+  if (document.getElementById('invFrom')) document.getElementById('invFrom').value = p.from || '';
+  if (document.getElementById('invFromGstin')) document.getElementById('invFromGstin').value = p.fromGstin || '';
+  if (document.getElementById('invTo')) document.getElementById('invTo').value = p.to || '';
+  if (document.getElementById('invToGstin')) document.getElementById('invToGstin').value = p.toGstin || '';
+  if (document.getElementById('invNum')) document.getElementById('invNum').value = p.num || '';
+  if (document.getElementById('invCurrency')) document.getElementById('invCurrency').value = p.currency || '₹';
+  if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = p.discount || 0;
+  if (document.getElementById('invTaxMode')) document.getElementById('invTaxMode').value = p.taxMode || 'cgst_sgst';
+  if (document.getElementById('invTax')) document.getElementById('invTax').value = p.tax ?? 12;
+  if (document.getElementById('invUpi')) document.getElementById('invUpi').value = p.upi || '';
+  if (document.getElementById('invNotes')) document.getElementById('invNotes').value = p.notes || '';
+  if (Array.isArray(p.items) && p.items.length) {
+    invoiceItems = p.items.map(i => ({ desc: String(i.desc || ''), qty: Number(i.qty) || 0, rate: Number(i.rate) || 0 }));
+  }
+  renderInvoiceInputs();
+  renderInvoice();
+}
+
+function deleteSavedInvoice(idx, ev) {
+  if (ev && typeof ev.stopPropagation === 'function') ev.stopPropagation();
+  const list = getSavedInvoicesList();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem('bf_saved_invoices', JSON.stringify(list));
+  } catch (e) {}
+  renderSavedInvoicesBar();
+}
 
 function renderInvoiceInputs() {
   const list = document.getElementById('invoiceItemsList');
   if (!list) return;
   list.innerHTML = invoiceItems.map((item, idx) => `
     <div class="item-row">
-      <input type="text" value="${item.desc}" oninput="invoiceItems[${idx}].desc=this.value;renderInvoice()" placeholder="Item or service description" />
-      <input type="number" class="mono-input" value="${item.qty}" min="1" oninput="invoiceItems[${idx}].qty=Number(this.value)||0;renderInvoice()" />
-      <input type="number" class="mono-input" value="${item.rate}" min="0" oninput="invoiceItems[${idx}].rate=Number(this.value)||0;renderInvoice()" />
+      <input type="text" value="${escapeHtml(item.desc)}" oninput="invoiceItems[${idx}].desc=this.value;renderInvoice()" placeholder="Item or service description" />
+      <input type="number" class="mono-input" value="${escapeHtml(item.qty)}" min="1" oninput="invoiceItems[${idx}].qty=Number(this.value)||0;renderInvoice()" />
+      <input type="number" class="mono-input" value="${escapeHtml(item.rate)}" min="0" oninput="invoiceItems[${idx}].rate=Number(this.value)||0;renderInvoice()" />
       <button type="button" class="btn btn-sm btn-secondary" onclick="removeInvoiceItem(${idx})" title="Remove item">&times;</button>
     </div>
   `).join('');
@@ -484,6 +721,7 @@ function removeInvoiceItem(idx) {
 function renderInvoice() {
   if (!document.getElementById('invoicePreview')) return;
   const cur = document.getElementById('invCurrency')?.value || '₹';
+  const safeCur = escapeHtml(cur);
   const taxRate = Number(document.getElementById('invTax')?.value) || 0;
   const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
   const discount = Number(document.getElementById('invDiscount')?.value) || 0;
@@ -503,13 +741,15 @@ function renderInvoice() {
 
   let sub = 0;
   document.getElementById('prevItemsBody').innerHTML = invoiceItems.map(i => {
-    const amt = i.qty * i.rate;
+    const qty = Number(i.qty) || 0;
+    const rate = Number(i.rate) || 0;
+    const amt = qty * rate;
     sub += amt;
-    return `<tr><td>${i.desc}</td><td class="mono-val">${i.qty}</td><td class="mono-val">${cur}${i.rate.toFixed(2)}</td><td>${cur}${amt.toFixed(2)}</td></tr>`;
+    return `<tr><td>${escapeHtml(i.desc)}</td><td class="mono-val">${escapeHtml(qty)}</td><td class="mono-val">${safeCur}${escapeHtml(rate.toFixed(2))}</td><td>${safeCur}${escapeHtml(amt.toFixed(2))}</td></tr>`;
   }).join('');
 
   const taxable = Math.max(0, sub - discount);
-  const taxAmt = taxable * (taxRate / 100);
+  const taxAmt = (taxMode === 'none' || taxRate === 0) ? 0 : taxable * (taxRate / 100);
   const total = taxable + taxAmt;
 
   document.getElementById('prevSub').textContent = `${cur}${sub.toFixed(2)}`;
@@ -522,20 +762,25 @@ function renderInvoice() {
   const taxBox = document.getElementById('prevTaxBreakdown');
   if (taxBox) {
     if (taxRate === 0 || taxMode === 'none') {
-      taxBox.innerHTML = `<div><span>Tax (0%)</span><strong>${cur}0.00</strong></div>`;
+      taxBox.innerHTML = `<div><span>Tax (0%)</span><strong>${safeCur}0.00</strong></div>`;
     } else if (taxMode === 'cgst_sgst') {
       const halfRate = (taxRate / 2).toFixed(1).replace('.0', '');
       const halfAmt = (taxAmt / 2).toFixed(2);
       taxBox.innerHTML = `
-        <div><span>CGST (${halfRate}%)</span><strong>${cur}${halfAmt}</strong></div>
-        <div><span>SGST (${halfRate}%)</span><strong>${cur}${halfAmt}</strong></div>
+        <div><span>CGST (${escapeHtml(halfRate)}%)</span><strong>${safeCur}${escapeHtml(halfAmt)}</strong></div>
+        <div><span>SGST (${escapeHtml(halfRate)}%)</span><strong>${safeCur}${escapeHtml(halfAmt)}</strong></div>
       `;
     } else {
-      taxBox.innerHTML = `<div><span>IGST (${taxRate}%)</span><strong>${cur}${taxAmt.toFixed(2)}</strong></div>`;
+      taxBox.innerHTML = `<div><span>IGST (${escapeHtml(taxRate)}%)</span><strong>${safeCur}${escapeHtml(taxAmt.toFixed(2))}</strong></div>`;
     }
   }
 
   document.getElementById('prevTotal').textContent = `${cur}${total.toFixed(2)}`;
+
+  const wordsEl = document.getElementById('prevAmountWords');
+  if (wordsEl) {
+    wordsEl.textContent = numberToIndianWords(total, cur);
+  }
 
   const upiWrap = document.getElementById('prevUpiWrap');
   if (upiWrap) {
@@ -561,6 +806,7 @@ function resetInvoice() {
 if (document.getElementById('invoiceItemsList')) {
   renderInvoiceInputs();
   renderInvoice();
+  renderSavedInvoicesBar();
 }
 
 /* 2. TAPPING — WHATSAPP LINK & QR GENERATOR */
@@ -584,7 +830,7 @@ function buildWhatsApp() {
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(url)}`;
   document.getElementById('waQrImg').src = qrUrl;
   document.getElementById('waQrDownload').href = qrUrl;
-  const htmlCode = `<a href="${url}" target="_blank" rel="noopener" style="display:inline-block;background:#059669;color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>`;
+  const htmlCode = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#059669;color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>`;
   const embedEl = document.getElementById('waEmbedCode');
   if (embedEl) embedEl.value = htmlCode;
 }
@@ -632,7 +878,48 @@ function formatAs(mode) {
 }
 updateFormatter();
 
-/* 4. MARGINMINT — D2C UNIT ECONOMICS, COD RTO & ROAS CALCULATOR */
+/* 4. MARGINMINT — D2C UNIT ECONOMICS, VOLUMETRIC WEIGHT, COD RTO & ROAS CALCULATOR */
+function calcVolumetricWeight(autoApply) {
+  const lenEl = document.getElementById('mmLen');
+  if (!lenEl) return;
+  const deadWt = Math.max(0.05, Number(document.getElementById('mmDeadWt')?.value) || 0);
+  const L = Math.max(1, Number(lenEl.value) || 0);
+  const W = Math.max(1, Number(document.getElementById('mmWid')?.value) || 0);
+  const H = Math.max(1, Number(document.getElementById('mmHgt')?.value) || 0);
+  const slabRate = Math.max(1, Number(document.getElementById('mmSlabRate')?.value) || 42.5);
+  const cur = document.getElementById('mmCur')?.value || '₹';
+
+  const volWt = (L * W * H) / 5000;
+  const chargeWt = Math.max(deadWt, volWt);
+  const billedBy = volWt > deadWt ? 'Volumetric' : 'Dead Wt';
+  const slabs = Math.max(1, Math.ceil(chargeWt / 0.5));
+  const suggestedShip = Math.round(slabs * slabRate);
+
+  const volEl = document.getElementById('mmVolWt');
+  const chargeEl = document.getElementById('mmChargeWt');
+  const sugEl = document.getElementById('mmSuggestedShip');
+
+  if (volEl) volEl.textContent = `${volWt.toFixed(2)} kg`;
+  if (chargeEl) chargeEl.textContent = `${chargeWt.toFixed(2)} kg (${billedBy} • ${slabs} × 0.5kg)`;
+  if (sugEl) sugEl.textContent = `${cur}${suggestedShip}`;
+
+  if (autoApply) {
+    const shipEl = document.getElementById('mmShip');
+    if (shipEl) {
+      shipEl.value = suggestedShip;
+      calcMargin();
+    }
+  }
+  return suggestedShip;
+}
+
+function applyVolumetricShip() {
+  const suggested = calcVolumetricWeight(true);
+  if (typeof suggested === 'number') {
+    calcMargin();
+  }
+}
+
 function calcMargin() {
   const sell = Number(document.getElementById('mmSell')?.value) || 0;
   const cogs = Number(document.getElementById('mmCogs')?.value) || 0;
@@ -643,6 +930,8 @@ function calcMargin() {
   const rtoPct = Number(document.getElementById('mmRto')?.value) || 0;
   const cur = document.getElementById('mmCur')?.value || '₹';
   if (!document.getElementById('mmNet')) return;
+
+  calcVolumetricWeight(false);
 
   const feeAmt = sell * (feePct / 100);
   const gstAmt = sell - (sell / (1 + gstPct / 100));

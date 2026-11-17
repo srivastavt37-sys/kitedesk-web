@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>TapPing by KiteDesk — WhatsApp Order Link, QR &amp; Widget Studio</title>
   <meta name="description" content="Generate permanent wa.me click-to-chat links, 1-click Indian commerce message templates, printable QR codes, and HTML website buttons." />
   <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/tapping.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/kitedesk-hero.jpg" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/tapping-preview.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -46,12 +48,12 @@
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="">Studio</a>
-        <a href="billfold.html" class="">BillFold</a>
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
         <a href="tapping.html" class="active">TapPing</a>
-        <a href="copycraft.html" class="">CopyCraft</a>
-        <a href="marginmint.html" class="">MarginMint</a>
-        <a href="journal.html" class="">Journal</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="journal.html">Journal</a>
       </nav>
     </div>
   </header>
@@ -59,34 +61,22 @@
     <div class="container">
       <div class="sub-hero-banner">
         <div class="sub-hero-left">
-          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
           <div>
             <h1>TapPing — WhatsApp Link, QR &amp; Widget Studio</h1>
-            <p>Convert Instagram bio visitors and parcel box scans into pre-filled WhatsApp orders with zero redirect tracking.</p>
+            <p>Convert Instagram bio visitors and parcel box scans into pre-filled WhatsApp orders.</p>
           </div>
         </div>
-        <div class="trust-pills">
-          <span class="trust-pill">&#10003; Permanent wa.me URL</span>
-          <span class="trust-pill">&#10003; 5 Order Presets</span>
-          <span class="trust-pill">&#10003; HTML Button Code</span>
-        </div>
-      </div>
-
-            <div class="card" id="indianPresetsBar" style="margin-bottom:18px;padding:14px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
-        <div>
-          <strong style="font-size:0.95rem;color:#0f4c5c;">One-Click Indian Business Message Presets</strong>
-          <div class="muted" style="font-size:0.82rem;">Populate phone + message fields and regenerate your wa.me link &amp; QR code in one click.</div>
-        </div>
-        <div class="preset-chips" style="margin:0;">
-          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919810112233', 'Hi! I saw your Reel and want to order [Product Name] (Size: __). My delivery PIN code is ______. Please share the UPI payment QR.', this)">D2C Order + PIN Code</button>
-          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919820445566', 'Hello! I want to book a Salon / Clinic appointment for [Service] on [Day] around [Time]. Please confirm available slots.', this)">Salon / Clinic Appointment</button>
-          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919833778899', 'Namaste! I run a retail store in [City] and want your wholesale price list, MOQ details, and GST billing terms.', this)">Wholesale Price List Request</button>
+        <div class="sub-hero-actions" id="indianPresetsBar" aria-label="One-Click Indian Business Message Presets">
+          <button type="button" class="chip tp-preset-btn active" onclick="applyTapPingPreset('919810112233', 'Hi! I saw your Reel and want to order [Product Name] (Size: __). My delivery PIN code is ______. Please share the UPI payment QR.', this)">D2C Order + PIN</button>
+          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919820445566', 'Hello! I want to book a Salon / Clinic appointment for [Service] on [Day] around [Time]. Please confirm available slots.', this)">Salon / Clinic Slot</button>
+          <button type="button" class="chip tp-preset-btn" onclick="applyTapPingPreset('919833778899', 'Namaste! I run a retail store in [City] and want your wholesale price list, MOQ details, and GST billing terms.', this)">B2B Wholesale</button>
         </div>
       </div>
 
       <div class="tool-layout">
         <div class="card form-card">
-          <h3>1. WhatsApp Number &amp; Preset Templates</h3>
+          <h3>1. WhatsApp Number &amp; Pre-Filled Utterance</h3>
           <label>WhatsApp Number (Country code + digits, no + or spaces)
             <input type="text" class="mono-input" id="waPhone" value="919876543210" oninput="buildWhatsApp()" />
           </label>
@@ -108,9 +98,9 @@
           </label>
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="copyText('waOutput', this)">Copy wa.me Link</button>
-            <a id="waTestLink" href="#" target="_blank" rel="noopener" class="btn btn-secondary">Test Live Chat &rarr;</a>
+            <a id="waTestLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Test Live Chat &rarr;</a>
           </div>
-          <label style="margin-top:8px;">Embeddable HTML Website Button
+          <label style="margin-top:4px;">Embeddable HTML Website Button
             <input type="text" class="mono-input" id="waEmbedCode" readonly />
           </label>
           <div class="tool-actions">
@@ -119,29 +109,25 @@
         </div>
 
         <div class="card qr-card">
-          <span class="inv-badge">PRINT-READY ASSET</span>
           <h3 style="margin-bottom:2px;">Packaging &amp; Counter QR Code</h3>
-          <p class="muted">Print on thank-you cards, shoe boxes, or shop counters so buyers message you in one scan.</p>
+          <p class="muted" style="margin-bottom:4px;">Print on parcel inserts, shoe boxes, or shop counters so buyers message you in one scan.</p>
           <img id="waQrImg" alt="WhatsApp Order QR Code" class="qr-img" />
           <div class="tool-actions">
-            <a id="waQrDownload" href="#" download="tapping-whatsapp-qr.png" class="btn btn-primary">Download PNG QR</a>
+            <a id="waQrDownload" href="#" download="tapping-whatsapp-qr.png" class="btn btn-primary" rel="noopener noreferrer">Download 300px PNG QR</a>
           </div>
         </div>
       </div>
 
-      
       <section class="media-showcase">
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">REAL-WORLD USE CASE</span>
           <img src="images/tapping-preview.jpg" alt="Scanning WhatsApp Order QR Code on Parcel Box" loading="lazy" />
-          <p class="muted" style="margin:0;">Scanning WhatsApp Order QR Code on Parcel Box — generated and verified directly in your browser.</p>
+          <p class="muted" style="margin:0;"><strong>Parcel Insert &amp; Counter QR Funnel:</strong> Turn delivered orders into direct WhatsApp reorders without paying marketplace commissions twice.</p>
         </div>
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">VIDEO WALKTHROUGH</span>
           <div class="ai-video-player" data-ai-video="tapping-demo">
             <audio class="ai-vp-audio" src="audio/tapping-demo.mp3" preload="metadata"></audio>
             <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
-              <img class="ai-vp-backdrop" src="images/tapping-preview.jpg" alt="TapPing Walkthrough — Pre-Filled wa.me Links & Packaging QR Funnels" loading="lazy" />
+              <img class="ai-vp-backdrop" src="images/tapping-preview.jpg" alt="TapPing Walkthrough — Pre-Filled wa.me Links &amp; Packaging QR Funnels" loading="lazy" />
               <div class="ai-vp-gradient"></div>
               <div class="ai-vp-topbar">
                 <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
@@ -168,20 +154,18 @@
               <span class="ai-vp-time">0:00 / 0:20</span>
             </div>
           </div>
-          <p class="muted" style="margin:0;"><strong>WhatsApp Business Catalog, QR & Click-to-Chat Walkthrough</strong> — practical guide for Indian sellers.</p>
+          <p class="muted" style="margin:0;"><strong>20-Second Walkthrough:</strong> Direct <code>wa.me</code> link normalization, pre-filled buyer intent payloads, and 300px packaging QR export.</p>
         </div>
       </section>
 
       <section class="alt-section">
-        <span class="eyebrow">Why Choose TapPing?</span>
-        <h2>A permanent, no-redirect alternative to Bitly, Linktree &amp; Wati Generators</h2>
-        <p class="muted">Third-party shorteners add an extra redirect hop that slows down mobile buyers—and "free" dynamic QR generators often deactivate your printed QR codes after 14 days unless you pay.</p>
+        <h2>Permanent, zero-redirect alternative to Bitly, Linktree &amp; Wati Generators</h2>
         <table class="cmp-table">
           <thead><tr><th>Capability</th><th>TapPing (by KiteDesk)</th><th>Paid Link / QR Shorteners</th></tr></thead>
           <tbody>
             <tr><td>QR Code Lifespan</td><td><strong>Permanent forever (Encodes raw wa.me)</strong></td><td>Deactivates if trial expires</td></tr>
-            <tr><td>Redirect Latency</td><td><strong>0 ms (Opens WhatsApp directly)</strong></td><td>1–2 sec tracking redirect page</td></tr>
-            <tr><td>Indian Commerce Presets</td><td><strong>Built-in (COD, Catalog, Reorder)</strong></td><td>Blank text box only</td></tr>
+            <tr><td>Redirect Latency</td><td><strong>0 ms (Opens WhatsApp directly)</strong></td><td>1–2 sec tracking redirect hop</td></tr>
+            <tr><td>Indian Commerce Presets</td><td><strong>Built-in (COD, Catalog, Reorder, B2B)</strong></td><td>Blank text box only</td></tr>
           </tbody>
         </table>
       </section>
@@ -229,15 +213,9 @@
       if (phoneEl) phoneEl.value = phone;
       if (msgEl) msgEl.value = message;
       document.querySelectorAll('.tp-preset-btn').forEach(function (el) {
-        el.style.borderColor = '';
-        el.style.background = '';
-        el.style.color = '';
+        el.classList.remove('active');
       });
-      if (btn) {
-        btn.style.borderColor = '#059669';
-        btn.style.background = '#ecfdf5';
-        btn.style.color = '#065f46';
-      }
+      if (btn) btn.classList.add('active');
       if (typeof buildWhatsApp === 'function') {
         buildWhatsApp();
       }

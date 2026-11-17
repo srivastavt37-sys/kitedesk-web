@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>BillFold by KiteDesk — Free GST &amp; UPI QR Invoice Generator</title>
-  <meta name="description" content="Create print-ready GST (CGST/SGST or IGST) and non-GST PDF invoices with an embedded UPI payment QR code. 100% free, zero-signup alternative to Zoho Invoice and Vyapar." />
+  <meta name="description" content="Create print-ready GST (CGST/SGST or IGST) and non-GST PDF invoices with Amount in Words, saved local history, and an embedded UPI payment QR code." />
   <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/billfold.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/kitedesk-hero.jpg" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/billfold-preview.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -25,9 +27,11 @@
     "price": "0",
     "priceCurrency": "INR"
   },
-  "description": "Free browser-based GST invoice generator with CGST/SGST/IGST split and dynamic UPI QR codes.",
+  "description": "Free browser-based GST invoice generator with CGST/SGST/IGST split, Indian Rupee Amount in Words, local invoice history, and dynamic UPI QR codes.",
   "featureList": [
     "CGST SGST IGST auto-split",
+    "Indian Rupee Amount in Words",
+    "Saved local invoice history",
     "Dynamic UPI QR code",
     "A4 PDF export"
   ]
@@ -46,12 +50,12 @@
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="">Studio</a>
+        <a href="index.html">Studio</a>
         <a href="billfold.html" class="active">BillFold</a>
-        <a href="tapping.html" class="">TapPing</a>
-        <a href="copycraft.html" class="">CopyCraft</a>
-        <a href="marginmint.html" class="">MarginMint</a>
-        <a href="journal.html" class="">Journal</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="journal.html">Journal</a>
       </nav>
     </div>
   </header>
@@ -59,40 +63,37 @@
     <div class="container">
       <div class="sub-hero-banner">
         <div class="sub-hero-left">
-          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
           <div>
             <h1>BillFold — GST &amp; UPI QR Invoice Builder</h1>
-            <p>Generate compliant CGST/SGST or IGST invoices with a scannable UPI payment QR code in 30 seconds.</p>
+            <p>Compliant CGST/SGST or IGST tax invoices with Indian Rupee Amount in Words and live UPI QR.</p>
           </div>
         </div>
-        <div class="trust-pills">
-          <span class="trust-pill">&#10003; Auto CGST/SGST Split</span>
-          <span class="trust-pill">&#10003; Live UPI QR</span>
-          <span class="trust-pill">&#10003; Saved Locally</span>
+        <div class="sub-hero-actions" id="bfPresetChips" aria-label="One-click Indian GST presets">
+          <button type="button" class="chip active" data-preset="intra_retail" onclick="applyBillFoldPreset('intra_retail', this)">Intra-State Retail (CGST+SGST)</button>
+          <button type="button" class="chip" data-preset="inter_b2b" onclick="applyBillFoldPreset('inter_b2b', this)">Inter-State B2B (IGST)</button>
+          <button type="button" class="chip" data-preset="msme_milestone" onclick="applyBillFoldPreset('msme_milestone', this)">MSME 50% Advance</button>
         </div>
       </div>
 
       <div class="tool-layout">
         <div class="card form-card">
-          <div class="preset-bar" style="padding:12px 14px;background:var(--surface-tint);border:1px solid var(--border);border-radius:12px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-              <strong style="font-size:0.82rem;color:var(--ink);">One-Click Indian GST Invoice Presets</strong>
-              <span class="muted" style="font-size:0.74rem;">Populates GSTIN, HSN/SAC &amp; live UPI QR</span>
+          <div class="bf-history-bar" id="bfHistoryBar">
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px;flex-wrap:wrap;">
+              <strong style="font-size:0.78rem;color:var(--ink);">Recent Saved Invoices (Browser LocalStorage)</strong>
+              <button type="button" class="btn btn-sm btn-outline" onclick="saveInvoiceToHistory()">+ Save Current Invoice</button>
             </div>
-            <div class="preset-chips" id="bfPresetChips">
-              <button type="button" class="chip" data-preset="intra_retail" onclick="applyBillFoldPreset('intra_retail', this)">Intra-State Retail (CGST+SGST)</button>
-              <button type="button" class="chip" data-preset="inter_b2b" onclick="applyBillFoldPreset('inter_b2b', this)">Inter-State B2B Service (IGST)</button>
-              <button type="button" class="chip" data-preset="msme_milestone" onclick="applyBillFoldPreset('msme_milestone', this)">MSME 50% Advance Milestone</button>
-            </div>
+            <div class="bf-saved-chips" id="bfSavedList"></div>
           </div>
+
           <h3>1. Seller &amp; Buyer Details</h3>
           <div class="form-row">
             <label>Your Business Name <input type="text" id="invFrom" value="KiteDesk Crafts" oninput="renderInvoice()" /></label>
-            <label>Your GSTIN (Optional) <input type="text" class="mono-input" id="invFromGstin" placeholder="09ABCDE1234F1Z5" oninput="renderInvoice()" /></label>
+            <label>Your GSTIN (Optional) <input type="text" class="mono-input" id="invFromGstin" value="09AABCK7741P1Z2" placeholder="09ABCDE1234F1Z5" oninput="renderInvoice()" /></label>
           </div>
           <div class="form-row">
             <label>Billed To (Customer / Company) <input type="text" id="invTo" value="Aarav Retail Pvt Ltd" oninput="renderInvoice()" /></label>
-            <label>Customer GSTIN (Optional) <input type="text" class="mono-input" id="invToGstin" placeholder="09XYZAB5678G1Z2" oninput="renderInvoice()" /></label>
+            <label>Customer GSTIN (Optional) <input type="text" class="mono-input" id="invToGstin" value="09XYZAB5678G1Z2" placeholder="09XYZAB5678G1Z2" oninput="renderInvoice()" /></label>
           </div>
           <div class="form-row">
             <label>Invoice No. <input type="text" class="mono-input" id="invNum" value="INV-2026-104" oninput="renderInvoice()" /></label>
@@ -128,6 +129,7 @@
           </label>
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save Clean PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="saveInvoiceToHistory()">Save to History</button>
             <button type="button" class="btn btn-secondary" onclick="resetInvoice()">Reset Fields</button>
           </div>
         </div>
@@ -151,7 +153,7 @@
               <div class="muted mono-val" id="prevToGstin"></div>
             </div>
             <div style="text-align:right;">
-              <span class="muted" style="display:block;font-size:0.74rem;text-transform:uppercase;font-weight:700;">Status</span>
+              <span class="muted" style="display:block;font-size:0.74rem;text-transform:uppercase;font-weight:700;">Settlement</span>
               <strong style="color:var(--success);">Payable on Receipt</strong>
             </div>
           </div>
@@ -162,8 +164,12 @@
           <div class="inv-totals">
             <div><span>Subtotal</span><strong id="prevSub">&#8377;0.00</strong></div>
             <div id="prevDiscRow" style="display:none;"><span>Discount</span><strong id="prevDisc">-&#8377;0.00</strong></div>
-            <div id="prevTaxBreakdown" style="display:flex;flex-direction:column;gap:6px;width:min(260px,100%);"></div>
+            <div id="prevTaxBreakdown" style="display:flex;flex-direction:column;gap:5px;width:min(260px,100%);"></div>
             <div class="inv-grand"><span>Total Payable</span><strong id="prevTotal">&#8377;0.00</strong></div>
+          </div>
+          <div class="inv-words">
+            <span>Amount Chargeable (in words):</span>
+            <strong id="prevAmountWords">Rupees Three Thousand Four Hundred Sixteen Only</strong>
           </div>
           <div class="inv-footer-grid">
             <p class="muted" id="prevNotes" style="margin:0;max-width:340px;"></p>
@@ -176,19 +182,16 @@
         </div>
       </div>
 
-      
       <section class="media-showcase">
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">REAL-WORLD USE CASE</span>
-          <img src="images/billfold-preview.jpg" alt="Printed GST Invoice & Receipt Flatlay" loading="lazy" />
-          <p class="muted" style="margin:0;">Printed GST Invoice & Receipt Flatlay — generated and verified directly in your browser.</p>
+          <img src="images/billfold-preview.jpg" alt="Printed GST Invoice and UPI QR Receipt Flatlay" loading="lazy" />
+          <p class="muted" style="margin:0;"><strong>A4 Tax Invoice + Dynamic UPI QR:</strong> Print or save as PDF with automatic CGST/SGST vs IGST split and Indian Rupee words.</p>
         </div>
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">VIDEO WALKTHROUGH</span>
           <div class="ai-video-player" data-ai-video="billfold-demo">
             <audio class="ai-vp-audio" src="audio/billfold-demo.mp3" preload="metadata"></audio>
             <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
-              <img class="ai-vp-backdrop" src="images/billfold-preview.jpg" alt="BillFold Walkthrough — GST Split Math & Dynamic UPI QR Invoices" loading="lazy" />
+              <img class="ai-vp-backdrop" src="images/billfold-preview.jpg" alt="BillFold Walkthrough — GST Split Math &amp; Dynamic UPI QR Invoices" loading="lazy" />
               <div class="ai-vp-gradient"></div>
               <div class="ai-vp-topbar">
                 <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
@@ -196,8 +199,8 @@
               </div>
               <div class="ai-vp-center">
                 <div class="ai-vp-kicker">Intra-State vs Inter-State GST</div>
-                <h4 class="ai-vp-headline">Select supplier & client states to auto-split CGST + SGST or IGST</h4>
-                <div class="ai-vp-metrics"><span class="ai-vp-metric-chip">Same State → 9% CGST + 9% SGST</span><span class="ai-vp-metric-chip">Cross State → 18% IGST</span><span class="ai-vp-metric-chip">HSN / SAC Line-Item Table</span></div>
+                <h4 class="ai-vp-headline">Select supplier &amp; client states to auto-split CGST + SGST or IGST</h4>
+                <div class="ai-vp-metrics"><span class="ai-vp-metric-chip">Same State → 9% CGST + 9% SGST</span><span class="ai-vp-metric-chip">Cross State → 18% IGST</span><span class="ai-vp-metric-chip">Amount in Words (Lakhs/Thousands)</span></div>
               </div>
               <button type="button" class="ai-vp-bigplay" aria-label="Play AI Video">▶</button>
               <div class="ai-vp-caption-bar">In BillFold, select your supplier and client states first so the engine automatically routes CGST + SGST or IGST.</div>
@@ -215,29 +218,21 @@
               <span class="ai-vp-time">0:00 / 0:24</span>
             </div>
           </div>
-          <p class="muted" style="margin:0;"><strong>GST Billing Walkthrough: CGST, SGST & IGST Explained</strong> — practical guide for Indian sellers.</p>
+          <p class="muted" style="margin:0;"><strong>24-Second Walkthrough:</strong> Intra-state vs inter-state GST routing, Amount in Words, and dynamic UPI QR settlement.</p>
         </div>
       </section>
 
       <section class="alt-section">
-        <span class="eyebrow">Why Choose BillFold?</span>
-        <h2>A zero-signup alternative to Zoho Invoice, Vyapar &amp; Swipe</h2>
-        <p class="muted">When you need to send a compliant bill right now, creating an account, verifying OTPs, and navigating complex ledgers wastes time. BillFold runs entirely inside your browser.</p>
+        <h2>Zero-signup alternative to Zoho Invoice, Vyapar &amp; Swipe</h2>
         <table class="cmp-table">
-          <thead><tr><th>Capability</th><th>BillFold (by KiteDesk)</th><th>Traditional Billing Suites</th></tr></thead>
+          <thead><tr><th>Capability</th><th>BillFold (by KiteDesk)</th><th>Traditional Cloud Billing</th></tr></thead>
           <tbody>
             <tr><td>Time to First PDF</td><td><strong>Under 30 seconds (Zero login)</strong></td><td>5–10 mins (Account + OTP setup)</td></tr>
-            <tr><td>CGST/SGST &amp; IGST Split</td><td><strong>Built-in 1-click toggle</strong></td><td>Requires company tax profile setup</td></tr>
-            <tr><td>Dynamic UPI QR on Invoice</td><td><strong>Included free (Exact total pre-filled)</strong></td><td>Often locked to paid tiers</td></tr>
-            <tr><td>Client Data Privacy</td><td><strong>100% LocalStorage (Never uploaded)</strong></td><td>Stored on external cloud servers</td></tr>
+            <tr><td>CGST/SGST &amp; IGST + Amount in Words</td><td><strong>Automatic Lakhs/Thousands words &amp; tax split</strong></td><td>Requires company profile configuration</td></tr>
+            <tr><td>Dynamic UPI QR &amp; Saved History</td><td><strong>Included free (Exact total + browser history)</strong></td><td>Often locked behind monthly tiers</td></tr>
           </tbody>
         </table>
       </section>
-
-      <div class="ad-slot" aria-label="Sponsor">
-        <div><span class="ad-label">Sponsor Slot</span> &nbsp; Need to calculate your net product margin before billing? Try <a href="marginmint.html"><strong>MarginMint</strong></a>.</div>
-        <a href="marginmint.html" class="text-link">Open MarginMint &rarr;</a>
-      </div>
     </div>
   </main>
   <footer class="site-footer">
@@ -345,16 +340,8 @@
       document.getElementById('invUpi').value = p.upi;
       document.getElementById('invNotes').value = p.notes;
       invoiceItems = p.items.map(i => ({ ...i }));
-      document.querySelectorAll('#bfPresetChips .chip').forEach(c => {
-        c.style.background = '';
-        c.style.color = '';
-        c.style.borderColor = '';
-      });
-      if (btnEl) {
-        btnEl.style.background = 'var(--brand)';
-        btnEl.style.color = '#fff';
-        btnEl.style.borderColor = 'var(--brand)';
-      }
+      document.querySelectorAll('#bfPresetChips .chip').forEach(c => c.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
       renderInvoiceInputs();
       renderInvoice();
     }

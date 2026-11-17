@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>CopyCraft by KiteDesk — Storefront Bio, Listing &amp; Google SERP Studio</title>
   <meta name="description" content="Format product listings into crisp bullet points, generate SEO slugs, check Instagram/Meta character limits, and preview your live Google Search snippet." />
   <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/copycraft.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/kitedesk-hero.jpg" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/copycraft-preview.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -46,12 +48,12 @@
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="">Studio</a>
-        <a href="billfold.html" class="">BillFold</a>
-        <a href="tapping.html" class="">TapPing</a>
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
         <a href="copycraft.html" class="active">CopyCraft</a>
-        <a href="marginmint.html" class="">MarginMint</a>
-        <a href="journal.html" class="">Journal</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="journal.html">Journal</a>
       </nav>
     </div>
   </header>
@@ -59,28 +61,16 @@
     <div class="container">
       <div class="sub-hero-banner">
         <div class="sub-hero-left">
-          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
           <div>
             <h1>CopyCraft — Bio, Listing &amp; Google SERP Studio</h1>
-            <p>Format messy product notes into high-converting bullets and preview how your store appears on Google Search.</p>
+            <p>Format product notes into clean bullets and preview how your store appears on Google Search.</p>
           </div>
         </div>
-        <div class="trust-pills">
-          <span class="trust-pill">&#10003; 1-Tap Bullet &amp; Checkmark</span>
-          <span class="trust-pill">&#10003; Live Google SERP Card</span>
-          <span class="trust-pill">&#10003; URL Slug Builder</span>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:18px;padding:16px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
-        <div>
-          <strong style="font-size:0.95rem;display:block;">One-Click Indian Storefront &amp; SERP Presets</strong>
-          <span class="muted" style="font-size:0.84rem;">Populate realistic Indian bio, URL, and Google Search snippet copy in 1 click.</span>
-        </div>
-        <div class="tool-actions" style="margin:0;">
-          <button type="button" class="btn btn-sm btn-outline preset-btn" data-preset="footwear" onclick="applyCopyCraftPreset('footwear', this)">D2C Footwear Brand</button>
-          <button type="button" class="btn btn-sm btn-outline preset-btn" data-preset="clinic" onclick="applyCopyCraftPreset('clinic', this)">Local Clinic / Studio</button>
-          <button type="button" class="btn btn-sm btn-outline preset-btn" data-preset="wholesale" onclick="applyCopyCraftPreset('wholesale', this)">B2B Wholesale Supplier</button>
+        <div class="sub-hero-actions" role="group" aria-label="One-Click Indian Storefront &amp; SERP Presets">
+          <button type="button" class="chip preset-btn active" data-preset="footwear" onclick="applyCopyCraftPreset('footwear', this)">D2C Footwear Brand</button>
+          <button type="button" class="chip preset-btn" data-preset="clinic" onclick="applyCopyCraftPreset('clinic', this)">Local Clinic / Studio</button>
+          <button type="button" class="chip preset-btn" data-preset="wholesale" onclick="applyCopyCraftPreset('wholesale', this)">B2B Wholesale Supplier</button>
         </div>
       </div>
 
@@ -120,28 +110,24 @@ Order directly on WhatsApp in 1 tap</textarea>
             <div class="meter"><span>Google Meta (160)</span><strong id="cntSeo">OK</strong></div>
           </div>
           <div class="serp-card">
-            <span class="inv-badge" style="margin-bottom:8px;">GOOGLE SEARCH PREVIEW</span>
             <div class="serp-url" id="serpPrevUrl">https://kitedesk.in/shop/festive-jootis</div>
             <div class="serp-title" id="serpPrevTitle">Handcrafted Leather Jootis — Custom Bridal &amp; Festive Pair</div>
             <p class="serp-desc" id="serpPrevDesc"></p>
           </div>
-          <p class="muted" style="margin:0;">Tip: Keep your Google meta description between 120 and 158 characters so mobile search results never truncate your call-to-action.</p>
+          <p class="muted" style="margin:0;">Keep your Google meta description between 120 and 158 characters so mobile search results never truncate your call-to-action.</p>
         </div>
       </div>
 
-      
       <section class="media-showcase">
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">REAL-WORLD USE CASE</span>
           <img src="images/copycraft-preview.jpg" alt="Clean Bulleted Storefront Bio on Smartphone" loading="lazy" />
-          <p class="muted" style="margin:0;">Clean Bulleted Storefront Bio on Smartphone — generated and verified directly in your browser.</p>
+          <p class="muted" style="margin:0;"><strong>150-Character Storefront Bio + SERP Card:</strong> Verify line-breaks and Google title cutoff before publishing.</p>
         </div>
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">VIDEO WALKTHROUGH</span>
           <div class="ai-video-player" data-ai-video="copycraft-demo">
             <audio class="ai-vp-audio" src="audio/copycraft-demo.mp3" preload="metadata"></audio>
             <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
-              <img class="ai-vp-backdrop" src="images/copycraft-preview.jpg" alt="CopyCraft Walkthrough — Anti-Slop Storefront Bios & Pixel SERP Simulator" loading="lazy" />
+              <img class="ai-vp-backdrop" src="images/copycraft-preview.jpg" alt="CopyCraft Walkthrough — Anti-Slop Storefront Bios &amp; Pixel SERP Simulator" loading="lazy" />
               <div class="ai-vp-gradient"></div>
               <div class="ai-vp-topbar">
                 <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
@@ -168,13 +154,12 @@ Order directly on WhatsApp in 1 tap</textarea>
               <span class="ai-vp-time">0:00 / 0:21</span>
             </div>
           </div>
-          <p class="muted" style="margin:0;"><strong>How to Write Storefront Bios & Product Descriptions That Sell</strong> — practical guide for Indian sellers.</p>
+          <p class="muted" style="margin:0;"><strong>21-Second Walkthrough:</strong> Anti-slop 4-line storefront bio formula and live Google Search snippet simulator.</p>
         </div>
       </section>
 
       <section class="alt-section">
-        <span class="eyebrow">Why Choose CopyCraft?</span>
-        <h2>A distraction-free alternative to ad-bloated word counters &amp; SEO plugins</h2>
+        <h2>Distraction-free alternative to ad-bloated word counters &amp; SEO plugins</h2>
         <table class="cmp-table">
           <thead><tr><th>Capability</th><th>CopyCraft (by KiteDesk)</th><th>Generic Word Counter Sites</th></tr></thead>
           <tbody>
@@ -250,14 +235,8 @@ Order directly on WhatsApp in 1 tap</textarea>
       if (urlEl) urlEl.value = preset.url;
       if (copyEl) copyEl.value = preset.copy;
 
-      document.querySelectorAll('.preset-btn').forEach(b => {
-        b.classList.remove('btn-primary');
-        b.classList.add('btn-outline');
-      });
-      if (btnEl) {
-        btnEl.classList.remove('btn-outline');
-        btnEl.classList.add('btn-primary');
-      }
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
       if (typeof updateFormatter === 'function') {
         updateFormatter();
       }

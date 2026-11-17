@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MarginMint by KiteDesk — D2C Profit Margin, COD RTO &amp; ROAS Calculator</title>
-  <meta name="description" content="Calculate true D2C e-commerce profit per order after COGS, inclusive GST, courier shipping, packaging, payment gateway fees, and COD Return-to-Origin (RTO) losses." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>MarginMint by KiteDesk — D2C Profit Margin, Volumetric Weight, COD RTO &amp; ROAS Calculator</title>
+  <meta name="description" content="Calculate true D2C e-commerce profit per order after COGS, inclusive GST, volumetric courier weight (L×W×H÷5000), packaging, gateway fees, and COD RTO losses." />
   <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/marginmint.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/kitedesk-hero.jpg" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -25,9 +27,10 @@
     "price": "0",
     "priceCurrency": "INR"
   },
-  "description": "Free unit economics calculator for Indian D2C sellers factoring GST, COGS, courier slabs, and COD RTO penalties.",
+  "description": "Free unit economics calculator for Indian D2C sellers factoring GST, COGS, volumetric courier weight (L×W×H/5000), and COD RTO penalties.",
   "featureList": [
     "Inclusive GST extraction",
+    "Volumetric weight LxWxH/5000 helper",
     "COD RTO loss math",
     "Break-even ROAS calculator"
   ]
@@ -46,12 +49,12 @@
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="">Studio</a>
-        <a href="billfold.html" class="">BillFold</a>
-        <a href="tapping.html" class="">TapPing</a>
-        <a href="copycraft.html" class="">CopyCraft</a>
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="copycraft.html">CopyCraft</a>
         <a href="marginmint.html" class="active">MarginMint</a>
-        <a href="journal.html" class="">Journal</a>
+        <a href="journal.html">Journal</a>
       </nav>
     </div>
   </header>
@@ -59,74 +62,22 @@
     <div class="container">
       <div class="sub-hero-banner">
         <div class="sub-hero-left">
-          <div class="brand-mark" style="width:52px;height:52px;border-radius:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
           <div>
-            <h1>MarginMint — D2C Profit, COD RTO &amp; ROAS Lab</h1>
-            <p>Know your real net profit per delivered order after COGS, inclusive GST, courier fees, and COD returns.</p>
+            <h1>MarginMint — D2C Profit, Volumetric &amp; COD RTO Lab</h1>
+            <p>True net profit per delivered order after inclusive GST, volumetric freight, and COD returns.</p>
           </div>
         </div>
-        <div class="trust-pills">
-          <span class="trust-pill">&#10003; COD RTO Loss Engine</span>
-          <span class="trust-pill">&#10003; Break-Even ROAS</span>
-          <span class="trust-pill">&#10003; Inclusive GST Split</span>
+        <div class="sub-hero-actions" role="group" aria-label="Indian D2C Scenario Presets">
+          <button type="button" class="chip mm-preset-btn active" onclick="applyMarginPreset('jootis', this)">Handcrafted Jootis (&#8377;1,499)</button>
+          <button type="button" class="chip mm-preset-btn" onclick="applyMarginPreset('serum', this)">Skincare Serum (&#8377;799)</button>
+          <button type="button" class="chip mm-preset-btn" onclick="applyMarginPreset('hoodie', this)">Apparel Hoodie (&#8377;1,299)</button>
         </div>
-      </div>
-
-      <style>
-        .mm-presets-bar {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 10px;
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 12px 16px;
-          margin-bottom: 18px;
-          box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-        }
-        .mm-presets-label {
-          font-size: 0.82rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          color: #475569;
-          margin-right: 4px;
-        }
-        .mm-preset-btn {
-          appearance: none;
-          border: 1px solid #cbd5e1;
-          background: #f8fafc;
-          color: #0f172a;
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 0.86rem;
-          font-weight: 600;
-          padding: 7px 14px;
-          border-radius: 999px;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-        .mm-preset-btn:hover {
-          border-color: #0d9488;
-          color: #0d9488;
-          background: #f0fdfa;
-        }
-        .mm-preset-btn.active {
-          background: #0d9488;
-          border-color: #0d9488;
-          color: #ffffff;
-        }
-      </style>
-      <div class="mm-presets-bar" role="group" aria-label="Indian D2C Scenario Presets">
-        <span class="mm-presets-label">One-Click D2C Presets:</span>
-        <button type="button" class="mm-preset-btn active" onclick="applyMarginPreset('jootis', this)">Handcrafted Jootis (&#8377;1,499)</button>
-        <button type="button" class="mm-preset-btn" onclick="applyMarginPreset('serum', this)">D2C Skincare Serum (&#8377;799)</button>
-        <button type="button" class="mm-preset-btn" onclick="applyMarginPreset('hoodie', this)">Apparel Hoodie (&#8377;1,299)</button>
       </div>
 
       <div class="tool-layout">
         <div class="card form-card">
-          <h3>1. Order Unit Economics</h3>
+          <h3>1. Order Unit Economics &amp; Shipping</h3>
           <div class="form-row">
             <label>Currency
               <select id="mmCur" onchange="calcMargin()">
@@ -134,10 +85,10 @@
                 <option value="$">$ USD</option>
               </select>
             </label>
-            <label>Customer Selling Price (incl. GST)
+            <label>Selling Price (incl. GST)
               <input type="number" class="mono-input" id="mmSell" value="1499" min="0" oninput="calcMargin()" />
             </label>
-            <label>Product Making Cost (COGS)
+            <label>Product COGS
               <input type="number" class="mono-input" id="mmCogs" value="540" min="0" oninput="calcMargin()" />
             </label>
           </div>
@@ -149,8 +100,37 @@
               <input type="number" class="mono-input" id="mmPack" value="35" min="0" oninput="calcMargin()" />
             </label>
           </div>
+
+          <div class="vol-helper-box" aria-label="Volumetric Weight Helper">
+            <div class="vol-helper-head">
+              <strong>Volumetric Weight Helper (L &times; W &times; H cm &divide; 5000)</strong>
+              <button type="button" class="btn btn-sm btn-outline" onclick="applyVolumetricShip()">Apply Suggested Fee (<span id="mmSuggestedShip">&#8377;85</span>)</button>
+            </div>
+            <div class="vol-dims-grid">
+              <label>Dead Wt (kg)
+                <input type="number" class="mono-input" id="mmDeadWt" value="0.45" step="0.05" min="0.05" oninput="calcVolumetricWeight(true)" />
+              </label>
+              <label>Length (cm)
+                <input type="number" class="mono-input" id="mmLen" value="26" min="1" oninput="calcVolumetricWeight(true)" />
+              </label>
+              <label>Width (cm)
+                <input type="number" class="mono-input" id="mmWid" value="17" min="1" oninput="calcVolumetricWeight(true)" />
+              </label>
+              <label>Height (cm)
+                <input type="number" class="mono-input" id="mmHgt" value="10" min="1" oninput="calcVolumetricWeight(true)" />
+              </label>
+              <label>Rate / 0.5kg
+                <input type="number" class="mono-input" id="mmSlabRate" value="42.5" step="0.5" min="1" oninput="calcVolumetricWeight(true)" />
+              </label>
+            </div>
+            <div class="vol-summary-bar">
+              <span>Volumetric: <strong class="mono-val" id="mmVolWt">0.88 kg</strong></span>
+              <span>Billed Weight: <strong class="mono-val" id="mmChargeWt">0.88 kg (Volumetric &bull; 2 &times; 0.5kg)</strong></span>
+            </div>
+          </div>
+
           <div class="form-row">
-            <label>Payment / Marketplace Fee (%)
+            <label>Payment / Gateway Fee (%)
               <input type="number" class="mono-input" id="mmFee" value="2.5" step="0.1" min="0" oninput="calcMargin()" />
             </label>
             <label>Included GST Rate (%)
@@ -160,7 +140,7 @@
               <input type="number" class="mono-input" id="mmRto" value="15" min="0" max="90" oninput="calcMargin()" />
             </label>
           </div>
-          <p class="muted" style="margin:0;">Note: COD RTO models forward + return courier penalty plus wasted packaging spread across successfully delivered orders.</p>
+          <p class="muted" style="margin:0;">COD RTO models forward + return courier penalty (1.8&times; freight + wasted box) spread across delivered orders.</p>
         </div>
 
         <div class="card form-card">
@@ -195,28 +175,25 @@
         </div>
       </div>
 
-      
       <section class="media-showcase">
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">REAL-WORLD USE CASE</span>
-          <img src="images/marginmint-preview.jpg" alt="D2C Parcel Box, Price Tag & Unit Economics Setup" loading="lazy" />
-          <p class="muted" style="margin:0;">D2C Parcel Box, Price Tag & Unit Economics Setup — generated and verified directly in your browser.</p>
+          <img src="images/marginmint-preview.jpg" alt="D2C Parcel Box, Price Tag &amp; Unit Economics Setup" loading="lazy" />
+          <p class="muted" style="margin:0;"><strong>Volumetric Slab &amp; COD RTO Math:</strong> Check whether your shoe box or hoodie mailer crosses into a higher 0.5 kg courier slab before scaling ads.</p>
         </div>
         <div class="media-card">
-          <span class="inv-badge" style="margin-bottom:8px;">VIDEO WALKTHROUGH</span>
           <div class="ai-video-player" data-ai-video="marginmint-demo">
             <audio class="ai-vp-audio" src="audio/marginmint-demo.mp3" preload="metadata"></audio>
             <div class="ai-vp-stage" title="Click to Play / Pause AI Walkthrough">
-              <img class="ai-vp-backdrop" src="images/marginmint-preview.jpg" alt="MarginMint Walkthrough — Indian D2C COD RTO & Net Margin Simulator" loading="lazy" />
+              <img class="ai-vp-backdrop" src="images/marginmint-preview.jpg" alt="MarginMint Walkthrough — Indian D2C COD RTO &amp; Net Margin Simulator" loading="lazy" />
               <div class="ai-vp-gradient"></div>
               <div class="ai-vp-topbar">
                 <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
                 <span class="ai-vp-step-pill">STEP 1 / 3 • TRUE LANDED COST</span>
               </div>
               <div class="ai-vp-center">
-                <div class="ai-vp-kicker">Selling Price vs Tax & COGS</div>
+                <div class="ai-vp-kicker">Selling Price vs Tax &amp; COGS</div>
                 <h4 class="ai-vp-headline">Strip inclusive GST out of MRP before calculating gross product margin</h4>
-                <div class="ai-vp-metrics"><span class="ai-vp-metric-chip">Tax-Exclusive Realization</span><span class="ai-vp-metric-chip">Landed COGS + Packaging</span><span class="ai-vp-metric-chip">Forward Courier Slab</span></div>
+                <div class="ai-vp-metrics"><span class="ai-vp-metric-chip">Tax-Exclusive Realization</span><span class="ai-vp-metric-chip">Volumetric Weight L×W×H/5000</span><span class="ai-vp-metric-chip">Forward Courier Slab</span></div>
               </div>
               <button type="button" class="ai-vp-bigplay" aria-label="Play AI Video">▶</button>
               <div class="ai-vp-caption-bar">MarginMint starts by backing out inclusive GST from your MRP and deducting landed manufacturing and packaging costs.</div>
@@ -234,19 +211,18 @@
               <span class="ai-vp-time">0:00 / 0:21</span>
             </div>
           </div>
-          <p class="muted" style="margin:0;"><strong>How to Reduce COD RTO & Protect D2C Profit Margins</strong> — practical guide for Indian sellers.</p>
+          <p class="muted" style="margin:0;"><strong>21-Second Walkthrough:</strong> Inclusive GST extraction, volumetric vs dead weight slabs, and COD RTO drag per delivered order.</p>
         </div>
       </section>
 
       <section class="alt-section">
-        <span class="eyebrow">Why Choose MarginMint?</span>
-        <h2>Built for Indian D2C &amp; Meesho/Amazon/Shopify realities—unlike basic percentage calculators</h2>
+        <h2>Built for Indian D2C &amp; marketplace unit economics—unlike basic percentage calculators</h2>
         <table class="cmp-table">
           <thead><tr><th>Capability</th><th>MarginMint (by KiteDesk)</th><th>Generic Margin Calculators</th></tr></thead>
           <tbody>
+            <tr><td>Volumetric Weight (L&times;W&times;H &divide; 5000)</td><td><strong>Auto-computes chargeable 0.5 kg slabs</strong></td><td>Not included</td></tr>
             <tr><td>COD Return-to-Origin (RTO) Drag</td><td><strong>Models forward + reverse courier loss</strong></td><td>Completely ignored</td></tr>
-            <tr><td>Break-Even ROAS Target</td><td><strong>Instant ad-spend ceiling</strong></td><td>Not calculated</td></tr>
-            <tr><td>Inclusive GST Extraction</td><td><strong>Reverse-calculates exact tax from MRP</strong></td><td>Requires manual math</td></tr>
+            <tr><td>Inclusive GST &amp; Break-Even ROAS</td><td><strong>Reverse-calculates tax &amp; ad-spend ceiling</strong></td><td>Requires manual spreadsheet formulas</td></tr>
           </tbody>
         </table>
       </section>
@@ -288,9 +264,9 @@
   </footer>
   <script>
     const MARGIN_PRESETS = {
-      jootis: { cur: '₹', sell: 1499, cogs: 540, ship: 85, pack: 35, fee: 2.5, gst: 12, rto: 15 },
-      serum:  { cur: '₹', sell: 799,  cogs: 195, ship: 72, pack: 28, fee: 2.0, gst: 18, rto: 18 },
-      hoodie: { cur: '₹', sell: 1299, cogs: 460, ship: 98, pack: 25, fee: 2.5, gst: 12, rto: 22 }
+      jootis: { cur: '₹', sell: 1499, cogs: 540, ship: 85, pack: 35, fee: 2.5, gst: 12, rto: 15, deadWt: 0.45, len: 26, wid: 17, hgt: 10, slabRate: 42.5 },
+      serum:  { cur: '₹', sell: 799,  cogs: 195, ship: 65, pack: 24, fee: 2.0, gst: 18, rto: 18, deadWt: 0.18, len: 14, wid: 10, hgt: 7,  slabRate: 65.0 },
+      hoodie: { cur: '₹', sell: 1299, cogs: 460, ship: 110, pack: 25, fee: 2.5, gst: 12, rto: 22, deadWt: 0.62, len: 30, wid: 24, hgt: 9,  slabRate: 55.0 }
     };
 
     function applyMarginPreset(key, btnEl) {
@@ -304,6 +280,11 @@
       document.getElementById('mmFee').value = p.fee;
       document.getElementById('mmGst').value = p.gst;
       document.getElementById('mmRto').value = p.rto;
+      if (document.getElementById('mmDeadWt')) document.getElementById('mmDeadWt').value = p.deadWt;
+      if (document.getElementById('mmLen')) document.getElementById('mmLen').value = p.len;
+      if (document.getElementById('mmWid')) document.getElementById('mmWid').value = p.wid;
+      if (document.getElementById('mmHgt')) document.getElementById('mmHgt').value = p.hgt;
+      if (document.getElementById('mmSlabRate')) document.getElementById('mmSlabRate').value = p.slabRate;
 
       document.querySelectorAll('.mm-preset-btn').forEach(function(b) {
         b.classList.remove('active');
