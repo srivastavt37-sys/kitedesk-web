@@ -119,6 +119,42 @@ Order directly on WhatsApp in 1 tap</textarea>
         </div>
       </div>
 
+      <div class="tool-layout" style="margin-top:20px;">
+        <div class="card form-card">
+          <h3>3. Google Business Profile (750-Char) Editor</h3>
+          <div class="form-row">
+            <label>City / Locality
+              <input type="text" id="gbpCityInput" value="Jaipur" oninput="updateGbpProfile()" />
+            </label>
+            <label>Primary Service / Category
+              <input type="text" id="gbpServiceInput" value="bridal leather jootis" oninput="updateGbpProfile()" />
+            </label>
+          </div>
+          <label>GBP Business Description (750-char limit)
+            <textarea id="gbpDescInput" rows="5" oninput="updateGbpProfile()">Handcrafted double-cushioned bridal leather jootis in Jaipur since 2018. Visit our Johari Bazaar studio for custom wedding embroidery, menswear mojris, and same-day size alterations. Ready pairs start at Rs 1,499 with GST billing and pan-India dispatch in 48 hours.</textarea>
+          </label>
+          <div class="tool-actions">
+            <button type="button" class="btn btn-sm btn-outline" onclick="formatGbpClean()">Clean &amp; Trim to 750</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="copyText('gbpDescInput', this)">Copy GBP Description</button>
+          </div>
+        </div>
+
+        <div class="card form-card">
+          <h3>4. GBP Character Meter &amp; Local Keyword Check</h3>
+          <div class="char-meters">
+            <div class="meter"><span>GBP Length</span><strong id="gbpCntChars">0 / 750</strong></div>
+            <div class="meter"><span>Remaining</span><strong id="gbpCntLeft">750 left</strong></div>
+            <div class="meter"><span>City Match</span><strong id="gbpCityStatus">Found</strong></div>
+            <div class="meter"><span>Service Match</span><strong id="gbpServiceStatus">Found</strong></div>
+          </div>
+          <div class="serp-card">
+            <div class="serp-url">Google Maps &bull; From the business</div>
+            <p class="serp-desc" id="gbpPrevSnippet" style="margin-top:6px;"></p>
+          </div>
+          <p class="muted" style="margin:0;">Google Business Profile allows 750 characters (first ~250 show before &ldquo;More&rdquo;). Keep URLs, phone numbers, and all-caps promos out so your edit passes moderation.</p>
+        </div>
+      </div>
+
       <section class="media-showcase">
         <div class="media-card">
           <img src="images/copycraft-preview.jpg" alt="Clean Bulleted Storefront Bio on Smartphone" loading="lazy" />
@@ -213,17 +249,26 @@ Order directly on WhatsApp in 1 tap</textarea>
       footwear: {
         title: "Bridal Leather Jootis Jaipur | Custom Fit & Free COD",
         url: "https://kitedesk.in/shop/bridal-jootis-jaipur",
-        copy: "Handcrafted double-cushioned bridal jootis in Jaipur\nStarting ₹1,499 with free COD across India\nCustom sizes & 48-hr dispatch\nOrder on WhatsApp in 1 tap"
+        copy: "Handcrafted double-cushioned bridal jootis in Jaipur\nStarting ₹1,499 with free COD across India\nCustom sizes & 48-hr dispatch\nOrder on WhatsApp in 1 tap",
+        gbpCity: "Jaipur",
+        gbpService: "bridal leather jootis",
+        gbpDesc: "Handcrafted double-cushioned bridal leather jootis in Jaipur since 2018. Visit our Johari Bazaar studio for custom wedding embroidery, menswear mojris, and same-day size alterations. Ready pairs start at Rs 1,499 with GST billing and pan-India dispatch in 48 hours."
       },
       clinic: {
         title: "Physiotherapy Clinic Indiranagar Bangalore | Same-Day Slot",
         url: "https://kitedesk.in/indiranagar-physiotherapy-clinic",
-        copy: "Sports & ortho physiotherapy near 100 Ft Rd, Indiranagar\n₹700 consultation | Male & female therapists\nOpen 8 AM - 8 PM daily\nBook slot on WhatsApp"
+        copy: "Sports & ortho physiotherapy near 100 Ft Rd, Indiranagar\n₹700 consultation | Male & female therapists\nOpen 8 AM - 8 PM daily\nBook slot on WhatsApp",
+        gbpCity: "Bangalore",
+        gbpService: "physiotherapy clinic",
+        gbpDesc: "Sports and orthopedic physiotherapy clinic in Indiranagar, Bangalore near 100 Feet Road. Our male and female physiotherapists treat back pain, ACL rehab, dry needling, and post-surgery recovery from 8 AM to 8 PM daily. Consultation starts at Rs 700 with same-day slots."
       },
       wholesale: {
         title: "Wholesale Cotton Kurtis Surat | 10-Piece MOQ & GST Bill",
         url: "https://kitedesk.in/surat-cotton-kurti-wholesale",
-        copy: "Factory-direct 60-60 cotton kurtis from Ring Road, Surat\n₹285/pc wholesale | 10-piece MOQ\n100% GST tax invoice & pan-India transport\nTap for catalog"
+        copy: "Factory-direct 60-60 cotton kurtis from Ring Road, Surat\n₹285/pc wholesale | 10-piece MOQ\n100% GST tax invoice & pan-India transport\nTap for catalog",
+        gbpCity: "Surat",
+        gbpService: "wholesale cotton kurtis",
+        gbpDesc: "Factory-direct wholesale cotton kurtis supplier on Ring Road, Surat. We supply 60-60 cambric cotton sets, festive rayon kurtis, and boutique-ready sizing starting at Rs 285 per piece with a 10-piece MOQ, 100% GST tax invoices, and daily transport dispatch across India."
       }
     };
 
@@ -239,8 +284,18 @@ Order directly on WhatsApp in 1 tap</textarea>
 
       document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
       if (btnEl) btnEl.classList.add('active');
+      const gbpCityEl = document.getElementById('gbpCityInput');
+      const gbpSvcEl = document.getElementById('gbpServiceInput');
+      const gbpDescEl = document.getElementById('gbpDescInput');
+      if (gbpCityEl && preset.gbpCity) gbpCityEl.value = preset.gbpCity;
+      if (gbpSvcEl && preset.gbpService) gbpSvcEl.value = preset.gbpService;
+      if (gbpDescEl && preset.gbpDesc) gbpDescEl.value = preset.gbpDesc;
+
       if (typeof updateFormatter === 'function') {
         updateFormatter();
+      }
+      if (typeof updateGbpProfile === 'function') {
+        updateGbpProfile();
       }
     }
   </script>

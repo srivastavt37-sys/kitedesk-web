@@ -920,6 +920,63 @@ function formatAs(mode) {
   }
   el.value = t;
   updateFormatter();
+
+function updateGbpProfile() {
+  const descEl = document.getElementById('gbpDescInput');
+  if (!descEl) return;
+  const text = descEl.value;
+  const chars = text.length;
+  const city = (document.getElementById('gbpCityInput')?.value || '').trim();
+  const service = (document.getElementById('gbpServiceInput')?.value || '').trim();
+
+  const cntEl = document.getElementById('gbpCntChars');
+  const leftEl = document.getElementById('gbpCntLeft');
+  const cityEl = document.getElementById('gbpCityStatus');
+  const svcEl = document.getElementById('gbpServiceStatus');
+  const prevEl = document.getElementById('gbpPrevSnippet');
+
+  if (cntEl) cntEl.textContent = `${chars} / 750`;
+  if (leftEl) {
+    leftEl.textContent = chars <= 750 ? `${750 - chars} left` : `${chars - 750} over`;
+    leftEl.style.color = chars <= 750 ? 'var(--brand)' : 'var(--danger)';
+  }
+
+  const lowerText = text.toLowerCase();
+  if (cityEl) {
+    if (!city) {
+      cityEl.textContent = 'Enter city';
+      cityEl.style.color = 'var(--muted)';
+    } else {
+      const hasCity = lowerText.includes(city.toLowerCase());
+      cityEl.textContent = hasCity ? 'Found' : 'Missing';
+      cityEl.style.color = hasCity ? 'var(--brand)' : 'var(--danger)';
+    }
+  }
+  if (svcEl) {
+    if (!service) {
+      svcEl.textContent = 'Enter service';
+      svcEl.style.color = 'var(--muted)';
+    } else {
+      const hasSvc = lowerText.includes(service.toLowerCase());
+      svcEl.textContent = hasSvc ? 'Found' : 'Missing';
+      svcEl.style.color = hasSvc ? 'var(--brand)' : 'var(--danger)';
+    }
+  }
+  if (prevEl) {
+    const clean = text.replace(/\s+/g, ' ').trim();
+    prevEl.textContent = clean ? clean.slice(0, 750) : 'Write your Google Business Profile description to check length and local keyword coverage.';
+  }
+}
+
+function formatGbpClean() {
+  const descEl = document.getElementById('gbpDescInput');
+  if (!descEl) return;
+  const cleaned = descEl.value.replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, ' ').trim().slice(0, 750);
+  descEl.value = cleaned;
+  updateGbpProfile();
+}
+updateGbpProfile();
+
 }
 updateFormatter();
 
