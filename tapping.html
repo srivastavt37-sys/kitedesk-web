@@ -94,6 +94,15 @@
               <button type="button" class="chip" onclick="setWaTemplate('Hi! Can you share bulk / wholesale pricing for my store?')">Wholesale Inquiry</button>
             </div>
           </div>
+          <label>Channel Source Tag <span class="muted">(Optional — appends [Ref: ...] to track where the chat came from)</span>
+            <select id="waSourceTag" onchange="buildWhatsApp()">
+              <option value="">None</option>
+              <option value="Instagram Reel">Instagram Reel</option>
+              <option value="Packaging QR">Packaging QR</option>
+              <option value="Google Maps">Google Maps</option>
+              <option value="Counter Standee">Counter Standee</option>
+            </select>
+          </label>
           <label>Custom Pre-filled Customer Message
             <textarea id="waMsg" rows="3" oninput="buildWhatsApp()">Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.</textarea>
           </label>

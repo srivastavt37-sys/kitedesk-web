@@ -1201,8 +1201,12 @@ function buildWhatsApp() {
   if (!phoneEl && !qrImgEl) return;
   const rawPhone = phoneEl ? phoneEl.value : '919876543210';
   const phone = rawPhone.replace(/\D/g, '') || '919876543210';
-  const rawMsg = document.getElementById('waMsg')?.value || '';
-  const msg = encodeURIComponent(rawMsg);
+  const rawMsg = (document.getElementById('waMsg')?.value || '').trim();
+  const sourceTag = (document.getElementById('waSourceTag')?.value || '').trim();
+  const taggedMsg = sourceTag
+    ? (rawMsg ? `${rawMsg} [Ref: ${sourceTag}]` : `[Ref: ${sourceTag}]`)
+    : rawMsg;
+  const msg = encodeURIComponent(taggedMsg);
   const url = `https://wa.me/${phone}${msg ? `?text=${msg}` : ''}`;
   const outEl = document.getElementById('waOutput');
   if (outEl) outEl.value = url;
