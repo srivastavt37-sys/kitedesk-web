@@ -51,8 +51,9 @@
         <a href="index.html">Studio</a>
         <a href="billfold.html">BillFold</a>
         <a href="tapping.html" class="active">TapPing</a>
-        <a href="copycraft.html">CopyCraft</a>
         <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
         <a href="journal.html">Journal</a>
       </nav>
     </div>
@@ -94,11 +95,11 @@
             <textarea id="waMsg" rows="3" oninput="buildWhatsApp()">Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.</textarea>
           </label>
           <label>Direct Permanent Link (wa.me)
-            <input type="text" class="mono-input" id="waOutput" readonly />
+            <input type="text" class="mono-input" id="waOutput" value="https://wa.me/919876543210?text=Hi!%20I%20saw%20your%20catalog%20and%20want%20to%20place%20an%20order.%20Please%20share%20available%20sizes%20and%20payment%20link." readonly />
           </label>
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="copyText('waOutput', this)">Copy wa.me Link</button>
-            <a id="waTestLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Test Live Chat &rarr;</a>
+            <a id="waTestLink" href="https://wa.me/919876543210?text=Hi!%20I%20saw%20your%20catalog%20and%20want%20to%20place%20an%20order.%20Please%20share%20available%20sizes%20and%20payment%20link." target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Test Live Chat &rarr;</a>
           </div>
           <label style="margin-top:4px;">Embeddable HTML Website Button
             <input type="text" class="mono-input" id="waEmbedCode" readonly />
@@ -111,9 +112,9 @@
         <div class="card qr-card">
           <h3 style="margin-bottom:2px;">Packaging &amp; Counter QR Code</h3>
           <p class="muted" style="margin-bottom:4px;">Print on parcel inserts, shoe boxes, or shop counters so buyers message you in one scan.</p>
-          <img id="waQrImg" alt="WhatsApp Order QR Code" class="qr-img" />
+          <img id="waQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=https%3A%2F%2Fwa.me%2F919876543210%3Ftext%3DHi!%2520I%2520saw%2520your%2520catalog%2520and%2520want%2520to%2520place%2520an%2520order.%2520Please%2520share%2520available%2520sizes%2520and%2520payment%2520link." alt="WhatsApp Order QR Code" class="qr-img" />
           <div class="tool-actions">
-            <a id="waQrDownload" href="#" download="tapping-whatsapp-qr.png" class="btn btn-primary" rel="noopener noreferrer">Download 300px PNG QR</a>
+            <a id="waQrDownload" href="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=https%3A%2F%2Fwa.me%2F919876543210%3Ftext%3DHi!%2520I%2520saw%2520your%2520catalog%2520and%2520want%2520to%2520place%2520an%2520order.%2520Please%2520share%2520available%2520sizes%2520and%2520payment%2520link." download="tapping-whatsapp-qr.png" class="btn btn-primary" rel="noopener noreferrer">Download 300px PNG QR</a>
           </div>
         </div>
       </div>
@@ -130,7 +131,7 @@
               <img class="ai-vp-backdrop" src="images/tapping-preview.jpg" alt="TapPing Walkthrough — Pre-Filled wa.me Links &amp; Packaging QR Funnels" loading="lazy" />
               <div class="ai-vp-gradient"></div>
               <div class="ai-vp-topbar">
-                <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
+                <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH</span>
                 <span class="ai-vp-step-pill">STEP 1 / 3 • PHONE NORMALIZATION</span>
               </div>
               <div class="ai-vp-center">
@@ -178,20 +179,21 @@
           <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
           <span>KiteDesk Studio</span>
         </a>
-        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
       </div>
       <div>
         <h4>Micro-Brands</h4>
         <ul>
           <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
           <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
-          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
           <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
         </ul>
       </div>
       <div>
         <h4>Company &amp; Legal</h4>
         <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
           <li><a href="journal.html">Daily Growth Journal</a></li>
           <li><a href="about.html">About the Studio</a></li>
           <li><a href="contact.html">Request a Tool</a></li>
@@ -220,6 +222,9 @@
         buildWhatsApp();
       }
     }
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof buildWhatsApp === 'function') buildWhatsApp();
+    });
   </script>
 </body>
 </html>

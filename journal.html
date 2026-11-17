@@ -34,11 +34,12 @@
       </a>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="">Studio</a>
-        <a href="billfold.html" class="">BillFold</a>
-        <a href="tapping.html" class="">TapPing</a>
-        <a href="copycraft.html" class="">CopyCraft</a>
-        <a href="marginmint.html" class="">MarginMint</a>
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
         <a href="journal.html" class="active">Journal</a>
       </nav>
     </div>
@@ -61,10 +62,10 @@
           <button class="pill" onclick="filterPosts('Growth & SEO', this)">Growth &amp; SEO</button>
           <button class="pill" onclick="filterPosts('Sales', this)">Sales</button>
         </div>
-        <input type="search" id="journalSearch" placeholder="Search playbooks (GST, RTO, UPI, WhatsApp, SEO)..." aria-label="Search playbooks by keyword" oninput="renderJournalPage()" class="search-input" />
+        <input type="search" id="journalSearch" placeholder="Search playbooks (GST, RTO, UPI, SEO...)" aria-label="Search playbooks by keyword" oninput="renderJournalPage()" class="search-input" />
       </div>
       <div class="journal-status-bar" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:-10px 0 22px 0;">
-        <div id="playbookCounter" style="font-family:'JetBrains Mono',monospace;font-size:0.84rem;font-weight:600;color:var(--ink-secondary,#475569);">Showing 0 of 0 Playbooks</div>
+        <div id="playbookCounter" style="font-family:'JetBrains Mono',monospace;font-size:0.84rem;font-weight:600;color:var(--ink-secondary,#475569);">Showing 16 of 16 Playbooks</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
           <span style="font-size:0.8rem;color:var(--muted,#64748b);">Quick keywords:</span>
           <button type="button" class="pill" style="padding:3px 10px;font-size:0.78rem;" onclick="applyJournalKeyword('GST')">GST</button>
@@ -84,20 +85,21 @@
           <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
           <span>KiteDesk Studio</span>
         </a>
-        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, CopyCraft, and MarginMint.</p>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
       </div>
       <div>
         <h4>Micro-Brands</h4>
         <ul>
           <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
           <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
-          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
           <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
         </ul>
       </div>
       <div>
         <h4>Company &amp; Legal</h4>
         <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
           <li><a href="journal.html">Daily Growth Journal</a></li>
           <li><a href="about.html">About the Studio</a></li>
           <li><a href="contact.html">Request a Tool</a></li>

@@ -250,7 +250,7 @@ window.renderAiVideoPlayer = function(videoKey, customTitle) {
         <img class="ai-vp-backdrop" src="${escapeHtml(cfg.poster)}" alt="${escapeHtml(titleText)}" loading="lazy" />
         <div class="ai-vp-gradient"></div>
         <div class="ai-vp-topbar">
-          <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH • ORIGINAL AI VOICEOVER</span>
+          <span class="ai-vp-tag"><span class="ai-vp-dot"></span> KITEDESK AI WALKTHROUGH</span>
           <span class="ai-vp-step-pill">${escapeHtml(s0.stepBadge)}</span>
         </div>
         <div class="ai-vp-center">
@@ -296,6 +296,7 @@ window.initAiVideoPlayers = function(rootEl) {
     const metricsEl = player.querySelector(".ai-vp-metrics");
     const captionEl = player.querySelector(".ai-vp-caption-bar");
     const stepBtns = player.querySelectorAll(".ai-vp-step-btn");
+    let pendingSeekTime = null;
 
     function fmtTime(sec) {
       const s = Math.max(0, Math.floor(sec || 0));
@@ -306,15 +307,16 @@ window.initAiVideoPlayers = function(rootEl) {
 
     function applyStep(idx) {
       const st = cfg.steps[idx] || cfg.steps[0];
-      stepPill.textContent = st.stepBadge;
-      kickerEl.textContent = st.kicker;
-      headlineEl.textContent = st.headline;
-      metricsEl.innerHTML = st.metrics.map(m => `<span class="ai-vp-metric-chip">${escapeHtml(m)}</span>`).join("");
-      captionEl.textContent = st.caption;
+      if (stepPill) stepPill.textContent = st.stepBadge;
+      if (kickerEl) kickerEl.textContent = st.kicker;
+      if (headlineEl) headlineEl.textContent = st.headline;
+      if (metricsEl) metricsEl.innerHTML = st.metrics.map(m => `<span class="ai-vp-metric-chip">${escapeHtml(m)}</span>`).join("");
+      if (captionEl) captionEl.textContent = st.caption;
       stepBtns.forEach((b, i) => b.classList.toggle("active", i === idx));
     }
 
     function togglePlay() {
+      if (!audio) return;
       if (audio.paused) {
         document.querySelectorAll(".ai-vp-audio").forEach(other => {
           if (other !== audio && !other.paused) other.pause();
@@ -325,57 +327,95 @@ window.initAiVideoPlayers = function(rootEl) {
       }
     }
 
-    stage.addEventListener("click", togglePlay);
-    playBtn.addEventListener("click", togglePlay);
+    if (stage) stage.addEventListener("click", togglePlay);
+    if (playBtn) playBtn.addEventListener("click", togglePlay);
 
-    audio.addEventListener("play", () => {
-      player.classList.add("is-playing");
-      playBtn.textContent = "❚❚ Pause";
-    });
-    audio.addEventListener("pause", () => {
-      player.classList.remove("is-playing");
-      playBtn.textContent = "▶ Play AI Video";
-    });
-    audio.addEventListener("ended", () => {
-      player.classList.remove("is-playing");
-      playBtn.textContent = "↻ Replay AI Video";
-      progressEl.style.width = "100%";
-    });
-    audio.addEventListener("timeupdate", () => {
-      const dur = audio.duration || 22;
-      const cur = audio.currentTime || 0;
-      progressEl.style.width = Math.min(100, (cur / dur) * 100).toFixed(1) + "%";
-      timeEl.textContent = fmtTime(cur) + " / " + fmtTime(dur);
-      let activeIdx = 0;
-      for (let i = 0; i < cfg.steps.length; i++) {
-        if (cur >= cfg.steps[i].tStart) activeIdx = i;
-      }
-      applyStep(activeIdx);
-    });
+    if (audio) {
+      audio.addEventListener("loadedmetadata", () => {
+        if (pendingSeekTime !== null && !isNaN(audio.duration)) {
+          try { audio.currentTime = pendingSeekTime; } catch (e) {}
+          pendingSeekTime = null;
+        }
+      });
+      audio.addEventListener("play", () => {
+        player.classList.add("is-playing");
+        if (playBtn) playBtn.textContent = "❚❚ Pause";
+      });
+      audio.addEventListener("pause", () => {
+        player.classList.remove("is-playing");
+        if (playBtn) playBtn.textContent = "▶ Play AI Video";
+      });
+      audio.addEventListener("ended", () => {
+        player.classList.remove("is-playing");
+        if (playBtn) playBtn.textContent = "↻ Replay AI Video";
+        if (progressEl) progressEl.style.width = "100%";
+      });
+      audio.addEventListener("timeupdate", () => {
+        if (pendingSeekTime !== null) {
+          if (!isNaN(audio.duration)) {
+            try { audio.currentTime = pendingSeekTime; } catch (e) {}
+            pendingSeekTime = null;
+          } else {
+            return;
+          }
+        }
+        const dur = (!isNaN(audio.duration) && audio.duration > 0) ? audio.duration : 22;
+        const cur = audio.currentTime || 0;
+        if (progressEl) progressEl.style.width = Math.min(100, (cur / dur) * 100).toFixed(1) + "%";
+        if (timeEl) timeEl.textContent = fmtTime(cur) + " / " + fmtTime(dur);
+        let activeIdx = 0;
+        for (let i = 0; i < cfg.steps.length; i++) {
+          if (cur >= cfg.steps[i].tStart) activeIdx = i;
+        }
+        applyStep(activeIdx);
+      });
+    }
 
-    timelineEl.addEventListener("click", (e) => {
-      const rect = timelineEl.getBoundingClientRect();
-      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const dur = audio.duration || 22;
-      audio.currentTime = pct * dur;
-      if (audio.paused) togglePlay();
-    });
+    if (timelineEl) {
+      timelineEl.addEventListener("click", (e) => {
+        const rect = timelineEl.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const dur = (audio && !isNaN(audio.duration) && audio.duration > 0) ? audio.duration : 22;
+        const targetTime = pct * dur;
+        if (progressEl) progressEl.style.width = Math.min(100, pct * 100).toFixed(1) + "%";
+        if (timeEl) timeEl.textContent = fmtTime(targetTime) + " / " + fmtTime(dur);
+        if (audio && !isNaN(audio.duration)) {
+          try { audio.currentTime = targetTime; } catch (err) {}
+          if (audio.paused) togglePlay();
+        } else {
+          pendingSeekTime = targetTime;
+        }
+      });
+    }
 
     stepBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
         const idx = parseInt(btn.getAttribute("data-step-idx"), 10) || 0;
         applyStep(idx);
         if (cfg.steps[idx]) {
-          audio.currentTime = cfg.steps[idx].tStart;
-          if (audio.paused) togglePlay();
+          const targetTime = cfg.steps[idx].tStart;
+          const dur = (audio && !isNaN(audio.duration) && audio.duration > 0) ? audio.duration : 22;
+          if (progressEl) progressEl.style.width = Math.min(100, (targetTime / dur) * 100).toFixed(1) + "%";
+          if (timeEl) timeEl.textContent = fmtTime(targetTime) + " / " + fmtTime(dur);
+          if (audio && !isNaN(audio.duration)) {
+            try { audio.currentTime = targetTime; } catch (err) {}
+            if (audio.paused) togglePlay();
+          } else {
+            pendingSeekTime = targetTime;
+          }
         }
       });
     });
   });
 };
 
+window.initAiVideoPlayers(document);
 document.addEventListener("DOMContentLoaded", () => {
   window.initAiVideoPlayers(document);
+  if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
+    buildWhatsApp();
+  }
 });
 
 function toggleNav() {
@@ -820,16 +860,21 @@ function setWaTemplate(text) {
 
 function buildWhatsApp() {
   const phoneEl = document.getElementById('waPhone');
-  if (!phoneEl) return;
-  const phone = phoneEl.value.replace(/\D/g, '');
+  const qrImgEl = document.getElementById('waQrImg');
+  if (!phoneEl && !qrImgEl) return;
+  const rawPhone = phoneEl ? phoneEl.value : '919876543210';
+  const phone = rawPhone.replace(/\D/g, '') || '919876543210';
   const rawMsg = document.getElementById('waMsg')?.value || '';
   const msg = encodeURIComponent(rawMsg);
   const url = `https://wa.me/${phone}${msg ? `?text=${msg}` : ''}`;
-  document.getElementById('waOutput').value = url;
-  document.getElementById('waTestLink').href = url;
+  const outEl = document.getElementById('waOutput');
+  if (outEl) outEl.value = url;
+  const testEl = document.getElementById('waTestLink');
+  if (testEl) testEl.href = url;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(url)}`;
-  document.getElementById('waQrImg').src = qrUrl;
-  document.getElementById('waQrDownload').href = qrUrl;
+  if (qrImgEl) qrImgEl.src = qrUrl;
+  const qrDlEl = document.getElementById('waQrDownload');
+  if (qrDlEl) qrDlEl.href = qrUrl;
   const htmlCode = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#059669;color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>`;
   const embedEl = document.getElementById('waEmbedCode');
   if (embedEl) embedEl.value = htmlCode;

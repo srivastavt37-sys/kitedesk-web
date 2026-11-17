@@ -563,7 +563,8 @@ input:focus, select:focus, textarea:focus {
   border-radius: 4px;
   margin-bottom: 4px;
 }
-.inv-meta { text-align: right; font-size: 0.82rem; color: var(--ink-secondary); font-family: var(--font-mono); }
+.inv-meta { text-align: right; font-size: 0.82rem; color: var(--ink-secondary); font-family: var(--font-mono); white-space: nowrap; flex-shrink: 0; }
+.inv-meta div { white-space: nowrap; }
 .inv-parties {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -698,7 +699,7 @@ input:focus, select:focus, textarea:focus {
   color: var(--ink-secondary);
 }
 .pill.active { background: var(--brand); color: #fff; border-color: var(--brand); }
-.search-input { min-width: 240px; }
+.search-input { min-width: 280px; }
 .post-card {
   display: flex;
   flex-direction: column;
@@ -827,12 +828,15 @@ input:focus, select:focus, textarea:focus {
 }
 .ai-vp-stage {
   position: relative;
-  aspect-ratio: 16 / 9;
-  min-height: 250px;
-  width: 100%;
-  overflow: hidden;
+  min-height: 300px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
   background: #090d16;
   cursor: pointer;
+  overflow: hidden;
 }
 .ai-vp-backdrop {
   position: absolute;
@@ -854,10 +858,12 @@ input:focus, select:focus, textarea:focus {
   background: linear-gradient(180deg, rgba(9,13,22,0.82) 0%, rgba(9,13,22,0.58) 48%, rgba(9,13,22,0.95) 100%);
 }
 .ai-vp-topbar {
-  position: absolute;
-  top: 14px;
-  left: 16px;
-  right: 16px;
+  position: relative;
+  inset: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -877,6 +883,7 @@ input:focus, select:focus, textarea:focus {
   background: rgba(15, 23, 42, 0.88);
   border: 1px solid rgba(255,255,255,0.18);
   color: #38bdf8;
+  white-space: nowrap;
 }
 .ai-vp-dot {
   width: 6px;
@@ -896,11 +903,14 @@ input:focus, select:focus, textarea:focus {
   white-space: nowrap;
 }
 .ai-vp-center {
-  position: absolute;
-  top: 52px;
-  left: 20px;
-  right: 108px;
-  bottom: 62px;
+  position: relative;
+  inset: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  padding-right: 84px;
+  margin: auto 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -963,10 +973,12 @@ input:focus, select:focus, textarea:focus {
   transform: translateY(-50%) scale(0.85);
 }
 .ai-vp-caption-bar {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 10px;
+  position: relative;
+  inset: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
   padding: 7px 12px;
   border-radius: 8px;
   background: rgba(9, 13, 22, 0.9);
@@ -1058,19 +1070,18 @@ input:focus, select:focus, textarea:focus {
 
 @media (max-width: 680px) {
   .ai-vp-stage {
-    aspect-ratio: auto;
-    min-height: 285px;
-    padding: 48px 14px 66px 14px;
+    min-height: 290px;
+    padding: 14px 16px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
   }
   .ai-vp-center {
     position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    padding-right: 62px;
+    inset: auto;
+    padding-right: 60px;
+    margin: auto 0;
   }
   .ai-vp-bigplay {
     right: 14px;
