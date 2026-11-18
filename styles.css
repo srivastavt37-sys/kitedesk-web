@@ -442,10 +442,15 @@ input:focus, select:focus, textarea:focus {
 .hsn-quick-select { width: auto; min-width: 190px; font-size: 0.78rem; padding: 5px 10px; }
 .item-row {
   display: grid;
-  grid-template-columns: 2.2fr 0.7fr 1fr auto;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 0.75fr) minmax(0, 1fr) auto;
   gap: 8px;
   margin-bottom: 8px;
   align-items: center;
+  min-width: 0;
+}
+.item-row input {
+  min-width: 0;
+  width: 100%;
 }
 .tool-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 .preset-chips { display: flex; flex-wrap: wrap; gap: 6px; }
