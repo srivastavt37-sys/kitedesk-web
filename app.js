@@ -1480,6 +1480,73 @@ function calcMargin() {
 }
 calcMargin();
 
+function copyMarginSummary(btn) {
+  const sell = Number(document.getElementById('mmSell')?.value) || 0;
+  const cogs = Number(document.getElementById('mmCogs')?.value) || 0;
+  const ship = Number(document.getElementById('mmShip')?.value) || 0;
+  const pack = Number(document.getElementById('mmPack')?.value) || 0;
+  const feePct = Number(document.getElementById('mmFee')?.value) || 0;
+  const gstPct = Number(document.getElementById('mmGst')?.value) || 0;
+  const rtoPct = Number(document.getElementById('mmRto')?.value) || 0;
+  const cur = document.getElementById('mmCur')?.value || '₹';
+
+  const exGstRev = sell / (1 + gstPct / 100);
+  const gstAmt = sell - exGstRev;
+  const feeAmt = sell * (feePct / 100);
+  const rtoDrag = rtoPct > 0 && rtoPct < 100
+    ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship * 1.8 + pack)
+    : 0;
+  const net = sell - (cogs + ship + pack + feeAmt + rtoDrag + gstAmt);
+  const marginPct = sell > 0 ? (net / sell) * 100 : 0;
+  const roasText = net > 0 ? `${(sell / net).toFixed(2)}x` : 'N/A';
+  const blendedText = document.getElementById('mmBlended100')?.textContent || `${cur}0`;
+
+  const lines = [
+    'MarginMint Unit Economics Breakdown',
+    `Selling Price: ${cur}${sell.toFixed(2)}`,
+    `Ex-GST Revenue (${gstPct}% GST): ${cur}${exGstRev.toFixed(2)}`,
+    `COGS: ${cur}${cogs.toFixed(2)}`,
+    `Shipping: ${cur}${ship.toFixed(2)}`,
+    `COD RTO Drag (${rtoPct}% RTO): ${cur}${rtoDrag.toFixed(2)}`,
+    `Net Profit/Unit: ${cur}${net.toFixed(2)} (${marginPct.toFixed(1)}%)`,
+    `Break-Even ROAS: ${roasText}`,
+    `100-Order Blended Profit: ${blendedText}`
+  ];
+  const summaryText = lines.join('\n');
+
+  const finish = () => {
+    const statusEl = document.getElementById('mmCopyStatus');
+    if (btn) {
+      if (!btn.dataset.origText) btn.dataset.origText = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = btn.dataset.origText; }, 1800);
+    }
+    if (statusEl) {
+      statusEl.textContent = 'Margin breakdown copied.';
+      setTimeout(() => { statusEl.textContent = ''; }, 2400);
+    }
+  };
+
+  const fallbackCopy = () => {
+    const ta = document.createElement('textarea');
+    ta.value = summaryText;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    finish();
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(summaryText).then(finish).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+}
+
 function copySerpMetaTags(btn) {
   const titleText = (document.getElementById('serpTitleInput')?.value || '').trim() || 'Your Brand — Official Store & Custom Orders';
   const descRaw = (document.getElementById('fmtInput')?.value || '').replace(/\s+/g, ' ').trim();
