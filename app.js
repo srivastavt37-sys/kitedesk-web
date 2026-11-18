@@ -909,6 +909,22 @@ function updateGstinStatus(rawVal, statusId) {
   }
 }
 
+function incrementInvoiceNumber() {
+  const input = document.getElementById('invNum');
+  if (!input) return;
+  const raw = (input.value || '').trim();
+  const match = raw.match(/^(.*?)(\d+)$/);
+  if (match) {
+    const prefix = match[1];
+    const numStr = match[2];
+    const nextNum = String(parseInt(numStr, 10) + 1).padStart(numStr.length, '0');
+    input.value = prefix + nextNum;
+  } else {
+    input.value = raw ? `${raw}-001` : 'INV-2026-105';
+  }
+  renderInvoice();
+}
+
 function renderInvoice() {
   if (!document.getElementById('invoicePreview')) return;
   const cur = document.getElementById('invCurrency')?.value || '₹';
@@ -928,7 +944,8 @@ function renderInvoice() {
   document.getElementById('prevFromGstin').textContent = fromGstin ? `GSTIN: ${fromGstin}` : '';
   document.getElementById('prevTo').textContent = toName;
   document.getElementById('prevToGstin').textContent = toGstin ? `GSTIN: ${toGstin}` : '';
-  document.getElementById('prevNum').textContent = document.getElementById('invNum')?.value || 'INV-2026-001';
+  const invNumVal = (document.getElementById('invNum')?.value || 'INV-2026-001').trim() || 'INV-2026-001';
+  document.getElementById('prevNum').textContent = invNumVal;
   document.getElementById('prevDate').textContent = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
   document.getElementById('prevNotes').textContent = document.getElementById('invNotes')?.value || '';
 
@@ -979,7 +996,7 @@ function renderInvoice() {
   if (upiWrap) {
     if (upiId && cur === '₹') {
       upiWrap.style.display = 'block';
-      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(fromName)}&am=${total.toFixed(2)}&cu=INR`;
+      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(fromName)}&am=${total.toFixed(2)}&cu=INR&tr=${encodeURIComponent(invNumVal)}&tn=${encodeURIComponent('Invoice ' + invNumVal)}`;
       window._currentBillfoldUpiUri = upiUri;
       document.getElementById('prevUpiQr').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUri)}`;
       document.getElementById('prevUpiId').textContent = upiId;

@@ -103,7 +103,12 @@
             <label>Customer GSTIN (Optional) <input type="text" class="mono-input" id="invToGstin" value="09XYZAB5678G1Z2" placeholder="09XYZAB5678G1Z2" maxlength="15" oninput="renderInvoice()" /><span id="invToGstinStatus" class="gstin-status" aria-live="polite"></span></label>
           </div>
           <div class="form-row">
-            <label>Invoice No. <input type="text" class="mono-input" id="invNum" value="INV-2026-104" oninput="renderInvoice()" /></label>
+            <label>Invoice No.
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" class="mono-input" id="invNum" value="INV-2026-104" oninput="renderInvoice()" style="min-width:0;flex:1;" />
+                <button type="button" class="btn btn-sm btn-outline" id="btnNextInvNum" onclick="incrementInvoiceNumber()" title="Increment invoice number to avoid duplicate GST numbers" style="white-space:nowrap;flex-shrink:0;">+1 Next</button>
+              </div>
+            </label>
             <label>Currency
               <select id="invCurrency" onchange="renderInvoice()">
                 <option value="&#8377;">&#8377; INR</option>
