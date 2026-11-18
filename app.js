@@ -939,14 +939,47 @@ function renderInvoice() {
     if (upiId && cur === '₹') {
       upiWrap.style.display = 'block';
       const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(fromName)}&am=${total.toFixed(2)}&cu=INR`;
+      window._currentBillfoldUpiUri = upiUri;
       document.getElementById('prevUpiQr').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUri)}`;
       document.getElementById('prevUpiId').textContent = upiId;
     } else {
+      window._currentBillfoldUpiUri = '';
       upiWrap.style.display = 'none';
     }
   }
 
   try { localStorage.setItem('bf_items', JSON.stringify(invoiceItems)); } catch (e) {}
+}
+
+
+function copyBillfoldUpiLink(btn) {
+  const uri = window._currentBillfoldUpiUri || '';
+  if (!uri) return;
+  const finish = () => {
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied upi://pay Link!';
+    setTimeout(() => { btn.textContent = orig; }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(uri).then(finish).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = uri;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      finish();
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = uri;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    finish();
+  }
 }
 
 function resetInvoice() {

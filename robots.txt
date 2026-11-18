@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://srivastavt37-sys.github.io/kitedesk-web/sitemap.xml
