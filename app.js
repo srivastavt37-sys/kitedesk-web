@@ -1377,6 +1377,46 @@ function formatAs(mode) {
     t = t.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
   } else if (mode === 'slug') {
     t = t.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  } else if (mode === 'wacard') {
+    const rawLines = t.split('\n').map(l => l.trim()).filter(Boolean)
+      .map(l => l.replace(/^[✓•\-]\s*/, '').trim());
+    const cleanField = (line, labelRe) => line.replace(labelRe, '').replace(/^\*+|\*+$/g, '').trim();
+    const serpTitle = (document.getElementById('serpTitleInput')?.value || '').trim();
+
+    let productName = '';
+    let priceVal = '';
+    let etaVal = '';
+    let upiVal = '';
+
+    for (const line of rawLines) {
+      if (/^\*?price:?\*?/i.test(line)) {
+        priceVal = cleanField(line, /^\*?price:?\*?\s*/i);
+      } else if (/^\*?dispatch(?:\s*eta)?:?\*?/i.test(line)) {
+        etaVal = cleanField(line, /^\*?dispatch(?:\s*eta)?:?\*?\s*/i);
+      } else if (/^\*?upi\s*offer:?\*?/i.test(line)) {
+        upiVal = cleanField(line, /^\*?upi\s*offer:?\*?\s*/i);
+      } else if (!productName) {
+        productName = line.replace(/^\*+|\*+$/g, '').trim();
+      } else if (!priceVal && /(?:₹|rs\.?\s*|inr\s*)\d/i.test(line)) {
+        priceVal = line.replace(/^\*+|\*+$/g, '').trim();
+      } else if (!etaVal && /(dispatch|ship|deliver|eta|hrs?|hours?|days?)/i.test(line)) {
+        etaVal = line.replace(/^\*+|\*+$/g, '').trim();
+      } else if (!upiVal && /(upi|prepaid|offer|discount|cashback|\boff\b)/i.test(line)) {
+        upiVal = line.replace(/^\*+|\*+$/g, '').trim();
+      }
+    }
+
+    if (!productName) productName = serpTitle || 'Product Name';
+    if (!priceVal) priceVal = '₹1,549 (Incl. GST)';
+    if (!etaVal) etaVal = 'Dispatches in 24 hrs (Pan-India)';
+    if (!upiVal) upiVal = 'Flat ₹100 OFF on Prepaid UPI';
+
+    t = [
+      `*${productName}*`,
+      `• *Price:* ${priceVal}`,
+      `• *Dispatch ETA:* ${etaVal}`,
+      `• *UPI Offer:* ${upiVal}`
+    ].join('\n');
   }
   el.value = t;
   updateFormatter();
