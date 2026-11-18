@@ -1004,6 +1004,42 @@ function copyBillfoldUpiLink(btn) {
   }
 }
 
+
+function copyBillfoldWaMsg(btn) {
+  const uri = window._currentBillfoldUpiUri || '';
+  if (!uri) return;
+  const toName = (document.getElementById('invTo')?.value || 'there').trim() || 'there';
+  const fromName = (document.getElementById('invFrom')?.value || 'Our Store').trim() || 'Our Store';
+  const invNum = (document.getElementById('invNum')?.value || 'Invoice').trim() || 'Invoice';
+  const totalText = (document.getElementById('prevTotal')?.textContent || '₹0.00').trim();
+  const msg = `Hi ${toName},\n\nSharing your invoice ${invNum} from ${fromName} for ${totalText}.\n\nYou can pay directly via UPI using this link:\n${uri}\n\nThank you!`;
+  const finish = () => {
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied WhatsApp Message!';
+    setTimeout(() => { btn.textContent = orig; }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(msg).then(finish).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = msg;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      finish();
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = msg;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    finish();
+  }
+}
+
 function resetInvoice() {
   invoiceItems = [{ desc: 'Consulting / Product Order', qty: 1, rate: 1500 }];
   renderInvoiceInputs();
