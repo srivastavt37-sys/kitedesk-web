@@ -870,6 +870,26 @@ function removeInvoiceItem(idx) {
   renderInvoice();
 }
 
+const GSTIN_REGEX = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+
+function updateGstinStatus(rawVal, statusId) {
+  const el = document.getElementById(statusId);
+  if (!el) return;
+  const val = (rawVal || '').trim().toUpperCase();
+  if (!val) {
+    el.textContent = '';
+    el.className = 'gstin-status';
+    return;
+  }
+  if (GSTIN_REGEX.test(val)) {
+    el.textContent = 'Valid 15-char GSTIN ✓';
+    el.className = 'gstin-status is-valid';
+  } else {
+    el.textContent = 'Check GSTIN format (15 chars, e.g. 27AABCU9603R1ZM)';
+    el.className = 'gstin-status is-invalid';
+  }
+}
+
 function renderInvoice() {
   if (!document.getElementById('invoicePreview')) return;
   const cur = document.getElementById('invCurrency')?.value || '₹';
@@ -881,6 +901,8 @@ function renderInvoice() {
   const fromGstin = document.getElementById('invFromGstin')?.value || '';
   const toName = document.getElementById('invTo')?.value || 'Customer';
   const toGstin = document.getElementById('invToGstin')?.value || '';
+  updateGstinStatus(fromGstin, 'invFromGstinStatus');
+  updateGstinStatus(toGstin, 'invToGstinStatus');
   const upiId = (document.getElementById('invUpi')?.value || '').trim();
 
   document.getElementById('prevFrom').textContent = fromName;

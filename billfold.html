@@ -96,11 +96,11 @@
           <h3>1. Seller &amp; Buyer Details</h3>
           <div class="form-row">
             <label>Your Business Name <input type="text" id="invFrom" value="KiteDesk Crafts" oninput="renderInvoice()" /></label>
-            <label>Your GSTIN (Optional) <input type="text" class="mono-input" id="invFromGstin" value="09AABCK7741P1Z2" placeholder="09ABCDE1234F1Z5" oninput="renderInvoice()" /></label>
+            <label>Your GSTIN (Optional) <input type="text" class="mono-input" id="invFromGstin" value="09AABCK7741P1Z2" placeholder="09ABCDE1234F1Z5" maxlength="15" oninput="renderInvoice()" /><span id="invFromGstinStatus" class="gstin-status" aria-live="polite"></span></label>
           </div>
           <div class="form-row">
             <label>Billed To (Customer / Company) <input type="text" id="invTo" value="Aarav Retail Pvt Ltd" oninput="renderInvoice()" /></label>
-            <label>Customer GSTIN (Optional) <input type="text" class="mono-input" id="invToGstin" value="09XYZAB5678G1Z2" placeholder="09XYZAB5678G1Z2" oninput="renderInvoice()" /></label>
+            <label>Customer GSTIN (Optional) <input type="text" class="mono-input" id="invToGstin" value="09XYZAB5678G1Z2" placeholder="09XYZAB5678G1Z2" maxlength="15" oninput="renderInvoice()" /><span id="invToGstinStatus" class="gstin-status" aria-live="polite"></span></label>
           </div>
           <div class="form-row">
             <label>Invoice No. <input type="text" class="mono-input" id="invNum" value="INV-2026-104" oninput="renderInvoice()" /></label>

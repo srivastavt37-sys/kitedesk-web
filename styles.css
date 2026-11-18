@@ -1182,3 +1182,20 @@ input:focus, select:focus, textarea:focus {
     margin-top: 6mm;
   }
 }
+
+/* BillFold Live GSTIN Validator */
+.gstin-status {
+  display: block;
+  min-height: 1.1em;
+  margin-top: 4px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.gstin-status.is-valid {
+  color: #059669;
+}
+.gstin-status.is-invalid {
+  color: #b91c1c;
+}
