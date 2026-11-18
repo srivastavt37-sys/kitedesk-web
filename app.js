@@ -414,7 +414,26 @@ window.initAiVideoPlayers(document);
 document.addEventListener("DOMContentLoaded", () => {
   window.initAiVideoPlayers(document);
   if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
-    buildWhatsApp();
+    function updateStandeeBrand() {
+  const brandInput = document.getElementById('waBrand');
+  const previewEl = document.getElementById('standeeBrandPreview');
+  if (previewEl) {
+    const val = brandInput && brandInput.value ? brandInput.value.trim() : '';
+    previewEl.textContent = val || 'Your Shop Name';
+  }
+  const ctaInput = document.getElementById('waStandeeCta');
+  const ctaPreviewEl = document.getElementById('standeeCtaPreview');
+  if (ctaPreviewEl) {
+    const ctaVal = ctaInput && ctaInput.value ? ctaInput.value.trim() : '';
+    ctaPreviewEl.textContent = ctaVal || 'Scan to Order on WhatsApp';
+  }
+}
+function printCounterStandee() {
+  updateStandeeBrand();
+  window.print();
+}
+buildWhatsApp();
+updateStandeeBrand();
   }
   if (document.getElementById("fmtInput")) {
     updateFormatter();

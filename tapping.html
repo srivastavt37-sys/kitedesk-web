@@ -81,9 +81,14 @@
           <label>WhatsApp Number (Country code + digits, no + or spaces)
             <input type="text" class="mono-input" id="waPhone" value="919876543210" oninput="buildWhatsApp()" />
           </label>
-          <label>Shop / Brand Name <span class="muted">(Optional — for Counter QR Standee)</span>
-            <input type="text" id="waBrand" value="Your Shop Name" placeholder="Your Shop Name" maxlength="48" oninput="updateStandeeBrand()" />
-          </label>
+          <div class="form-row">
+            <label>Shop / Brand Name <span class="muted">(Optional — Counter QR)</span>
+              <input type="text" id="waBrand" value="Your Shop Name" placeholder="Your Shop Name" maxlength="48" oninput="updateStandeeBrand()" />
+            </label>
+            <label>Standee Callout Line <span class="muted">(Optional)</span>
+              <input type="text" id="waStandeeCta" value="Scan to Order on WhatsApp" placeholder="Scan to Order on WhatsApp" maxlength="48" oninput="updateStandeeBrand()" />
+            </label>
+          </div>
           <div>
             <label style="margin-bottom:6px;">Quick Commerce Templates (Click to fill)</label>
             <div class="preset-chips">
@@ -126,7 +131,7 @@
           <p class="muted no-print" style="margin-bottom:4px;">Print on parcel inserts, shoe boxes, or shop counters so buyers message you in one scan.</p>
           <div class="standee-frame">
             <div class="standee-brand" id="standeeBrandPreview">Your Shop Name</div>
-            <div class="standee-tagline">Scan to Order on WhatsApp</div>
+            <div class="standee-tagline" id="standeeCtaPreview">Scan to Order on WhatsApp</div>
             <img id="waQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=https%3A%2F%2Fwa.me%2F919876543210%3Ftext%3DHi!%2520I%2520saw%2520your%2520catalog%2520and%2520want%2520to%2520place%2520an%2520order.%2520Please%2520share%2520available%2520sizes%2520and%2520payment%2520link." alt="WhatsApp Order QR Code" class="qr-img" />
             <div class="standee-sub">Point your phone camera to chat &amp; order directly</div>
           </div>
@@ -240,18 +245,7 @@
         buildWhatsApp();
       }
     }
-    function updateStandeeBrand() {
-      var brandInput = document.getElementById('waBrand');
-      var previewEl = document.getElementById('standeeBrandPreview');
-      if (previewEl) {
-        var val = brandInput && brandInput.value ? brandInput.value.trim() : '';
-        previewEl.textContent = val || 'Your Shop Name';
-      }
-    }
-    function printCounterStandee() {
-      updateStandeeBrand();
-      window.print();
-    }
+
     document.addEventListener('DOMContentLoaded', function () {
       if (typeof buildWhatsApp === 'function') buildWhatsApp();
       updateStandeeBrand();
