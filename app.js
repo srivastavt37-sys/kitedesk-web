@@ -1544,6 +1544,14 @@ function calcMargin() {
     gainEl.style.color = codGain >= 0 ? 'var(--brand)' : 'var(--danger)';
   }
 
+  const targetNetProfit = sell * 0.15;
+  const maxSafeCpa = Math.max(0, (net - targetNetProfit) * (1 - rtoFrac));
+  const maxCpaEl = document.getElementById('mmMaxCpa');
+  if (maxCpaEl) {
+    maxCpaEl.textContent = `${cur}${maxSafeCpa.toFixed(2)}`;
+    maxCpaEl.style.color = maxSafeCpa > 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+
   if (sell > 0) {
     const pCogs = Math.min(100, Math.max(0, (cogs / sell) * 100));
     const pOps = Math.min(100, Math.max(0, (opsTotal / sell) * 100));
@@ -1576,6 +1584,8 @@ function copyMarginSummary(btn) {
   const net = sell - (cogs + ship + pack + feeAmt + rtoDrag + gstAmt);
   const marginPct = sell > 0 ? (net / sell) * 100 : 0;
   const roasText = net > 0 ? `${(sell / net).toFixed(2)}x` : 'N/A';
+  const rtoFrac = Math.min(0.99, Math.max(0, rtoPct / 100));
+  const maxSafeCpa = Math.max(0, (net - sell * 0.15) * (1 - rtoFrac));
   const blendedText = document.getElementById('mmBlended100')?.textContent || `${cur}0`;
 
   const lines = [
@@ -1587,6 +1597,7 @@ function copyMarginSummary(btn) {
     `COD RTO Drag (${rtoPct}% RTO): ${cur}${rtoDrag.toFixed(2)}`,
     `Net Profit/Unit: ${cur}${net.toFixed(2)} (${marginPct.toFixed(1)}%)`,
     `Break-Even ROAS: ${roasText}`,
+    `Max Safe Ad CPA (15% Net Margin): ${cur}${maxSafeCpa.toFixed(2)}`,
     `100-Order Blended Profit: ${blendedText}`
   ];
   const summaryText = lines.join('\n');
