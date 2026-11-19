@@ -153,6 +153,12 @@
             </div>
           </div>
           <div id="invoiceItemsList"></div>
+          <div class="mrp-extractor" aria-label="GST-Inclusive MRP Reverse Extractor">
+            <span class="mrp-extractor-label">GST-Inclusive MRP Extractor:</span>
+            <input type="number" class="mono-input mrp-extractor-input" id="bfMrpInclusive" placeholder="MRP incl. GST (e.g. 1499)" min="0" step="0.01" aria-label="GST-inclusive MRP amount" />
+            <button type="button" class="btn btn-sm btn-outline" onclick="extractMrpBase()">Extract Base</button>
+            <span class="muted mrp-extractor-status" id="bfMrpStatus"></span>
+          </div>
 
           <label>Payment Terms &amp; Notes
             <textarea id="invNotes" rows="2" oninput="renderInvoice()">Scan the UPI QR code to pay instantly, or remit via NEFT within 7 days. Thank you for your business!</textarea>

@@ -448,6 +448,20 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   min-width: 0;
 }
+.mrp-extractor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: #f8fafc;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+.mrp-extractor-label { font-size: 0.78rem; font-weight: 600; color: var(--ink-muted); }
+.mrp-extractor-input { width: 175px; max-width: 100%; font-size: 0.8rem; padding: 5px 8px; }
+.mrp-extractor-status { font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
 .item-row input {
   min-width: 0;
   width: 100%;

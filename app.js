@@ -884,6 +884,31 @@ function addInvoiceItem() {
   renderInvoice();
 }
 
+function extractMrpBase() {
+  const mrpInput = document.getElementById('bfMrpInclusive');
+  const statusEl = document.getElementById('bfMrpStatus');
+  const mrpVal = Number(mrpInput?.value) || 0;
+  if (mrpVal <= 0) {
+    if (statusEl) statusEl.textContent = 'Enter MRP > 0';
+    return;
+  }
+  const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
+  const rawRate = Number(document.getElementById('invTax')?.value) || 0;
+  const taxRate = taxMode === 'none' ? 0 : rawRate;
+  const baseRate = Number((mrpVal / (1 + (taxRate / 100))).toFixed(2));
+
+  if (invoiceItems.length === 0) {
+    invoiceItems.push({ desc: 'Line Item', qty: 1, rate: baseRate });
+  } else {
+    invoiceItems[invoiceItems.length - 1].rate = baseRate;
+  }
+
+  const cur = document.getElementById('invCurrency')?.value || '₹';
+  if (statusEl) statusEl.textContent = `Base: ${cur}${baseRate.toFixed(2)} (${taxRate}% GST)`;
+  renderInvoiceInputs();
+  renderInvoice();
+}
+
 function removeInvoiceItem(idx) {
   if (invoiceItems.length <= 1) return;
   invoiceItems.splice(idx, 1);
