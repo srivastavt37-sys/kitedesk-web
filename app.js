@@ -1485,6 +1485,47 @@ function updateFormatter() {
   if (prevDesc) prevDesc.textContent = text.replace(/\n+/g, ' ').slice(0, 160) || 'Write your description above to preview how your page appears on Google Search.';
 }
 
+function autoCleanSerpSlug() {
+  const titleEl = document.getElementById('serpTitleInput');
+  const urlEl = document.getElementById('serpUrlInput');
+  if (!urlEl) return;
+
+  const rawTitle = (titleEl?.value || '').trim();
+  const stopWords = new Set([
+    'a', 'an', 'the', 'and', 'or', 'but', 'for', 'of', 'in', 'on', 'at',
+    'to', 'from', 'by', 'with', 'as', 'is', 'are', 'was', 'were', 'be',
+    'into', 'onto', 'per', 'via'
+  ]);
+
+  const tokens = rawTitle
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' ')
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .split(/[\s-]+/)
+    .filter(w => w && !stopWords.has(w));
+
+  let slug = tokens.join('-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  if (slug.length > 60) {
+    slug = slug.slice(0, 60).replace(/-[^-]*$/, '') || slug.slice(0, 60);
+  }
+  if (!slug) slug = 'product-page';
+
+  const currentUrl = (urlEl.value || '').trim() || 'https://kitedesk.in';
+  let prefix = 'https://kitedesk.in';
+  const protoMatch = currentUrl.match(/^(https?:\/\/[^\/?#]+)/i);
+  if (protoMatch) {
+    prefix = protoMatch[1];
+  } else {
+    const bareHost = currentUrl.split(/[\/?#]/)[0];
+    if (bareHost) prefix = 'https://' + bareHost;
+  }
+
+  urlEl.value = `${prefix.replace(/\/+$/, '')}/${slug}`;
+  updateFormatter();
+}
+
 function formatAs(mode) {
   const el = document.getElementById('fmtInput');
   if (!el) return;

@@ -83,7 +83,10 @@
               <input type="text" id="serpTitleInput" value="Handcrafted Leather Jootis — Custom Bridal &amp; Festive Pair" oninput="updateFormatter()" />
             </label>
             <label>Store URL
-              <input type="text" class="mono-input" id="serpUrlInput" value="https://kitedesk.in/shop/festive-jootis" oninput="updateFormatter()" />
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" class="mono-input" id="serpUrlInput" value="https://kitedesk.in/shop/festive-jootis" oninput="updateFormatter()" style="min-width:0;flex:1;" />
+                <button type="button" class="btn btn-sm btn-outline" id="autoCleanSlugBtn" onclick="autoCleanSerpSlug()" style="white-space:nowrap;flex-shrink:0;" title="Convert SERP title into a clean SEO URL slug">Auto-Clean URL Slug</button>
+              </div>
             </label>
           </div>
           <label>Description / Bio Copy
