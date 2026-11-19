@@ -1368,6 +1368,13 @@ function buildWhatsApp() {
   const url = `https://wa.me/${phone}${msg ? `?text=${msg}` : ''}`;
   const outEl = document.getElementById('waOutput');
   if (outEl) outEl.value = url;
+  const lenEl = document.getElementById('waLinkLen');
+  if (lenEl) {
+    const len = url.length;
+    const status = len <= 160 ? 'Instagram/SMS-ready' : 'Long';
+    lenEl.textContent = `${len} chars · ${status}`;
+    lenEl.style.color = len <= 160 ? '#059669' : '#c2410c';
+  }
   const testEl = document.getElementById('waTestLink');
   if (testEl) testEl.href = url;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(url)}`;
