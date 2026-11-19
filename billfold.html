@@ -95,6 +95,13 @@
 
           <h3>1. Seller &amp; Buyer Details</h3>
           <div class="form-row">
+            <label>Document Type
+              <select id="invDocType" onchange="renderInvoice()">
+                <option value="TAX INVOICE">Tax Invoice</option>
+                <option value="PROFORMA QUOTE">Proforma Quote</option>
+                <option value="CREDIT NOTE">Credit Note</option>
+              </select>
+            </label>
             <label>Your Business Name <input type="text" id="invFrom" value="KiteDesk Crafts" oninput="renderInvoice()" /></label>
             <label>Your GSTIN (Optional) <input type="text" class="mono-input" id="invFromGstin" value="09AABCK7741P1Z2" placeholder="09ABCDE1234F1Z5" maxlength="15" oninput="renderInvoice()" /><span id="invFromGstinStatus" class="gstin-status" aria-live="polite"></span></label>
           </div>
@@ -160,7 +167,7 @@
         <div class="card invoice-preview" id="invoicePreview">
           <div class="inv-top">
             <div>
-              <span class="inv-badge">TAX INVOICE</span>
+              <span class="inv-badge" id="prevDocType">TAX INVOICE</span>
               <h2 id="prevFrom" style="margin-bottom:2px;">KiteDesk Crafts</h2>
               <div class="muted mono-val" id="prevFromGstin"></div>
             </div>
@@ -360,6 +367,7 @@
       document.getElementById('invFromGstin').value = p.fromGstin;
       document.getElementById('invTo').value = p.to;
       document.getElementById('invToGstin').value = p.toGstin;
+      if (document.getElementById('invDocType')) document.getElementById('invDocType').value = p.docType || 'TAX INVOICE';
       document.getElementById('invNum').value = p.num;
       document.getElementById('invCurrency').value = p.currency;
       document.getElementById('invDiscount').value = p.discount;

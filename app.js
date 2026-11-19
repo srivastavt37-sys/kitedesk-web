@@ -704,6 +704,7 @@ function saveInvoiceToHistory() {
   const total = taxable + taxAmt;
 
   const entry = {
+    docType: document.getElementById('invDocType')?.value || 'TAX INVOICE',
     num: (document.getElementById('invNum')?.value || 'INV-2026-001').trim(),
     from: document.getElementById('invFrom')?.value || 'Your Business',
     fromGstin: document.getElementById('invFromGstin')?.value || '',
@@ -732,6 +733,7 @@ function loadSavedInvoice(idx) {
   const list = getSavedInvoicesList();
   const p = list[idx];
   if (!p) return;
+  if (document.getElementById('invDocType')) document.getElementById('invDocType').value = p.docType || 'TAX INVOICE';
   if (document.getElementById('invFrom')) document.getElementById('invFrom').value = p.from || '';
   if (document.getElementById('invFromGstin')) document.getElementById('invFromGstin').value = p.fromGstin || '';
   if (document.getElementById('invTo')) document.getElementById('invTo').value = p.to || '';
@@ -940,6 +942,9 @@ function renderInvoice() {
   updateGstinStatus(toGstin, 'invToGstinStatus');
   const upiId = (document.getElementById('invUpi')?.value || '').trim();
 
+  const docType = document.getElementById('invDocType')?.value || 'TAX INVOICE';
+  const prevDocTypeEl = document.getElementById('prevDocType');
+  if (prevDocTypeEl) prevDocTypeEl.textContent = docType;
   document.getElementById('prevFrom').textContent = fromName;
   document.getElementById('prevFromGstin').textContent = fromGstin ? `GSTIN: ${fromGstin}` : '';
   document.getElementById('prevTo').textContent = toName;
@@ -1077,6 +1082,7 @@ function copyBillfoldWaMsg(btn) {
 }
 
 function resetInvoice() {
+  if (document.getElementById('invDocType')) document.getElementById('invDocType').value = 'TAX INVOICE';
   invoiceItems = [{ desc: 'Consulting / Product Order', qty: 1, rate: 1500 }];
   renderInvoiceInputs();
   renderInvoice();
