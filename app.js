@@ -1615,6 +1615,19 @@ function calcMargin() {
     maxCpaEl.style.color = maxSafeCpa > 0 ? 'var(--brand)' : 'var(--danger)';
   }
 
+  const cpa = Math.max(0, Number(document.getElementById('mmCpa')?.value) || 0);
+  const cpaPerDelivered = cpa / (1 - rtoFrac);
+  const fixedDeliveredCost = cogs + ship + pack + rtoLossPerDelivered + cpaPerDelivered;
+  const targetMrpDenom = (1 / (1 + gstPct / 100)) - (feePct / 100) - 0.20;
+  const targetMrp = targetMrpDenom > 0 ? fixedDeliveredCost / targetMrpDenom : 0;
+  const targetMrpEl = document.getElementById('mmTargetMrp');
+  if (targetMrpEl) {
+    targetMrpEl.textContent = targetMrp > 0
+      ? `${cur}${Math.ceil(targetMrp).toLocaleString('en-IN')}`
+      : 'N/A';
+    targetMrpEl.style.color = targetMrp > 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+
   if (sell > 0) {
     const pCogs = Math.min(100, Math.max(0, (cogs / sell) * 100));
     const pOps = Math.min(100, Math.max(0, (opsTotal / sell) * 100));
@@ -1649,6 +1662,11 @@ function copyMarginSummary(btn) {
   const roasText = net > 0 ? `${(sell / net).toFixed(2)}x` : 'N/A';
   const rtoFrac = Math.min(0.99, Math.max(0, rtoPct / 100));
   const maxSafeCpa = Math.max(0, (net - sell * 0.15) * (1 - rtoFrac));
+  const cpa = Math.max(0, Number(document.getElementById('mmCpa')?.value) || 0);
+  const cpaPerDelivered = cpa / (1 - rtoFrac);
+  const targetMrpDenom = (1 / (1 + gstPct / 100)) - (feePct / 100) - 0.20;
+  const targetMrp = targetMrpDenom > 0 ? (cogs + ship + pack + rtoDrag + cpaPerDelivered) / targetMrpDenom : 0;
+  const targetMrpText = targetMrp > 0 ? `${cur}${Math.ceil(targetMrp).toLocaleString('en-IN')}` : 'N/A';
   const blendedText = document.getElementById('mmBlended100')?.textContent || `${cur}0`;
 
   const lines = [
@@ -1661,6 +1679,7 @@ function copyMarginSummary(btn) {
     `Net Profit/Unit: ${cur}${net.toFixed(2)} (${marginPct.toFixed(1)}%)`,
     `Break-Even ROAS: ${roasText}`,
     `Max Safe Ad CPA (15% Net Margin): ${cur}${maxSafeCpa.toFixed(2)}`,
+    `Suggested MRP (20% Net Margin): ${targetMrpText}`,
     `100-Order Blended Profit: ${blendedText}`
   ];
   const summaryText = lines.join('\n');
