@@ -1714,13 +1714,53 @@ function copySerpMetaTags(btn) {
   }
 }
 
+function copyWithFallback(text, btn) {
+  const showDone = () => {
+    if (!btn) return;
+    if (!btn.dataset.origLabel) btn.dataset.origLabel = btn.textContent;
+    const orig = btn.dataset.origLabel;
+    btn.textContent = 'Copied ✓';
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(() => { btn.textContent = orig; }, 1400);
+  };
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    navigator.clipboard.writeText(text).then(showDone).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      showDone();
+    });
+    return;
+  }
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  showDone();
+}
+
 function copyText(id, btn) {
   const el = document.getElementById(id);
   if (!el) return;
-  navigator.clipboard.writeText(el.value);
-  const orig = btn.textContent;
-  btn.textContent = 'Copied ✓';
-  setTimeout(() => btn.textContent = orig, 1400);
+  copyWithFallback(el.value, btn);
+}
+
+function copyWaMarkdown(btn) {
+  const outEl = document.getElementById('waOutput');
+  const url = outEl && outEl.value ? outEl.value.trim() : '';
+  if (!url) return;
+  copyWithFallback(`[Order on WhatsApp](${url})`, btn);
 }
 
 function handleContact(e) {
