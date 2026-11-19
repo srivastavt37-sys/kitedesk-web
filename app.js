@@ -1365,6 +1365,49 @@ function buildWhatsApp() {
 buildWhatsApp();
 
 /* 3. COPYCRAFT — BIO, LISTING & SERP FORMATTER */
+let _serpCanvasCtx = null;
+const SERP_CHAR_WIDTHS = {
+  'i': 4.4, 'l': 4.4, 'I': 5.6, 'j': 4.6, 't': 5.6, 'f': 5.6, 'r': 6.7,
+  '.': 5.6, ',': 5.6, ':': 5.6, ';': 5.6, '!': 5.6, '|': 5.2, "'": 4.2,
+  ' ': 5.6, '-': 6.7, '/': 5.6, '(': 6.7, ')': 6.7, '[': 5.6, ']': 5.6,
+  'W': 18.9, 'M': 16.7, 'm': 16.7, 'w': 14.4, 'G': 15.6, 'O': 15.6, 'Q': 15.6,
+  'D': 14.4, 'H': 14.4, 'N': 14.4, 'U': 14.4, 'C': 14.4, 'R': 14.4, 'B': 13.3,
+  'A': 13.3, 'K': 13.3, 'V': 13.3, 'X': 13.3, 'Y': 13.3, 'P': 13.3, 'S': 13.3,
+  'E': 13.3, 'T': 12.2, 'F': 12.2, 'Z': 12.2, 'L': 11.1, 'J': 10.0,
+  '—': 20.0, '–': 11.1, '&': 13.3, '₹': 11.1, '%': 17.8, '@': 20.3
+};
+
+function measureSerpTitlePx(str) {
+  if (!str) return 0;
+  try {
+    if (!_serpCanvasCtx && typeof document !== 'undefined') {
+      const c = document.createElement('canvas');
+      _serpCanvasCtx = c.getContext('2d');
+    }
+    if (_serpCanvasCtx) {
+      _serpCanvasCtx.font = '20px Arial, sans-serif';
+      return Math.round(_serpCanvasCtx.measureText(str).width);
+    }
+  } catch (e) {}
+  let total = 0;
+  for (const ch of str) {
+    if (SERP_CHAR_WIDTHS[ch] !== undefined) total += SERP_CHAR_WIDTHS[ch];
+    else if (/[A-Z]/.test(ch)) total += 13.5;
+    else if (/[0-9]/.test(ch)) total += 11.1;
+    else total += 10.5;
+  }
+  return Math.round(total);
+}
+
+function truncateSerpTitleByPx(str, maxPx) {
+  if (measureSerpTitlePx(str) <= maxPx) return str;
+  let end = str.length;
+  while (end > 0 && measureSerpTitlePx(str.slice(0, end).trimEnd() + '...') > maxPx) {
+    end -= 1;
+  }
+  return str.slice(0, end).trimEnd() + '...';
+}
+
 function updateFormatter() {
   const el = document.getElementById('fmtInput');
   if (!el) return;
@@ -1381,7 +1424,31 @@ function updateFormatter() {
   const prevTitle = document.getElementById('serpPrevTitle');
   const prevUrl = document.getElementById('serpPrevUrl');
   const prevDesc = document.getElementById('serpPrevDesc');
-  if (prevTitle) prevTitle.textContent = serpTitle.slice(0, 65);
+
+  const titleChars = serpTitle.length;
+  const titlePx = measureSerpTitlePx(serpTitle);
+  const charsEl = document.getElementById('serpTitleChars');
+  const pxEl = document.getElementById('serpTitlePx');
+  const statusEl = document.getElementById('serpTitleStatus');
+  if (charsEl) charsEl.textContent = `${titleChars} / 60 chars`;
+  if (pxEl) {
+    pxEl.textContent = `~${titlePx} / 580 px`;
+    pxEl.style.color = titlePx > 580 ? '#c2410c' : 'var(--ink)';
+  }
+  if (statusEl) {
+    if (titlePx > 580) {
+      statusEl.textContent = `+${titlePx - 580} px over (truncates)`;
+      statusEl.style.color = '#c2410c';
+    } else if (titlePx >= 520) {
+      statusEl.textContent = `${580 - titlePx} px buffer left`;
+      statusEl.style.color = '#0f4c5c';
+    } else {
+      statusEl.textContent = 'Fits desktop SERP';
+      statusEl.style.color = '#059669';
+    }
+  }
+
+  if (prevTitle) prevTitle.textContent = truncateSerpTitleByPx(serpTitle, 580);
   if (prevUrl) prevUrl.textContent = serpUrl;
   if (prevDesc) prevDesc.textContent = text.replace(/\n+/g, ' ').slice(0, 160) || 'Write your description above to preview how your page appears on Google Search.';
 }
