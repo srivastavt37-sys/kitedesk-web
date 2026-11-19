@@ -976,7 +976,18 @@ function renderInvoice() {
   document.getElementById('prevToGstin').textContent = toGstin ? `GSTIN: ${toGstin}` : '';
   const invNumVal = (document.getElementById('invNum')?.value || 'INV-2026-001').trim() || 'INV-2026-001';
   document.getElementById('prevNum').textContent = invNumVal;
-  document.getElementById('prevDate').textContent = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const invDateEl = document.getElementById('invDate');
+  let baseDate = new Date();
+  if (invDateEl && /^\d{4}-\d{2}-\d{2}$/.test(invDateEl.value)) {
+    const [y, m, d] = invDateEl.value.split('-').map(Number);
+    baseDate = new Date(y, m - 1, d);
+  }
+  document.getElementById('prevDate').textContent = baseDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const prevDueDateEl = document.getElementById('prevDueDate');
+  if (prevDueDateEl) {
+    const dueDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() + 15);
+    prevDueDateEl.textContent = `Due: ${dueDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`;
+  }
   document.getElementById('prevNotes').textContent = document.getElementById('invNotes')?.value || '';
 
   let sub = 0;
@@ -1114,6 +1125,14 @@ function resetInvoice() {
 }
 
 if (document.getElementById('invoiceItemsList')) {
+  const initInvDateEl = document.getElementById('invDate');
+  if (initInvDateEl && !initInvDateEl.value) {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    initInvDateEl.value = `${yyyy}-${mm}-${dd}`;
+  }
   renderInvoiceInputs();
   renderInvoice();
   renderSavedInvoicesBar();
