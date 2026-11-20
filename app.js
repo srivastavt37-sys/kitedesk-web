@@ -438,6 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (document.getElementById("fmtInput")) {
     updateFormatter();
+    renderSavedCopyCraftBar();
   }
   if (document.getElementById("gbpDescInput")) {
     updateGbpProfile();
@@ -1851,8 +1852,95 @@ function formatGbpClean() {
   descEl.value = cleaned;
   updateGbpProfile();
 }
+function getSavedCopyCraftDrafts() {
+  try {
+    const raw = localStorage.getItem('cc_saved_drafts');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.slice(0, 6);
+    }
+  } catch (e) {}
+  return [];
+}
+
+function renderSavedCopyCraftBar() {
+  const container = document.getElementById('ccSavedList');
+  if (!container) return;
+  const list = getSavedCopyCraftDrafts();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No saved drafts yet. Click "+ Save Draft" to store up to 6 bio/SERP/GBP drafts locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const safeLabel = escapeHtml((item.label || 'Saved Draft').slice(0, 28));
+    const rawSnippet = (item.fmtInput || item.gbpDesc || item.serpTitle || '').replace(/\s+/g, ' ').trim();
+    const safeSnippet = escapeHtml(rawSnippet.slice(0, 24));
+    return `
+      <span class="bf-saved-chip" onclick="loadSavedCopyCraftDraft(${idx})" title="Click to reload ${safeLabel}${safeSnippet ? ' — ' + safeSnippet : ''}">
+        <span>${safeLabel}${safeSnippet ? ` &bull; <span class="muted" style="font-weight:400;">${safeSnippet}</span>` : ''}</span>
+        <button type="button" class="bf-saved-del" onclick="deleteSavedCopyCraftDraft(${idx}, event)" aria-label="Delete saved draft ${safeLabel}" title="Remove saved draft">&times;</button>
+      </span>
+    `;
+  }).join('');
+}
+
+function saveCopyCraftDraft() {
+  const fmtEl = document.getElementById('fmtInput');
+  const gbpEl = document.getElementById('gbpDescInput');
+  if (!fmtEl && !gbpEl) return;
+  const labelInput = document.getElementById('ccSaveLabel');
+  const serpTitle = (document.getElementById('serpTitleInput')?.value || '').trim();
+  const gbpCity = (document.getElementById('gbpCityInput')?.value || '').trim();
+  const rawLabel = (labelInput?.value || '').trim()
+    || serpTitle.slice(0, 28)
+    || (gbpCity ? `${gbpCity} GBP` : '')
+    || 'Saved Draft';
+  const entry = {
+    label: rawLabel.slice(0, 28),
+    serpTitle: serpTitle,
+    serpUrl: (document.getElementById('serpUrlInput')?.value || '').trim(),
+    fmtInput: fmtEl ? fmtEl.value : '',
+    gbpCity: gbpCity,
+    gbpService: (document.getElementById('gbpServiceInput')?.value || '').trim(),
+    gbpDesc: gbpEl ? gbpEl.value : ''
+  };
+  const list = getSavedCopyCraftDrafts().filter(item => (item.label || '').toLowerCase() !== entry.label.toLowerCase());
+  list.unshift(entry);
+  const trimmed = list.slice(0, 6);
+  try {
+    localStorage.setItem('cc_saved_drafts', JSON.stringify(trimmed));
+  } catch (e) {}
+  if (labelInput) labelInput.value = '';
+  renderSavedCopyCraftBar();
+}
+
+function loadSavedCopyCraftDraft(idx) {
+  const list = getSavedCopyCraftDrafts();
+  const d = list[idx];
+  if (!d) return;
+  if (document.getElementById('serpTitleInput')) document.getElementById('serpTitleInput').value = d.serpTitle || '';
+  if (document.getElementById('serpUrlInput')) document.getElementById('serpUrlInput').value = d.serpUrl || '';
+  if (document.getElementById('fmtInput')) document.getElementById('fmtInput').value = d.fmtInput || '';
+  if (document.getElementById('gbpCityInput')) document.getElementById('gbpCityInput').value = d.gbpCity || '';
+  if (document.getElementById('gbpServiceInput')) document.getElementById('gbpServiceInput').value = d.gbpService || '';
+  if (document.getElementById('gbpDescInput')) document.getElementById('gbpDescInput').value = d.gbpDesc || '';
+  updateFormatter();
+  updateGbpProfile();
+}
+
+function deleteSavedCopyCraftDraft(idx, ev) {
+  if (ev && typeof ev.stopPropagation === 'function') ev.stopPropagation();
+  const list = getSavedCopyCraftDrafts();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem('cc_saved_drafts', JSON.stringify(list));
+  } catch (e) {}
+  renderSavedCopyCraftBar();
+}
+
 updateGbpProfile();
 updateFormatter();
+renderSavedCopyCraftBar();
 
 /* 4. MARGINMINT — D2C UNIT ECONOMICS, VOLUMETRIC WEIGHT, COD RTO & ROAS CALCULATOR */
 function calcVolumetricWeight(autoApply) {

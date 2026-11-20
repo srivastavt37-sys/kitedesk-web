@@ -75,6 +75,17 @@
         </div>
       </div>
 
+      <div class="bf-history-bar" id="ccHistoryBar" aria-label="Saved Copy Snippets" style="margin-bottom: 14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0;">
+          <span class="mini-badge" style="flex-shrink:0;">Saved Copy Snippets</span>
+          <div id="ccSavedList" class="bf-saved-chips"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+          <input type="text" id="ccSaveLabel" placeholder="Draft label (e.g. Jaipur GBP)" maxlength="32" style="width:170px;padding:4px 8px;font-size:0.76rem;" />
+          <button type="button" class="btn btn-sm btn-outline" onclick="saveCopyCraftDraft()">+ Save Draft</button>
+        </div>
+      </div>
+
       <div class="tool-layout">
         <div class="card form-card">
           <h3>1. Bio / Product Description Editor</h3>
