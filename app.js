@@ -434,6 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
     buildWhatsApp();
     updateStandeeBrand();
+    renderSavedTapPingBar();
   }
   if (document.getElementById("fmtInput")) {
     updateFormatter();
@@ -1450,6 +1451,159 @@ function buildWhatsApp() {
   if (embedEl) embedEl.value = htmlCode;
 }
 buildWhatsApp();
+
+const DEFAULT_TAPPING_LINKS = [
+  {
+    label: 'Order Desk',
+    cc: '91',
+    phone: '9876543210',
+    brand: 'Your Shop Name',
+    cta: 'Scan to Order on WhatsApp',
+    sourceTag: 'Instagram Reel',
+    msg: 'Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.'
+  },
+  {
+    label: 'Cart Recovery',
+    cc: '91',
+    phone: '9876543210',
+    brand: 'Your Shop Name',
+    cta: 'Need Help Checking Out?',
+    sourceTag: '',
+    msg: 'Hi! I noticed your cart was still open. Pay via UPI in the next 2 hours to claim Rs 75 off and same-day dispatch.'
+  },
+  {
+    label: 'Salon Slot',
+    cc: '91',
+    phone: '9820445566',
+    brand: 'Studio Glow',
+    cta: 'Scan to Book Appointment',
+    sourceTag: 'Google Maps',
+    msg: 'Hello! I want to book a Salon / Clinic appointment for [Service] on [Day] around [Time]. Please confirm available slots.'
+  }
+];
+
+function getSavedTapPingLinks() {
+  try {
+    const raw = localStorage.getItem('tp_saved_links');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+    localStorage.setItem('tp_saved_links', JSON.stringify(DEFAULT_TAPPING_LINKS));
+    return DEFAULT_TAPPING_LINKS.slice();
+  } catch (e) {
+    return DEFAULT_TAPPING_LINKS.slice();
+  }
+}
+
+function formatTapPingUrlFromEntry(item) {
+  const cc = String(item.cc || '91').replace(/\D/g, '');
+  let digits = String(item.phone || '9876543210').replace(/\D/g, '').replace(/^0+/, '');
+  const minFullLen = { '91': 12, '971': 12, '1': 11, '44': 12, '65': 10 }[cc] || (cc.length + 8);
+  let phone = '919876543210';
+  if (digits) {
+    if (cc && digits.startsWith(cc) && digits.length >= minFullLen) phone = digits;
+    else if (cc) phone = cc + digits;
+    else phone = digits;
+  }
+  const rawMsg = String(item.msg || '').trim();
+  const tag = String(item.sourceTag || '').trim();
+  const tagged = tag ? (rawMsg ? `${rawMsg} [Ref: ${tag}]` : `[Ref: ${tag}]`) : rawMsg;
+  const q = encodeURIComponent(tagged);
+  return `https://wa.me/${phone}${q ? `?text=${q}` : ''}`;
+}
+
+function renderSavedTapPingBar() {
+  const container = document.getElementById('tpSavedList');
+  if (!container) return;
+  const list = getSavedTapPingLinks();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No saved links yet. Enter a label and click "+ Save Link" to store up to 8 links locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const safeLabel = escapeHtml((item.label || 'Saved Link').slice(0, 28));
+    const safePhone = escapeHtml(String(item.phone || '').slice(-10));
+    return `
+      <span class="bf-saved-chip" onclick="loadSavedTapPingLink(${idx})" title="Click to reload ${safeLabel} + QR code">
+        <span>${safeLabel} &bull; ${safePhone}</span>
+        <button type="button" class="bf-saved-del" style="font-size:0.68rem;padding:0 4px;" onclick="copySavedTapPingLink(${idx}, event)" aria-label="Copy ${safeLabel} wa.me link" title="Copy wa.me link">Copy</button>
+        <button type="button" class="bf-saved-del" onclick="deleteSavedTapPingLink(${idx}, event)" aria-label="Delete saved link ${safeLabel}" title="Remove saved link">&times;</button>
+      </span>
+    `;
+  }).join('');
+}
+
+function saveTapPingLink() {
+  const phoneEl = document.getElementById('waPhone');
+  if (!phoneEl) return;
+  const labelInput = document.getElementById('tpSaveLabel');
+  const rawLabel = (labelInput?.value || '').trim()
+    || (document.getElementById('waSourceTag')?.value || '').trim()
+    || (document.getElementById('waBrand')?.value || '').trim()
+    || 'Saved Link';
+  const entry = {
+    label: rawLabel.slice(0, 28),
+    cc: document.getElementById('waCountryCode')?.value || '91',
+    phone: phoneEl.value.trim() || '9876543210',
+    brand: document.getElementById('waBrand')?.value || 'Your Shop Name',
+    cta: document.getElementById('waStandeeCta')?.value || 'Scan to Order on WhatsApp',
+    sourceTag: document.getElementById('waSourceTag')?.value || '',
+    msg: document.getElementById('waMsg')?.value || ''
+  };
+  const list = getSavedTapPingLinks().filter(item => item.label.toLowerCase() !== entry.label.toLowerCase());
+  list.unshift(entry);
+  const trimmed = list.slice(0, 8);
+  try {
+    localStorage.setItem('tp_saved_links', JSON.stringify(trimmed));
+  } catch (e) {}
+  if (labelInput) labelInput.value = '';
+  renderSavedTapPingBar();
+}
+
+function loadSavedTapPingLink(idx) {
+  const list = getSavedTapPingLinks();
+  const item = list[idx];
+  if (!item) return;
+  const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+  setVal('waCountryCode', item.cc || '91');
+  setVal('waPhone', item.phone || '9876543210');
+  setVal('waBrand', item.brand || 'Your Shop Name');
+  setVal('waStandeeCta', item.cta || 'Scan to Order on WhatsApp');
+  setVal('waSourceTag', item.sourceTag || '');
+  setVal('waMsg', item.msg || '');
+  buildWhatsApp();
+  if (typeof updateStandeeBrand === 'function') updateStandeeBrand();
+}
+
+function copySavedTapPingLink(idx, event) {
+  if (event) event.stopPropagation();
+  const list = getSavedTapPingLinks();
+  const item = list[idx];
+  if (!item) return;
+  loadSavedTapPingLink(idx);
+  const url = formatTapPingUrlFromEntry(item);
+  const btn = event?.currentTarget || null;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      if (btn) {
+        const prev = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.textContent = prev; }, 1200);
+      }
+    }).catch(() => {});
+  }
+}
+
+function deleteSavedTapPingLink(idx, event) {
+  if (event) event.stopPropagation();
+  const list = getSavedTapPingLinks();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem('tp_saved_links', JSON.stringify(list));
+  } catch (e) {}
+  renderSavedTapPingBar();
+}
 
 /* 3. COPYCRAFT — BIO, LISTING & SERP FORMATTER */
 let _serpCanvasCtx = null;

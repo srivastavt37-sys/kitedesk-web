@@ -77,6 +77,16 @@
 
       <div class="tool-layout">
         <div class="card form-card">
+          <div class="bf-history-bar" id="tpHistoryBar">
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px;flex-wrap:wrap;">
+              <strong style="font-size:0.78rem;color:var(--ink);">Saved WhatsApp Links (Local)</strong>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <input type="text" id="tpSaveLabel" placeholder="Label (e.g., Order Desk)" maxlength="28" style="width:155px;padding:4px 8px;font-size:0.75rem;" aria-label="Saved WhatsApp Link Label" />
+                <button type="button" class="btn btn-sm btn-outline" onclick="saveTapPingLink()">+ Save Link</button>
+              </div>
+            </div>
+            <div id="tpSavedList" class="bf-saved-chips" aria-label="Saved WhatsApp Links"></div>
+          </div>
           <h3>1. WhatsApp Number &amp; Pre-Filled Utterance</h3>
           <div class="form-row" style="grid-template-columns: minmax(145px, 0.42fr) 1fr; gap: 10px; align-items: end;">
             <label>Country Code
