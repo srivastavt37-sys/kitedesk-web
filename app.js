@@ -1376,8 +1376,21 @@ function buildWhatsApp() {
   const phoneEl = document.getElementById('waPhone');
   const qrImgEl = document.getElementById('waQrImg');
   if (!phoneEl && !qrImgEl) return;
-  const rawPhone = phoneEl ? phoneEl.value : '919876543210';
-  const phone = rawPhone.replace(/\D/g, '') || '919876543210';
+  const ccEl = document.getElementById('waCountryCode');
+  const cc = ccEl ? ccEl.value.replace(/\D/g, '') : '';
+  const rawPhone = phoneEl ? phoneEl.value : '9876543210';
+  let digits = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
+  const minFullLen = { '91': 12, '971': 12, '1': 11, '44': 12, '65': 10 }[cc] || (cc.length + 8);
+  let phone = '919876543210';
+  if (digits) {
+    if (cc && digits.startsWith(cc) && digits.length >= minFullLen) {
+      phone = digits;
+    } else if (cc) {
+      phone = cc + digits;
+    } else {
+      phone = digits;
+    }
+  }
   const rawMsg = (document.getElementById('waMsg')?.value || '').trim();
   const sourceTag = (document.getElementById('waSourceTag')?.value || '').trim();
   const taggedMsg = sourceTag
