@@ -411,10 +411,7 @@ window.initAiVideoPlayers = function(rootEl) {
 };
 
 window.initAiVideoPlayers(document);
-document.addEventListener("DOMContentLoaded", () => {
-  window.initAiVideoPlayers(document);
-  if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
-    function updateStandeeBrand() {
+function updateStandeeBrand() {
   const brandInput = document.getElementById('waBrand');
   const previewEl = document.getElementById('standeeBrandPreview');
   if (previewEl) {
@@ -432,8 +429,11 @@ function printCounterStandee() {
   updateStandeeBrand();
   window.print();
 }
-buildWhatsApp();
-updateStandeeBrand();
+document.addEventListener("DOMContentLoaded", () => {
+  window.initAiVideoPlayers(document);
+  if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
+    buildWhatsApp();
+    updateStandeeBrand();
   }
   if (document.getElementById("fmtInput")) {
     updateFormatter();

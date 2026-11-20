@@ -97,7 +97,8 @@
 
       var parsedDate = new Date(post.date);
       var isoDate = isNaN(parsedDate.getTime()) ? "2026-11-17" : parsedDate.toISOString().slice(0, 10);
-      var plainText = (post.content || "").replace(/<[^>]+>/g, " ").trim();
+      var rawContent = Array.isArray(post.content) ? post.content.join(" ") : (post.content || "");
+      var plainText = String(rawContent).replace(/<[^>]+>/g, " ").trim();
       var computedWords = post.wordCount || (plainText ? plainText.split(/\s+/).length : 0);
 
       var schema = {
