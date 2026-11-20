@@ -714,6 +714,7 @@ function saveInvoiceToHistory() {
     discount: discount,
     taxMode: taxMode,
     tax: taxRate,
+    tdsRate: Number(document.getElementById('invTdsRate')?.value) || 0,
     upi: (document.getElementById('invUpi')?.value || '').trim(),
     notes: document.getElementById('invNotes')?.value || '',
     items: invoiceItems.map(i => ({ desc: String(i.desc || ''), qty: Number(i.qty) || 0, rate: Number(i.rate) || 0 })),
@@ -743,6 +744,7 @@ function loadSavedInvoice(idx) {
   if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = p.discount || 0;
   if (document.getElementById('invTaxMode')) document.getElementById('invTaxMode').value = p.taxMode || 'cgst_sgst';
   if (document.getElementById('invTax')) document.getElementById('invTax').value = p.tax ?? 12;
+  if (document.getElementById('invTdsRate')) document.getElementById('invTdsRate').value = String(p.tdsRate ?? 0);
   if (document.getElementById('invUpi')) document.getElementById('invUpi').value = p.upi || '';
   if (document.getElementById('invNotes')) document.getElementById('invNotes').value = p.notes || '';
   if (Array.isArray(p.items) && p.items.length) {
@@ -1027,6 +1029,27 @@ function renderInvoice() {
   }
 
   document.getElementById('prevTotal').textContent = `${cur}${total.toFixed(2)}`;
+
+  const tdsRate = Number(document.getElementById('invTdsRate')?.value) || 0;
+  const tdsAmt = tdsRate > 0 ? taxable * (tdsRate / 100) : 0;
+  const netReceivable = Math.max(0, total - tdsAmt);
+  const tdsRow = document.getElementById('prevTdsRow');
+  const netRow = document.getElementById('prevNetRow');
+  if (tdsRow && netRow) {
+    if (tdsRate > 0) {
+      tdsRow.style.display = 'flex';
+      netRow.style.display = 'flex';
+      const tdsLabelEl = document.getElementById('prevTdsLabel');
+      if (tdsLabelEl) tdsLabelEl.textContent = `TDS on Base (${tdsRate}%)`;
+      const tdsAmtEl = document.getElementById('prevTdsAmt');
+      if (tdsAmtEl) tdsAmtEl.textContent = `-${cur}${tdsAmt.toFixed(2)}`;
+      const netTotEl = document.getElementById('prevNetTotal');
+      if (netTotEl) netTotEl.textContent = `${cur}${netReceivable.toFixed(2)}`;
+    } else {
+      tdsRow.style.display = 'none';
+      netRow.style.display = 'none';
+    }
+  }
 
   const wordsEl = document.getElementById('prevAmountWords');
   if (wordsEl) {
