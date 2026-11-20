@@ -443,8 +443,104 @@ document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("gbpDescInput")) {
     updateGbpProfile();
   }
+
+/* === MarginMint Saved SKU Scenarios (localStorage, max 6) === */
+const MM_SAVED_KEY = 'mm_saved_skus';
+const MM_FIELD_IDS = [
+  'mmCur', 'mmSell', 'mmCogs', 'mmShip', 'mmPack',
+  'mmDeadWt', 'mmLen', 'mmWid', 'mmHgt', 'mmSlabRate',
+  'mmFee', 'mmGst', 'mmRto', 'mmCpa',
+  'mmPrepaidShare', 'mmPrepaidDisc', 'mmMonthlyOrders'
+];
+
+function getSavedMarginScenarios() {
+  try {
+    const raw = localStorage.getItem(MM_SAVED_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.slice(0, 6);
+    }
+  } catch (e) {}
+  return [];
+}
+
+function renderSavedMarginBar() {
+  const container = document.getElementById('mmSavedList');
+  if (!container) return;
+  const list = getSavedMarginScenarios();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No saved SKUs yet. Click "+ Save SKU" to store up to 6 SKU margin setups locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const safeLabel = escapeHtml((item.label || 'Saved SKU').slice(0, 28));
+    const cur = item.fields && item.fields.mmCur ? item.fields.mmCur : '₹';
+    const sellVal = item.fields && item.fields.mmSell ? item.fields.mmSell : '0';
+    const safeMeta = escapeHtml(`${cur}${sellVal}`);
+    return `
+      <span class="bf-saved-chip" onclick="loadSavedMarginScenario(${idx})" title="Click to reload ${safeLabel} (${safeMeta})">
+        <span>${safeLabel} &bull; <span class="muted" style="font-weight:400;">${safeMeta}</span></span>
+        <button type="button" class="bf-saved-del" onclick="deleteSavedMarginScenario(${idx}, event)" aria-label="Delete saved SKU ${safeLabel}" title="Remove saved SKU">&times;</button>
+      </span>
+    `;
+  }).join('');
+}
+
+function saveMarginScenario() {
+  const sellEl = document.getElementById('mmSell');
+  if (!sellEl) return;
+  const labelInput = document.getElementById('mmSaveLabel');
+  const curVal = document.getElementById('mmCur')?.value || '₹';
+  const sellNum = Number(sellEl.value) || 0;
+  const rawLabel = (labelInput?.value || '').trim() || `SKU ${curVal}${sellNum}`;
+  const fields = {};
+  MM_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) fields[id] = el.value;
+  });
+  const entry = {
+    label: rawLabel.slice(0, 28),
+    fields: fields,
+    savedAt: Date.now()
+  };
+  const existing = getSavedMarginScenarios().filter(
+    item => (item.label || '').toLowerCase() !== entry.label.toLowerCase()
+  );
+  const trimmed = [entry, ...existing].slice(0, 6);
+  try {
+    localStorage.setItem(MM_SAVED_KEY, JSON.stringify(trimmed));
+  } catch (e) {}
+  if (labelInput) labelInput.value = '';
+  renderSavedMarginBar();
+}
+
+function loadSavedMarginScenario(idx) {
+  const list = getSavedMarginScenarios();
+  const item = list[idx];
+  if (!item || !item.fields) return;
+  MM_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && item.fields[id] !== undefined) {
+      el.value = item.fields[id];
+    }
+  });
+  if (typeof calcVolumetricWeight === 'function') calcVolumetricWeight(false);
+  calcMargin();
+}
+
+function deleteSavedMarginScenario(idx, evt) {
+  if (evt && evt.stopPropagation) evt.stopPropagation();
+  const list = getSavedMarginScenarios();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem(MM_SAVED_KEY, JSON.stringify(list));
+  } catch (e) {}
+  renderSavedMarginBar();
+}
+
   if (document.getElementById("mmSell")) {
     calcMargin();
+    renderSavedMarginBar();
   }
 });
 
