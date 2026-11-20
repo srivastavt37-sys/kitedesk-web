@@ -802,6 +802,7 @@ function saveInvoiceToHistory() {
   const total = taxable + taxAmt;
 
   const entry = {
+    date: document.getElementById('invDate')?.value || new Date().toISOString().slice(0, 10),
     docType: document.getElementById('invDocType')?.value || 'TAX INVOICE',
     num: (document.getElementById('invNum')?.value || 'INV-2026-001').trim(),
     from: document.getElementById('invFrom')?.value || 'Your Business',
@@ -832,6 +833,7 @@ function loadSavedInvoice(idx) {
   const list = getSavedInvoicesList();
   const p = list[idx];
   if (!p) return;
+  if (p.date && document.getElementById('invDate')) document.getElementById('invDate').value = p.date;
   if (document.getElementById('invDocType')) document.getElementById('invDocType').value = p.docType || 'TAX INVOICE';
   if (document.getElementById('invFrom')) document.getElementById('invFrom').value = p.from || '';
   if (document.getElementById('invFromGstin')) document.getElementById('invFromGstin').value = p.fromGstin || '';
@@ -888,6 +890,89 @@ function exportSavedInvoicesJson() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   setBackupStatus(`Exported ${list.length} saved invoice(s) to JSON backup.`, false);
 }
+
+function escapeCsvCell(val) {
+  let s = String(val === null || val === undefined ? '' : val).replace(/\r?\n/g, ' ');
+  if (/^[=+\-@\t\r]/.test(s)) {
+    s = "'" + s;
+  }
+  if (/[",]/.test(s)) {
+    s = '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+function exportSavedInvoicesCsv() {
+  let list = getSavedInvoicesList();
+  if (!list.length) {
+    const curTaxRate = Number(document.getElementById('invTax')?.value) || 0;
+    const curTaxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
+    const curDiscount = Number(document.getElementById('invDiscount')?.value) || 0;
+    const curSub = (typeof invoiceItems !== 'undefined' && Array.isArray(invoiceItems))
+      ? invoiceItems.reduce((acc, i) => acc + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0)
+      : 0;
+    const curTaxable = Math.max(0, curSub - curDiscount);
+    const curTaxAmt = (curTaxMode === 'none' || curTaxRate === 0) ? 0 : curTaxable * (curTaxRate / 100);
+    list = [{
+      date: document.getElementById('invDate')?.value || new Date().toISOString().slice(0, 10),
+      docType: document.getElementById('invDocType')?.value || 'TAX INVOICE',
+      num: (document.getElementById('invNum')?.value || 'INV-2026-001').trim(),
+      to: document.getElementById('invTo')?.value || 'Customer',
+      toGstin: document.getElementById('invToGstin')?.value || '',
+      taxMode: curTaxMode,
+      tax: curTaxRate,
+      discount: curDiscount,
+      tdsRate: Number(document.getElementById('invTdsRate')?.value) || 0,
+      items: (typeof invoiceItems !== 'undefined' && Array.isArray(invoiceItems)) ? invoiceItems : [],
+      total: curTaxable + curTaxAmt
+    }];
+  }
+
+  const headers = ['Date', 'DocType', 'InvoiceNo', 'Client', 'ClientGSTIN', 'TaxMode', 'TaxableBase', 'GSTTotal', 'GrandTotal', 'TDSRate'];
+  const lines = [headers.join(',')];
+
+  list.forEach(inv => {
+    const items = Array.isArray(inv.items) ? inv.items : [];
+    const sub = items.reduce((acc, i) => acc + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0);
+    const discount = Math.max(0, Number(inv.discount) || 0);
+    const taxableBase = Math.max(0, sub - discount);
+    const taxMode = inv.taxMode || 'cgst_sgst';
+    const taxRate = Number(inv.tax) || 0;
+    const gstTotal = (taxMode === 'none' || taxRate === 0) ? 0 : taxableBase * (taxRate / 100);
+    const grandTotal = items.length ? (taxableBase + gstTotal) : (Number(inv.total) || 0);
+    const tdsRate = Number(inv.tdsRate) || 0;
+    const invDate = inv.date || document.getElementById('invDate')?.value || new Date().toISOString().slice(0, 10);
+
+    const row = [
+      invDate,
+      inv.docType || 'TAX INVOICE',
+      inv.num || 'INV-2026-001',
+      inv.to || 'Customer',
+      inv.toGstin || '',
+      taxMode,
+      taxableBase.toFixed(2),
+      gstTotal.toFixed(2),
+      grandTotal.toFixed(2),
+      tdsRate.toFixed(2)
+    ].map(escapeCsvCell);
+
+    lines.push(row.join(','));
+  });
+
+  const csvContent = '\uFEFF' + lines.join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `billfold-sales-register-${stamp}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setBackupStatus(`Exported ${list.length} invoice(s) to GST Sales Register CSV.`, false);
+}
+
 
 function importSavedInvoicesJson(ev) {
   const file = ev?.target?.files?.[0];

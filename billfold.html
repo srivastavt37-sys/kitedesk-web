@@ -85,6 +85,7 @@
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <button type="button" class="btn btn-sm btn-outline" onclick="saveInvoiceToHistory()">+ Save Current Invoice</button>
                 <button type="button" class="btn btn-sm btn-outline" onclick="exportSavedInvoicesJson()" title="Export saved invoices as JSON backup">Export JSON</button>
+                <button type="button" class="btn btn-sm btn-outline" id="bfExportCsvBtn" onclick="exportSavedInvoicesCsv()" title="Export GST sales register as CSV for CA reconciliation">Export Sales Register (.csv)</button>
                 <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('bfImportJsonInput').click()" title="Import saved invoices from JSON backup">Import JSON</button>
                 <input type="file" id="bfImportJsonInput" accept="application/json,.json" style="display:none;" onchange="importSavedInvoicesJson(event)" />
               </div>
