@@ -1800,6 +1800,23 @@ function calcMargin() {
     targetMrpEl.style.color = targetMrp > 0 ? 'var(--brand)' : 'var(--danger)';
   }
 
+  const monthlyOrdersRaw = Number(document.getElementById('mmMonthlyOrders')?.value);
+  const monthlyOrders = Number.isFinite(monthlyOrdersRaw) && monthlyOrdersRaw > 0 ? Math.round(monthlyOrdersRaw) : 300;
+  const monthlyNetProfit = ((blended100 / 100) - cpa) * monthlyOrders;
+  const monthlyRtoBurn = monthlyOrders * ((100 - prepaidShare) / 100) * rtoFrac * (ship * 1.8 + pack);
+
+  const monthlyProfitEl = document.getElementById('mmMonthlyProfit');
+  if (monthlyProfitEl) {
+    const sign = monthlyNetProfit < 0 ? '-' : '';
+    monthlyProfitEl.textContent = `${sign}${cur}${Math.round(Math.abs(monthlyNetProfit)).toLocaleString('en-IN')}`;
+    monthlyProfitEl.style.color = monthlyNetProfit >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+  const monthlyRtoEl = document.getElementById('mmMonthlyRtoBurn');
+  if (monthlyRtoEl) {
+    monthlyRtoEl.textContent = `${cur}${Math.round(monthlyRtoBurn).toLocaleString('en-IN')}`;
+    monthlyRtoEl.style.color = monthlyRtoBurn > 0 ? 'var(--danger)' : 'var(--brand)';
+  }
+
   if (sell > 0) {
     const pCogs = Math.min(100, Math.max(0, (cogs / sell) * 100));
     const pOps = Math.min(100, Math.max(0, (opsTotal / sell) * 100));
@@ -1852,7 +1869,9 @@ function copyMarginSummary(btn) {
     `Break-Even ROAS: ${roasText}`,
     `Max Safe Ad CPA (15% Net Margin): ${cur}${maxSafeCpa.toFixed(2)}`,
     `Suggested MRP (20% Net Margin): ${targetMrpText}`,
-    `100-Order Blended Profit: ${blendedText}`
+    `100-Order Blended Profit: ${blendedText}`,
+    `Projected Monthly Net Profit (${document.getElementById('mmMonthlyOrders')?.value || 300} orders): ${document.getElementById('mmMonthlyProfit')?.textContent || `${cur}0`}`,
+    `Monthly RTO Cash Burn: ${document.getElementById('mmMonthlyRtoBurn')?.textContent || `${cur}0`}`
   ];
   const summaryText = lines.join('\n');
 

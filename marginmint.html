@@ -179,6 +179,10 @@
             </div>
           </div>
 
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;background:var(--bg-alt,#f8fafc);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;">
+            <label for="mmMonthlyOrders" style="font-size:0.84rem;font-weight:600;margin:0;">Monthly Order Volume</label>
+            <input type="number" class="mono-input" id="mmMonthlyOrders" value="300" min="1" step="50" style="width:96px;padding:6px 8px;" oninput="calcMargin()" />
+          </div>
           <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
             <div style="width:100%;"><span>Included GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>Gateway / Platform Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
@@ -187,6 +191,8 @@
             <div style="width:100%;"><span>Net Gain vs 100% COD (100 Orders)</span><strong id="mmCodGain">&#8377;0</strong></div>
             <div style="width:100%;"><span>Max Safe Ad CPA (15% Net Margin)</span><strong id="mmMaxCpa">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>Suggested MRP (for 20% Net Margin)</span><strong id="mmTargetMrp">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Projected Monthly Net Profit</span><strong id="mmMonthlyProfit">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Monthly RTO Cash Burn</span><strong id="mmMonthlyRtoBurn">&#8377;0</strong></div>
           </div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;">
             <button type="button" class="btn btn-sm btn-outline" id="mmCopyBtn" onclick="copyMarginSummary(this)">Copy Margin Breakdown</button>
