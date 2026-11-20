@@ -1479,7 +1479,10 @@ function updateFormatter() {
   const chars = text.length;
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   document.getElementById('cntChars').textContent = chars;
-  document.getElementById('cntWords').textContent = words;
+  const readSec = words > 0 ? Math.max(1, Math.round((words / 200) * 60)) : 0;
+  const wordLabel = words === 1 ? '1 word' : `${words} words`;
+  const cntWordsEl = document.getElementById('cntWords');
+  if (cntWordsEl) cntWordsEl.textContent = `${wordLabel} · ~${readSec} sec read`;
   document.getElementById('cntIg').textContent = chars <= 150 ? `${150 - chars} left` : `${chars - 150} over`;
   document.getElementById('cntSeo').textContent = chars <= 160 ? `${160 - chars} left` : `${chars - 160} over`;
 
