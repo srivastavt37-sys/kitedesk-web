@@ -1912,6 +1912,19 @@ function updateFormatter() {
   document.getElementById('cntIg').textContent = chars <= 150 ? `${150 - chars} left` : `${chars - 150} over`;
   document.getElementById('cntSeo').textContent = chars <= 160 ? `${160 - chars} left` : `${chars - 160} over`;
 
+  const slopEl = document.getElementById('ccSlopCheck');
+  if (slopEl) {
+    const slopWords = ['delve', 'unleash', 'elevate', 'game-changer', 'seamless', 'holistic', 'synergy', 'paradigm', 'tapestry'];
+    const flagged = slopWords.find(w => new RegExp('\\b' + w.replace('-', '[-\\s]?') + '\\b', 'i').test(text));
+    if (flagged) {
+      slopEl.textContent = 'Flagged: ' + flagged;
+      slopEl.style.color = '#c2410c';
+    } else {
+      slopEl.textContent = 'Tone: Plain English \u2713';
+      slopEl.style.color = '#059669';
+    }
+  }
+
   const serpTitle = document.getElementById('serpTitleInput')?.value || 'Your Brand — Official Store & Custom Orders';
   const serpUrl = document.getElementById('serpUrlInput')?.value || 'https://yourstore.in';
   const prevTitle = document.getElementById('serpPrevTitle');
