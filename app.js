@@ -826,7 +826,10 @@ function saveInvoiceToHistory() {
   const sub = invoiceItems.reduce((acc, i) => acc + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0);
   const taxable = Math.max(0, sub - discount);
   const taxAmt = (taxMode === 'none' || taxRate === 0) ? 0 : taxable * (taxRate / 100);
-  const total = taxable + taxAmt;
+  const rawTotal = Math.round((taxable + taxAmt) * 100) / 100;
+  const roundOffEnabled = Boolean(document.getElementById('invRoundOff')?.checked);
+  const total = roundOffEnabled ? Math.round(rawTotal) : rawTotal;
+  const roundDiff = Math.round((total - rawTotal) * 100) / 100;
 
   const entry = {
     date: document.getElementById('invDate')?.value || new Date().toISOString().slice(0, 10),
@@ -841,6 +844,7 @@ function saveInvoiceToHistory() {
     taxMode: taxMode,
     tax: taxRate,
     tdsRate: Number(document.getElementById('invTdsRate')?.value) || 0,
+    roundOff: roundOffEnabled,
     upi: (document.getElementById('invUpi')?.value || '').trim(),
     notes: document.getElementById('invNotes')?.value || '',
     items: invoiceItems.map(i => ({ desc: String(i.desc || ''), qty: Number(i.qty) || 0, rate: Number(i.rate) || 0 })),
@@ -862,6 +866,7 @@ function loadSavedInvoice(idx) {
   if (!p) return;
   if (p.date && document.getElementById('invDate')) document.getElementById('invDate').value = p.date;
   if (document.getElementById('invDocType')) document.getElementById('invDocType').value = p.docType || 'TAX INVOICE';
+  if (document.getElementById('invRoundOff')) document.getElementById('invRoundOff').checked = p.roundOff !== undefined ? Boolean(p.roundOff) : true;
   if (document.getElementById('invFrom')) document.getElementById('invFrom').value = p.from || '';
   if (document.getElementById('invFromGstin')) document.getElementById('invFromGstin').value = p.fromGstin || '';
   if (document.getElementById('invTo')) document.getElementById('invTo').value = p.to || '';
@@ -1213,7 +1218,9 @@ function renderInvoice() {
 
   const taxable = Math.max(0, sub - discount);
   const taxAmt = (taxMode === 'none' || taxRate === 0) ? 0 : taxable * (taxRate / 100);
-  const total = taxable + taxAmt;
+  const rawTotal = Math.round((taxable + taxAmt) * 100) / 100;
+  const roundOffEnabled = Boolean(document.getElementById('invRoundOff')?.checked);
+  const total = roundOffEnabled ? Math.round(rawTotal) : rawTotal;
 
   document.getElementById('prevSub').textContent = `${cur}${sub.toFixed(2)}`;
   const discRow = document.getElementById('prevDiscRow');
@@ -1235,6 +1242,18 @@ function renderInvoice() {
       `;
     } else {
       taxBox.innerHTML = `<div><span>IGST (${escapeHtml(taxRate)}%)</span><strong>${safeCur}${escapeHtml(taxAmt.toFixed(2))}</strong></div>`;
+    }
+  }
+
+  const roundRow = document.getElementById('prevRoundRow');
+  const roundAmtEl = document.getElementById('prevRoundAmt');
+  if (roundRow && roundAmtEl) {
+    if (roundOffEnabled && Math.abs(roundDiff) >= 0.005) {
+      roundRow.style.display = 'flex';
+      const sign = roundDiff > 0 ? '+' : '-';
+      roundAmtEl.textContent = `${sign}${cur}${Math.abs(roundDiff).toFixed(2)}`;
+    } else {
+      roundRow.style.display = 'none';
     }
   }
 
