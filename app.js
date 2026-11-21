@@ -1169,6 +1169,18 @@ function incrementInvoiceNumber() {
   renderInvoice();
 }
 
+function duplicateInvoiceAsNext() {
+  const invDateEl = document.getElementById('invDate');
+  if (invDateEl) {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    invDateEl.value = `${yyyy}-${mm}-${dd}`;
+  }
+  incrementInvoiceNumber();
+}
+
 function renderInvoice() {
   if (!document.getElementById('invoicePreview')) return;
   const cur = document.getElementById('invCurrency')?.value || '₹';

@@ -84,6 +84,7 @@
               <strong style="font-size:0.78rem;color:var(--ink);">Recent Saved Invoices (Browser LocalStorage)</strong>
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <button type="button" class="btn btn-sm btn-outline" onclick="saveInvoiceToHistory()">+ Save Current Invoice</button>
+                <button type="button" class="btn btn-sm btn-outline" id="bfDupNextBtn" onclick="duplicateInvoiceAsNext()" title="Increment invoice number, set date to today, and regenerate GST invoice + UPI QR">Duplicate as Next #</button>
                 <button type="button" class="btn btn-sm btn-outline" onclick="exportSavedInvoicesJson()" title="Export saved invoices as JSON backup">Export JSON</button>
                 <button type="button" class="btn btn-sm btn-outline" id="bfExportCsvBtn" onclick="exportSavedInvoicesCsv()" title="Export GST sales register as CSV for CA reconciliation">Export Sales Register (.csv)</button>
                 <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('bfImportJsonInput').click()" title="Import saved invoices from JSON backup">Import JSON</button>
