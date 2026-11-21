@@ -2267,6 +2267,15 @@ function calcMargin() {
   const rtoEl = document.getElementById('mmRtoAmt');
   if (rtoEl) rtoEl.textContent = `${cur}${rtoLossPerDelivered.toFixed(2)}`;
 
+  const exGstRev = sell / (1 + gstPct / 100);
+  const contribBeforeAds = exGstRev - cogs - pack - ship - feeAmt - rtoLossPerDelivered;
+  const contribEl = document.getElementById('mmContribProfit');
+  if (contribEl) {
+    const contribPct = exGstRev > 0 ? (contribBeforeAds / exGstRev) * 100 : 0;
+    contribEl.textContent = `${cur}${contribBeforeAds.toFixed(2)} (${contribPct.toFixed(1)}% Ex-GST)`;
+    contribEl.style.color = contribBeforeAds >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+
   const prepaidShareRaw = Number(document.getElementById('mmPrepaidShare')?.value);
   const prepaidShare = Number.isFinite(prepaidShareRaw) ? Math.min(100, Math.max(0, prepaidShareRaw)) : 35;
   const prepaidDiscRaw = Number(document.getElementById('mmPrepaidDisc')?.value);
@@ -2363,6 +2372,8 @@ function copyMarginSummary(btn) {
     ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship * 1.8 + pack)
     : 0;
   const net = sell - (cogs + ship + pack + feeAmt + rtoDrag + gstAmt);
+  const contribBeforeAds = exGstRev - cogs - pack - ship - feeAmt - rtoDrag;
+  const contribPct = exGstRev > 0 ? (contribBeforeAds / exGstRev) * 100 : 0;
   const marginPct = sell > 0 ? (net / sell) * 100 : 0;
   const roasText = net > 0 ? `${(sell / net).toFixed(2)}x` : 'N/A';
   const rtoFrac = Math.min(0.99, Math.max(0, rtoPct / 100));
@@ -2381,6 +2392,7 @@ function copyMarginSummary(btn) {
     `COGS: ${cur}${cogs.toFixed(2)}`,
     `Shipping: ${cur}${ship.toFixed(2)}`,
     `COD RTO Drag (${rtoPct}% RTO): ${cur}${rtoDrag.toFixed(2)}`,
+    `CM2 Contribution Before Ads: ${cur}${contribBeforeAds.toFixed(2)} (${contribPct.toFixed(1)}% Ex-GST)`,
     `Net Profit/Unit: ${cur}${net.toFixed(2)} (${marginPct.toFixed(1)}%)`,
     `Break-Even ROAS: ${roasText}`,
     `Max Safe Ad CPA (15% Net Margin): ${cur}${maxSafeCpa.toFixed(2)}`,
