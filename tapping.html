@@ -131,6 +131,12 @@
           </label>
           <label>Custom Pre-filled Customer Message
             <textarea id="waMsg" rows="3" oninput="buildWhatsApp()">Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.</textarea>
+            <div class="preset-chips" style="margin-top:6px;" aria-label="Quick token insert">
+              <button type="button" class="chip" style="padding:3px 9px;font-size:0.72rem;" onclick="insertWaToken('Order ID: #____')">+ Order ID</button>
+              <button type="button" class="chip" style="padding:3px 9px;font-size:0.72rem;" onclick="insertWaToken('PIN: ______')">+ PIN Code</button>
+              <button type="button" class="chip" style="padding:3px 9px;font-size:0.72rem;" onclick="insertWaToken('Amount: ₹____')">+ ₹ Amount</button>
+              <button type="button" class="chip" style="padding:3px 9px;font-size:0.72rem;" onclick="insertWaToken('Slot: Today 4–7 PM')">+ Delivery Slot</button>
+            </div>
           </label>
           <label>
             <span style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">

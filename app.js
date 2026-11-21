@@ -1578,6 +1578,27 @@ const buildQrSvgDataUri = (() => {
   };
 })();
 
+
+function insertWaToken(token) {
+  const el = document.getElementById('waMsg');
+  if (!el || !token) return;
+  const start = typeof el.selectionStart === 'number' ? el.selectionStart : el.value.length;
+  const end = typeof el.selectionEnd === 'number' ? el.selectionEnd : el.value.length;
+  const before = el.value.slice(0, start);
+  const after = el.value.slice(end);
+  const padLeft = before.length > 0 && !/\s$/.test(before) ? ' ' : '';
+  const padRight = after.length > 0 && !/^\s/.test(after) ? ' ' : '';
+  const inserted = `${padLeft}${token}${padRight}`;
+  el.value = before + inserted + after;
+  const cursor = start + padLeft.length + token.length;
+  el.focus();
+  if (typeof el.setSelectionRange === 'function') {
+    el.setSelectionRange(cursor, cursor);
+  }
+  buildWhatsApp();
+}
+window.insertWaToken = insertWaToken;
+
 function buildWhatsApp() {
   const phoneEl = document.getElementById('waPhone');
   const qrImgEl = document.getElementById('waQrImg');
