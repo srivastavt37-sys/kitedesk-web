@@ -666,6 +666,33 @@ function openArticleModal(slugOrIndex) {
   }
   const wc = getPostWordCount(post);
   document.title = `${post.title} — KiteDesk Studio`;
+  const postUrl = `https://srivastavt37-sys.github.io/kitedesk-web/post.html?slug=${encodeURIComponent(post.slug)}`;
+  const descText = post.excerpt || `${post.title} — Plain-English playbook by KiteDesk Studio.`;
+  const metaDescEl = document.getElementById('metaDescription');
+  if (metaDescEl) metaDescEl.setAttribute('content', descText);
+  const canonEl = document.getElementById('canonicalLink');
+  if (canonEl) canonEl.setAttribute('href', postUrl);
+  const schemaEl = document.getElementById('blogPostingSchema');
+  if (schemaEl) {
+    const parsedDate = Date.parse(post.date || '');
+    const isoDate = !isNaN(parsedDate) ? new Date(parsedDate).toISOString().slice(0, 10) : '2026-11-21';
+    schemaEl.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": descText,
+      "datePublished": isoDate,
+      "dateModified": isoDate,
+      "author": { "@type": "Organization", "name": "KiteDesk Studio" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "KiteDesk Studio",
+        "logo": { "@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg" }
+      },
+      "image": post.image ? `https://srivastavt37-sys.github.io/kitedesk-web/${post.image}` : "https://srivastavt37-sys.github.io/kitedesk-web/images/kitedesk-hero.jpg",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": postUrl }
+    });
+  }
   const missingBanner = notFoundSlug
     ? `<div class="article-callout" style="margin-top:0;margin-bottom:18px;">Requested playbook <code>${escapeHtml(notFoundSlug)}</code> was not found. Showing our latest featured playbook below.</div>`
     : '';
