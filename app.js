@@ -2532,6 +2532,14 @@ function copyWaMarkdown(btn) {
   copyWithFallback(`[Order on WhatsApp](${url})`, btn);
 }
 
+function copyWaFloatingWidget(btn) {
+  const outEl = document.getElementById('waOutput');
+  const url = outEl && outEl.value ? outEl.value.trim() : '';
+  if (!url) return;
+  const widgetHtml = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" style="position:fixed;right:18px;bottom:18px;z-index:9999;display:inline-flex;align-items:center;gap:8px;background:#059669;color:#ffffff;padding:12px 18px;border-radius:999px;font-family:system-ui,-apple-system,sans-serif;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 8px 24px rgba(5,150,105,0.32);">Chat on WhatsApp</a>`;
+  copyWithFallback(widgetHtml, btn);
+}
+
 function handleContact(e) {
   e.preventDefault();
   const st = document.getElementById('contactStatus');
