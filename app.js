@@ -444,6 +444,12 @@ document.addEventListener("DOMContentLoaded", () => {
     updateGbpProfile();
   }
 
+  if (document.getElementById("mmSell")) {
+    calcMargin();
+    renderSavedMarginBar();
+  }
+});
+
 /* === MarginMint Saved SKU Scenarios (localStorage, max 6) === */
 const MM_SAVED_KEY = 'mm_saved_skus';
 const MM_FIELD_IDS = [
@@ -612,11 +618,6 @@ function deleteSavedMarginScenario(idx, evt) {
   renderSavedMarginBar();
 }
 
-  if (document.getElementById("mmSell")) {
-    calcMargin();
-    renderSavedMarginBar();
-  }
-});
 
 function toggleNav() {
   const nav = document.getElementById('siteNav');
@@ -1307,6 +1308,7 @@ function renderInvoice() {
   const rawTotal = Math.round((taxable + taxAmt) * 100) / 100;
   const roundOffEnabled = Boolean(document.getElementById('invRoundOff')?.checked);
   const total = roundOffEnabled ? Math.round(rawTotal) : rawTotal;
+  const roundDiff = Math.round((total - rawTotal) * 100) / 100;
 
   document.getElementById('prevSub').textContent = `${cur}${sub.toFixed(2)}`;
   const discRow = document.getElementById('prevDiscRow');
