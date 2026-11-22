@@ -514,6 +514,80 @@ function saveMarginScenario() {
   renderSavedMarginBar();
 }
 
+
+function exportMarginScenariosCsv() {
+  let list = getSavedMarginScenarios();
+  if (!list.length) {
+    const fields = {};
+    MM_FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) fields[id] = el.value;
+    });
+    const curVal = fields.mmCur || '₹';
+    const sellNum = Number(fields.mmSell) || 0;
+    const rawLabel = (document.getElementById('mmSaveLabel')?.value || '').trim() || `Live SKU ${curVal}${sellNum}`;
+    list = [{ label: rawLabel.slice(0, 28), fields: fields }];
+  }
+
+  const headers = [
+    'SKU', 'SellingPrice', 'GSTPct', 'COGS', 'Pack', 'Shipping',
+    'FeePct', 'RTOPct', 'NetProfit', 'BreakEvenROAS', 'MaxSafeCPA'
+  ];
+  const lines = [headers.join(',')];
+
+  list.forEach(item => {
+    const f = item.fields || {};
+    const sell = Number(f.mmSell) || 0;
+    const gstPct = Number(f.mmGst) || 0;
+    const cogs = Number(f.mmCogs) || 0;
+    const pack = Number(f.mmPack) || 0;
+    const ship = Number(f.mmShip) || 0;
+    const feePct = Number(f.mmFee) || 0;
+    const rtoPct = Number(f.mmRto) || 0;
+
+    const feeAmt = sell * (feePct / 100);
+    const gstAmt = sell - (sell / (1 + gstPct / 100));
+    const rtoLossPerDelivered = rtoPct > 0 && rtoPct < 100
+      ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship * 1.8 + pack)
+      : 0;
+    const opsTotal = ship + pack + feeAmt + rtoLossPerDelivered;
+    const totalCost = cogs + opsTotal + gstAmt;
+    const net = sell - totalCost;
+    const breakevenRoas = net > 0 ? (sell / net) : 0;
+    const rtoFrac = Math.min(0.99, Math.max(0, rtoPct / 100));
+    const targetNetProfit = sell * 0.15;
+    const maxSafeCpa = Math.max(0, (net - targetNetProfit) * (1 - rtoFrac));
+
+    const row = [
+      item.label || 'Saved SKU',
+      sell.toFixed(2),
+      gstPct.toFixed(2),
+      cogs.toFixed(2),
+      pack.toFixed(2),
+      ship.toFixed(2),
+      feePct.toFixed(2),
+      rtoPct.toFixed(2),
+      net.toFixed(2),
+      breakevenRoas > 0 ? breakevenRoas.toFixed(2) : 'N/A',
+      maxSafeCpa.toFixed(2)
+    ].map(escapeCsvCell);
+
+    lines.push(row.join(','));
+  });
+
+  const csvContent = '\uFEFF' + lines.join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `marginmint-sku-scenarios-${stamp}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 function loadSavedMarginScenario(idx) {
   const list = getSavedMarginScenarios();
   const item = list[idx];
