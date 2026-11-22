@@ -432,7 +432,56 @@ function printCounterStandee() {
 document.addEventListener("DOMContentLoaded", () => {
   window.initAiVideoPlayers(document);
   if (document.getElementById("waPhone") || document.getElementById("waQrImg")) {
-    buildWhatsApp();
+    
+function downloadTapPingQrPng() {
+  const outEl = document.getElementById('waOutput');
+  const dlBtn = document.getElementById('waQrDownload') || document.getElementById('waDownloadQr');
+  const url = (dlBtn && dlBtn.dataset.waUrl) || (outEl && outEl.value) || 'https://wa.me/919876543210';
+  const svgUri = buildQrSvgDataUri(url);
+  if (!svgUri) return;
+
+  const size = 360;
+  const pad = 24;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, size, size);
+
+  const img = new Image();
+  img.onload = function () {
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(img, pad, pad, size - pad * 2, size - pad * 2);
+    const triggerDownload = (href) => {
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = 'kitedesk-whatsapp-qr.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+    if (typeof canvas.toBlob === 'function') {
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          triggerDownload(canvas.toDataURL('image/png'));
+          return;
+        }
+        const objUrl = URL.createObjectURL(blob);
+        triggerDownload(objUrl);
+        setTimeout(() => URL.revokeObjectURL(objUrl), 2000);
+      }, 'image/png');
+    } else {
+      triggerDownload(canvas.toDataURL('image/png'));
+    }
+  };
+  img.src = svgUri;
+}
+window.downloadTapPingQrPng = downloadTapPingQrPng;
+
+buildWhatsApp();
     updateStandeeBrand();
     renderSavedTapPingBar();
   }
@@ -1829,8 +1878,13 @@ function buildWhatsApp() {
     qrImgEl.dataset.fallbackApplied = '';
     qrImgEl.src = svgQr || qrUrl;
   }
-  const qrDlEl = document.getElementById('waQrDownload');
-  if (qrDlEl) qrDlEl.href = qrUrl;
+  const qrDlEl = document.getElementById('waQrDownload') || document.getElementById('waDownloadQr');
+  if (qrDlEl) {
+    qrDlEl.dataset.waUrl = url;
+    if (qrDlEl.tagName === 'A') {
+      qrDlEl.removeAttribute('href');
+    }
+  }
   const htmlCode = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#059669;color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>`;
   const embedEl = document.getElementById('waEmbedCode');
   if (embedEl) embedEl.value = htmlCode;
