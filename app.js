@@ -2387,6 +2387,38 @@ function formatGbpClean() {
   descEl.value = cleaned;
   updateGbpProfile();
 }
+
+function appendGbpCta() {
+  const descEl = document.getElementById('gbpDescInput');
+  if (!descEl) return;
+  const cta = 'Message us on WhatsApp or visit today.';
+  let base = descEl.value.replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, ' ').trim();
+  if (base.toLowerCase().includes('message us on whatsapp or visit today')) {
+    descEl.value = base.slice(0, 749);
+    updateGbpProfile();
+    return;
+  }
+  if (!base) {
+    descEl.value = cta;
+    updateGbpProfile();
+    return;
+  }
+  const hasEndPunct = /[.!?]$/.test(base);
+  const sep = hasEndPunct ? ' ' : '. ';
+  const maxBaseLen = 749 - sep.length - cta.length;
+  if (base.length > maxBaseLen) {
+    base = base.slice(0, maxBaseLen).replace(/[,;:\s]+$/, '').trim();
+    const lastSpace = base.lastIndexOf(' ');
+    if (lastSpace > Math.floor(maxBaseLen * 0.7)) {
+      base = base.slice(0, lastSpace);
+    }
+    base = base.replace(/[.,;:\s]+$/, '');
+    descEl.value = base ? `${base}. ${cta}` : cta;
+  } else {
+    descEl.value = `${base}${sep}${cta}`;
+  }
+  updateGbpProfile();
+}
 function getSavedCopyCraftDrafts() {
   try {
     const raw = localStorage.getItem('cc_saved_drafts');
