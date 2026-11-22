@@ -1476,7 +1476,17 @@ function renderInvoice() {
       upiWrap.style.display = 'block';
       const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(fromName)}&am=${total.toFixed(2)}&cu=INR&tr=${encodeURIComponent(invNumVal)}&tn=${encodeURIComponent('Invoice ' + invNumVal)}`;
       window._currentBillfoldUpiUri = upiUri;
-      document.getElementById('prevUpiQr').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUri)}`;
+      const qrEl = document.getElementById('prevUpiQr');
+      const localQr = buildQrSvgDataUri(upiUri, 120);
+      if (qrEl) {
+        if (localQr) {
+          qrEl.src = localQr;
+          qrEl.style.display = 'inline-block';
+        } else {
+          qrEl.removeAttribute('src');
+          qrEl.style.display = 'none';
+        }
+      }
       document.getElementById('prevUpiId').textContent = upiId;
     } else {
       window._currentBillfoldUpiUri = '';
@@ -1792,7 +1802,7 @@ const buildQrSvgDataUri = (() => {
     return grid;
   }
 
-  return function (text) {
+  return function (text, size) {
     const grid = encodeMatrix(text);
     if (!grid) return '';
     const n = grid.length;
@@ -1804,7 +1814,8 @@ const buildQrSvgDataUri = (() => {
         if (grid[r][c] === 1) d += `M${c + quiet},${r + quiet}h1v1h-1z`;
       }
     }
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}" shape-rendering="crispEdges"><rect width="${total}" height="${total}" fill="#ffffff"/><path d="${d}" fill="#0f172a"/></svg>`;
+    const dimAttr = size ? ` width="${size}" height="${size}"` : '';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg"${dimAttr} viewBox="0 0 ${total} ${total}" shape-rendering="crispEdges"><rect width="${total}" height="${total}" fill="#ffffff"/><path d="${d}" fill="#0f172a"/></svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   };
 })();
