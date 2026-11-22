@@ -1353,6 +1353,53 @@ function duplicateInvoiceAsNext() {
   incrementInvoiceNumber();
 }
 
+const BF_SELLER_PROFILE_KEY = 'bf_seller_profile';
+
+function saveSellerProfile() {
+  if (!document.getElementById('invoicePreview')) return;
+  const fromNameEl = document.getElementById('invFromName') || document.getElementById('invFrom');
+  const fromGstinEl = document.getElementById('invFromGstin');
+  const fromStateEl = document.getElementById('invFromState');
+  const upiIdEl = document.getElementById('invUpiId') || document.getElementById('invUpi');
+  const upiNameEl = document.getElementById('invUpiName');
+  const profile = {
+    fromName: fromNameEl ? fromNameEl.value : '',
+    fromGstin: fromGstinEl ? fromGstinEl.value : '',
+    fromState: fromStateEl ? fromStateEl.value : '',
+    upiId: upiIdEl ? upiIdEl.value : '',
+    upiName: upiNameEl ? upiNameEl.value : ''
+  };
+  try {
+    localStorage.setItem(BF_SELLER_PROFILE_KEY, JSON.stringify(profile));
+  } catch (e) {}
+}
+
+function restoreSellerProfile() {
+  try {
+    const raw = localStorage.getItem(BF_SELLER_PROFILE_KEY);
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (!p || typeof p !== 'object') return;
+    if (p.fromName !== undefined) {
+      if (document.getElementById('invFromName')) document.getElementById('invFromName').value = p.fromName;
+      if (document.getElementById('invFrom')) document.getElementById('invFrom').value = p.fromName;
+    }
+    if (p.fromGstin !== undefined && document.getElementById('invFromGstin')) {
+      document.getElementById('invFromGstin').value = p.fromGstin;
+    }
+    if (p.fromState !== undefined && document.getElementById('invFromState')) {
+      document.getElementById('invFromState').value = p.fromState;
+    }
+    if (p.upiId !== undefined) {
+      if (document.getElementById('invUpiId')) document.getElementById('invUpiId').value = p.upiId;
+      if (document.getElementById('invUpi')) document.getElementById('invUpi').value = p.upiId;
+    }
+    if (p.upiName !== undefined && document.getElementById('invUpiName')) {
+      document.getElementById('invUpiName').value = p.upiName;
+    }
+  } catch (e) {}
+}
+
 function renderInvoice() {
   if (!document.getElementById('invoicePreview')) return;
   const cur = document.getElementById('invCurrency')?.value || '₹';
@@ -1367,6 +1414,7 @@ function renderInvoice() {
   updateGstinStatus(fromGstin, 'invFromGstinStatus');
   updateGstinStatus(toGstin, 'invToGstinStatus');
   const upiId = (document.getElementById('invUpi')?.value || '').trim();
+  saveSellerProfile();
 
   const docType = document.getElementById('invDocType')?.value || 'TAX INVOICE';
   const prevDocTypeEl = document.getElementById('prevDocType');
@@ -1566,7 +1614,12 @@ function copyBillfoldWaMsg(btn) {
 
 function resetInvoice() {
   if (document.getElementById('invDocType')) document.getElementById('invDocType').value = 'TAX INVOICE';
+  if (document.getElementById('invTo')) document.getElementById('invTo').value = '';
+  if (document.getElementById('invToGstin')) document.getElementById('invToGstin').value = '';
+  if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = '0';
+  if (document.getElementById('invNotes')) document.getElementById('invNotes').value = '';
   invoiceItems = [{ desc: 'Consulting / Product Order', qty: 1, rate: 1500 }];
+  restoreSellerProfile();
   renderInvoiceInputs();
   renderInvoice();
 }
@@ -1580,6 +1633,7 @@ if (document.getElementById('invoiceItemsList')) {
     const dd = String(now.getDate()).padStart(2, '0');
     initInvDateEl.value = `${yyyy}-${mm}-${dd}`;
   }
+  restoreSellerProfile();
   renderInvoiceInputs();
   renderInvoice();
   renderSavedInvoicesBar();
