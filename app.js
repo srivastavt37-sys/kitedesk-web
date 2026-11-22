@@ -1210,6 +1210,47 @@ function removeInvoiceItem(idx) {
 
 const GSTIN_REGEX = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 
+const GST_STATE_CODES = {
+  '01': 'Jammu & Kashmir',
+  '02': 'Himachal Pradesh',
+  '03': 'Punjab',
+  '04': 'Chandigarh',
+  '05': 'Uttarakhand',
+  '06': 'Haryana',
+  '07': 'Delhi',
+  '08': 'Rajasthan',
+  '09': 'Uttar Pradesh',
+  '10': 'Bihar',
+  '11': 'Sikkim',
+  '12': 'Arunachal Pradesh',
+  '13': 'Nagaland',
+  '14': 'Manipur',
+  '15': 'Mizoram',
+  '16': 'Tripura',
+  '17': 'Meghalaya',
+  '18': 'Assam',
+  '19': 'West Bengal',
+  '20': 'Jharkhand',
+  '21': 'Odisha',
+  '22': 'Chhattisgarh',
+  '23': 'Madhya Pradesh',
+  '24': 'Gujarat',
+  '25': 'Daman & Diu',
+  '26': 'Dadra & Nagar Haveli and Daman & Diu',
+  '27': 'Maharashtra',
+  '28': 'Andhra Pradesh (Pre-2014)',
+  '29': 'Karnataka',
+  '30': 'Goa',
+  '31': 'Lakshadweep',
+  '32': 'Kerala',
+  '33': 'Tamil Nadu',
+  '34': 'Puducherry',
+  '35': 'Andaman & Nicobar Islands',
+  '36': 'Telangana',
+  '37': 'Andhra Pradesh',
+  '38': 'Ladakh'
+};
+
 function updateGstinStatus(rawVal, statusId) {
   const el = document.getElementById(statusId);
   if (!el) return;
@@ -1220,8 +1261,15 @@ function updateGstinStatus(rawVal, statusId) {
     return;
   }
   if (GSTIN_REGEX.test(val)) {
-    el.textContent = 'Valid 15-char GSTIN ✓';
-    el.className = 'gstin-status is-valid';
+    const stateCode = val.slice(0, 2);
+    const stateName = GST_STATE_CODES[stateCode];
+    if (stateName) {
+      el.textContent = `Valid 15-char GSTIN · ${stateName} (${stateCode}) ✓`;
+      el.className = 'gstin-status is-valid';
+    } else {
+      el.textContent = `Check GSTIN state code (${stateCode} is outside 01–38)`;
+      el.className = 'gstin-status is-invalid';
+    }
   } else {
     el.textContent = 'Check GSTIN format (15 chars, e.g. 27AABCU9603R1ZM)';
     el.className = 'gstin-status is-invalid';
