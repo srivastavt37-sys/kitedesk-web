@@ -707,6 +707,72 @@ input:focus, select:focus, textarea:focus {
 .serp-url { font-size: 0.8rem; color: #202124; margin-bottom: 2px; }
 .serp-title { font-size: 1.1rem; color: #1a0dab; font-weight: 500; margin-bottom: 4px; line-height: 1.3; }
 .serp-desc { font-size: 0.85rem; color: #4d5156; line-height: 1.45; margin: 0; }
+.serp-preview-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.serp-toolbar-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.serp-toggle-pills {
+  display: inline-flex;
+  background: var(--surface-tint);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px;
+  gap: 2px;
+}
+.serp-toggle-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.serp-toggle-btn.active {
+  background: #ffffff;
+  color: #c2410c;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+.serp-card.is-mobile {
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+.serp-card.is-mobile .serp-url {
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.serp-card.is-mobile .serp-title {
+  font-size: 1.02rem;
+  line-height: 1.32;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.serp-card.is-mobile .serp-desc {
+  font-size: 0.82rem;
+  line-height: 1.42;
+}
 
 /* Comparison Table */
 .alt-section { margin-top: 36px; }

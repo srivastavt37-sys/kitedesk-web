@@ -2132,6 +2132,9 @@ function updateFormatter() {
   const prevUrl = document.getElementById('serpPrevUrl');
   const prevDesc = document.getElementById('serpPrevDesc');
 
+  const isMobile = serpDeviceMode === 'mobile';
+  const maxPx = isMobile ? 640 : 580;
+  const maxDesc = isMobile ? 120 : 160;
   const titleChars = serpTitle.length;
   const titlePx = measureSerpTitlePx(serpTitle);
   const charsEl = document.getElementById('serpTitleChars');
@@ -2139,13 +2142,18 @@ function updateFormatter() {
   const statusEl = document.getElementById('serpTitleStatus');
   if (charsEl) charsEl.textContent = `${titleChars} / 60 chars`;
   if (pxEl) {
-    pxEl.textContent = `~${titlePx} / 580 px`;
-    pxEl.style.color = titlePx > 580 ? '#c2410c' : 'var(--ink)';
+    pxEl.textContent = isMobile ? `~${titlePx} / 640 px (2 lines)` : `~${titlePx} / 580 px`;
+    pxEl.style.color = titlePx > maxPx ? '#c2410c' : 'var(--ink)';
   }
   if (statusEl) {
-    if (titlePx > 580) {
-      statusEl.textContent = `+${titlePx - 580} px over (truncates)`;
+    if (titlePx > maxPx) {
+      statusEl.textContent = isMobile
+        ? `+${titlePx - maxPx} px over (>2 lines)`
+        : `+${titlePx - maxPx} px over (truncates)`;
       statusEl.style.color = '#c2410c';
+    } else if (isMobile) {
+      statusEl.textContent = titlePx <= 320 ? 'Fits 1st mobile line' : 'Fits 2-line mobile card';
+      statusEl.style.color = '#059669';
     } else if (titlePx >= 520) {
       statusEl.textContent = `${580 - titlePx} px buffer left`;
       statusEl.style.color = '#0f4c5c';
@@ -2155,9 +2163,20 @@ function updateFormatter() {
     }
   }
 
-  if (prevTitle) prevTitle.textContent = truncateSerpTitleByPx(serpTitle, 580);
+  if (prevTitle) prevTitle.textContent = truncateSerpTitleByPx(serpTitle, maxPx);
   if (prevUrl) prevUrl.textContent = serpUrl;
-  if (prevDesc) prevDesc.textContent = text.replace(/\n+/g, ' ').slice(0, 160) || 'Write your description above to preview how your page appears on Google Search.';
+  if (prevDesc) prevDesc.textContent = text.replace(/\n+/g, ' ').slice(0, maxDesc) || 'Write your description above to preview how your page appears on Google Search.';
+}
+
+let serpDeviceMode = 'desktop';
+function setSerpDeviceMode(mode) {
+  serpDeviceMode = mode === 'mobile' ? 'mobile' : 'desktop';
+  document.querySelectorAll('#serpDeviceToggle .serp-toggle-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.serpDevice === serpDeviceMode);
+  });
+  const card = document.getElementById('serpPreviewCard');
+  if (card) card.classList.toggle('is-mobile', serpDeviceMode === 'mobile');
+  updateFormatter();
 }
 
 function autoCleanSerpSlug() {

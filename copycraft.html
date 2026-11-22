@@ -126,7 +126,14 @@ Order directly on WhatsApp in 1 tap</textarea>
             <div class="meter"><span>Google Meta (160)</span><strong id="cntSeo">OK</strong></div>
             <div class="meter" style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;"><span>Plain-English Check</span><strong id="ccSlopCheck" style="color:#059669;">Tone: Plain English &#10003;</strong></div>
           </div>
-          <div class="serp-card">
+          <div class="serp-preview-toolbar" id="serpDeviceToggle" role="group" aria-label="SERP Preview Device">
+            <span class="serp-toolbar-label">Google SERP Preview</span>
+            <div class="serp-toggle-pills">
+              <button type="button" class="serp-toggle-btn active" data-serp-device="desktop" onclick="setSerpDeviceMode('desktop')">Desktop (580px)</button>
+              <button type="button" class="serp-toggle-btn" data-serp-device="mobile" onclick="setSerpDeviceMode('mobile')">Mobile (360px)</button>
+            </div>
+          </div>
+          <div class="serp-card" id="serpPreviewCard">
             <div class="serp-url" id="serpPrevUrl">https://kitedesk.in/shop/festive-jootis</div>
             <div class="serp-title" id="serpPrevTitle">Handcrafted Leather Jootis — Custom Bridal &amp; Festive Pair</div>
             <p class="serp-desc" id="serpPrevDesc"></p>
