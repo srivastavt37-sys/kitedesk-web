@@ -2217,9 +2217,36 @@ function updateFormatter() {
     }
   }
 
+  const cleanDesc = text.replace(/\n+/g, ' ');
   if (prevTitle) prevTitle.textContent = truncateSerpTitleByPx(serpTitle, maxPx);
   if (prevUrl) prevUrl.textContent = serpUrl;
-  if (prevDesc) prevDesc.textContent = text.replace(/\n+/g, ' ').slice(0, maxDesc) || 'Write your description above to preview how your page appears on Google Search.';
+  if (prevDesc) prevDesc.textContent = cleanDesc.slice(0, maxDesc) || 'Write your description above to preview how your page appears on Google Search.';
+
+  const kwInput = document.getElementById('serpKeyword');
+  const kwStatusEl = document.getElementById('serpKeywordStatus');
+  if (kwStatusEl) {
+    const kw = (kwInput?.value || '').trim().toLowerCase();
+    if (!kw) {
+      kwStatusEl.textContent = 'Optional keyword check';
+      kwStatusEl.style.color = 'var(--muted)';
+    } else {
+      const inTitle = serpTitle.toLowerCase().includes(kw);
+      const inDesc = cleanDesc.toLowerCase().includes(kw);
+      if (inTitle && inDesc) {
+        kwStatusEl.textContent = 'Matched in Title + Desc \u2713';
+        kwStatusEl.style.color = '#059669';
+      } else if (inTitle) {
+        kwStatusEl.textContent = 'Title only';
+        kwStatusEl.style.color = '#0f4c5c';
+      } else if (inDesc) {
+        kwStatusEl.textContent = 'Desc only';
+        kwStatusEl.style.color = '#0f4c5c';
+      } else {
+        kwStatusEl.textContent = 'Missing from Title & Desc';
+        kwStatusEl.style.color = '#c2410c';
+      }
+    }
+  }
 }
 
 let serpDeviceMode = 'desktop';
