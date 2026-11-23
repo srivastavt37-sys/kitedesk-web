@@ -2386,6 +2386,49 @@ function formatAs(mode) {
       `• *Dispatch ETA:* ${etaVal}`,
       `• *UPI Offer:* ${upiVal}`
     ].join('\n');
+  } else if (mode === 'festive') {
+    const rawLines = t.split('\n').map(l => l.trim()).filter(Boolean)
+      .map(l => l.replace(/^[✓•\-]\s*/, '').trim());
+    const cleanField = (line, labelRe) => line.replace(labelRe, '').replace(/^\*+|\*+$/g, '').trim();
+    const serpTitle = (document.getElementById('serpTitleInput')?.value || '').trim();
+
+    let productName = '';
+    let upiSavings = '';
+    let sameDayShip = '';
+    let waOrder = '';
+
+    for (const line of rawLines) {
+      if (/^\*?festive\s*dispatch\s*offer\*?$/i.test(line)) continue;
+      if (/^\*?upi\s*savings:?\*?/i.test(line)) {
+        upiSavings = cleanField(line, /^\*?upi\s*savings:?\*?\s*/i);
+      } else if (/^\*?same[-\s]*day\s*ship(?:ping)?:?\*?/i.test(line)) {
+        sameDayShip = cleanField(line, /^\*?same[-\s]*day\s*ship(?:ping)?:?\*?\s*/i);
+      } else if (/^\*?order\s*via\s*whatsapp:?\*?/i.test(line)) {
+        waOrder = cleanField(line, /^\*?order\s*via\s*whatsapp:?\*?\s*/i);
+      } else if (!productName && !/(?:₹|rs\.?\s*|inr\s*)\d/i.test(line)) {
+        productName = line.replace(/^\*+|\*+$/g, '').trim();
+      } else if (!upiSavings && /(upi|prepaid|offer|discount|save|savings|off|₹|rs\.?|inr)/i.test(line)) {
+        upiSavings = line.replace(/^\*+|\*+$/g, '').trim();
+      } else if (!sameDayShip && /(dispatch|ship|cut[-\s]*off|pm|am|same[-\s]*day|eta|deliver)/i.test(line)) {
+        sameDayShip = line.replace(/^\*+|\*+$/g, '').trim();
+      } else if (!waOrder && /(whatsapp|wa\.me|reply|dm|pincode|order)/i.test(line)) {
+        waOrder = line.replace(/^\*+|\*+$/g, '').trim();
+      }
+    }
+
+    if (!productName) productName = serpTitle;
+    if (!upiSavings) upiSavings = 'Flat ₹150 OFF on Prepaid UPI (Zero COD Fee)';
+    if (!sameDayShip) sameDayShip = 'Dispatches today on orders paid before 4:00 PM IST';
+    if (!waOrder) waOrder = 'Reply with your pincode and size/variant to get your instant UPI QR';
+
+    const lines = ['*Festive Dispatch Offer*'];
+    if (productName) lines.push(`*${productName}*`);
+    lines.push(
+      `• *UPI Savings:* ${upiSavings}`,
+      `• *Same-Day Ship:* ${sameDayShip}`,
+      `• *Order via WhatsApp:* ${waOrder}`
+    );
+    t = lines.join('\n');
   }
   el.value = t;
   updateFormatter();
