@@ -2215,6 +2215,37 @@ function truncateSerpTitleByPx(str, maxPx) {
   return str.slice(0, end).trimEnd() + '...';
 }
 
+function measureSerpDescPx(str) {
+  if (!str) return 0;
+  try {
+    if (!_serpCanvasCtx && typeof document !== 'undefined') {
+      const c = document.createElement('canvas');
+      _serpCanvasCtx = c.getContext('2d');
+    }
+    if (_serpCanvasCtx) {
+      _serpCanvasCtx.font = '14px Arial, sans-serif';
+      return Math.round(_serpCanvasCtx.measureText(str).width);
+    }
+  } catch (e) {}
+  let total = 0;
+  for (const ch of str) {
+    if (SERP_CHAR_WIDTHS[ch] !== undefined) total += SERP_CHAR_WIDTHS[ch] * 0.7;
+    else if (/[A-Z]/.test(ch)) total += 9.45;
+    else if (/[0-9]/.test(ch)) total += 7.77;
+    else total += 7.35;
+  }
+  return Math.round(total);
+}
+
+function truncateSerpDescByPx(str, maxPx) {
+  if (measureSerpDescPx(str) <= maxPx) return str;
+  let end = str.length;
+  while (end > 0 && measureSerpDescPx(str.slice(0, end).trimEnd() + '...') > maxPx) {
+    end -= 1;
+  }
+  return str.slice(0, end).trimEnd() + '...';
+}
+
 function updateFormatter() {
   const el = document.getElementById('fmtInput');
   if (!el) return;
@@ -2279,10 +2310,36 @@ function updateFormatter() {
     }
   }
 
-  const cleanDesc = text.replace(/\n+/g, ' ');
+  const cleanDesc = text.replace(/\n+/g, ' ').trim();
+  const maxDescPx = isMobile ? 680 : 920;
+  const descChars = cleanDesc.length;
+  const descPx = measureSerpDescPx(cleanDesc);
+  const descCharsEl = document.getElementById('serpDescChars');
+  const descPxEl = document.getElementById('serpDescPx');
+  const descStatusEl = document.getElementById('serpDescStatus');
+  if (descCharsEl) descCharsEl.textContent = `${descChars} / ${maxDesc} chars`;
+  if (descPxEl) {
+    descPxEl.textContent = `~${descPx} / ${maxDescPx} px`;
+    descPxEl.style.color = descPx > maxDescPx ? '#c2410c' : 'var(--ink)';
+  }
+  if (descStatusEl) {
+    if (descChars === 0) {
+      descStatusEl.textContent = 'Add meta description';
+      descStatusEl.style.color = 'var(--muted)';
+    } else if (descPx > maxDescPx) {
+      descStatusEl.textContent = `+${descPx - maxDescPx} px over (truncates)`;
+      descStatusEl.style.color = '#c2410c';
+    } else if (maxDescPx - descPx <= 80) {
+      descStatusEl.textContent = `${maxDescPx - descPx} px buffer left`;
+      descStatusEl.style.color = '#0f4c5c';
+    } else {
+      descStatusEl.textContent = isMobile ? 'Fits mobile SERP' : 'Fits desktop SERP';
+      descStatusEl.style.color = '#059669';
+    }
+  }
   if (prevTitle) prevTitle.textContent = truncateSerpTitleByPx(serpTitle, maxPx);
   if (prevUrl) prevUrl.textContent = serpUrl;
-  if (prevDesc) prevDesc.textContent = cleanDesc.slice(0, maxDesc) || 'Write your description above to preview how your page appears on Google Search.';
+  if (prevDesc) prevDesc.textContent = truncateSerpDescByPx(cleanDesc, maxDescPx) || 'Write your description above to preview how your page appears on Google Search.';
 
   const kwInput = document.getElementById('serpKeyword');
   const kwStatusEl = document.getElementById('serpKeywordStatus');
