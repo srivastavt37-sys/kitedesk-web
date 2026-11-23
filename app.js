@@ -1948,6 +1948,10 @@ function buildWhatsApp() {
     : rawMsg;
   const msg = encodeURIComponent(taggedMsg);
   const url = `https://wa.me/${phone}${msg ? `?text=${msg}` : ''}`;
+  const chatPreviewEl = document.getElementById('waChatPreview');
+  if (chatPreviewEl) {
+    chatPreviewEl.textContent = taggedMsg || 'No pre-filled message (opens blank chat)';
+  }
   const outEl = document.getElementById('waOutput');
   if (outEl) outEl.value = url;
   const lenEl = document.getElementById('waLinkLen');
