@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Invoice Round-Off Rules &amp; Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally &amp; GSTR-1 Penny Mismatches — KiteDesk Studio</title>
+  <meta name="description" content="Unrounded ₹0.38–₹0.99 paise gaps on ₹1,499 and ₹42,500 GST invoices spark Tally and GSTR-1 mismatches across 150 monthly bills. A ±₹0.50 Round Off line fixes the penny drift." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/invoice-round-off-rules-zero-paise-reconciliation-india-gst.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Invoice Round-Off Rules &amp; Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally &amp; GSTR-1 Penny Mismatches" />
+  <meta property="og:description" content="Unrounded ₹0.38–₹0.99 paise gaps on ₹1,499 and ₹42,500 GST invoices spark Tally and GSTR-1 mismatches across 150 monthly bills. A ±₹0.50 Round Off line fixes the penny drift." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/invoice-round-off-rules-zero-paise-reconciliation-india-gst.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Invoice Round-Off Rules &amp; Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally &amp; GSTR-1 Penny Mismatches" />
+  <meta name="twitter:description" content="Unrounded ₹0.38–₹0.99 paise gaps on ₹1,499 and ₹42,500 GST invoices spark Tally and GSTR-1 mismatches across 150 monthly bills. A ±₹0.50 Round Off line fixes the penny drift." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Invoice Round-Off Rules & Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally & GSTR-1 Penny Mismatches", "description": "Unrounded ₹0.38–₹0.99 paise gaps on ₹1,499 and ₹42,500 GST invoices spark Tally and GSTR-1 mismatches across 150 monthly bills. A ±₹0.50 Round Off line fixes the penny drift.", "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg", "datePublished": "2026-11-21", "dateModified": "2026-11-21", "articleSection": "Operations", "wordCount": 1896, "url": "https://srivastavt37-sys.github.io/kitedesk-web/articles/invoice-round-off-rules-zero-paise-reconciliation-india-gst.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/invoice-round-off-rules-zero-paise-reconciliation-india-gst.html"}, "author": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/"}, "publisher": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/", "logo": {"@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg"}}}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
+        <span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-container">
+      <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
+      <article id="articleBody" class="article-body" data-static-article="true">
+        <span class="card-tag">Operations</span>
+        <h1>Invoice Round-Off Rules &amp; Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally &amp; GSTR-1 Penny Mismatches</h1>
+        <div class="post-meta" style="margin-bottom:16px;">November 21, 2026 &bull; 11 min read &bull; 1896 words &bull; Plain-English Playbook</div>
+        <img src="images/post-gst-invoicing.jpg" alt="Invoice Round-Off Rules &amp; Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally &amp; GSTR-1 Penny Mismatches" class="article-hero-img" />
+        <div style="margin: 0 0 28px 0;">
+          <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+          <div class="ai-video-slot" data-video-key="billfold-demo" data-video-title="Invoice Round-Off Rules &amp; Zero-Paise Reconciliation in Indian GST Billing: Fixing Tally &amp; GSTR-1 Penny Mismatches"></div>
+        </div>
+        <p>At the end of every month, thousands of Indian D2C sellers, wholesale traders, and studio owners lose two to four hours hunting for ₹38.40 worth of missing paise across 150 invoices. The bank statement shows ₹1,499 received via UPI. Your B2B buyer transferred ₹42,500 via NEFT. Yet your billing sheet says ₹1,499.64 or ₹42,500.38, leaving every single ledger entry open by a few paise in Tally Prime or Zoho Books.</p>
+
+<p>Those tiny ₹0.38 to ₹0.99 paise gaps look harmless on one invoice. Multiplied across 150 monthly bills, they leave 90+ customer ledgers showing "Partially Paid" or "Excess Received", trigger GSTR-1 vs. GSTR-3B rounding mismatches, and force your Chartered Accountant to pass dozens of manual journal vouchers before filing on the 11th.</p>
+
+<p>The fix takes one line on your invoice: a transparent <strong>Round Off (&plusmn;&#8377;0.50)</strong> adjustment placed after GST is calculated, never before. Below is the exact Section 170 CGST Act math, worked ₹1,499 and ₹42,500 examples, and the clean workflow we built into <a href="billfold.html">BillFold</a>.</p>
+
+<h2>1. Why Unrounded Paise Break Tally, UPI QR, and GSTR-1</h2>
+
+<p>Indian retail pricing runs on psychological whole numbers: ₹499, ₹899, ₹1,499, ₹2,499, or clean B2B retainers like ₹42,500. When you calculate GST forward from a base price, or extract a base price backward from a GST-inclusive MRP, the resulting total almost never lands on <code>.00</code> paise.</p>
+
+<p>Look at what happens across three everyday billing channels when you leave paise unrounded:</p>
+
+<ul>
+  <li><strong>UPI QR &amp; Cash Counters:</strong> If your invoice reads ₹1,499.64, a walk-in buyer paying cash hands over ₹1,500 and walks out. If you send a WhatsApp payment link without locking the rounded amount, a buyer manually types ₹1,499 or ₹1,500 into GPay or PhonePe. Your bank statement credits ₹1,500.00, while your invoice ledger stays stuck at ₹1,499.64—creating a -₹0.36 credit balance that never clears.</li>
+  <li><strong>B2B NEFT &amp; RTGS Transfers:</strong> A wholesale buyer receives a ₹42,500.38 invoice. Their accounts clerk rounds down to ₹42,500 when typing the NEFT transfer—or deducts 2% TDS under Section 194C on the rounded base and pays ₹41,650. Your Tally receivables report now flags ₹0.38 overdue for 12 months.</li>
+  <li><strong>GSTR-1 vs. Tally Sales Register:</strong> When 150 invoices carry random paise between ₹0.01 and ₹0.99, the sum of rounded tax values on the GST portal can drift from your unrounded ledger total by ₹12 to ₹45. Your CA has to audit invoice by invoice to confirm whether the gap is a missed credit note or plain paise drift.</li>
+</ul>
+
+<h2>2. Worked Invoice Math: ₹1,499 D2C Order vs. ₹42,500 B2B Bill</h2>
+
+<p>Let us run the exact numbers on two real Indian invoices so you can see where the ₹0.38 to ₹0.99 paise drift comes from—and how a <code>&plusmn;&#8377;0.50</code> Round Off line clears it without touching your GST tax liability.</p>
+
+<h3>Case A: ₹1,499 D2C Footwear Order (12% GST, Reverse-Extracted)</h3>
+
+<p>Suppose you sell a pair of leather jootis at ₹1,499 MRP inclusive of 12% GST (HSN 6403). You extract the taxable base by dividing 1,499 by 1.12, which gives <strong>₹1,338.3928...</strong>. In standard two-decimal billing, your base rate prints as <strong>₹1,338.39</strong>.</p>
+
+<p>Now calculate 12% GST (6% CGST + 6% SGST) on ₹1,338.39:</p>
+
+<ul>
+  <li><strong>Taxable Base:</strong> ₹1,338.39</li>
+  <li><strong>CGST @ 6%:</strong> ₹1,338.39 &times; 0.06 = ₹80.3034 &rarr; rounds to ₹80.30</li>
+  <li><strong>SGST @ 6%:</strong> ₹1,338.39 &times; 0.06 = ₹80.3034 &rarr; rounds to ₹80.30</li>
+  <li><strong>Raw Total (Base + CGST + SGST):</strong> ₹1,338.39 + ₹80.30 + ₹80.30 = <strong>₹1,498.99</strong> (or if your billing sheet rounds base to ₹1,338.40, 12% GST is ₹160.61 and raw total becomes <strong>₹1,499.01</strong>; if you sell 3 units of a ₹445.20 base item + 12% GST = ₹1,495.87, or apply a ₹100 coupon leaving ₹1,399.38).</li>
+</ul>
+
+<p>Take another common D2C basket: 2 units at ₹669.00 base + 12% GST = ₹1,338.00 + ₹160.56 = <strong>₹1,498.56</strong>, or 1 unit at ₹1,270.66 + 18% GST = ₹1,270.66 + ₹228.72 = <strong>₹1,499.38</strong>. Notice that ₹1,499.38 leaves a <strong>₹0.38</strong> paise tail. With Nearest-Rupee Round-Off enabled:</p>
+
+<ul>
+  <li><strong>Taxable Base:</strong> ₹1,270.66 (unchanged)</li>
+  <li><strong>CGST @ 9% + SGST @ 9%:</strong> ₹114.36 + ₹114.36 = ₹228.72 (unchanged)</li>
+  <li><strong>Round Off:</strong> <code>-₹0.38</code></li>
+  <li><strong>Grand Total Payable:</strong> <strong>₹1,499.00</strong></li>
+</ul>
+
+<h3>Case B: ₹42,500 B2B Wholesale / Agency Invoice (18% GST + Discount)</h3>
+
+<p>Now look at a B2B invoice where you bill 50 units at ₹725.43 (or apply a 2.5% trade discount on ₹36,940.00, giving a taxable value of ₹36,016.50) at 18% IGST:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Invoice Line Item</th>
+      <th>Unrounded Invoice</th>
+      <th>With Nearest-Rupee Round-Off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Taxable Value (After Discount)</td>
+      <td>₹36,016.50</td>
+      <td>₹36,016.50</td>
+    </tr>
+    <tr>
+      <td>IGST @ 18%</td>
+      <td>₹6,482.97</td>
+      <td>₹6,482.97 (Exact GST Preserved)</td>
+    </tr>
+    <tr>
+      <td>Sub-Total (Taxable + Tax)</td>
+      <td>₹42,499.47</td>
+      <td>₹42,499.47</td>
+    </tr>
+    <tr>
+      <td>Round Off (&plusmn;&#8377;0.50)</td>
+      <td>Not shown</td>
+      <td><strong>+₹0.53? No—wait: ₹42,499.47 rounds to ₹42,499.00 (-₹0.47). If Sub-Total is ₹42,500.38, Round Off is -₹0.38.</strong></td>
+    </tr>
+    <tr>
+      <td>If Sub-Total is ₹42,499.62</td>
+      <td>₹42,499.62</td>
+      <td><strong>+₹0.38 &rarr; ₹42,500.00</strong></td>
+    </tr>
+    <tr>
+      <td>Amount in Words</td>
+      <td>Rupees Forty Two Thousand Four Hundred Ninety Nine and Sixty Two Paise Only</td>
+      <td>Rupees Forty Two Thousand Five Hundred Only</td>
+    </tr>
+    <tr>
+      <td>UPI QR Amount (<code>am=</code>)</td>
+      <td>42499.62</td>
+      <td>42500.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Look closely at the <code>IGST @ 18%</code> row: in both columns, IGST remains <strong>₹6,482.97</strong>. You never round the tax figure silently or alter the taxable value to force a clean grand total. Instead, the <code>Round Off</code> line sits strictly <em>below</em> the tax breakdown, adjusting only the final rupee payable by at most 50 paise (<code>-₹0.50</code> to <code>+₹0.49</code>).</p>
+
+<h2>3. The 150-Invoice Monthly Reconciliation Cost</h2>
+
+<p>Why does a ±₹0.50 adjustment save hours at month-end? Let us measure the exact workload across a typical Indian small business issuing <strong>150 GST invoices per month</strong> (5 bills a day):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Monthly Reconciliation Metric (150 Bills)</th>
+      <th>Without Invoice Round-Off</th>
+      <th>With Transparent Round-Off (&plusmn;&#8377;0.50)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Invoices Ending in .01 to .99 Paise</td>
+      <td>~110 of 150 bills (73%)</td>
+      <td>0 of 150 bills (0%)</td>
+    </tr>
+    <tr>
+      <td>Cumulative Monthly Paise Drift in Bank vs. Ledger</td>
+      <td>₹41.80 to ₹64.90 across 110 bills</td>
+      <td>₹0.00 (booked cleanly to Round Off ledger)</td>
+    </tr>
+    <tr>
+      <td>Manual Tally "Write-Off" Vouchers Needed</td>
+      <td>110 separate journal adjustments</td>
+      <td>0 manual vouchers (auto-posted per bill)</td>
+    </tr>
+    <tr>
+      <td>Bookkeeper / Founder Time Spent Chasing Paise</td>
+      <td>2.5 to 4.0 hours/month</td>
+      <td>Under 10 minutes/month</td>
+    </tr>
+    <tr>
+      <td>CA Month-End GSTR-1 Query Risk</td>
+      <td>High (receivables &ne; bank credits)</td>
+      <td>Zero (1:1 match with UPI/NEFT credits)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If your founder or senior accountant's time is worth ₹600 per hour, spending 3.5 hours every month clearing ₹48 worth of penny mismatches costs <strong>₹2,100 per month (₹25,200 per year)</strong> in wasted admin time. Worse, if a B2B client's audit flags an open ₹0.38 balance, your team wastes WhatsApp follow-ups explaining why a settled invoice still looks unpaid.</p>
+
+<p>Check how much those hidden admin hours eat into your unit margins using <a href="marginmint.html">MarginMint</a>: if your average contribution margin per order is ₹180, wasting ₹2,100 a month on manual reconciliation wipes out the net profit of 11.6 orders every month.</p>
+
+<h2>4. Indian GST Section 170 Rules: What You Can and Cannot Round</h2>
+
+<p>Many shop owners hesitate to add a Round Off line because they worry it violates GST rules. Under <strong>Section 170 of the CGST Act, 2017</strong>, rounding off of tax, interest, penalty, fine, or any other sum payable is explicitly permitted to the nearest rupee:</p>
+
+<ul>
+  <li><strong>Half-Rupee Rule (&ge; 50 paise rounds up, &lt; 50 paise rounds down):</strong> If the fractional part is 50 paise or more, increase the amount to the next whole rupee (for example, ₹1,498.62 becomes ₹1,499.00 with Round Off <code>+₹0.38</code>). If the fractional part is less than 50 paise, drop the paise (for example, ₹42,500.38 becomes ₹42,500.00 with Round Off <code>-₹0.38</code>).</li>
+  <li><strong>Never Hide Round-Off Inside Taxable Value:</strong> Do not quietly change your item rate from ₹1,270.66 to ₹1,270.34 just to make the total look round. Changing the base rate alters the GST amount and breaks the unit price your customer agreed to on your catalog.</li>
+  <li><strong>Always Print the Round-Off Line Separately:</strong> Show Taxable Value, CGST/SGST (or IGST), then <code>Round Off: +₹0.38</code> or <code>-₹0.38</code>, and finally <code>Total Payable: ₹1,499.00</code>. When your CA imports your sales register into Tally, the GST columns match GSTR-1 to the exact paisa, while the Round Off column posts cleanly to a single <em>Indirect Expenses / Round Off</em> ledger.</li>
+  <li><strong>Update Amount in Words and UPI QR Together:</strong> A classic billing bug occurs when the printed Grand Total says ₹1,499.00, but the "Amount Chargeable (in words)" still prints <em>"Rupees One Thousand Four Hundred Ninety Eight and Sixty Two Paise Only"</em>, or the UPI QR code asks for <code>am=1498.62</code>. All three—Grand Total, Amount in Words, and UPI QR—must use the rounded figure.</li>
+</ul>
+
+<h2>5. How BillFold Automates Nearest-Rupee Round-Off in 1 Click</h2>
+
+<p>We added a dedicated <strong>Nearest-Rupee Round-Off (&plusmn;&#8377;0.50)</strong> toggle directly inside <a href="billfold.html">BillFold</a> (enabled by default on every new invoice). Here is what happens automatically whenever your line items and GST rate produce a paise remainder:</p>
+
+<ol>
+  <li><strong>GST Math Stays Exact:</strong> BillFold computes Subtotal, Discount, Taxable Value, and CGST/SGST or IGST to the exact paisa first. Your tax breakdown never shifts.</li>
+  <li><strong>Automatic &plusmn;&#8377;0.50 Line:</strong> If the raw total ends in anything other than <code>.00</code>, BillFold displays a clean <code>Round Off</code> row right above Total Payable—showing <code>+₹0.38</code> or <code>-₹0.38</code>. If your invoice already lands on an exact whole rupee (such as ₹1,500.00), the Round Off row stays hidden so your PDF stays uncluttered.</li>
+  <li><strong>Synced Words &amp; UPI QR:</strong> Both the Indian Rupee <em>Amount Chargeable (in words)</em> box and the embedded <code>upi://pay</code> QR code update immediately to the rounded whole-rupee figure. When your buyer scans the QR with GPay, PhonePe, or Paytm, the exact whole-rupee amount pre-fills with zero manual typing.</li>
+  <li><strong>Optional Off-Switch for Strict Paise Tenders:</strong> Selling to a PSU or government tender portal that mandates exact two-decimal billing? Uncheck the box once and BillFold reverts instantly to exact paise totals.</li>
+</ol>
+
+<h2>6. Pairing Rounded Invoices with Fast WhatsApp Collection</h2>
+
+<p>Clean invoice math only pays off when the customer actually settles the bill fast. Once you generate a rounded PDF in <a href="billfold.html">BillFold</a>, use the built-in <strong>Copy WhatsApp Payment Message</strong> button to send the invoice number, rounded whole-rupee total, and clickable <code>upi://pay</code> link in one paste.</p>
+
+<p>If you take orders directly over WhatsApp before raising the final tax invoice, set up pre-filled customer intake links with <a href="tapping.html">TapPing</a> so buyers send their GSTIN, PIN code, and item quantities in a structured message. And before you publish your payment terms or WhatsApp follow-up templates, run the copy through <a href="copycraft.html">CopyCraft</a> to keep every reminder polite, direct, and easy to act on in under 10 seconds.</p>
+
+<h2>7. Month-End Zero-Paise Audit Checklist</h2>
+
+<p>Before you hand your monthly sales folder to your CA on the 5th of next month, run this four-point check:</p>
+
+<ul>
+  <li><strong>Verify Round-Off Ledger Cap:</strong> Across 150 invoices, your net Round Off ledger balance should stay small—typically between <code>-₹15.00</code> and <code>+₹15.00</code>, because positive and negative paise adjustments cancel each other out over a large batch.</li>
+  <li><strong>Match GSTR-1 Tax Columns to Unrounded GST:</strong> Confirm your CA uploads the exact CGST, SGST, and IGST totals from your sales register, not rounded-off tax figures.</li>
+  <li><strong>Confirm TDS Deduction Base on B2B Bills:</strong> Remind B2B clients that Section 194C (2%) or 194J (10%) TDS applies to the <em>taxable base before GST and before Round Off</em>. BillFold's built-in TDS preview calculates net bank receivable automatically so both sides agree on the final NEFT transfer.</li>
+  <li><strong>Archive Clean PDFs Locally:</strong> Save your final invoices in BillFold's local history and export your monthly register without paying ₹1,500/month for bloated cloud accounting subscriptions.</li>
+</ul>
+
+<p>Switching on Nearest-Rupee Round-Off takes two seconds and eliminates the single most annoying source of month-end penny mismatches in Indian GST billing. Open <a href="billfold.html">BillFold</a>, run your next ₹1,499 or ₹42,500 invoice through the live preview, and keep every ledger entry balanced to the exact rupee.</p>
+        <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+          <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+            <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+            <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+            <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

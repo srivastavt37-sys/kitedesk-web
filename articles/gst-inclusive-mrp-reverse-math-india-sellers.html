@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors — KiteDesk Studio</title>
+  <meta name="description" content="Exact ₹1,499 (12% GST) and ₹999 (18% GST) reverse-division math showing why dividing by 1.12 or 1.18 gives ₹1,338.39 and ₹846.61—and prevents ₹5,400+/month in silent invoicing losses on 250 orders." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/gst-inclusive-mrp-reverse-math-india-sellers.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors" />
+  <meta property="og:description" content="Exact ₹1,499 (12% GST) and ₹999 (18% GST) reverse-division math showing why dividing by 1.12 or 1.18 gives ₹1,338.39 and ₹846.61—and prevents ₹5,400+/month in silent invoicing losses on 250 orders." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/gst-inclusive-mrp-reverse-math-india-sellers.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors" />
+  <meta name="twitter:description" content="Exact ₹1,499 (12% GST) and ₹999 (18% GST) reverse-division math showing why dividing by 1.12 or 1.18 gives ₹1,338.39 and ₹846.61—and prevents ₹5,400+/month in silent invoicing losses on 250 orders." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors", "description": "Exact ₹1,499 (12% GST) and ₹999 (18% GST) reverse-division math showing why dividing by 1.12 or 1.18 gives ₹1,338.39 and ₹846.61—and prevents ₹5,400+/month in silent invoicing losses on 250 orders.", "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg", "datePublished": "2026-11-19", "dateModified": "2026-11-19", "articleSection": "Operations", "wordCount": 1745, "url": "https://srivastavt37-sys.github.io/kitedesk-web/articles/gst-inclusive-mrp-reverse-math-india-sellers.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/gst-inclusive-mrp-reverse-math-india-sellers.html"}, "author": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/"}, "publisher": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/", "logo": {"@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg"}}}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
+        <span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-container">
+      <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
+      <article id="articleBody" class="article-body" data-static-article="true">
+        <span class="card-tag">Operations</span>
+        <h1>GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors</h1>
+        <div class="post-meta" style="margin-bottom:16px;">November 19, 2026 &bull; 9 min read &bull; 1745 words &bull; Plain-English Playbook</div>
+        <img src="images/post-gst-invoicing.jpg" alt="GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors" class="article-hero-img" />
+        <div style="margin: 0 0 28px 0;">
+          <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+          <div class="ai-video-slot" data-video-key="billfold-demo" data-video-title="GST-Inclusive MRP Reverse Math for Indian Sellers: Avoiding Double-Taxing and Invoice Rounding Errors"></div>
+        </div>
+        <p>Most Indian D2C brands, boutique apparel labels, and local wholesalers quote prices to buyers as a clean, GST-inclusive MRP—like ₹1,499 for a pair of leather jootis or ₹999 for a skincare serum. Trouble starts when someone opens an invoicing tool, types ₹1,499 into the unit rate box, and turns on 12% GST. Suddenly the invoice asks the buyer for ₹1,678.88 instead of ₹1,499.00. To fix it in a hurry, sellers often grab a phone calculator, subtract 12% directly from ₹1,499, and type ₹1,319.12 as the taxable rate. That shortcut looks close enough, yet it quietly breaks your GST math and leaks ₹5,400+ every month across just 250 orders.</p>
+
+<p>When a buyer pays ₹1,499.00 inclusive of 12% GST, the tax is already sitting inside that ₹1,499.00 figure. You cannot subtract 12% from the final total because 12% was originally added on top of a smaller taxable base—not taken off the MRP. To recover the exact pre-tax rate, you have to divide by <code>1 + (GST Rate ÷ 100)</code>. Open <a href="billfold.html">BillFold</a> right now and look at Section 2 (Line Items): the new <strong>GST-Inclusive MRP Extractor</strong> does this reverse division in one click so your final invoice total lands on ₹1,499.00 to the exact paisa.</p>
+
+<h2>Why Subtracting GST Directly From MRP Costs ₹5,400+/Month</h2>
+
+<p>Let us walk through the exact mistake that trips up thousands of Indian sellers every week. Suppose your store sells footwear under HSN 6403 (12% GST) at a printed MRP of ₹1,499.00, and you ship 250 orders a month.</p>
+
+<p>If you subtract 12% directly from ₹1,499.00:</p>
+<ul>
+  <li><strong>Wrong base calculation:</strong> <code>₹1,499.00 × (1 − 0.12) = ₹1,319.12</code></li>
+  <li><strong>What happens when your billing software adds 12% GST back onto ₹1,319.12:</strong> <code>₹1,319.12 × 1.12 = ₹1,477.41</code></li>
+  <li><strong>Per-order revenue gap:</strong> <code>₹1,499.00 − ₹1,477.41 = ₹21.59</code> missing on every single invoice.</li>
+</ul>
+
+<p>On 1 order, ₹21.59 feels harmless. Across 250 monthly orders, <code>250 × ₹21.59 = ₹5,397.50</code>—nearly ₹5,400 every month, or ₹64,770 a year, disappearing purely from backwards percentage math. Even worse, if you manually override the invoice total back to ₹1,499.00 without fixing the base, your GSTR-1 taxable value and tax liability no longer reconcile with your bank deposits.</p>
+
+<p>Now compare the exact reverse-division method for both common Indian D2C slabs: <strong>₹1,499 at 12% GST</strong> and <strong>₹999 at 18% GST</strong>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Calculation Step</th>
+      <th>₹1,499 MRP (12% GST)</th>
+      <th>₹999 MRP (18% GST)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Buyer-Paid MRP (GST-Inclusive)</td>
+      <td>₹1,499.00</td>
+      <td>₹999.00</td>
+    </tr>
+    <tr>
+      <td>Correct Divisor (<code>1 + Rate/100</code>)</td>
+      <td>1.12</td>
+      <td>1.18</td>
+    </tr>
+    <tr>
+      <td><strong>True Taxable Base Value</strong></td>
+      <td><strong>₹1,338.39</strong></td>
+      <td><strong>₹846.61</strong></td>
+    </tr>
+    <tr>
+      <td>Included GST Component (CGST + SGST or IGST)</td>
+      <td>₹160.61 (₹80.30 + ₹80.30)</td>
+      <td>₹152.39 (₹76.20 + ₹76.20)</td>
+    </tr>
+    <tr>
+      <td>Re-checked Invoice Total (Base × Divisor)</td>
+      <td>₹1,499.00</td>
+      <td>₹999.00</td>
+    </tr>
+    <tr>
+      <td>Wrong Method: Subtracting GST % Directly</td>
+      <td>₹1,319.12 base &rarr; ₹1,477.41 total</td>
+      <td>₹819.18 base &rarr; ₹966.63 total</td>
+    </tr>
+    <tr>
+      <td><strong>Monthly Loss on 250 Orders (Wrong Method)</strong></td>
+      <td><strong>₹5,397.50 / month</strong></td>
+      <td><strong>₹8,092.50 / month</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Look at the 18% GST column for a ₹999 skincare or electronics accessory SKU. Subtracting 18% directly gives a base of ₹819.18. When your billing app adds 18% GST to ₹819.18, the invoice prints ₹966.63 instead of ₹999.00—a ₹32.37 shortfall on every parcel, or <strong>₹8,092.50 per month</strong> on 250 orders. When you divide ₹999.00 by <code>1.18</code> instead, you get <strong>₹846.61</strong>. Multiply ₹846.61 by 1.18, and the invoice lands squarely on <strong>₹999.00</strong>.</p>
+
+<h2>The Three Mistakes That Cause Double-Taxing and Reconciliation Warnings</h2>
+
+<p>Beyond direct percentage subtraction, Indian small businesses run into three recurring billing errors when moving between WhatsApp orders, marketplace payouts, and GST filings.</p>
+
+<h3>1. Double-Taxing MRP on Manual Tax Invoices</h3>
+<p>This happens most often on WhatsApp and Instagram D2C orders. A customer sees a product post priced at ₹1,499, sends ₹1,499 via UPI, and asks for a GST bill for their company reimbursement. The seller opens an invoice template, types <code>1499</code> into the Rate column, and leaves the 12% GST dropdown active. The PDF now shows ₹1,499.00 subtotal + ₹179.88 GST = ₹1,678.88 total, while the UPI receipt shows ₹1,499.00 received. Either the customer refuses to pay the extra ₹179.88 or your CA flags a ₹179.88 unpaid balance on every B2B receipt.</p>
+
+<h3>2. Splitting CGST and SGST Without Rounding Discipline</h3>
+<p>On intra-state sales, GST splits evenly into Central GST (CGST) and State GST (SGST). For ₹1,499 at 12%, the total GST is ₹160.61, which splits into ₹80.305 each. Most spreadsheets round both halves up to ₹80.31, turning total tax into ₹160.62 and pushing the grand total to ₹1,499.01. Under Rule 37A and standard Indian commercial invoicing, keeping the base rounded to two decimal places (₹1,338.39) and letting the invoice total round cleanly to ₹1,499.00 prevents 1-paisa ledger mismatches across hundreds of bills.</p>
+
+<h3>3. Confusing Inclusive MRP With Ex-GST Margin Math</h3>
+<p>A seller who pays ₹600 landed cost for a kurta and sells it at ₹1,499 MRP often assumes they make ₹899 gross profit. In reality, ₹160.61 of that ₹1,499 belongs to the government on day one. Your true top-line revenue is ₹1,338.39, meaning your gross profit before shipping and ads is ₹738.39—not ₹899. Plugging ₹1,338.39 (or checking the GST-inclusive toggle) inside <a href="marginmint.html">MarginMint</a> keeps your ad CPA and COD return budgets anchored to real ex-GST cash.</p>
+
+<h2>How to Use BillFold's GST-Inclusive MRP Extractor in 10 Seconds</h2>
+
+<p>You should never need a separate calculator tab just to generate a clean tax invoice. Inside <a href="billfold.html">BillFold</a>, Section 2 (Line Items) now includes an inline <strong>GST-Inclusive MRP Extractor</strong> right below your item rows. Here is the exact workflow:</p>
+
+<ol>
+  <li><strong>Pick your HSN or GST slab first:</strong> In Section 1 (Tax Mode &amp; GST Rate), choose <em>Intra-State (CGST + SGST)</em> or <em>Inter-State (IGST)</em> and set the GST Rate (for example, <code>12</code> for footwear/apparel above ₹1,000, or <code>18</code> for cosmetics and SaaS retainers). You can also pick a preset from the <strong>+ HSN / SAC Quick-Fill</strong> dropdown in Section 2.</li>
+  <li><strong>Type the buyer-facing MRP:</strong> Enter <code>1499</code> (or <code>999</code>) into the <em>GST-Inclusive MRP Extractor</em> input box.</li>
+  <li><strong>Click Extract Base:</strong> BillFold divides your MRP by <code>1 + (rate / 100)</code>, rounds to two decimal places (<code>1338.39</code> for ₹1,499 at 12%, or <code>846.61</code> for ₹999 at 18%), and updates the active line item rate immediately.</li>
+  <li><strong>Verify the live preview on the right:</strong> Check that the Grand Total equals <code>₹1,499.00</code>, the CGST/SGST split shows <code>₹80.30</code> + <code>₹80.30</code> (or IGST <code>₹160.61</code>), and the dynamic UPI QR code encodes <code>am=1499.00</code>.</li>
+</ol>
+
+<p>If you sell B2B orders with multiple SKUs on one bill, add each item row with <strong>+ Add Line Item</strong>, extract the base for each SKU's MRP, and save the invoice locally or export the print-ready PDF in one click.</p>
+
+<h2>Reverse GST Reference Cheat Sheet for Common Indian Price Points</h2>
+
+<p>Keep this table bookmarked for quick checks during catalog pricing, marketplace reconciliations, and WhatsApp order quotes. Every figure below uses the exact <code>MRP ÷ (1 + GST/100)</code> formula.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Printed MRP (Incl. GST)</th>
+      <th>5% GST Base / Tax</th>
+      <th>12% GST Base / Tax</th>
+      <th>18% GST Base / Tax</th>
+      <th>28% GST Base / Tax</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>₹499.00</td>
+      <td>₹475.24 / ₹23.76</td>
+      <td>₹445.54 / ₹53.46</td>
+      <td>₹422.88 / ₹76.12</td>
+      <td>₹389.84 / ₹109.16</td>
+    </tr>
+    <tr>
+      <td>₹799.00</td>
+      <td>₹760.95 / ₹38.05</td>
+      <td>₹713.39 / ₹85.61</td>
+      <td>₹677.12 / ₹121.88</td>
+      <td>₹624.22 / ₹174.78</td>
+    </tr>
+    <tr>
+      <td>₹999.00</td>
+      <td>₹951.43 / ₹47.57</td>
+      <td>₹891.96 / ₹107.04</td>
+      <td>₹846.61 / ₹152.39</td>
+      <td>₹780.47 / ₹218.53</td>
+    </tr>
+    <tr>
+      <td>₹1,299.00</td>
+      <td>₹1,237.14 / ₹61.86</td>
+      <td>₹1,159.82 / ₹139.18</td>
+      <td>₹1,100.85 / ₹198.15</td>
+      <td>₹1,014.84 / ₹284.16</td>
+    </tr>
+    <tr>
+      <td>₹1,499.00</td>
+      <td>₹1,427.62 / ₹71.38</td>
+      <td>₹1,338.39 / ₹160.61</td>
+      <td>₹1,270.34 / ₹228.66</td>
+      <td>₹1,171.09 / ₹327.91</td>
+    </tr>
+    <tr>
+      <td>₹1,999.00</td>
+      <td>₹1,903.81 / ₹95.19</td>
+      <td>₹1,784.82 / ₹214.18</td>
+      <td>₹1,694.07 / ₹304.93</td>
+      <td>₹1,561.72 / ₹437.28</td>
+    </tr>
+    <tr>
+      <td>₹2,499.00</td>
+      <td>₹2,380.00 / ₹119.00</td>
+      <td>₹2,231.25 / ₹267.75</td>
+      <td>₹2,117.80 / ₹381.20</td>
+      <td>₹1,952.34 / ₹546.66</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Handling Discounts and Multi-Quantity Orders Without Breaking GST</h2>
+
+<p>Reverse GST gets slightly trickier when a buyer orders 3 units or applies a ₹100 prepaid UPI coupon. Follow these two rules so your numbers never drift:</p>
+
+<h3>Rule A: Extract Base Per Unit Before Multiplying Quantity</h3>
+<p>If one unit has a ₹1,499 MRP (12% GST), its unit base is ₹1,338.39. If the customer buys 3 units for ₹4,497.00, set Quantity to <code>3</code> and Unit Rate to <code>1338.39</code>. Subtotal becomes ₹4,015.17, 12% GST is ₹481.82, and the grand total lands on ₹4,496.99 (or ₹4,497.00 after standard rupee rounding). Always extract the unit rate first rather than dividing the order total at the end if your catalog tracks per-SKU pricing.</p>
+
+<h3>Rule B: Apply Post-Tax Discounts vs Pre-Tax Discounts Consistently</h3>
+<p>Suppose you offer a ₹100 instant discount on prepaid UPI orders, dropping a ₹1,499 item to ₹1,399 collected. Under GST law, you only pay GST on the actual transaction value collected from the buyer (₹1,399.00), provided the discount is shown on the invoice at the time of supply. Instead of subtracting ₹100 from the base rate directly, either extract the base from the discounted selling price (<code>1399 ÷ 1.12 = ₹1,249.11</code>) or apply a pre-tax discount of <code>₹100 ÷ 1.12 = ₹89.29</code> in BillFold's Discount field. Both routes yield ₹1,249.11 taxable value + ₹149.89 GST = <strong>₹1,399.00</strong>.</p>
+
+<h2>Connecting Clean Invoicing to Your Full KiteDesk Workflow</h2>
+
+<p>Accurate reverse GST math is one piece of a tight D2C operating loop. Once your invoice math is locked in, connect the rest of your daily workflow across four free tools:</p>
+
+<ul>
+  <li><strong>Verify true delivered profit before running ads:</strong> Enter your ₹1,499 MRP, 12% GST, courier freight, packaging, and COD return rate into <a href="marginmint.html">MarginMint</a> so you know your exact net rupees left per parcel before scaling Meta or Google campaigns.</li>
+  <li><strong>Turn COD inquiries into prepaid UPI orders:</strong> Use <a href="tapping.html">TapPing</a> to create pre-filled WhatsApp order links with a one-tap prepaid UPI offer, cutting 20% RTO drag while sending clean ₹1,399 or ₹1,499 quotes.</li>
+  <li><strong>Write clear product titles and price-anchored copy:</strong> Test your Google SERP titles and WhatsApp catalog captions in <a href="copycraft.html">CopyCraft</a> so shoppers see your MRP, GST-billed business reliability, and dispatch speed before clicking.</li>
+  <li><strong>Generate compliant tax invoices in seconds:</strong> Open <a href="billfold.html">BillFold</a>, type your MRP into the GST-Inclusive MRP Extractor, click <em>Extract Base</em>, and send a print-ready PDF with a live UPI payment QR code.</li>
+</ul>
+
+<h2>Pre-Filing GST Invoice Audit Checklist</h2>
+
+<ul>
+  <li>Every GST-inclusive MRP quote is divided by <code>1 + (GST Rate / 100)</code>—never multiplied by <code>1 - (GST Rate / 100)</code>.</li>
+  <li>Prepaid UPI or promo discounts are converted to pre-tax discounts (<code>Discount ÷ (1 + Rate/100)</code>) so GSTR-1 matches bank settlements.</li>
+  <li>Intra-state invoices split tax evenly into CGST and SGST, while inter-state invoices (different 2-digit state prefix in buyer GSTIN) use IGST.</li>
+  <li>HSN/SAC codes (such as 6403 for footwear, 6205 for apparel, 3304 for skincare, or 998314 for tech services) match the exact GST slab applied.</li>
+  <li>Every B2B invoice includes the buyer's 15-character GSTIN verified in <a href="billfold.html">BillFold</a> so your client can claim Input Tax Credit without rejection.</li>
+</ul>
+        <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+          <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+            <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+            <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+            <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

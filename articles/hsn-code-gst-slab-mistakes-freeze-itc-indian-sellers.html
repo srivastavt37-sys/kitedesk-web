@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>HSN Code &amp; GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers — KiteDesk Studio</title>
+  <meta name="description" content="Exact Indian rupee math showing how a 12% vs 18% HSN mismatch on Rs 4,00,000 wholesale inventory freezes Rs 24,000 to Rs 72,000 in GSTR-2B ITC, footwear and apparel slab rules, packaging HSN 4819 splits, and GSTR-1/3B checks." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/hsn-code-gst-slab-mistakes-freeze-itc-indian-sellers.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="HSN Code &amp; GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers" />
+  <meta property="og:description" content="Exact Indian rupee math showing how a 12% vs 18% HSN mismatch on Rs 4,00,000 wholesale inventory freezes Rs 24,000 to Rs 72,000 in GSTR-2B ITC, footwear and apparel slab rules, packaging HSN 4819 splits, and GSTR-1/3B checks." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/hsn-code-gst-slab-mistakes-freeze-itc-indian-sellers.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HSN Code &amp; GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers" />
+  <meta name="twitter:description" content="Exact Indian rupee math showing how a 12% vs 18% HSN mismatch on Rs 4,00,000 wholesale inventory freezes Rs 24,000 to Rs 72,000 in GSTR-2B ITC, footwear and apparel slab rules, packaging HSN 4819 splits, and GSTR-1/3B checks." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "HSN Code & GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers", "description": "Exact Indian rupee math showing how a 12% vs 18% HSN mismatch on Rs 4,00,000 wholesale inventory freezes Rs 24,000 to Rs 72,000 in GSTR-2B ITC, footwear and apparel slab rules, packaging HSN 4819 splits, and GSTR-1/3B checks.", "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg", "datePublished": "2026-11-15", "dateModified": "2026-11-15", "articleSection": "Operations", "wordCount": 2192, "url": "https://srivastavt37-sys.github.io/kitedesk-web/articles/hsn-code-gst-slab-mistakes-freeze-itc-indian-sellers.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/hsn-code-gst-slab-mistakes-freeze-itc-indian-sellers.html"}, "author": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/"}, "publisher": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/", "logo": {"@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg"}}}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
+        <span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-container">
+      <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
+      <article id="articleBody" class="article-body" data-static-article="true">
+        <span class="card-tag">Operations</span>
+        <h1>HSN Code &amp; GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers</h1>
+        <div class="post-meta" style="margin-bottom:16px;">November 15, 2026 &bull; 9 min read &bull; 2192 words &bull; Plain-English Playbook</div>
+        <img src="images/post-gst-invoicing.jpg" alt="HSN Code &amp; GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers" class="article-hero-img" />
+        <div style="margin: 0 0 28px 0;">
+          <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+          <div class="ai-video-slot" data-video-key="billfold-demo" data-video-title="HSN Code &amp; GST Slab Mistakes That Freeze Input Tax Credit (ITC) for Indian Sellers"></div>
+        </div>
+        <p>Last quarter, a footwear wholesaler in Agra bought Rs 4,00,000 worth of PU-sole sneakers and packaging cartons from two local manufacturers. He paid Rs 72,000 in GST at 18% on the supplier bills, stocked the shelves, and sold the shoes to retail boutiques across Uttar Pradesh and Rajasthan at 12% GST. When his accountant opened the GST portal on the 14th of the next month to file GSTR-3B, Rs 24,000 of his Input Tax Credit (ITC) was flagged as an ineligible rate mismatch, and another Rs 48,000 from a second supplier who had filed the wrong HSN code under B2C instead of B2B did not show up in GSTR-2B at all.</p>
+
+<p>In one billing cycle, Rs 72,000 of real cash sat frozen. He had already paid that money to his vendors, and now he had to pay output GST in cash again from his bank account to avoid late-filing penalties.</p>
+
+<p>Most Indian sellers treat HSN (Harmonized System of Nomenclature) codes as a formality you copy-paste once into your billing software and forget. That habit works fine until a supplier's invoice lands in GSTR-2B with a mismatched tax rate, a missing 4-digit or 6-digit HSN, or a wrong Place of Supply. Under Section 16(2)(aa) of the CGST Act, you cannot claim a single rupee of ITC unless the invoice appears cleanly in your GSTR-2B. This guide walks through the exact rupee math behind HSN and GST slab mistakes, how footwear, apparel, and packaging rules trip up sellers, and the monthly GSTR-1 and GSTR-3B checks that keep your working capital liquid.</p>
+
+<h2>1. The Rs 4,00,000 Inventory Math: How a 12% vs 18% HSN Mismatch Freezes Rs 24,000 to Rs 72,000</h2>
+
+<p>Let us look at the exact numbers on a standard Rs 4,00,000 wholesale purchase (taxable value, excluding GST). Depending on how your vendor codes the HSN on the tax invoice, two very different cash traps happen:</p>
+
+<ul>
+  <li><strong>Trap A (The Rate-Mismatch Freeze = Rs 24,000):</strong> Your supplier bills Rs 4,00,000 of finished goods or components at <strong>18% GST</strong> (Rs 72,000 tax) using a generic 18% HSN code instead of the correct <strong>12% HSN code</strong> (Rs 48,000 tax). You pay Rs 4,72,000 to the supplier. Later, during GSTR-2B scrutiny or a GST audit, the department restricts eligible credit to the statutory 12% rate (Rs 48,000) or flags the excess 6% (<strong>Rs 24,000</strong>) as excess tax paid not eligible as ITC. Recovering that Rs 24,000 requires chasing the vendor for a GST credit note, which rarely happens cleanly after the quarter closes.</li>
+  <li><strong>Trap B (The Full GSTR-2B Block = Rs 72,000):</strong> Your supplier bills Rs 4,00,000 at 18% (Rs 72,000 GST), enters your GSTIN with a typo, marks the invoice as B2C, or skips uploading it in their GSTR-1 before the 11th of the next month. Even though you hold a printed PDF bill and paid Rs 4,72,000 via NEFT, <strong>Rs 0 appears in your GSTR-2B</strong>. All <strong>Rs 72,000</strong> of ITC is frozen until the supplier amends GSTR-1 in the next cycle.</li>
+</ul>
+
+<p>For a small D2C brand or wholesale trader operating on a 15% net margin, Rs 72,000 of frozen ITC equals the net profit on Rs 4,80,000 of retail sales. You are effectively giving the tax system an interest-free loan because one invoice line had the wrong four digits.</p>
+
+<p>Before you absorb that hit into your pricing, run your landed cost and tax outflow through <a href="marginmint.html">MarginMint</a> so you can see how even a 6% ITC blockage shifts your break-even point per order. And whenever you issue outward B2B invoices yourself, generate them in <a href="billfold.html">BillFold</a> with locked HSN codes and exact CGST/SGST or IGST splits so your buyers never face the same block on their side.</p>
+
+<h2>2. Footwear and Apparel Slab Rules: Where Sellers Lose ITC Every Week</h2>
+
+<p>Apparel and footwear are the two biggest categories for Indian D2C sellers on WhatsApp, Instagram, and marketplaces, and they also have the highest rate of slab confusion. Here are the exact rules that cause mismatches:</p>
+
+<h3>Apparel Price-Threshold Flips (5% vs 12% under Chapters 61 &amp; 62)</h3>
+
+<p>Readymade garments under Chapters 61 and 62 follow a strict per-piece value split:</p>
+
+<ul>
+  <li><strong>Sale value up to Rs 1,000 per piece:</strong> 5% GST (2.5% CGST + 2.5% SGST, or 5% IGST).</li>
+  <li><strong>Sale value above Rs 1,000 per piece:</strong> 12% GST (6% CGST + 6% SGST, or 12% IGST).</li>
+</ul>
+
+<p>The mistake happens when sellers confuse MRP with taxable transaction value. Suppose you sell a cotton kurta at an MRP of Rs 1,099 with a 10% launch discount, bringing the taxable value to <strong>Rs 989.10</strong>. Because the actual transaction value is below Rs 1,000, the correct GST rate is <strong>5%</strong> (Rs 49.46 tax, total Rs 1,038.56). If your billing software or warehouse staff blindly charges 12% based on the Rs 1,099 MRP, you overcharge the customer by Rs 69.23 and misreport the HSN slab in GSTR-1 Table 12.</p>
+
+<p>The reverse error is even costlier. Suppose you sell a heavy winter hoodie for Rs 1,050 taxable value, apply 5% GST by mistake (Rs 52.50), and file your return. During reconciliation, the GST system compares the per-unit value in your invoice against the 5% rate. You end up owing the remaining 7% (Rs 73.50 per piece) out of your own pocket, plus 18% annual interest.</p>
+
+<h3>Footwear Classification &amp; Accessories Traps (Chapter 64 vs Chapters 39/42)</h3>
+
+<p>Under current GST rules, finished footwear under Chapter 64 (HSN 6401 to 6405) attracts <strong>12% GST</strong> across price bands. Yet two errors still freeze ITC for footwear brands:</p>
+
+<ol>
+  <li><strong>Outdated 5% wholesale bills:</strong> Some legacy job-workers still issue bills at 5% for semi-finished uppers or low-cost chappals under old rate assumptions, creating an inverted or mismatched credit ledger when you sell finished pairs at 12%.</li>
+  <li><strong>Bundled accessories billed under Footwear HSN:</strong> Leather belts, wallets, shoe bags, and synthetic insoles do not belong under Chapter 64. Leather goods and travel bags fall under <strong>HSN 4202 / 4203 at 18% GST</strong>, and chemical shoe-care sprays or polish fall under <strong>HSN 3405 at 18% GST</strong>. If a vendor bundles Rs 80,000 of shoe boxes, laces, and leather care kits under a single 12% footwear HSN line, your ITC claim fails an HSN-to-rate validation check.</li>
+</ol>
+
+<h2>3. Packaging HSN 4819 vs Product HSN Splits</h2>
+
+<p>Every D2C seller buys corrugated shipping boxes, rigid gift boxes, and printed mono-cartons. These paperboard packaging items fall under <strong>HSN 4819</strong>, which carries an <strong>18% GST</strong> rate (5% or 12% only in narrow, specific non-corrugated exceptions that rarely apply to e-commerce shipping cartons). Meanwhile, your main product might be 5% apparel or 12% footwear.</p>
+
+<p>Here is how sellers break their ITC and outward invoicing on packaging:</p>
+
+<h3>On the Purchase Side (Claiming ITC on Boxes)</h3>
+
+<p>Suppose you buy Rs 1,00,000 of custom-printed corrugated boxes for shipping orders. Your box printer must bill you under <strong>HSN 4819</strong> with <strong>18% GST (Rs 18,000)</strong>. You are legally allowed to claim all Rs 18,000 of input credit and use it to offset your 5% or 12% outward product GST liability, because packaging is a direct business input.</p>
+
+<p>The freeze happens when a small local box maker bills those cartons as "printing job work" at 12% (SAC 9989) or forgets to enter HSN 4819 altogether. If the HSN and tax rate on your vendor's bill do not match, your Rs 18,000 credit gets flagged during GSTR-2B matching.</p>
+
+<h3>On the Outward Sale Side (Composite Supply Rule, Section 8)</h3>
+
+<p>When you ship an order to a customer and charge Rs 1,000 for a kurta (5% GST) plus Rs 80 for gift-box packing and courier freight, do <strong>not</strong> split the outward customer invoice into 5% for the kurta and 18% for the box. Under <strong>Section 8 of the CGST Act (Composite Supply)</strong>, packaging and delivery are naturally bundled with the principal product. The entire Rs 1,080 takes the GST rate of the principal supply: <strong>5%</strong>.</p>
+
+<p>Only when you sell empty boxes by themselves (a standalone packaging sale) do you bill outward GST at 18% under HSN 4819. Keep your product catalog descriptions clear about what is bundled versus standalone using <a href="copycraft.html">CopyCraft</a> so both customers and marketplace category bots classify your SKU accurately.</p>
+
+<h2>4. Mandatory 4-Digit vs 6-Digit HSN Rules in 2026</h2>
+
+<p>Many ITC freezes happen simply because a supplier's billing tool prints a 2-digit chapter or an invalid 4-digit code. Check your aggregate annual turnover (PAN-level across India) and your supplier's turnover:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aggregate Annual Turnover (Preceding FY)</th>
+      <th>B2B Invoices (HSN Digits Required)</th>
+      <th>B2C Invoices (HSN Digits Required)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Up to Rs 5 Crore</td>
+      <td>4 digits mandatory</td>
+      <td>Optional (recommended 4 digits)</td>
+    </tr>
+    <tr>
+      <td>Above Rs 5 Crore</td>
+      <td>6 digits mandatory</td>
+      <td>6 digits mandatory</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notice the trap: even if your own turnover is Rs 80 lakh (under Rs 5 crore), if you buy raw material or wholesale stock from a distributor whose turnover is above Rs 5 crore, <strong>their invoice to you must carry a valid 6-digit HSN code</strong>. Since Phase II/III of HSN validation on the GST portal, GSTR-1 blocks invalid or dummy HSN codes (like "9999" or "0000") and rejects Table 12 mismatches. If your supplier uses a free desktop tool that still exports 4-digit codes when 6 digits are required, their GSTR-1 upload stalls and your GSTR-2B stays empty.</p>
+
+<h2>5. Intra-State vs Inter-State Split Errors (CGST+SGST vs IGST)</h2>
+
+<p>An equally common ITC killer is getting the Place of Supply wrong on B2B purchases. Suppose your business is registered in Uttar Pradesh (state code 09), and you buy Rs 2,50,000 of fabric from a Surat wholesaler in Gujarat (state code 24). Because the goods move from Gujarat to Uttar Pradesh, the invoice must charge <strong>IGST (5% = Rs 12,500)</strong>.</p>
+
+<p>If the Surat supplier accidentally raises the bill with <strong>CGST 2.5% + SGST 2.5%</strong> (treating it as a local Gujarat sale because you picked up the parcel or gave a local agent's address), that Rs 12,500 is <strong>100% ineligible as ITC</strong> in Uttar Pradesh. You cannot claim Gujarat SGST against your UP output tax. Always verify that your exact registered GSTIN and state code appear in both "Billed To" and "Shipped To" fields before releasing payment.</p>
+
+<p>When you issue B2B bills from <a href="billfold.html">BillFold</a>, the calculator enforces the CGST + SGST vs IGST split based on whether the buyer's state matches yours, preventing this mistake before the PDF leaves your desk.</p>
+
+<h2>6. The 180-Day Payment Rule: Unpaid Invoices Reverse Your ITC</h2>
+
+<p>Even if the HSN code, GST slab, and GSTR-2B entry are 100% clean, <strong>Rule 37 of the CGST Rules</strong> has a silent timer. You must pay your supplier the full invoice value (taxable amount plus GST) within <strong>180 days</strong> from the date of the invoice.</p>
+
+<p>If you bought Rs 4,00,000 of stock on 60-day credit and a dispute drags payment past Day 180, you are legally required to reverse the Rs 48,000 or Rs 72,000 ITC you already claimed in GSTR-3B, along with <strong>18% per annum interest</strong> calculated from the date you availed the credit. Once you finally pay the vendor on Day 210, you can re-claim the principal ITC, but the interest cost is gone forever.</p>
+
+<p>To prevent your own B2B buyers from delaying payments past their credit window (or to collect advances fast on wholesale dispatches), attach a direct UPI payment link and QR code generated with <a href="tapping.html">TapPing</a> right inside your WhatsApp dispatch message.</p>
+
+<h2>7. The Monthly 5-Step GSTR-1 &amp; GSTR-3B Check (Takes 15 Minutes)</h2>
+
+<p>Run this exact checklist between the 12th and 18th of every month before you press "Submit" on GSTR-3B:</p>
+
+<ol>
+  <li><strong>Download GSTR-2B on the 14th:</strong> Never file GSTR-3B using your purchase folder alone. Download the auto-drafted GSTR-2B JSON/Excel from the GST portal on the 14th of the month.</li>
+  <li><strong>Match 4 Fields Per B2B Bill:</strong> Compare your purchase register against GSTR-2B across four columns: Supplier GSTIN, Invoice Number, Taxable Value, and Tax Type (IGST vs CGST+SGST). Hold back the balance payment on any supplier whose invoice is missing until they upload it in the next GSTR-1.</li>
+  <li><strong>Verify HSN vs Rate Logic:</strong> Scan your top 10 purchase bills by rupee value. Confirm that footwear bills show Chapter 64 at 12%, corrugated boxes show HSN 4819 at 18%, and apparel bills accurately reflect the Rs 1,000 per-piece split (5% vs 12%).</li>
+  <li><strong>Cross-Check Outward GSTR-1 Table 12:</strong> Before filing your own GSTR-1 by the 11th, verify that the total taxable value and total tax in Table 12 (HSN-wise summary of outward supplies) match Table 4 (B2B) plus Table 7 (B2C) to the exact rupee.</li>
+  <li><strong>Audit 180-Day Aging Payables:</strong> Filter your accounts payable list for any vendor bill older than 150 days. Clear those dues before Day 180 so you never trigger a Rule 37 ITC reversal with 18% interest.</li>
+</ol>
+
+<h2>Summary: Keep Your Working Capital Liquid</h2>
+
+<p>Input Tax Credit is not an accounting bonus; it is your own cash sitting in the tax ledger. On Rs 4,00,000 of monthly wholesale purchases, one sloppy HSN code or a missed GSTR-1 upload by a vendor freezes Rs 24,000 to Rs 72,000 of working capital overnight. Standardize your outward invoices in <a href="billfold.html">BillFold</a>, check real net margins after tax and return costs in <a href="marginmint.html">MarginMint</a>, speed up B2B collections with <a href="tapping.html">TapPing</a> WhatsApp QR links, and keep your SKU titles aligned with your HSN categories in <a href="copycraft.html">CopyCraft</a>.</p>
+        <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+          <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+            <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+            <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+            <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

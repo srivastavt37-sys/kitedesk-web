@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors — KiteDesk Studio</title>
+  <meta name="description" content="Fake payment screenshots could be leaking ₹6,500–₹14,000/month from your ₹8,40,000 counter sales and eating 45 minutes of daily tally reconciliation. Amount-locked invoice QRs and WhatsApp order slips fix both." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/static-counter-qr-vs-amount-locked-invoice-qr-indian-retail.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors" />
+  <meta property="og:description" content="Fake payment screenshots could be leaking ₹6,500–₹14,000/month from your ₹8,40,000 counter sales and eating 45 minutes of daily tally reconciliation. Amount-locked invoice QRs and WhatsApp order slips fix both." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/static-counter-qr-vs-amount-locked-invoice-qr-indian-retail.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors" />
+  <meta name="twitter:description" content="Fake payment screenshots could be leaking ₹6,500–₹14,000/month from your ₹8,40,000 counter sales and eating 45 minutes of daily tally reconciliation. Amount-locked invoice QRs and WhatsApp order slips fix both." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors", "description": "Fake payment screenshots could be leaking ₹6,500–₹14,000/month from your ₹8,40,000 counter sales and eating 45 minutes of daily tally reconciliation. Amount-locked invoice QRs and WhatsApp order slips fix both.", "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/post-gst-invoicing.jpg", "datePublished": "2026-11-18", "dateModified": "2026-11-18", "articleSection": "Operations", "wordCount": 2060, "url": "https://srivastavt37-sys.github.io/kitedesk-web/articles/static-counter-qr-vs-amount-locked-invoice-qr-indian-retail.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/static-counter-qr-vs-amount-locked-invoice-qr-indian-retail.html"}, "author": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/"}, "publisher": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/", "logo": {"@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg"}}}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
+        <span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-container">
+      <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
+      <article id="articleBody" class="article-body" data-static-article="true">
+        <span class="card-tag">Operations</span>
+        <h1>Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors</h1>
+        <div class="post-meta" style="margin-bottom:16px;">November 18, 2026 &bull; 10 min read &bull; 2060 words &bull; Plain-English Playbook</div>
+        <img src="images/post-gst-invoicing.jpg" alt="Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors" class="article-hero-img" />
+        <div style="margin: 0 0 28px 0;">
+          <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+          <div class="ai-video-slot" data-video-key="billfold-demo" data-video-title="Static Counter QR vs Amount-Locked Invoice QR in Indian Retail: Stopping Fake-Screenshot Leakage and Daily Tally Errors"></div>
+        </div>
+        <p>At 8:45 PM on a Saturday in a busy kirana, pharmacy, or apparel store, three customers are waiting at the billing desk. One hands over a ₹500 note. The second scans the laminated static UPI QR standee taped beside your monitor, flashes a green PhonePe or Google Pay success screen for two seconds, says "bhaiya done," and walks out with a ₹1,280 bag.</p>
+
+<p>You glance at the screen, nod, and move to the next bill. Ten minutes later, your phone never buzzed, or your soundbox was drowned out by street traffic, or the staff member at the counter assumed the owner's phone received the credit alert. At closing time, the POS register says ₹28,400 in UPI sales, your bank statement shows ₹27,120, and you spend 45 minutes scrolling through 42 UPI entries trying to figure out which ₹1,280 ticket never landed.</p>
+
+<p>This is not a rare edge case. Across Indian retail counters doing ₹8,40,000 a month in gross turnover, unverified static counter QR codes quietly leak ₹6,500 to ₹14,000 every month through edited screenshots, typoed amounts, abandoned PIN screens, and untracked staff handoffs—while burning 22.5 hours of owner time every month on manual bank reconciliation.</p>
+
+<h2>The ₹8,40,000 Monthly Retail Counter Math: Where Static QR Leaks Money</h2>
+
+<p>Let us break down a realistic single-counter retail store in a Tier-1 or Tier-2 Indian city—a footwear shop, local pharmacy, gift boutique, or hardware counter—averaging ₹28,000 in daily sales across 30 days (₹8,40,000 monthly revenue). Roughly 65% of those transactions, or ₹5,46,000 per month (about 1,092 UPI scans at an average ticket of ₹500), arrive via UPI.</p>
+
+<p>When every single one of those 1,092 scans hits a static laminated QR standee, four distinct failure modes eat into your net profit:</p>
+
+<ul>
+  <li><strong>Fake or Reused Payment Screenshots (₹3,000–₹6,500/month):</strong> Spoofed UPI receipt apps and edited screenshots take under 10 seconds to generate on an Android phone. During evening rush hours, even 4 to 8 missed checks a month at a ₹750 average basket wipe out ₹3,000 to ₹6,000 in inventory.</li>
+  <li><strong>Under-Entered Amounts on Static Scans (₹1,500–₹3,500/month):</strong> On a static QR code, the customer types the rupee figure manually. Typing ₹480 instead of ₹840, or ₹190 instead of ₹1,190, happens constantly when buyers are in a hurry. If your cashier only checks that a green tick appeared without reading the exact rupee figure, the shortfall sits in your register as an unexplained gap.</li>
+  <li><strong>Failed or Timed-Out PIN Screens Shown as "Processing" (₹1,200–₹2,500/month):</strong> Weak 4G signal inside a concrete shop causes UPI apps to hang on "Payment Pending." A customer shows the pending screen, promises "it will come in two minutes," and leaves. Half of those pending intents time out and reverse automatically after 15 minutes.</li>
+  <li><strong>Part-Payments and Split-Bill Confusion (₹800–₹1,500/month):</strong> When a buyer pays ₹600 by cash and ₹450 by UPI on a ₹1,050 bill, a generic static QR bank alert shows only "₹450 received from Rahul." Three hours later, nobody remembers which invoice that ₹450 belonged to.</li>
+</ul>
+
+<p>Add those four buckets together and a ₹8,40,000/month counter loses <strong>₹6,500 to ₹14,000 every single month</strong>—roughly 0.8% to 1.7% of total revenue. On a 15% net retail margin (₹1,26,000/month profit), that leakage alone erases 5% to 11% of your take-home cash. If you want to model how small payment leaks and return rates compound against your unit margins, plug your SKU numbers into <a href="marginmint.html">MarginMint</a> and look at your true net contribution after fixed overheads.</p>
+
+<h2>The Hidden 45-Minute Daily Tally Tax</h2>
+
+<p>Direct cash loss is only half the damage. The other half is the closing-time reconciliation ritual.</p>
+
+<p>When your counter uses one static QR linked to a savings or current account, your bank passbook becomes a flat chronological feed of 35 to 45 unlabelled UPI credits per day. None of those bank lines carry your bill number, customer name, or GST breakup. At 9:30 PM, you or your store manager must sit down with:</p>
+
+<ol>
+  <li>The paper bill book or billing software total for UPI sales.</li>
+  <li>The merchant UPI app or SMS alert log on the owner's phone.</li>
+  <li>A calculator to cross-tick every ₹140, ₹320, and ₹890 entry one by one.</li>
+</ol>
+
+<p>That daily tally takes an average of 45 minutes. Over 30 days, that is <strong>22.5 hours per month</strong> spent auditing yesterday's arithmetic instead of negotiating better supplier credit, clearing dead stock, or following up with repeat buyers. Worse, if the owner steps out for two days and takes the primary UPI-linked phone with them, counter staff have zero independent proof of payment unless a physical soundbox or an invoice-level verification loop is in place.</p>
+
+<h2>Static Counter QR vs Amount-Locked Invoice QR: Side-by-Side Comparison</h2>
+
+<p>Switching from an open-amount static standee to an amount-locked invoice QR—where the rupee total and invoice reference are encoded directly into the `upi://pay` QR string on the bill—changes both the buyer's phone screen and your closing tally.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operational Factor</th>
+      <th>Static Laminated Counter QR</th>
+      <th>Amount-Locked Invoice QR (via BillFold)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Who enters the ₹ amount?</strong></td>
+      <td>Customer types it manually (typo &amp; short-pay risk)</td>
+      <td>Locked inside the QR payload (`am=` parameter); read-only in UPI app</td>
+    </tr>
+    <tr>
+      <td><strong>Invoice / Bill Reference</strong></td>
+      <td>None; generic "Paid to Store" bank line</td>
+      <td>Encodes `tn=Invoice #INV-1042` directly in the UPI transaction note</td>
+    </tr>
+    <tr>
+      <td><strong>Fake-Screenshot Exposure</strong></td>
+      <td>High during rush hours when staff miss soundbox alerts</td>
+      <td>Low; amount + bill note must match the printed/screened invoice</td>
+    </tr>
+    <tr>
+      <td><strong>Daily Tally Time</strong></td>
+      <td>45 minutes/day (22.5 hours/month)</td>
+      <td>8–10 minutes/day (under 5 hours/month)</td>
+    </tr>
+    <tr>
+      <td><strong>Monthly Leakage (₹8.4L store)</strong></td>
+      <td>₹6,500 – ₹14,000/month</td>
+      <td>Near ₹0 from typos/under-pays; instant mismatch catch</td>
+    </tr>
+    <tr>
+      <td><strong>Hardware / Subscription Cost</strong></td>
+      <td>₹0 (or ₹125/mo soundbox rental)</td>
+      <td>₹0 on <a href="billfold.html">BillFold</a> (runs in browser, no SaaS fee)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>How Amount-Locked UPI QR Works Under the Hood (And Why Buyers Prefer It)</h2>
+
+<p>Every Indian UPI app—PhonePe, Google Pay, Paytm, BHIM, Amazon Pay, and bank apps—follows the NPCI UPI deep-link specification. A static counter QR encodes only two fields: the payee VPA (`pa=yourshop@okaxis`) and the payee name (`pn=Your%20Shop`). Everything else is left blank for the customer to type.</p>
+
+<p>An amount-locked invoice QR generated inside <a href="billfold.html">BillFold</a> adds two critical parameters to that exact same NPCI string:</p>
+
+<ul>
+  <li><strong>Exact Payable Amount (`am=`):</strong> When the customer scans the QR printed on their invoice or shown on your counter screen, PhonePe or Google Pay opens directly to the PIN entry screen with `₹1,280.00` already locked. The customer cannot accidentally type `₹1,208` or `₹128`.</li>
+  <li><strong>Invoice Reference Note (`tn=`):</strong> The transaction note automatically carries your invoice number (for example, `INV-2026-418`). When that credit hits your current account statement, your bank passbook and UPI merchant app display the exact bill number right next to the rupee amount.</li>
+</ul>
+
+<p>Buyers actually prefer amount-locked QRs because they save three taps and eliminate the awkward moment of asking the cashier, "Kitna hua tha?" before typing the number. Faster checkout means shorter evening queues and fewer abandoned baskets.</p>
+
+<h2>The 3-Step Counter SOP That Cuts Leakage to Zero</h2>
+
+<p>Technology alone fails if counter staff still wave customers through without verifying settlement. Pair amount-locked invoice QRs with a strict 15-second counter discipline:</p>
+
+<h3>Step 1: Generate the Bill With an Embedded Amount-Locked QR</h3>
+<p>Before asking the customer to pay, ring up the items in <a href="billfold.html">BillFold</a> with your GSTIN (or Composition scheme header), item quantities, and CGST/SGST or IGST rates. Enter your shop UPI ID once—BillFold saves your brand profile locally in the browser and renders a live amount-locked UPI QR directly on the A4/thermal-ready invoice preview.</p>
+
+<p>Need to hand the customer a physical slip or send a PDF invoice to a B2B buyer on WhatsApp? Click <strong>Print / Save PDF</strong>. The QR stays crisp on paper and on mobile screens, and the invoice automatically prints the exact Indian Rupee amount in words (Lakhs and Crores format) so there is zero ambiguity on B2B credit bills.</p>
+
+<h3>Step 2: Separate "Payment QR" From "WhatsApp Order &amp; Inquiry QR"</h3>
+<p>One of the biggest sources of counter confusion happens when a single standee tries to do everything, or when customers scan a WhatsApp QR thinking it is a payment QR (and vice versa). Keep two visually distinct zones:</p>
+
+<ul>
+  <li><strong>At the Billing Monitor:</strong> Show only the amount-locked invoice QR from <a href="billfold.html">BillFold</a> once the final rupee total is calculated.</li>
+  <li><strong>At the Waiting Desk, Entrance, or Parcel Insert:</strong> Place a dedicated A6 counter standee built with <a href="tapping.html">TapPing</a>. Use TapPing's <strong>Shop / Brand Name</strong> and <strong>Standee Callout Line</strong> fields to print an unmistakable callout—such as <em>"Scan to Order on WhatsApp"</em>, <em>"Scan to Book Appointment"</em> for clinics, or <em>"Scan for Wholesale Price List"</em> for B2B counters.</li>
+</ul>
+
+<p>When a buyer scans your TapPing standee, their WhatsApp opens with a pre-filled message tagged `[Ref: Counter Standee]` or `[Ref: Packaging QR]`. Your staff receives a structured text inquiry instead of a blurry photo, and you never confuse an inquiry scan with a cash-counter payment scan.</p>
+
+<h3>Step 3: The "Two-Check" Verification Rule for Staff</h3>
+<p>Train every counter employee on one non-negotiable rule: <strong>a screenshot on the customer's phone is never proof of credit.</strong> Proof is only one of two things:</p>
+
+<ol>
+  <li>An audio confirmation from your counter soundbox stating the exact rupee figure matching the invoice total, OR</li>
+  <li>A live credit notification on your dedicated counter-verification device (an old ₹5,000 Android phone kept permanently at the cash drawer logged into your merchant UPI app, never carried away in the owner's pocket).</li>
+</ol>
+
+<p>If neither fires within 10 seconds, do not argue with the customer—simply ask them to wait 30 seconds while you refresh the merchant app's <em>Recent Transactions</em> tab. Genuine buyers understand; fraudsters attempting fake-screenshot tricks almost always claim "network issue" and offer cash or leave before the refresh completes.</p>
+
+<h2>Handling WhatsApp Pre-Orders, COD Confirmations, and Hybrid Counter Pickups</h2>
+
+<p>Many Indian retail stores now run a hybrid model: customers message on WhatsApp from Instagram Reels or Google Maps, confirm stock availability, and either pay via UPI before pickup or pay at the counter. Without a structured slip, these hybrid orders create messy tally gaps at night.</p>
+
+<p>Here is how to connect all four KiteDesk tools into one zero-cost daily workflow:</p>
+
+<ol>
+  <li><strong>Capture Clean Leads From Bio &amp; Google Maps:</strong> Polish your Instagram bio, WhatsApp catalog descriptions, and Google Business Profile snippet using <a href="copycraft.html">CopyCraft</a> so local shoppers immediately see your store timings, delivery radius, and minimum order value before messaging.</li>
+  <li><strong>Route Inquiries With Source-Tagged Pre-Filled Links:</strong> Use <a href="tapping.html">TapPing</a> to generate permanent `wa.me` links for your Instagram bio (`[Ref: Instagram Reel]`) and Google Maps profile (`[Ref: Google Maps]`), plus printable A6 standees for your counter. Customers arrive in your WhatsApp inbox with their product name and PIN code already filled in.</li>
+  <li><strong>Check Unit Economics Before Offering Free Delivery:</strong> Before promising free local delivery on a ₹600 WhatsApp order, run the numbers through <a href="marginmint.html">MarginMint</a> (including volumetric weight if shipping outstation) so courier fees do not quietly eat your gross margin.</li>
+  <li><strong>Close the Loop With an Amount-Locked Invoice:</strong> Generate the final GST or retail bill in <a href="billfold.html">BillFold</a> with your UPI ID embedded, share the PDF on WhatsApp for prepaid dispatch, or let the walk-in buyer scan the locked QR at pickup.</li>
+</ol>
+
+<h2>A 7-Day Rollout Checklist for Indian Shop Owners</h2>
+
+<p>You do not need an expensive ₹25,000 POS software subscription to stop payment leakage this week. Follow this seven-day rollout:</p>
+
+<ul>
+  <li><strong>Day 1:</strong> Audit last month's bank statement against your bill book for 3 random days. Count how many minutes each day's tally takes and note any unmatched ₹100–₹1,500 gaps.</li>
+  <li><strong>Day 2:</strong> Put a dedicated ₹5,000 counter phone or tablet at the billing desk logged into your merchant UPI dashboard so staff never depend on the owner's personal phone for verification.</li>
+  <li><strong>Day 3:</strong> Configure your shop name, GSTIN, and UPI ID in <a href="billfold.html">BillFold</a> and test printing/saving your first amount-locked invoice QR.</li>
+  <li><strong>Day 4:</strong> Remove generic static QR stickers from secondary walls or packing tables where staff cannot hear the soundbox.</li>
+  <li><strong>Day 5:</strong> Print a dedicated WhatsApp inquiry standee from <a href="tapping.html">TapPing</a> with a custom callout line (for example, <em>"Scan for Home Delivery on WhatsApp"</em>) and place it at the entrance or waiting area.</li>
+  <li><strong>Day 6:</strong> Train all counter staff on the 15-second Two-Check rule (soundbox exact amount OR live refresh on counter phone—never customer screenshots).</li>
+  <li><strong>Day 7:</strong> Time your closing-hour tally. Once every UPI credit carries an `INV-` reference note and locked amount, watch your 45-minute nightly audit drop under 10 minutes.</li>
+</ul>
+
+<p>Across 12 months, eliminating ₹8,000/month in average static-QR leakage saves <strong>₹96,000 in pure cash</strong>—more than enough to cover a full year of shop electricity or two months of helper salary—while giving you back 22 hours of evening family time every single month.</p>
+        <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+          <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+            <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+            <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+            <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

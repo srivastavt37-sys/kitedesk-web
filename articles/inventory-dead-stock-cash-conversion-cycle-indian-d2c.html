@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Inventory Dead-Stock &amp; Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital — KiteDesk Studio</title>
+  <meta name="description" content="Locking ₹2,40,000 in 90-day bulk MOQ stock? Switching to 30-day reorder batches takes an ₹86,625 outlay and frees ₹1,53,375. Includes Cash Conversion Cycle formulas and markdown liquidation vs 3PL storage burn." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/inventory-dead-stock-cash-conversion-cycle-indian-d2c.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Inventory Dead-Stock &amp; Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital" />
+  <meta property="og:description" content="Locking ₹2,40,000 in 90-day bulk MOQ stock? Switching to 30-day reorder batches takes an ₹86,625 outlay and frees ₹1,53,375. Includes Cash Conversion Cycle formulas and markdown liquidation vs 3PL storage burn." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/inventory-dead-stock-cash-conversion-cycle-indian-d2c.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-prepaid-cod.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Inventory Dead-Stock &amp; Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital" />
+  <meta name="twitter:description" content="Locking ₹2,40,000 in 90-day bulk MOQ stock? Switching to 30-day reorder batches takes an ₹86,625 outlay and frees ₹1,53,375. Includes Cash Conversion Cycle formulas and markdown liquidation vs 3PL storage burn." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/post-prepaid-cod.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Inventory Dead-Stock & Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital", "description": "Locking ₹2,40,000 in 90-day bulk MOQ stock? Switching to 30-day reorder batches takes an ₹86,625 outlay and frees ₹1,53,375. Includes Cash Conversion Cycle formulas and markdown liquidation vs 3PL storage burn.", "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/post-prepaid-cod.jpg", "datePublished": "2026-11-17", "dateModified": "2026-11-17", "articleSection": "Operations", "wordCount": 2045, "url": "https://srivastavt37-sys.github.io/kitedesk-web/articles/inventory-dead-stock-cash-conversion-cycle-indian-d2c.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/inventory-dead-stock-cash-conversion-cycle-indian-d2c.html"}, "author": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/"}, "publisher": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/", "logo": {"@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg"}}}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
+        <span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-container">
+      <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
+      <article id="articleBody" class="article-body" data-static-article="true">
+        <span class="card-tag">Operations</span>
+        <h1>Inventory Dead-Stock &amp; Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital</h1>
+        <div class="post-meta" style="margin-bottom:16px;">November 17, 2026 &bull; 10 min read &bull; 2045 words &bull; Plain-English Playbook</div>
+        <img src="images/post-prepaid-cod.jpg" alt="Inventory Dead-Stock &amp; Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital" class="article-hero-img" />
+        <div style="margin: 0 0 28px 0;">
+          <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+          <div class="ai-video-slot" data-video-key="marginmint-demo" data-video-title="Inventory Dead-Stock &amp; Cash-Conversion Cycle Math for Indian D2C Brands: How 30-Day Reorder Batches Free ₹1,50,000 in Working Capital"></div>
+        </div>
+        <p>Most Indian D2C founders do not go broke because their product fails to sell. They go broke because their cash sits inside cardboard cartons in a Bhiwandi, Gurugram, or Surat godown while Meta Ads and courier bills demand weekly UPI and NEFT settlements.</p>
+
+<p>A factory agent in Ludhiana, Jaipur, or Tiruppur quotes Rs 480 per unit if you order 500 pieces, or Rs 525 per unit if you order 180 pieces. On paper, saving Rs 45 per piece looks like smart procurement. In your bank account, that 90-day Minimum Order Quantity (MOQ) locks up Rs 2,40,000 in upfront cash, stretches your Cash Conversion Cycle (CCC) past 110 days, and leaves 110 slow-moving sizes gathering dust six months later.</p>
+
+<p>This playbook breaks down the exact Indian rupee math of 90-day bulk MOQ traps versus 30-day reorder batches, shows how switching batch cadence frees Rs 1,50,000+ in working capital on a single hero SKU, and gives you the break-even formula for liquidating dead stock before warehouse rent and working-capital interest eat your net margin.</p>
+
+<h2>1. The 90-Day Bulk MOQ Trap vs. 30-Day Reorder Batches (Exact ₹ Math)</h2>
+
+<p>Suppose you sell handcrafted leather jootis, cotton kurtas, or stainless-steel insulated bottles at an MRP of Rs 1,499 (inclusive of 12% GST). Your steady sales velocity is 150 delivered orders per month, or roughly 5 units a day.</p>
+
+<p>Your supplier gives you two options for a 90-day sales window (450 units total):</p>
+
+<ul>
+  <li><strong>Option A — 90-Day Bulk MOQ Batch:</strong> Order 500 units upfront at Rs 480/unit landed COGS. Total upfront cash outlay = <strong>Rs 2,40,000</strong>. (To hit the 500-unit tier, you over-ordered by 50 units above your 90-day forecast.)</li>
+  <li><strong>Option B — 30-Day Agile Reorder Batch:</strong> Order 165 units every 30 days (150 units expected demand + 15 units safety buffer) at Rs 525/unit landed COGS. Each monthly batch costs <strong>Rs 86,625</strong> upfront.</li>
+</ul>
+
+<p>At first glance, Option A saves Rs 45 per unit. Over 450 sold units, that is Rs 20,250 in gross margin savings. Most founders stop calculating right there and wire Rs 2,40,000.</p>
+
+<p>Now look at the working capital math. Under Option A, you write a single cheque of Rs 2,40,000 on Day 1. Under Option B, you write Rs 86,625 on Day 1, sell 150 units during Month 1, collect cash from prepaid UPI orders and COD remittances, and fund Month 2's Rs 86,625 batch out of Month 1's collected revenue.</p>
+
+<p>Look at the peak cash locked on Day 1:</p>
+
+<ul>
+  <li><strong>Option A Peak Cash Outlay:</strong> Rs 2,40,000</li>
+  <li><strong>Option B Peak Cash Outlay:</strong> Rs 86,625</li>
+  <li><strong>Immediate Working Capital Freed:</strong> <strong>Rs 1,53,375</strong> (over Rs 1,50,000 sitting liquid in your current account on Day 1).</li>
+</ul>
+
+<p>That freed Rs 1,53,375 does not sit idle. If your brand runs at a 3.2x blended ROAS on a product with Rs 575 unit contribution margin (check your exact SKU numbers inside <a href="marginmint.html">MarginMint</a>), deploying even Rs 1,00,000 of that freed cash into high-intent search and retargeting ads generates Rs 3,20,000 in additional top-line revenue inside the same quarter—far outweighing the Rs 20,250 supplier discount you gave up.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric (90-Day Window, 150 Orders/Mo)</th>
+      <th>90-Day Bulk MOQ (500 Units)</th>
+      <th>30-Day Reorder Batch (165 Units/Mo)</th>
+      <th>Net Difference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Unit Landed COGS</td>
+      <td>Rs 480</td>
+      <td>Rs 525</td>
+      <td>+Rs 45 / unit</td>
+    </tr>
+    <tr>
+      <td>Day-1 Cash Outlay</td>
+      <td>Rs 2,40,000</td>
+      <td>Rs 86,625</td>
+      <td><strong>Rs 1,53,375 Freed</strong></td>
+    </tr>
+    <tr>
+      <td>Average Inventory Held (Units)</td>
+      <td>275 units</td>
+      <td>90 units</td>
+      <td>-185 units stored</td>
+    </tr>
+    <tr>
+      <td>3PL Storage &amp; Handling (Rs 18/unit/mo &times; 3 mo)</td>
+      <td>Rs 14,850</td>
+      <td>Rs 4,860</td>
+      <td><strong>Rs 9,990 Saved</strong></td>
+    </tr>
+    <tr>
+      <td>Working Capital Cost (20% p.a. for 90 days)</td>
+      <td>Rs 11,835</td>
+      <td>Rs 4,272</td>
+      <td><strong>Rs 7,563 Saved</strong></td>
+    </tr>
+    <tr>
+      <td>End-of-Quarter Leftover / Slow Stock</td>
+      <td>50+ units (Rs 24,000+)</td>
+      <td>15 units (Rs 7,875)</td>
+      <td><strong>Rs 16,125 Less Dead-Stock Risk</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Once you subtract Rs 9,990 in extra 3PL warehouse storage and Rs 7,563 in working-capital financing cost (at a standard 20% annual MSME overdraft or NBFC credit line rate), the Rs 20,250 bulk "savings" shrinks to just Rs 2,697—and vanishes completely the moment 12 leftover units fail to sell at full MRP.</p>
+
+<h2>2. How to Calculate Your True Cash Conversion Cycle (CCC) in Days</h2>
+
+<p>Cash Conversion Cycle measures how many days pass between paying your supplier for raw material or finished stock and receiving settled rupees back in your bank account after courier delivery and COD remittance.</p>
+
+<p>The formula is simple:</p>
+
+<p><strong>CCC = Days Inventory Outstanding (DIO) + Days Sales Outstanding (DSO) &minus; Days Payable Outstanding (DPO)</strong></p>
+
+<p>Let us plug in realistic Indian D2C numbers for both batch models:</p>
+
+<h3>Case A: 90-Day Bulk MOQ Brand</h3>
+<ul>
+  <li><strong>DIO (Inventory Days):</strong> Holding 500 units while selling 5 units/day means your average inventory sits for <strong>55 days</strong> (peak 100 days).</li>
+  <li><strong>DSO (Remittance Days):</strong> Suppose 65% of your orders are COD. Shiprocket, Delhivery, or NimbusPost typically remit COD cash on a T+7 to T+10 cycle after delivery, plus 5 days average transit time = 13 days on COD orders and 2 days on Razorpay/Cashfree UPI orders. Blended DSO = (0.65 &times; 13) + (0.35 &times; 2) = <strong>9.15 days</strong>.</li>
+  <li><strong>DPO (Supplier Credit Days):</strong> Small manufacturers usually demand 50% advance and 50% on dispatch, giving you roughly <strong>7 days</strong> average credit.</li>
+  <li><strong>Total CCC:</strong> 55 + 9.15 &minus; 7 = <strong>57.15 days</strong> (and for slower-moving size variants like XXL or UK 11, DIO hits 140+ days).</li>
+</ul>
+
+<h3>Case B: 30-Day Batch + 60% Prepaid UPI Push</h3>
+<ul>
+  <li><strong>DIO (Inventory Days):</strong> Ordering 165 units every 30 days keeps average stock at 90 units &divide; 5/day = <strong>18 days</strong>.</li>
+  <li><strong>DSO (Remittance Days):</strong> By offering a Rs 75 instant UPI discount at checkout (you can model this exact trade-off in <a href="marginmint.html">MarginMint's Prepaid vs COD Split Simulator</a>) and following up pending COD orders via <a href="tapping.html">TapPing</a> WhatsApp verification links, you lift Prepaid share to 60%. Blended DSO drops to (0.40 &times; 13) + (0.60 &times; 2) = <strong>6.4 days</strong>.</li>
+  <li><strong>DPO (Supplier Credit Days):</strong> Same <strong>7 days</strong>.</li>
+  <li><strong>Total CCC:</strong> 18 + 6.4 &minus; 7 = <strong>17.4 days</strong>.</li>
+</ul>
+
+<p>Cutting your Cash Conversion Cycle from 57 days down to 17 days means the exact same Rs 1,00,000 of inventory capital turns over <strong>21 times a year instead of 6.4 times</strong>. You grow 3x faster without raising a single rupee of external equity or taking high-interest NBFC working-capital loans.</p>
+
+<h2>3. The Silent Killer: Size-Curve &amp; Variant Dead-Stock</h2>
+
+<p>Dead stock rarely happens evenly across a catalog. In Indian apparel, footwear, and beauty D2C, 80% of dead stock comes from broken size curves and slow colorways.</p>
+
+<p>Suppose you buy 500 pairs of sneakers in an equal factory ratio: 100 pairs each of UK 6, UK 7, UK 8, UK 9, and UK 10. Within 45 days, UK 8 and UK 9 sell out completely. Meanwhile, UK 6 and UK 10 have 65 pairs left each—130 pairs total worth Rs 62,400 at Rs 480 cost.</p>
+
+<p>Because UK 8 and UK 9 are out of stock, your Meta ad click-through-to-purchase conversion rate drops from 2.4% to 1.1%. Your Customer Acquisition Cost (CAC) doubles from Rs 320 to Rs 680. You are now burning ad spend sending traffic to a product page where the two most popular sizes show "Out of Stock."</p>
+
+<p>How do 30-day batches fix this?</p>
+
+<ol>
+  <li><strong>Weighted Size Ordering:</strong> Batch 1 (165 units) ships in a 15% / 20% / 30% / 25% / 10% curve based on category benchmarks.</li>
+  <li><strong>Live Sell-Through Adjustment:</strong> By Day 22, your Shopify or WooCommerce order export shows UK 8 sold 94% while UK 6 sold 42%. Batch 2 adjusts immediately: zero UK 6 units, double UK 8 units.</li>
+  <li><strong>B2B Wholesale Floor:</strong> When a variant still slows down, you bundle those leftover sizes into a 20-unit lot for a local multi-brand boutique and issue a clean GST proforma invoice using <a href="billfold.html">BillFold</a> with 40% advance terms.</li>
+</ol>
+
+<h2>4. Markdown Liquidation Math vs. Storage &amp; Capital Burn</h2>
+
+<p>Every Indian founder hesitates to discount slow-moving stock at 30% or 40% off because they feel like they are "losing money on cost." Let us run the actual rupee math of holding versus liquidating 200 units of slow-moving inventory bought at Rs 500/unit (Rs 1,00,000 landed cost, original MRP Rs 1,499).</p>
+
+<h3>Scenario A: Hold for 8 Months Hoping for Full-Price Sales</h3>
+<ul>
+  <li><strong>Warehouse / 3PL Storage:</strong> 200 units &times; Rs 20/unit/month &times; 8 months = <strong>Rs 32,000</strong> paid out of pocket.</li>
+  <li><strong>Cost of Locked Capital (20% p.a.):</strong> Rs 1,00,000 &times; 20% &times; (8/12) = <strong>Rs 13,333</strong> opportunity/interest cost.</li>
+  <li><strong>Damage, Dust &amp; Packaging Decay (8%):</strong> 16 units become unsellable or need re-boxing = <strong>Rs 8,000</strong>.</li>
+  <li><strong>Eventual End-of-Season Salvage (184 units at Rs 350 wholesale):</strong> You recover Rs 64,400 gross, minus Rs 32,000 storage, minus Rs 13,333 capital cost = <strong>Rs 19,067 net recovery</strong> after waiting 8 months.</li>
+</ul>
+
+<h3>Scenario B: Immediate 35% Flash Liquidation + Bundle Clear-Out (Month 1)</h3>
+<ul>
+  <li><strong>Liquidation Selling Price:</strong> Rs 1,499 &times; 0.65 = <strong>Rs 974</strong> (inclusive of 12% GST &rarr; Rs 870 tax-exclusive realization).</li>
+  <li><strong>Unit Costs on Clearance:</strong> Rs 85 forward courier + Rs 30 polybag packaging + Rs 20 UPI gateway fee = Rs 135 fulfilment cost.</li>
+  <li><strong>Net Cash Recovered per Unit:</strong> Rs 870 &minus; Rs 135 = <strong>Rs 735 cash back into your bank</strong> (you recover your Rs 500 COGS plus Rs 235 contribution!).</li>
+  <li><strong>200 Units Cleared via WhatsApp VIP Broadcast + Existing-Buyer Bundle:</strong> 200 &times; Rs 735 = <strong>Rs 1,47,000 cash recovered in 14 days</strong> (or Rs 1,17,000 even if you spend Rs 150/unit on retargeting ads).</li>
+</ul>
+
+<p>Compare <strong>Rs 19,067 net recovery after 8 months</strong> against <strong>Rs 1,17,000 to Rs 1,47,000 cash recovered in 14 days</strong>. Holding dead stock is never free. Every month a slow SKU sits on a shelf, it loses roughly 3% to 4% of its recoverable value to storage rent, capital cost, and seasonal obsolescence.</p>
+
+<h2>5. Three Zero-Ad-Spend Channels to Clear Dead Stock in 14 Days</h2>
+
+<p>Do not burn fresh Meta cold-traffic ad spend to clear old inventory. Cold buyers do not trust steep discounts on unfamiliar brands, and high RTO on discount hunters will wipe out your clearance cash. Instead, use these three owned channels:</p>
+
+<h3>1. Prepaid-Only WhatsApp VIP Drop (TapPing)</h3>
+<p>Export your last 90 days of delivered customers. Send a clean WhatsApp message offering "Private 48-Hour Archive Sale: Flat 35% Off (Prepaid UPI Only)" with a direct pre-filled WhatsApp order link or UPI QR flow generated via <a href="tapping.html">TapPing</a>. Making clearance strictly Prepaid eliminates COD RTO losses completely.</p>
+
+<h3>2. "Add-On at Checkout" Cart-Value Booster</h3>
+<p>If your core hero product sells at Rs 1,299 and your average order value (AOV) is Rs 1,350, offer the slow-moving SKU as a Rs 499 "Mystery / Archive Add-On" inside the cart drawer. You pay <strong>zero incremental forward shipping</strong> because the item rides inside the same 0.5 kg parcel slab—check your volumetric weight headroom in <a href="marginmint.html">MarginMint</a> before bundling.</p>
+
+<h3>3. Rewrite the Product Hook &amp; Search Meta (CopyCraft)</h3>
+<p>Sometimes stock is not dead—its positioning is wrong. A "Winter Fleece Overshirt" stops selling in March, but relabeling the exact same SKU as an "AC Office &amp; Late-Night Travel Layer" with refreshed bullet points and Google Search title/meta tags via <a href="copycraft.html">CopyCraft</a> can revive organic search conversions at full price without discounting.</p>
+
+<h2>6. Your 10-Minute Weekly Inventory Health Checklist</h2>
+
+<p>Run this quick audit every Monday morning before approving any supplier purchase order or Meta ad budget increase:</p>
+
+<ol>
+  <li><strong>Flag Anything Over 60 Days of Cover:</strong> Divide current stock on hand by your trailing 30-day daily sales rate. Any SKU or size over 60 days of cover gets an immediate reorder freeze.</li>
+  <li><strong>Check Size-Curve Stockouts on Top Ads:</strong> Never spend ad rupees on a product whose top two sizes are out of stock. Pause the ad set or swap the landing URL within 24 hours.</li>
+  <li><strong>Negotiate Split-Dispatch on High MOQs:</strong> If a factory insists on a 500-unit rate, ask for a 500-unit commitment billed and dispatched in three 165-unit monthly lots (paying for each lot upon dispatch). Many Indian manufacturers accept split dispatch if you guarantee the quarterly volume.</li>
+  <li><strong>Simulate Prepaid vs. COD Before Discounting:</strong> Run every planned sale price through <a href="marginmint.html">MarginMint</a> first so you know your exact 100-order blended profit after GST, volumetric courier slabs, and gateway fees.</li>
+  <li><strong>Issue Clean GST Invoices on B2B Liquidation Lots:</strong> If you clear 30+ units to a local retailer or corporate gifting buyer, generate an itemized GST invoice with HSN codes and UPI payment details in <a href="billfold.html">BillFold</a> so your input tax credit stays reconciled.</li>
+</ol>
+
+<p>Working capital is the oxygen of a bootstrapped Indian D2C brand. Keep your batches to 30 days, turn your cash every 18 days, and liquidate slow variants before warehouse rent turns profit into cardboard.</p>
+        <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+          <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+            <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+            <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+            <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -86,7 +86,7 @@
       if (!post) return;
 
       var baseUrl = "https://srivastavt37-sys.github.io/kitedesk-web/";
-      var canonicalUrl = baseUrl + "post.html?slug=" + encodeURIComponent(post.slug);
+      var canonicalUrl = baseUrl + "articles/" + encodeURIComponent(post.slug) + ".html";
       document.title = post.title + " — KiteDesk Studio";
 
       var metaDesc = document.getElementById("metaDescription");

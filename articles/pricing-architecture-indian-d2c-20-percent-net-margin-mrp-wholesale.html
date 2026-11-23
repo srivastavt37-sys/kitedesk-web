@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates — KiteDesk Studio</title>
+  <meta name="description" content="Exact ₹380 COGS + 12% GST + ₹85 shipping + ₹220 CPA + 20% COD RTO reverse-pricing math showing why ₹999 leaves only ~₹62 while ₹1,399–₹1,499 protects a 20% net margin and 30% wholesale headroom." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/pricing-architecture-indian-d2c-20-percent-net-margin-mrp-wholesale.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates" />
+  <meta property="og:description" content="Exact ₹380 COGS + 12% GST + ₹85 shipping + ₹220 CPA + 20% COD RTO reverse-pricing math showing why ₹999 leaves only ~₹62 while ₹1,399–₹1,499 protects a 20% net margin and 30% wholesale headroom." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/pricing-architecture-indian-d2c-20-percent-net-margin-mrp-wholesale.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates" />
+  <meta name="twitter:description" content="Exact ₹380 COGS + 12% GST + ₹85 shipping + ₹220 CPA + 20% COD RTO reverse-pricing math showing why ₹999 leaves only ~₹62 while ₹1,399–₹1,499 protects a 20% net margin and 30% wholesale headroom." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates", "description": "Exact ₹380 COGS + 12% GST + ₹85 shipping + ₹220 CPA + 20% COD RTO reverse-pricing math showing why ₹999 leaves only ~₹62 while ₹1,399–₹1,499 protects a 20% net margin and 30% wholesale headroom.", "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg", "datePublished": "2026-11-19", "dateModified": "2026-11-19", "articleSection": "Sales", "wordCount": 1792, "url": "https://srivastavt37-sys.github.io/kitedesk-web/articles/pricing-architecture-indian-d2c-20-percent-net-margin-mrp-wholesale.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/pricing-architecture-indian-d2c-20-percent-net-margin-mrp-wholesale.html"}, "author": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/"}, "publisher": {"@type": "Organization", "name": "KiteDesk Studio", "url": "https://srivastavt37-sys.github.io/kitedesk-web/", "logo": {"@type": "ImageObject", "url": "https://srivastavt37-sys.github.io/kitedesk-web/images/logo.jpg"}}}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span>
+        <span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-container">
+      <a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a>
+      <article id="articleBody" class="article-body" data-static-article="true">
+        <span class="card-tag">Sales</span>
+        <h1>Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates</h1>
+        <div class="post-meta" style="margin-bottom:16px;">November 19, 2026 &bull; 9 min read &bull; 1792 words &bull; Plain-English Playbook</div>
+        <img src="images/marginmint-preview.jpg" alt="Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates" class="article-hero-img" />
+        <div style="margin: 0 0 28px 0;">
+          <span class="inv-badge" style="margin-bottom:8px;">WATCH OUR ORIGINAL AI-NARRATED WALKTHROUGH</span>
+          <div class="ai-video-slot" data-video-key="marginmint-demo" data-video-title="Pricing Architecture for Indian D2C Brands: Working Backwards from 20% Net Margin to Set MRP and Wholesale Rates"></div>
+        </div>
+        <p>Most Indian D2C founders set their MRP by looking at two competitors on Amazon or Nykaa, picking a psychological price like ₹999, and hoping volume fixes the math later. Three months into running Meta ads, the revenue dashboard looks healthy while the current account balance stays flat. The problem is rarely the product or the ad creative. It is forward pricing—starting from landed COGS and adding a rough markup—instead of working backwards from a 20% net profit margin after GST, gateway fees, courier RTO, and paid acquisition.</p>
+
+<p>If your landed factory cost is ₹380, your GST slab is 12%, forward shipping is ₹85, your ad CPA is ₹220 per placed order, and 20% of your Cash-on-Delivery parcels come back as RTO, selling at ₹999 leaves you roughly ₹62 per delivered order. One packaging damage claim or a 5% jump in CPM wipes out the entire profit. Open <a href="marginmint.html">MarginMint</a> alongside this guide and plug in your own SKU numbers—every step below shows how to work backwards from a real 20% net margin to set both your printed MRP and your wholesale rate card.</p>
+
+<h2>Why Forward Cost-Plus Pricing Breaks in Indian E-Commerce</h2>
+
+<p>Offline wholesalers used to price goods with a simple rule: take factory cost, multiply by 2.5x, and print the sticker. That rule fails in Indian D2C because four variable deductions scale differently than factory cost:</p>
+
+<ul>
+  <li><strong>Inclusive GST shrinks your top line before anything else:</strong> A ₹999 MRP with 12% GST included gives you ₹891.96 in actual ex-GST revenue. The remaining ₹107.04 belongs to the GST portal, not your bank account.</li>
+  <li><strong>COD RTO multiplies both shipping and ad spend:</strong> A 20% RTO rate means you ship 100 parcels and pay Meta for 100 orders, but collect cash on only 80 delivered orders. Every delivered order absorbs the ad spend and wasted two-way freight of the 25% failed orders sitting on top of it.</li>
+  <li><strong>Payment gateway and COD collection fees come off the gross MRP:</strong> Razorpay, Cashfree, and Shiprocket COD remittance fees charge 2% to 2.5% on the GST-inclusive ₹999 ticket, not on your ex-GST base.</li>
+  <li><strong>Volumetric weight slabs punish bulky boxes:</strong> A lightweight item in a 28 × 20 × 12 cm carton bills at 1.34 kg volumetric weight (L × W × H ÷ 5000), pushing your forward freight from ₹65 into the ₹115–₹135 slab.</li>
+</ul>
+
+<p>When you ignore even two of these four deductions, a 60% gross margin on paper turns into a 6% net margin in your bank statement. You cannot fund inventory restocks, GST working capital, or agency retainers on 6% net margin.</p>
+
+<h2>The Worked Example: ₹380 COGS at ₹999 vs ₹1,399–₹1,499</h2>
+
+<p>Let us run the exact unit economics for a typical Indian D2C personal care or apparel SKU with the following verified inputs:</p>
+
+<ul>
+  <li><strong>Landed COGS (including primary bottle/garment and label):</strong> ₹380.00</li>
+  <li><strong>GST Slab (inclusive in MRP):</strong> 12%</li>
+  <li><strong>Forward Courier Freight (0.5 kg–1.0 kg zone average):</strong> ₹85.00</li>
+  <li><strong>Outer Corrugated Box, Tape, and Insert Card:</strong> ₹25.00</li>
+  <li><strong>Payment Gateway / COD Remittance Fee:</strong> 2.0% of MRP</li>
+  <li><strong>Paid Ad CPA per Placed Order:</strong> ₹220.00</li>
+  <li><strong>COD Return-to-Origin (RTO) Rate:</strong> 20%</li>
+</ul>
+
+<h3>Step 1: Calculate the True RTO Drag per Delivered Order</h3>
+
+<p>At a 20% RTO rate, 80 out of 100 placed orders deliver and 20 return. For every 1 delivered order, 0.25 orders (20 ÷ 80) bounced back. Each returned parcel costs 1.8× forward courier freight (₹85 × 1.8 = ₹153.00 for forward + reverse movement) plus ₹25.00 in destroyed corrugated packaging, totaling ₹178.00 per failed parcel.</p>
+
+<p>Multiply ₹178.00 by 0.25 failed orders per delivered order: your <strong>COD RTO drag is ₹44.50 per delivered order</strong>. If you skip this line item in your spreadsheet, you understate your true logistics cost by more than 50%.</p>
+
+<h3>Step 2: Adjust Ad CPA for Undelivered Orders</h3>
+
+<p>Ad platforms bill you when the customer clicks "Place Order," not when the Delhivery rider collects cash at the door. Paying ₹220.00 CPA per placed order across 100 orders costs ₹22,000. Dividing ₹22,000 across the 80 orders that actually deliver makes your <strong>effective Ad CPA ₹275.00 per delivered order</strong> (₹220 ÷ 0.80).</p>
+
+<h3>Step 3: Compare ₹999 vs ₹1,399 vs ₹1,499 Side by Side</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Line Item (Per Delivered Order)</th>
+      <th>At ₹999 MRP</th>
+      <th>At ₹1,399 MRP</th>
+      <th>At ₹1,499 MRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Printed MRP (incl. 12% GST)</td>
+      <td>₹999.00</td>
+      <td>₹1,399.00</td>
+      <td>₹1,499.00</td>
+    </tr>
+    <tr>
+      <td>Less: Included 12% GST</td>
+      <td>-₹107.04</td>
+      <td>-₹149.89</td>
+      <td>-₹160.61</td>
+    </tr>
+    <tr>
+      <td><strong>Ex-GST Net Revenue</strong></td>
+      <td><strong>₹891.96</strong></td>
+      <td><strong>₹1,249.11</strong></td>
+      <td><strong>₹1,338.39</strong></td>
+    </tr>
+    <tr>
+      <td>Landed COGS</td>
+      <td>-₹380.00</td>
+      <td>-₹380.00</td>
+      <td>-₹380.00</td>
+    </tr>
+    <tr>
+      <td>Forward Shipping + Box</td>
+      <td>-₹110.00</td>
+      <td>-₹110.00</td>
+      <td>-₹110.00</td>
+    </tr>
+    <tr>
+      <td>COD RTO Drag (20% RTO)</td>
+      <td>-₹44.50</td>
+      <td>-₹44.50</td>
+      <td>-₹44.50</td>
+    </tr>
+    <tr>
+      <td>Effective Ad CPA (₹220 ÷ 0.80)</td>
+      <td>-₹275.00</td>
+      <td>-₹275.00</td>
+      <td>-₹275.00</td>
+    </tr>
+    <tr>
+      <td>Gateway / COD Fee (2% of MRP)</td>
+      <td>-₹19.98</td>
+      <td>-₹27.98</td>
+      <td>-₹29.98</td>
+    </tr>
+    <tr>
+      <td><strong>Net Profit per Delivered Order</strong></td>
+      <td><strong>₹62.48</strong></td>
+      <td><strong>₹411.63</strong></td>
+      <td><strong>₹498.91</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Net Margin (% of MRP)</strong></td>
+      <td><strong>6.3%</strong></td>
+      <td><strong>29.4%</strong></td>
+      <td><strong>33.3%</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Look at the ₹999 column. Everything looks fine until you sum the deductions: ₹829.48 leaves the business before you earn a rupee, leaving just <strong>₹62.48 per delivered order</strong> (6.3% net margin). Across 1,000 monthly orders, that is ₹62,480 in contribution before salaries, Shopify apps, or studio rent. One bad week on Meta Ads where CPA rises from ₹220 to ₹270 turns the entire month negative.</p>
+
+<p>Now look at ₹1,399 and ₹1,499. Your product COGS, box, courier, and RTO drag stay identical. Raising the selling price by ₹400 adds ₹357.15 in ex-GST revenue and costs only ₹8.00 more in gateway fees, lifting net profit from ₹62.48 to <strong>₹411.63</strong> (29.4% net margin). At ₹1,499, net profit reaches <strong>₹498.91</strong> (33.3% net margin), which gives you room to run a ₹100 prepaid UPI discount or a 10% launch coupon and still walk away with more than 20% net profit.</p>
+
+<h2>The Exact Reverse-Pricing Formula for 20% Net Margin</h2>
+
+<p>You do not need trial and error to find your price floor. Use the exact reverse-pricing formula built into <a href="marginmint.html">MarginMint's Suggested MRP</a> output row:</p>
+
+<p><strong>Step A — Sum all fixed per-delivered-order costs (F):</strong><br />
+F = COGS + Forward Shipping + Packaging + RTO Drag + (Ad CPA ÷ (1 − RTO Rate))<br />
+In our example: F = 380 + 85 + 25 + 44.50 + 275 = <strong>₹809.50</strong></p>
+
+<p><strong>Step B — Compute your net retention factor (D) after GST, fees, and 20% target margin:</strong><br />
+D = (1 ÷ (1 + GST Rate)) − Gateway Fee Rate − 0.20<br />
+With 12% GST and 2% fee: D = (1 ÷ 1.12) − 0.02 − 0.20 = 0.89286 − 0.22 = <strong>0.67286</strong></p>
+
+<p><strong>Step C — Divide F by D to get your minimum MRP:</strong><br />
+Minimum MRP for 20% Net Margin = 809.50 ÷ 0.67286 = <strong>₹1,203.08</strong></p>
+
+<p>That ₹1,203 figure is your bare mathematical floor with zero discounts. Since Indian shoppers expect either a prepaid UPI incentive or a seasonal 10% to 15% promo code, adding a 15% promo buffer to ₹1,203 puts your printed MRP squarely in the <strong>₹1,399 to ₹1,499</strong> bracket. When you print ₹1,499 on the box and sell at ₹1,349–₹1,399 during campaigns, your unit economics hold steady above 20% net margin.</p>
+
+<h2>How 20% D2C Margin Connects to 30% Distributor &amp; Retailer Headroom</h2>
+
+<p>A common trap happens when a D2C brand hits ₹10 lakh a month online at ₹999 MRP and decides to enter offline general trade, modern retail, or quick-commerce (Blinkit, Zepto, Swiggy Instamart). Offline and quick-commerce buyers do not pay ₹999 to you—they demand a standard <strong>30% to 35% channel margin off MRP</strong>.</p>
+
+<p>Let us test what happens to a ₹380 COGS product when you give a distributor 10% and a retailer 20% (30% total channel cut off MRP):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Wholesale / B2B Metric</th>
+      <th>At ₹999 MRP</th>
+      <th>At ₹1,499 MRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Printed Box MRP (incl. 12% GST)</td>
+      <td>₹999.00</td>
+      <td>₹1,499.00</td>
+    </tr>
+    <tr>
+      <td>Less: 30% Channel Margin (10% Dist + 20% Retail)</td>
+      <td>-₹299.70</td>
+      <td>-₹449.70</td>
+    </tr>
+    <tr>
+      <td>B2B Invoice Value to Distributor (incl. GST)</td>
+      <td>₹699.30</td>
+      <td>₹1,049.30</td>
+    </tr>
+    <tr>
+      <td>Ex-GST B2B Realization (÷ 1.12)</td>
+      <td>₹624.38</td>
+      <td>₹936.88</td>
+    </tr>
+    <tr>
+      <td>Less: Landed COGS + Master Carton Freight (~₹40/unit)</td>
+      <td>-₹420.00</td>
+      <td>-₹420.00</td>
+    </tr>
+    <tr>
+      <td><strong>Brand Gross Profit per Wholesale Unit</strong></td>
+      <td><strong>₹204.38</strong></td>
+      <td><strong>₹516.88</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>At ₹999 MRP, a 30% channel cut leaves you ₹204.38 per unit before distributor schemes, damaged-stock credit notes, and 45-day credit working capital costs. If you run a 5% trade scheme for Diwali, your margin drops under 15%. At ₹1,499 MRP, the exact same 30% channel structure leaves you <strong>₹516.88 per unit</strong> with zero Meta Ad CPA and zero COD RTO. You can raise clean B2B GST invoices for your distributors in <a href="billfold.html">BillFold</a> with proper HSN codes and CGST/SGST splits, knowing every carton shipped is profitable.</p>
+
+<h2>Five Practical Ways to Protect Your 20% Net Margin Without Losing Conversion</h2>
+
+<p>Raising MRP from ₹999 to ₹1,399–₹1,499 works only if your store converts traffic at the higher price. Here are five concrete levers Indian D2C teams use to hold conversion steady:</p>
+
+<ol>
+  <li><strong>Shift COD buyers to Prepaid UPI with a ₹75–₹100 instant discount:</strong> On a ₹1,499 order, giving a ₹75 UPI discount drops your gross ticket to ₹1,424, eliminates the ₹44.50 COD RTO drag, and saves ~₹15 in COD collection charges. Your net profit actually rises by ₹30+ per order while cash hits your bank in T+1 days. Use <a href="tapping.html">TapPing</a> to send automated WhatsApp order-confirmation links with a one-tap UPI payment nudge right after a COD checkout.</li>
+  <li><strong>Write value-anchored product titles and meta descriptions:</strong> Shoppers compare ₹1,499 against ₹999 on Google Search and Meta ads within three seconds. Use <a href="copycraft.html">CopyCraft</a> to test crisp, benefit-first SERP titles and WhatsApp catalog captions that justify the ₹1,499 price with material specs, pack weight, or warranty terms rather than vague adjectives.</li>
+  <li><strong>Audit volumetric box dimensions before printing 5,000 cartons:</strong> Shaving 2 cm off box height often drops volumetric weight from 0.62 kg to 0.48 kg, moving you from a 1.0 kg courier slab back to a 0.5 kg slab and saving ₹35–₹45 on every single order.</li>
+  <li><strong>Build two-unit and three-unit bundles at ₹2,399–₹2,699:</strong> Bundles keep your ₹85 shipping and ₹220 ad CPA nearly flat while doubling revenue per parcel. Even at a 20% bundle discount off ₹1,499 × 2, your net margin stays above 32%.</li>
+  <li><strong>Re-run your numbers every 30 days:</strong> Courier fuel surcharges, Meta CPMs, and RTO rates shift between Q3 festive peaks and Q1 normal months. Keep your SKU presets saved in <a href="marginmint.html">MarginMint</a> and copy the breakdown summary before approving any new ad budget or wholesale price sheet.</li>
+</ol>
+
+<h2>Pre-Launch Pricing Checklist for Your Next SKU</h2>
+
+<ul>
+  <li>Plug COGS, inclusive GST %, volumetric courier slab, box cost, gateway fee %, target ad CPA, and realistic COD RTO % into <a href="marginmint.html">MarginMint</a>.</li>
+  <li>Read the <strong>Suggested MRP (for 20% Net Margin)</strong> output and add a 10%–15% buffer for festive coupons and prepaid UPI discounts.</li>
+  <li>Stress-test the printed MRP at a 30% wholesale discount (10% distributor + 20% retailer) to verify at least ₹400+ gross contribution per B2B unit.</li>
+  <li>Set up clean GST-compliant B2B and B2C invoice templates in <a href="billfold.html">BillFold</a> and prepare WhatsApp COD-to-UPI conversion templates in <a href="tapping.html">TapPing</a>.</li>
+  <li>Polish your Google SERP title, meta description, and product bio in <a href="copycraft.html">CopyCraft</a> so organic and paid visitors immediately see why your product is worth ₹1,499.</li>
+</ul>
+        <div style="margin-top:32px;padding-top:20px;border-top:2px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+          <strong>Use the free KiteDesk tools mentioned in this guide:</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="billfold.html" class="btn btn-sm btn-primary">BillFold Invoicing</a>
+            <a href="tapping.html" class="btn btn-sm btn-outline">TapPing WhatsApp QR</a>
+            <a href="marginmint.html" class="btn btn-sm btn-outline">MarginMint Profit Lab</a>
+            <a href="copycraft.html" class="btn btn-sm btn-outline">CopyCraft Bio &amp; SERP</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk Studio</span>
+        </a>
+        <p class="footer-note">An independent software studio building zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, and CopyCraft.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold — GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing — WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint — D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft — Bio &amp; SERP Studio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

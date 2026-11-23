@@ -692,8 +692,8 @@ function getPostBodyHtml(post) {
 }
 
 function renderPostCard(post) {
-  const wc = getPostWordCount(post);
   const safeSlug = encodeURIComponent(post.slug || '');
+  const articleHref = `articles/${safeSlug}.html`;
   const safeImg = post.image ? escapeHtml(post.image) : '';
   const safeTitle = escapeHtml(post.title || '');
   const safeCat = escapeHtml(post.category || '');
@@ -703,15 +703,18 @@ function renderPostCard(post) {
   return `
     <article class="card post-card">
       <div>
-        ${safeImg ? `<a href="post.html?slug=${safeSlug}"><img src="${safeImg}" alt="${safeTitle}" class="post-card-thumb" loading="lazy" /></a>` : ''}
+        ${safeImg ? `<a href="${articleHref}"><img src="${safeImg}" alt="${safeTitle}" class="post-card-thumb" loading="lazy" /></a>` : ''}
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
           <span class="card-tag" style="margin:0;">${safeCat}</span>
-          ${(post.aiVideoKey) ? `<span class="mini-badge">▶ AI Video + Guide</span>` : ''}
+          ${(post.aiVideoKey) ? `<span class="mini-badge">&#9654; AI Video + Guide</span>` : ''}
         </div>
-        <h3><a href="post.html?slug=${safeSlug}">${safeTitle}</a></h3>
+        <h3><a href="${articleHref}">${safeTitle}</a></h3>
         <p class="muted">${safeExcerpt}</p>
       </div>
-      <div class="post-meta">${safeDate} &bull; ${safeRead} ${wc ? `&bull; ${escapeHtml(wc)} words` : ''}</div>
+      <div class="post-meta">
+        <span>${safeDate} &bull; ${safeRead}</span>
+        <a href="${articleHref}" class="read-link">Read Guide &rarr;</a>
+      </div>
     </article>
   `;
 }
@@ -790,7 +793,7 @@ function openArticleModal(slugOrIndex) {
   }
   const wc = getPostWordCount(post);
   document.title = `${post.title} — KiteDesk Studio`;
-  const postUrl = `https://srivastavt37-sys.github.io/kitedesk-web/post.html?slug=${encodeURIComponent(post.slug)}`;
+  const postUrl = `https://srivastavt37-sys.github.io/kitedesk-web/articles/${encodeURIComponent(post.slug)}.html`;
   const descText = post.excerpt || `${post.title} — Plain-English playbook by KiteDesk Studio.`;
   const metaDescEl = document.getElementById('metaDescription');
   if (metaDescEl) metaDescEl.setAttribute('content', descText);
@@ -848,10 +851,22 @@ function openArticleModal(slugOrIndex) {
 }
 
 const articleBody = document.getElementById('articleBody');
-if (articleBody && window.KITEDESK_POSTS) {
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get('slug');
-  openArticleModal(slug);
+if (articleBody) {
+  if (articleBody.dataset.staticArticle === 'true') {
+    const videoSlot = articleBody.querySelector('.ai-video-slot');
+    if (videoSlot && typeof window.renderAiVideoPlayer === 'function') {
+      const vKey = videoSlot.getAttribute('data-video-key') || 'kitedesk-studio';
+      const vTitle = videoSlot.getAttribute('data-video-title') || '';
+      videoSlot.innerHTML = window.renderAiVideoPlayer(vKey, vTitle);
+    }
+    if (typeof window.initAiVideoPlayers === 'function') {
+      window.initAiVideoPlayers(articleBody);
+    }
+  } else if (window.KITEDESK_POSTS) {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    openArticleModal(slug);
+  }
 }
 
 /* 1. BILLFOLD — GST INVOICE, AMOUNT IN WORDS, SAVED HISTORY & UPI QR ENGINE */
