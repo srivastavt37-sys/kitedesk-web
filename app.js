@@ -984,6 +984,7 @@ function saveInvoiceToHistory() {
     tax: taxRate,
     tdsRate: Number(document.getElementById('invTdsRate')?.value) || 0,
     roundOff: roundOffEnabled,
+    advancePaid: Math.max(0, Number(document.getElementById('invAdvancePaid')?.value) || 0),
     upi: (document.getElementById('invUpi')?.value || '').trim(),
     notes: document.getElementById('invNotes')?.value || '',
     items: invoiceItems.map(i => ({ desc: String(i.desc || ''), qty: Number(i.qty) || 0, rate: Number(i.rate) || 0 })),
@@ -1013,6 +1014,7 @@ function loadSavedInvoice(idx) {
   if (document.getElementById('invNum')) document.getElementById('invNum').value = p.num || '';
   if (document.getElementById('invCurrency')) document.getElementById('invCurrency').value = p.currency || '₹';
   if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = p.discount || 0;
+  if (document.getElementById('invAdvancePaid')) document.getElementById('invAdvancePaid').value = p.advancePaid || 0;
   if (document.getElementById('invTaxMode')) document.getElementById('invTaxMode').value = p.taxMode || 'cgst_sgst';
   if (document.getElementById('invTax')) document.getElementById('invTax').value = p.tax ?? 12;
   if (document.getElementById('invTdsRate')) document.getElementById('invTdsRate').value = String(p.tdsRate ?? 0);
@@ -1519,6 +1521,27 @@ function renderInvoice() {
 
   document.getElementById('prevTotal').textContent = `${cur}${total.toFixed(2)}`;
 
+  const advancePaid = Math.max(0, Number(document.getElementById('invAdvancePaid')?.value) || 0);
+  const balancePayable = Math.max(0, Math.round((total - advancePaid) * 100) / 100);
+  window._currentBillfoldAdvancePaid = advancePaid;
+  window._currentBillfoldBalancePayable = balancePayable;
+  window._currentBillfoldCurrency = cur;
+  const advRow = document.getElementById('prevAdvanceRow');
+  const balRow = document.getElementById('prevBalanceRow');
+  if (advRow && balRow) {
+    if (advancePaid > 0) {
+      advRow.style.display = 'flex';
+      balRow.style.display = 'flex';
+      const advAmtEl = document.getElementById('prevAdvanceAmt');
+      if (advAmtEl) advAmtEl.textContent = `-${cur}${advancePaid.toFixed(2)}`;
+      const balTotEl = document.getElementById('prevBalanceTotal');
+      if (balTotEl) balTotEl.textContent = `${cur}${balancePayable.toFixed(2)}`;
+    } else {
+      advRow.style.display = 'none';
+      balRow.style.display = 'none';
+    }
+  }
+
   const tdsRate = Number(document.getElementById('invTdsRate')?.value) || 0;
   const tdsAmt = tdsRate > 0 ? taxable * (tdsRate / 100) : 0;
   const netReceivable = Math.max(0, total - tdsAmt);
@@ -1549,7 +1572,9 @@ function renderInvoice() {
   if (upiWrap) {
     if (upiId && cur === '₹') {
       upiWrap.style.display = 'block';
-      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(fromName)}&am=${total.toFixed(2)}&cu=INR&tr=${encodeURIComponent(invNumVal)}&tn=${encodeURIComponent('Invoice ' + invNumVal)}`;
+      const upiAmount = balancePayable.toFixed(2);
+      const upiNote = advancePaid > 0 ? `Balance for ${invNumVal}` : `Invoice ${invNumVal}`;
+      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(fromName)}&am=${upiAmount}&cu=INR&tr=${encodeURIComponent(invNumVal)}&tn=${encodeURIComponent(upiNote)}`;
       window._currentBillfoldUpiUri = upiUri;
       const qrEl = document.getElementById('prevUpiQr');
       const localQr = buildQrSvgDataUri(upiUri, 120);
@@ -1611,7 +1636,12 @@ function copyBillfoldWaMsg(btn) {
   const fromName = (document.getElementById('invFrom')?.value || 'Our Store').trim() || 'Our Store';
   const invNum = (document.getElementById('invNum')?.value || 'Invoice').trim() || 'Invoice';
   const totalText = (document.getElementById('prevTotal')?.textContent || '₹0.00').trim();
-  const msg = `Hi ${toName},\n\nSharing your invoice ${invNum} from ${fromName} for ${totalText}.\n\nYou can pay directly via UPI using this link:\n${uri}\n\nThank you!`;
+  const advPaid = Number(window._currentBillfoldAdvancePaid) || 0;
+  const balPay = Number(window._currentBillfoldBalancePayable);
+  const curSym = window._currentBillfoldCurrency || '₹';
+  const msg = advPaid > 0
+    ? `Hi ${toName},\n\nSharing your invoice ${invNum} from ${fromName}.\nInvoice Total: ${totalText}\nAdvance / Token Paid: ${curSym}${advPaid.toFixed(2)}\nBalance Payable: ${curSym}${balPay.toFixed(2)}\n\nPay the exact balance of ${curSym}${balPay.toFixed(2)} via UPI:\n${uri}\n\nThank you!`
+    : `Hi ${toName},\n\nSharing your invoice ${invNum} from ${fromName} for ${totalText}.\n\nYou can pay directly via UPI using this link:\n${uri}\n\nThank you!`;
   const finish = () => {
     if (!btn) return;
     const orig = btn.textContent;
@@ -1644,6 +1674,7 @@ function resetInvoice() {
   if (document.getElementById('invTo')) document.getElementById('invTo').value = '';
   if (document.getElementById('invToGstin')) document.getElementById('invToGstin').value = '';
   if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = '0';
+  if (document.getElementById('invAdvancePaid')) document.getElementById('invAdvancePaid').value = '0';
   if (document.getElementById('invNotes')) document.getElementById('invNotes').value = '';
   invoiceItems = [{ desc: 'Consulting / Product Order', qty: 1, rate: 1500 }];
   restoreSellerProfile();
