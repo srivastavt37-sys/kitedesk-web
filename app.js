@@ -2852,6 +2852,13 @@ function copyWaFloatingWidget(btn) {
   copyWithFallback(widgetHtml, btn);
 }
 
+function copyWaInvite(btn) {
+  const outEl = document.getElementById('waOutput');
+  const url = outEl && outEl.value ? outEl.value.trim() : '';
+  if (!url) return;
+  copyWithFallback(`Tap to chat or order on WhatsApp: ${url}`, btn);
+}
+
 function handleContact(e) {
   e.preventDefault();
   const st = document.getElementById('contactStatus');
