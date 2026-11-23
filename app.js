@@ -1225,6 +1225,18 @@ function addInvoiceItem() {
   renderInvoice();
 }
 
+
+function addMsmeNote() {
+  const notesEl = document.getElementById('invNotes');
+  if (!notesEl) return;
+  const msmeClause = 'MSME Registered (Sec 43B(h)): Payable within 15 days of invoice date.';
+  const current = notesEl.value.trim();
+  if (!current.includes(msmeClause)) {
+    notesEl.value = current ? `${current}\n${msmeClause}` : msmeClause;
+  }
+  renderInvoice();
+}
+
 function extractMrpBase() {
   const mrpInput = document.getElementById('bfMrpInclusive');
   const statusEl = document.getElementById('bfMrpStatus');

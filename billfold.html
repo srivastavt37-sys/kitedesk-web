@@ -176,9 +176,11 @@
             <span class="muted mrp-extractor-status" id="bfMrpStatus"></span>
           </div>
 
-          <label>Payment Terms &amp; Notes
-            <textarea id="invNotes" rows="2" oninput="renderInvoice()">Scan the UPI QR code to pay instantly, or remit via NEFT within 7 days. Thank you for your business!</textarea>
-          </label>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px;">
+            <label for="invNotes" style="margin:0;">Payment Terms &amp; Notes</label>
+            <button type="button" id="btnMsmeNote" class="btn btn-sm btn-outline" onclick="addMsmeNote()">+ Add MSME 43B(h) Note</button>
+          </div>
+          <textarea id="invNotes" rows="2" oninput="renderInvoice()">Scan the UPI QR code to pay instantly, or remit via NEFT within 7 days. Thank you for your business!</textarea>
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save Clean PDF</button>
             <button type="button" class="btn btn-secondary" onclick="saveInvoiceToHistory()">Save to History</button>
