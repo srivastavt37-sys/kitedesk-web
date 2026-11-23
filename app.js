@@ -2780,11 +2780,16 @@ function calcMargin() {
   const monthlyOrders = Number.isFinite(monthlyOrdersRaw) && monthlyOrdersRaw > 0 ? Math.round(monthlyOrdersRaw) : 300;
   const fixedOverheadRaw = Number(document.getElementById('mmFixedOverhead')?.value);
   const fixedOverhead = Number.isFinite(fixedOverheadRaw) && fixedOverheadRaw >= 0 ? fixedOverheadRaw : 25000;
+  const targetProfitRaw = Number(document.getElementById('mmTargetProfit')?.value);
+  const targetProfit = Number.isFinite(targetProfitRaw) && targetProfitRaw >= 0 ? targetProfitRaw : 150000;
   const blendedUnitProfit = (blended100 / 100) - cpa;
   const monthlyNetProfit = (blendedUnitProfit * monthlyOrders) - fixedOverhead;
   const breakEvenOrders = fixedOverhead === 0
     ? 0
     : (blendedUnitProfit > 0 ? Math.ceil(fixedOverhead / blendedUnitProfit) : null);
+  const ordersForGoal = blendedUnitProfit > 0
+    ? Math.ceil((fixedOverhead + targetProfit) / blendedUnitProfit)
+    : null;
   const monthlyRtoBurn = monthlyOrders * ((100 - prepaidShare) / 100) * rtoFrac * (ship * 1.8 + pack);
 
   const monthlyProfitEl = document.getElementById('mmMonthlyProfit');
@@ -2801,6 +2806,16 @@ function calcMargin() {
     } else {
       breakEvenEl.textContent = `${breakEvenOrders.toLocaleString('en-IN')} orders`;
       breakEvenEl.style.color = monthlyOrders >= breakEvenOrders ? 'var(--brand)' : 'var(--danger)';
+    }
+  }
+  const ordersGoalEl = document.getElementById('mmOrdersForGoal');
+  if (ordersGoalEl) {
+    if (ordersForGoal === null) {
+      ordersGoalEl.textContent = 'N/A';
+      ordersGoalEl.style.color = 'var(--danger)';
+    } else {
+      ordersGoalEl.textContent = `${ordersForGoal.toLocaleString('en-IN')} orders (${Math.ceil(ordersForGoal / 30).toLocaleString('en-IN')}/day)`;
+      ordersGoalEl.style.color = monthlyOrders >= ordersForGoal ? 'var(--brand)' : 'var(--ink-secondary, #475569)';
     }
   }
   const monthlyRtoEl = document.getElementById('mmMonthlyRtoBurn');
@@ -2868,6 +2883,8 @@ function copyMarginSummary(btn) {
     `Fixed Monthly Overhead: ${cur}${(Number(document.getElementById('mmFixedOverhead')?.value) || 0).toLocaleString('en-IN')}`,
     `Projected Monthly Net Profit (${document.getElementById('mmMonthlyOrders')?.value || 300} orders, after overhead): ${document.getElementById('mmMonthlyProfit')?.textContent || `${cur}0`}`,
     `Break-Even Orders / Month: ${document.getElementById('mmBreakEvenOrders')?.textContent || '0 orders'}`,
+    `Target Monthly Profit: ${cur}${(Number(document.getElementById('mmTargetProfit')?.value) || 0).toLocaleString('en-IN')}`,
+    `Orders Needed for Goal: ${document.getElementById('mmOrdersForGoal')?.textContent || 'N/A'}`,
     `Monthly RTO Cash Burn: ${document.getElementById('mmMonthlyRtoBurn')?.textContent || `${cur}0`}`
   ];
   const summaryText = lines.join('\n');

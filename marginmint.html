@@ -200,6 +200,10 @@
               <label for="mmFixedOverhead" style="font-size:0.84rem;font-weight:600;margin:0;">Fixed Monthly Overhead (&#8377;)</label>
               <input type="number" class="mono-input" id="mmFixedOverhead" value="25000" min="0" step="1000" style="width:96px;padding:6px 8px;" oninput="calcMargin()" />
             </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <label for="mmTargetProfit" style="font-size:0.84rem;font-weight:600;margin:0;">Target Monthly Profit (&#8377;)</label>
+              <input type="number" class="mono-input" id="mmTargetProfit" value="150000" min="0" step="5000" style="width:104px;padding:6px 8px;" oninput="calcMargin()" />
+            </div>
           </div>
           <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
             <div style="width:100%;"><span>Included GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
@@ -212,6 +216,7 @@
             <div style="width:100%;"><span>Suggested MRP (for 20% Net Margin)</span><strong id="mmTargetMrp">&#8377;0</strong></div>
             <div style="width:100%;"><span>Projected Monthly Net Profit</span><strong id="mmMonthlyProfit">&#8377;0</strong></div>
             <div style="width:100%;"><span>Break-Even Orders / Month</span><strong id="mmBreakEvenOrders">0 orders</strong></div>
+            <div style="width:100%;"><span>Orders Needed for Goal</span><strong id="mmOrdersForGoal">0 orders</strong></div>
             <div style="width:100%;"><span>Monthly RTO Cash Burn</span><strong id="mmMonthlyRtoBurn">&#8377;0</strong></div>
           </div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;">
