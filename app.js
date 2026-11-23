@@ -1624,30 +1624,6 @@ function resetInvoice() {
   renderInvoice();
 }
 
-if (document.getElementById('invoiceItemsList')) {
-  const initInvDateEl = document.getElementById('invDate');
-  if (initInvDateEl && !initInvDateEl.value) {
-    const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const dd = String(now.getDate()).padStart(2, '0');
-    initInvDateEl.value = `${yyyy}-${mm}-${dd}`;
-  }
-  restoreSellerProfile();
-  renderInvoiceInputs();
-  renderInvoice();
-  renderSavedInvoicesBar();
-}
-
-/* 2. TAPPING — WHATSAPP LINK & QR GENERATOR */
-function setWaTemplate(text) {
-  const el = document.getElementById('waMsg');
-  if (el) {
-    el.value = text;
-    buildWhatsApp();
-  }
-}
-
 /* Minimal Pure-JS QR Code SVG Generator (Byte mode, ECC Level L, Versions 1-10) */
 const buildQrSvgDataUri = (() => {
   const EXP = new Uint8Array(512);
@@ -1873,6 +1849,30 @@ const buildQrSvgDataUri = (() => {
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   };
 })();
+
+if (document.getElementById('invoiceItemsList')) {
+  const initInvDateEl = document.getElementById('invDate');
+  if (initInvDateEl && !initInvDateEl.value) {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    initInvDateEl.value = `${yyyy}-${mm}-${dd}`;
+  }
+  restoreSellerProfile();
+  renderInvoiceInputs();
+  renderInvoice();
+  renderSavedInvoicesBar();
+}
+
+/* 2. TAPPING — WHATSAPP LINK & QR GENERATOR */
+function setWaTemplate(text) {
+  const el = document.getElementById('waMsg');
+  if (el) {
+    el.value = text;
+    buildWhatsApp();
+  }
+}
 
 
 function insertWaToken(token) {
