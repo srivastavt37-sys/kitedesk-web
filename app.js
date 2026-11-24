@@ -2117,6 +2117,62 @@ function formatTapPingUrlFromEntry(item) {
   return `https://wa.me/${phone}${q ? `?text=${q}` : ''}`;
 }
 
+function exportTapPingLinksCsv() {
+  let list = getSavedTapPingLinks();
+  if (!list.length) {
+    const livePhone = document.getElementById('waPhone')?.value.trim() || '9876543210';
+    const liveCc = document.getElementById('waCountryCode')?.value || '91';
+    const liveSourceTag = (document.getElementById('waSourceTag')?.value || '').trim();
+    const liveMsg = (document.getElementById('waMsg')?.value || '').trim();
+    const liveLabel = (document.getElementById('tpSaveLabel')?.value || '').trim()
+      || liveSourceTag
+      || (document.getElementById('waBrand')?.value || '').trim()
+      || 'Live Link';
+    list = [{
+      label: liveLabel.slice(0, 28),
+      cc: liveCc,
+      phone: livePhone,
+      sourceTag: liveSourceTag,
+      msg: liveMsg
+    }];
+  }
+
+  const headers = ['Label', 'Phone', 'SourceTag', 'Message', 'WaMeURL'];
+  const lines = [headers.map(escapeCsvCell).join(',')];
+
+  list.forEach(item => {
+    const cc = String(item.cc || '91').replace(/\D/g, '');
+    const digits = String(item.phone || '').replace(/\D/g, '');
+    const minFullLen = { '91': 12, '971': 12, '1': 11, '44': 12, '65': 10 }[cc] || (cc.length + 8);
+    let fullPhone = '919876543210';
+    if (digits) {
+      if (cc && digits.startsWith(cc) && digits.length >= minFullLen) fullPhone = digits;
+      else if (cc) fullPhone = cc + digits;
+      else fullPhone = digits;
+    }
+    const row = [
+      item.label || 'Saved Link',
+      fullPhone,
+      item.sourceTag || '',
+      item.msg || '',
+      buildSavedTapPingUrl(item)
+    ].map(escapeCsvCell);
+    lines.push(row.join(','));
+  });
+
+  const csvContent = '\uFEFF' + lines.join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `tapping-whatsapp-links-${stamp}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 function renderSavedTapPingBar() {
   const container = document.getElementById('tpSavedList');
   if (!container) return;

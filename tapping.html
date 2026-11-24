@@ -83,6 +83,7 @@
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <input type="text" id="tpSaveLabel" placeholder="Label (e.g., Order Desk)" maxlength="28" style="width:155px;padding:4px 8px;font-size:0.75rem;" aria-label="Saved WhatsApp Link Label" />
                 <button type="button" class="btn btn-sm btn-outline" onclick="saveTapPingLink()">+ Save Link</button>
+                <button type="button" id="tpExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportTapPingLinksCsv()" title="Export saved WhatsApp links as CSV">Export Links (.csv)</button>
               </div>
             </div>
             <div id="tpSavedList" class="bf-saved-chips" aria-label="Saved WhatsApp Links"></div>
