@@ -118,7 +118,9 @@
               <button type="button" class="chip" onclick="setWaTemplate('Hi! I would like to confirm my Cash-on-Delivery (COD) order and delivery pin code.')">COD Confirmation</button>
               <button type="button" class="chip" onclick="setWaTemplate('Hello! I would like to book an appointment slot. Please share today\'s available timings.')">Appointment Booking</button>
               <button type="button" class="chip" onclick="setWaTemplate('Hi! I scanned the QR on my parcel and want to reorder / share feedback.')">Packaging Reorder</button>
-              <button type="button" class="chip" onclick="setWaTemplate('Hi! Can you share bulk / wholesale pricing for my store?')">Wholesale Inquiry</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! Can you share bulk / wholesale pricing for my store?', this)">Wholesale Inquiry</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! Confirming my Order #[Order ID]. Please share the UPI QR so I can switch from COD to Prepaid and save ₹75 + get priority dispatch.', this)">COD &rarr; UPI ₹75 Switch</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! Loved my recent order #[Order ID] — sharing my 5-star Google review screenshot. Please send my ₹100 repeat-order UPI code!', this)">5-Star Review + Repeat</button>
             </div>
           </div>
           <label>Channel Source Tag <span class="muted">(Optional — appends [Ref: ...] to track where the chat came from)</span>

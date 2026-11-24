@@ -1958,11 +1958,18 @@ if (document.getElementById('invoiceItemsList')) {
 }
 
 /* 2. TAPPING — WHATSAPP LINK & QR GENERATOR */
-function setWaTemplate(text) {
+function setWaTemplate(text, btn) {
   const el = document.getElementById('waMsg');
   if (el) {
     el.value = text;
     buildWhatsApp();
+  }
+  if (btn && btn.closest) {
+    const bar = btn.closest('.preset-chips');
+    if (bar) {
+      bar.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    }
+    btn.classList.add('active');
   }
 }
 
