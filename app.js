@@ -984,7 +984,7 @@ function saveInvoiceToHistory() {
   const cur = document.getElementById('invCurrency')?.value || '₹';
   const taxRate = Number(document.getElementById('invTax')?.value) || 0;
   const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
-  const discount = Number(document.getElementById('invDiscount')?.value) || 0;
+  const discount = Math.max(0, Number(document.getElementById('invDiscount')?.value) || 0);
   const shipping = Math.max(0, Number(document.getElementById('invShipping')?.value) || 0);
   const sub = invoiceItems.reduce((acc, i) => acc + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0);
   const taxable = Math.max(0, sub - discount) + shipping;
@@ -1461,7 +1461,7 @@ function renderInvoice() {
   const safeCur = escapeHtml(cur);
   const taxRate = Number(document.getElementById('invTax')?.value) || 0;
   const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
-  const discount = Number(document.getElementById('invDiscount')?.value) || 0;
+  const discount = Math.max(0, Number(document.getElementById('invDiscount')?.value) || 0);
   const fromName = document.getElementById('invFrom')?.value || 'Your Business';
   const fromGstin = document.getElementById('invFromGstin')?.value || '';
   const toName = document.getElementById('invTo')?.value || 'Customer';

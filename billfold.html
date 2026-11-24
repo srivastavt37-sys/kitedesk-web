@@ -126,7 +126,6 @@
                 <option value="&euro;">&euro; EUR</option>
               </select>
             </label>
-            <label>Flat Discount <input type="number" class="mono-input" id="invDiscount" value="0" min="0" oninput="renderInvoice()" /></label>
           </div>
           <div class="form-row">
             <label>Tax Mode
@@ -154,6 +153,10 @@
             <label style="display:inline-flex;align-items:center;gap:8px;margin:0;font-size:0.84rem;font-weight:600;color:var(--ink);">
               <span>Advance / Token Paid (&#8377;)</span>
               <input type="number" class="mono-input" id="invAdvancePaid" value="0" min="0" step="0.01" oninput="renderInvoice()" style="width:120px;margin:0;" />
+            </label>
+            <label style="display:inline-flex;align-items:center;gap:8px;margin:0;font-size:0.84rem;font-weight:600;color:var(--ink);">
+              <span>Pre-Tax Discount (&#8377;)</span>
+              <input type="number" class="mono-input" id="invDiscount" value="0" min="0" step="0.01" oninput="renderInvoice()" style="width:110px;margin:0;" />
             </label>
             <label style="display:inline-flex;align-items:center;gap:8px;margin:0;font-size:0.84rem;font-weight:600;color:var(--ink);">
               <span>Shipping / Packaging (&#8377;)</span>
