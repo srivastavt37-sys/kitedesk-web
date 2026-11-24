@@ -985,8 +985,9 @@ function saveInvoiceToHistory() {
   const taxRate = Number(document.getElementById('invTax')?.value) || 0;
   const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
   const discount = Number(document.getElementById('invDiscount')?.value) || 0;
+  const shipping = Math.max(0, Number(document.getElementById('invShipping')?.value) || 0);
   const sub = invoiceItems.reduce((acc, i) => acc + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0);
-  const taxable = Math.max(0, sub - discount);
+  const taxable = Math.max(0, sub - discount) + shipping;
   const taxAmt = (taxMode === 'none' || taxRate === 0) ? 0 : taxable * (taxRate / 100);
   const rawTotal = Math.round((taxable + taxAmt) * 100) / 100;
   const roundOffEnabled = Boolean(document.getElementById('invRoundOff')?.checked);
@@ -1003,6 +1004,7 @@ function saveInvoiceToHistory() {
     toGstin: document.getElementById('invToGstin')?.value || '',
     currency: cur,
     discount: discount,
+    shipping: shipping,
     taxMode: taxMode,
     tax: taxRate,
     tdsRate: Number(document.getElementById('invTdsRate')?.value) || 0,
@@ -1037,6 +1039,7 @@ function loadSavedInvoice(idx) {
   if (document.getElementById('invNum')) document.getElementById('invNum').value = p.num || '';
   if (document.getElementById('invCurrency')) document.getElementById('invCurrency').value = p.currency || '₹';
   if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = p.discount || 0;
+  if (document.getElementById('invShipping')) document.getElementById('invShipping').value = p.shipping || 0;
   if (document.getElementById('invAdvancePaid')) document.getElementById('invAdvancePaid').value = p.advancePaid || 0;
   if (document.getElementById('invTaxMode')) document.getElementById('invTaxMode').value = p.taxMode || 'cgst_sgst';
   if (document.getElementById('invTax')) document.getElementById('invTax').value = p.tax ?? 12;
@@ -1500,7 +1503,7 @@ function renderInvoice() {
     return `<tr><td>${escapeHtml(i.desc)}</td><td class="mono-val">${escapeHtml(qty)}</td><td class="mono-val">${safeCur}${escapeHtml(rate.toFixed(2))}</td><td>${safeCur}${escapeHtml(amt.toFixed(2))}</td></tr>`;
   }).join('');
 
-  const taxable = Math.max(0, sub - discount);
+  const taxable = Math.max(0, sub - discount) + shipping;
   const taxAmt = (taxMode === 'none' || taxRate === 0) ? 0 : taxable * (taxRate / 100);
   const rawTotal = Math.round((taxable + taxAmt) * 100) / 100;
   const roundOffEnabled = Boolean(document.getElementById('invRoundOff')?.checked);
@@ -1512,6 +1515,13 @@ function renderInvoice() {
   if (discRow) {
     discRow.style.display = discount > 0 ? 'flex' : 'none';
     document.getElementById('prevDisc').textContent = `-${cur}${discount.toFixed(2)}`;
+  }
+
+  const shipRow = document.getElementById('prevShipRow');
+  if (shipRow) {
+    shipRow.style.display = shipping > 0 ? 'flex' : 'none';
+    const shipEl = document.getElementById('prevShip');
+    if (shipEl) shipEl.textContent = `${cur}${shipping.toFixed(2)}`;
   }
 
   const taxBox = document.getElementById('prevTaxBreakdown');
@@ -1697,6 +1707,7 @@ function resetInvoice() {
   if (document.getElementById('invTo')) document.getElementById('invTo').value = '';
   if (document.getElementById('invToGstin')) document.getElementById('invToGstin').value = '';
   if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = '0';
+  if (document.getElementById('invShipping')) document.getElementById('invShipping').value = '0';
   if (document.getElementById('invAdvancePaid')) document.getElementById('invAdvancePaid').value = '0';
   if (document.getElementById('invNotes')) document.getElementById('invNotes').value = '';
   invoiceItems = [{ desc: 'Consulting / Product Order', qty: 1, rate: 1500 }];
