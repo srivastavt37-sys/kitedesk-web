@@ -2963,6 +2963,14 @@ function calcMargin() {
     gainEl.style.color = codGain >= 0 ? 'var(--brand)' : 'var(--danger)';
   }
 
+  const prepaidProfitAtZeroDisc = sell - cogs - ship - pack - feeAmt - gstAmt;
+  const maxSafePrepaidDisc = Math.max(0, prepaidProfitAtZeroDisc - codNetPerPlaced);
+  const maxPrepaidDiscEl = document.getElementById('mmMaxPrepaidDisc');
+  if (maxPrepaidDiscEl) {
+    maxPrepaidDiscEl.textContent = `${cur}${Math.round(maxSafePrepaidDisc).toLocaleString('en-IN')}`;
+    maxPrepaidDiscEl.style.color = maxSafePrepaidDisc > 0 ? 'var(--brand)' : 'var(--muted)';
+  }
+
   const targetNetProfit = sell * 0.15;
   const maxSafeCpa = Math.max(0, (net - targetNetProfit) * (1 - rtoFrac));
   const maxCpaEl = document.getElementById('mmMaxCpa');
@@ -3074,6 +3082,8 @@ function copyMarginSummary(btn) {
   const targetMrp = targetMrpDenom > 0 ? (cogs + ship + pack + rtoDrag + cpaPerDelivered) / targetMrpDenom : 0;
   const targetMrpText = targetMrp > 0 ? `${cur}${Math.ceil(targetMrp).toLocaleString('en-IN')}` : 'N/A';
   const blendedText = document.getElementById('mmBlended100')?.textContent || `${cur}0`;
+  const prepaidProfitAtZeroDisc = sell - cogs - ship - pack - feeAmt - gstAmt;
+  const maxSafePrepaidDisc = Math.max(0, prepaidProfitAtZeroDisc - (net * (1 - rtoFrac)));
 
   const lines = [
     'MarginMint Unit Economics Breakdown',
@@ -3088,6 +3098,7 @@ function copyMarginSummary(btn) {
     `Max Safe Ad CPA (15% Net Margin): ${cur}${maxSafeCpa.toFixed(2)}`,
     `Suggested MRP (20% Net Margin): ${targetMrpText}`,
     `100-Order Blended Profit: ${blendedText}`,
+    `Max Safe UPI Discount (Beats COD): ${cur}${Math.round(maxSafePrepaidDisc).toLocaleString('en-IN')}`,
     `Fixed Monthly Overhead: ${cur}${(Number(document.getElementById('mmFixedOverhead')?.value) || 0).toLocaleString('en-IN')}`,
     `Projected Monthly Net Profit (${document.getElementById('mmMonthlyOrders')?.value || 300} orders, after overhead): ${document.getElementById('mmMonthlyProfit')?.textContent || `${cur}0`}`,
     `Break-Even Orders / Month: ${document.getElementById('mmBreakEvenOrders')?.textContent || '0 orders'}`,
