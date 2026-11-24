@@ -527,7 +527,7 @@ const MM_SAVED_KEY = 'mm_saved_skus';
 const MM_FIELD_IDS = [
   'mmCur', 'mmSell', 'mmCogs', 'mmShip', 'mmPack',
   'mmDeadWt', 'mmLen', 'mmWid', 'mmHgt', 'mmSlabRate',
-  'mmFee', 'mmGst', 'mmRto', 'mmCpa',
+  'mmFee', 'mmGst', 'mmRto', 'mmRevShip', 'mmCpa',
   'mmPrepaidShare', 'mmPrepaidDisc', 'mmMonthlyOrders'
 ];
 
@@ -2905,7 +2905,9 @@ function calcMargin() {
   const pack = Number(document.getElementById('mmPack')?.value) || 0;
   const feePct = Number(document.getElementById('mmFee')?.value) || 0;
   const gstPct = Number(document.getElementById('mmGst')?.value) || 0;
-  const rtoPct = Number(document.getElementById('mmRto')?.value) || 0;
+  const rtoPct = Math.min(90, Math.max(0, Number(document.getElementById('mmRto')?.value) || 0));
+  const revShipRaw = Number(document.getElementById('mmRevShip')?.value);
+  const revShip = Number.isFinite(revShipRaw) && revShipRaw >= 0 ? revShipRaw : 75;
   const cur = document.getElementById('mmCur')?.value || '₹';
   if (!document.getElementById('mmNet')) return;
 
@@ -2913,8 +2915,9 @@ function calcMargin() {
 
   const feeAmt = sell * (feePct / 100);
   const gstAmt = sell - (sell / (1 + gstPct / 100));
+  const rtoCostPerReturn = ship + revShip + pack;
   const rtoLossPerDelivered = rtoPct > 0 && rtoPct < 100
-    ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship * 1.8 + pack)
+    ? ((rtoPct / 100) / (1 - rtoPct / 100)) * rtoCostPerReturn
     : 0;
 
   const opsTotal = ship + pack + feeAmt + rtoLossPerDelivered;
@@ -2932,6 +2935,19 @@ function calcMargin() {
   document.getElementById('mmGstAmt').textContent = `${cur}${gstAmt.toFixed(2)}`;
   const rtoEl = document.getElementById('mmRtoAmt');
   if (rtoEl) rtoEl.textContent = `${cur}${rtoLossPerDelivered.toFixed(2)}`;
+  const rtoLoss100 = 100 * (rtoPct / 100) * rtoCostPerReturn;
+  const net100AfterRto = 100 * net * (1 - (rtoPct / 100));
+  const rtoLoss100El = document.getElementById('mmRtoLoss100');
+  if (rtoLoss100El) {
+    rtoLoss100El.textContent = `${cur}${Math.round(rtoLoss100).toLocaleString('en-IN')}`;
+    rtoLoss100El.style.color = rtoLoss100 > 0 ? 'var(--danger)' : 'var(--brand)';
+  }
+  const net100El = document.getElementById('mmNet100AfterRto');
+  if (net100El) {
+    const sign = net100AfterRto < 0 ? '-' : '';
+    net100El.textContent = `${sign}${cur}${Math.round(Math.abs(net100AfterRto)).toLocaleString('en-IN')}`;
+    net100El.style.color = net100AfterRto >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
 
   const exGstRev = sell / (1 + gstPct / 100);
   const contribBeforeAds = exGstRev - cogs - pack - ship - feeAmt - rtoLossPerDelivered;
@@ -3013,7 +3029,7 @@ function calcMargin() {
   const ordersForGoal = blendedUnitProfit > 0
     ? Math.ceil((fixedOverhead + targetProfit) / blendedUnitProfit)
     : null;
-  const monthlyRtoBurn = monthlyOrders * ((100 - prepaidShare) / 100) * rtoFrac * (ship * 1.8 + pack);
+  const monthlyRtoBurn = monthlyOrders * ((100 - prepaidShare) / 100) * rtoFrac * rtoCostPerReturn;
 
   const monthlyProfitEl = document.getElementById('mmMonthlyProfit');
   if (monthlyProfitEl) {
@@ -3067,14 +3083,16 @@ function copyMarginSummary(btn) {
   const pack = Number(document.getElementById('mmPack')?.value) || 0;
   const feePct = Number(document.getElementById('mmFee')?.value) || 0;
   const gstPct = Number(document.getElementById('mmGst')?.value) || 0;
-  const rtoPct = Number(document.getElementById('mmRto')?.value) || 0;
+  const rtoPct = Math.min(90, Math.max(0, Number(document.getElementById('mmRto')?.value) || 0));
+  const revShipRaw = Number(document.getElementById('mmRevShip')?.value);
+  const revShip = Number.isFinite(revShipRaw) && revShipRaw >= 0 ? revShipRaw : 75;
   const cur = document.getElementById('mmCur')?.value || '₹';
 
   const exGstRev = sell / (1 + gstPct / 100);
   const gstAmt = sell - exGstRev;
   const feeAmt = sell * (feePct / 100);
   const rtoDrag = rtoPct > 0 && rtoPct < 100
-    ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship * 1.8 + pack)
+    ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship + revShip + pack)
     : 0;
   const net = sell - (cogs + ship + pack + feeAmt + rtoDrag + gstAmt);
   const contribBeforeAds = exGstRev - cogs - pack - ship - feeAmt - rtoDrag;

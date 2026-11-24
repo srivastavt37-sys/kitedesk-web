@@ -149,14 +149,19 @@
             <label>Included GST Rate (%)
               <input type="number" class="mono-input" id="mmGst" value="12" min="0" max="28" oninput="calcMargin()" />
             </label>
-            <label>COD Return / RTO Rate (%)
-              <input type="number" class="mono-input" id="mmRto" value="15" min="0" max="90" oninput="calcMargin()" />
-            </label>
-          </div>
-          <div class="form-row">
             <label>Ad CPA / Placed Order
               <input type="number" class="mono-input" id="mmCpa" value="0" min="0" oninput="calcMargin()" />
             </label>
+          </div>
+          <div class="form-row">
+            <label>RTO Rate (%)
+              <input type="number" class="mono-input" id="mmRto" value="12" min="0" max="90" oninput="calcMargin()" />
+            </label>
+            <label>Reverse Shipping (&#8377;)
+              <input type="number" class="mono-input" id="mmRevShip" value="75" min="0" oninput="calcMargin()" />
+            </label>
+          </div>
+          <div class="form-row">
             <label>Prepaid Order Share (%)
               <input type="number" class="mono-input" id="mmPrepaidShare" value="35" min="0" max="100" oninput="calcMargin()" />
             </label>
@@ -164,7 +169,7 @@
               <input type="number" class="mono-input" id="mmPrepaidDisc" value="75" min="0" oninput="calcMargin()" />
             </label>
           </div>
-          <p class="muted" style="margin:0;">COD RTO models forward + return courier penalty (1.8&times; freight + wasted box) spread across delivered orders.</p>
+          <p class="muted" style="margin:0;">COD RTO models forward + reverse shipping + wasted box spread across delivered orders.</p>
         </div>
 
         <div class="card form-card">
@@ -209,6 +214,8 @@
             <div style="width:100%;"><span>Included GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>Gateway / Platform Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>COD RTO Drag per Delivered Order</span><strong id="mmRtoAmt">&#8377;0.00</strong></div>
+            <div style="width:100%;"><span>RTO Loss / 100 Orders</span><strong id="mmRtoLoss100">&#8377;0</strong></div>
+            <div style="width:100%;"><span>100-Order Net Profit (After RTO)</span><strong id="mmNet100AfterRto">&#8377;0</strong></div>
             <div style="width:100%;"><span>CM2 Contribution Before Ads</span><strong id="mmContribProfit">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>100-Order Blended Net Profit</span><strong id="mmBlended100">&#8377;0</strong></div>
             <div style="width:100%;"><span>Net Gain vs 100% COD (100 Orders)</span><strong id="mmCodGain">&#8377;0</strong></div>
