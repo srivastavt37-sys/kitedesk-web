@@ -2788,6 +2788,63 @@ function deleteSavedCopyCraftDraft(idx, ev) {
   renderSavedCopyCraftBar();
 }
 
+function exportCopyCraftDraftsCsv() {
+  let list = getSavedCopyCraftDrafts();
+  if (!list.length) {
+    const fmtEl = document.getElementById('fmtInput');
+    const gbpEl = document.getElementById('gbpDescInput');
+    const serpTitle = (document.getElementById('serpTitleInput')?.value || '').trim();
+    const serpUrl = (document.getElementById('serpUrlInput')?.value || '').trim();
+    const gbpCity = (document.getElementById('gbpCityInput')?.value || '').trim();
+    const gbpService = (document.getElementById('gbpServiceInput')?.value || '').trim();
+    const rawLabel = (document.getElementById('ccSaveLabel')?.value || '').trim()
+      || serpTitle.slice(0, 28)
+      || (gbpCity ? `${gbpCity} GBP` : '')
+      || 'Live Draft';
+    list = [{
+      label: rawLabel.slice(0, 28),
+      serpTitle: serpTitle,
+      serpUrl: serpUrl,
+      fmtInput: fmtEl ? fmtEl.value : '',
+      gbpCity: gbpCity,
+      gbpService: gbpService,
+      gbpDesc: gbpEl ? gbpEl.value : ''
+    }];
+  }
+
+  const headers = ['Label', 'BioCopy', 'SerpTitle', 'SerpURL', 'SerpDesc', 'GbpDesc'];
+  const lines = [headers.map(escapeCsvCell).join(',')];
+
+  list.forEach(item => {
+    const bioCopy = String(item.fmtInput || '');
+    const cleanDesc = bioCopy.replace(/\s+/g, ' ').trim();
+    const serpDesc = (typeof truncateSerpDescByPx === 'function')
+      ? truncateSerpDescByPx(cleanDesc, 920)
+      : cleanDesc.slice(0, 160);
+    const row = [
+      item.label || 'Saved Draft',
+      bioCopy,
+      item.serpTitle || '',
+      item.serpUrl || '',
+      serpDesc,
+      item.gbpDesc || ''
+    ].map(escapeCsvCell);
+    lines.push(row.join(','));
+  });
+
+  const csvContent = '\uFEFF' + lines.join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `copycraft-drafts-${stamp}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 updateGbpProfile();
 updateFormatter();
 renderSavedCopyCraftBar();
