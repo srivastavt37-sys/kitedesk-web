@@ -481,6 +481,29 @@ function downloadTapPingQrPng() {
 }
 window.downloadTapPingQrPng = downloadTapPingQrPng;
 
+function downloadTapPingQrSvg() {
+  const outEl = document.getElementById('waOutput');
+  const dlBtn = document.getElementById('waQrDownloadSvg') || document.getElementById('waQrDownload') || document.getElementById('waDownloadQr');
+  const url = (dlBtn && dlBtn.dataset.waUrl) || (outEl && outEl.value) || 'https://wa.me/919876543210';
+  const svgUri = buildQrSvgDataUri(url);
+  if (!svgUri) return;
+  const commaIdx = svgUri.indexOf(',');
+  const svgMarkup = commaIdx >= 0 ? decodeURIComponent(svgUri.slice(commaIdx + 1)) : '';
+  if (!svgMarkup) return;
+
+  const blob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+  const objUrl = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = objUrl;
+  a.download = 'kitedesk-whatsapp-qr.svg';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(objUrl), 2000);
+}
+window.downloadTapPingQrSvg = downloadTapPingQrSvg;
+
+
 buildWhatsApp();
     updateStandeeBrand();
     renderSavedTapPingBar();
@@ -2011,6 +2034,10 @@ function buildWhatsApp() {
     if (qrDlEl.tagName === 'A') {
       qrDlEl.removeAttribute('href');
     }
+  }
+  const qrSvgDlEl = document.getElementById('waQrDownloadSvg');
+  if (qrSvgDlEl) {
+    qrSvgDlEl.dataset.waUrl = url;
   }
   const htmlCode = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#059669;color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>`;
   const embedEl = document.getElementById('waEmbedCode');
