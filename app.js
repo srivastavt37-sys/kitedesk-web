@@ -520,6 +520,10 @@ buildWhatsApp();
     calcMargin();
     renderSavedMarginBar();
   }
+  if (document.getElementById("cpOpeningBank")) {
+    calcCashPulse();
+    renderSavedCashPulseBar();
+  }
 });
 
 /* === MarginMint Saved SKU Scenarios (localStorage, max 6) === */
@@ -3326,4 +3330,264 @@ function handleContact(e) {
   e.preventDefault();
   const st = document.getElementById('contactStatus');
   if (st) st.textContent = 'Message recorded locally. Connect Netlify Forms or Formspree to route to your email.';
+}
+
+
+/* === CashPulse — Indian D2C Cashflow, COD Remittance Lag & 90-Day Runway === */
+const CP_SAVED_KEY = 'kitedesk_cashpulse_snapshots_v1';
+const CP_FIELD_IDS = [
+  'cpOpeningBank', 'cpMonthlyRev', 'cpCodShare', 'cpCodLag',
+  'cpAdSpend', 'cpCogsPack', 'cpFixedOverheads', 'cpGstOutflow'
+];
+
+function cpNum(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  const v = parseFloat(el.value);
+  return Number.isFinite(v) && v >= 0 ? v : 0;
+}
+
+function cpFmtInr(val) {
+  const n = Number.isFinite(val) ? val : 0;
+  const sign = n < 0 ? '-' : '';
+  return sign + '₹' + Math.round(Math.abs(n)).toLocaleString('en-IN');
+}
+
+function computeCashPulseMetrics() {
+  const openingBank = cpNum('cpOpeningBank');
+  const monthlyRev = cpNum('cpMonthlyRev');
+  const codShare = Math.min(100, cpNum('cpCodShare'));
+  const codLag = Math.min(45, cpNum('cpCodLag'));
+  const adSpend = cpNum('cpAdSpend');
+  const cogsPack = cpNum('cpCogsPack');
+  const fixedOverheads = cpNum('cpFixedOverheads');
+  const gstOutflow = cpNum('cpGstOutflow');
+
+  const dailyRev = monthlyRev / 30;
+  const dailyCodSales = dailyRev * (codShare / 100);
+  const monthlyOutflow = adSpend + cogsPack + fixedOverheads + gstOutflow;
+  const dailyOutflow = monthlyOutflow / 30;
+  const dailyNet = dailyRev - dailyOutflow;
+
+  const codTrapped = dailyCodSales * codLag;
+  const balance30 = openingBank + (dailyNet * 30) - codTrapped;
+  const balance60 = openingBank + (dailyNet * 60) - codTrapped;
+  const balance90 = openingBank + (dailyNet * 90) - codTrapped;
+  const bufferAfterFloat = openingBank - codTrapped;
+
+  const shiftPts = Math.min(codShare, 15);
+  const prepaidUnlock = dailyRev * (shiftPts / 100) * codLag;
+
+  let runwayStatus = 'Cashflow Positive';
+  if (dailyNet < 0) {
+    const absBurn = Math.abs(dailyNet);
+    const runwayDays = absBurn > 0 ? Math.max(0, Math.floor(Math.max(0, bufferAfterFloat) / absBurn)) : 0;
+    if (runwayDays <= 30) {
+      runwayStatus = 'Critical (' + runwayDays + 'd)';
+    } else if (runwayDays <= 90) {
+      runwayStatus = 'Watch (' + runwayDays + 'd)';
+    } else {
+      runwayStatus = runwayDays + ' Days Runway';
+    }
+  } else if (bufferAfterFloat < 0) {
+    runwayStatus = 'COD Float Crunch';
+  } else if (balance90 < openingBank * 0.5) {
+    runwayStatus = 'Thin Buffer';
+  }
+
+  return {
+    openingBank, monthlyRev, codShare, codLag,
+    adSpend, cogsPack, fixedOverheads, gstOutflow,
+    dailyRev, dailyCodSales, monthlyOutflow, dailyOutflow, dailyNet,
+    codTrapped, balance30, balance60, balance90, bufferAfterFloat,
+    prepaidUnlock, runwayStatus
+  };
+}
+
+function calcCashPulse() {
+  if (!document.getElementById('cpOpeningBank')) return;
+  const m = computeCashPulseMetrics();
+
+  const dailyEl = document.getElementById('cpDailyNet');
+  if (dailyEl) {
+    dailyEl.textContent = (m.dailyNet >= 0 ? '+' : '') + cpFmtInr(m.dailyNet) + '/day';
+    dailyEl.style.color = m.dailyNet >= 0 ? 'var(--success, #059669)' : 'var(--danger, #dc2626)';
+  }
+  const trappedEl = document.getElementById('cpCodTrapped');
+  if (trappedEl) trappedEl.textContent = cpFmtInr(m.codTrapped);
+
+  const bal90El = document.getElementById('cpBalance90');
+  if (bal90El) {
+    bal90El.textContent = cpFmtInr(m.balance90);
+    bal90El.style.color = m.balance90 >= 0 ? 'var(--ink, #0f172a)' : 'var(--danger, #dc2626)';
+  }
+
+  const statusEl = document.getElementById('cpRunwayStatus');
+  if (statusEl) {
+    statusEl.textContent = m.runwayStatus;
+    statusEl.style.color = m.runwayStatus.indexOf('Critical') === 0 || m.runwayStatus.indexOf('Crunch') !== -1
+      ? 'var(--danger, #dc2626)'
+      : (m.runwayStatus === 'Cashflow Positive' ? 'var(--success, #059669)' : 'var(--brand, #0369a1)');
+  }
+
+  const unlockEl = document.getElementById('cpPrepaidUnlock');
+  if (unlockEl) unlockEl.textContent = cpFmtInr(m.prepaidUnlock);
+
+  const b30El = document.getElementById('cpBalance30');
+  if (b30El) b30El.textContent = cpFmtInr(m.balance30);
+  const b60El = document.getElementById('cpBalance60');
+  if (b60El) b60El.textContent = cpFmtInr(m.balance60);
+  const outEl = document.getElementById('cpMonthlyOutflow');
+  if (outEl) outEl.textContent = cpFmtInr(m.monthlyOutflow);
+  const bufEl = document.getElementById('cpBufferAfterFloat');
+  if (bufEl) {
+    bufEl.textContent = cpFmtInr(m.bufferAfterFloat);
+    bufEl.style.color = m.bufferAfterFloat >= 0 ? 'var(--ink, #0f172a)' : 'var(--danger, #dc2626)';
+  }
+
+  const base = Math.max(m.monthlyRev, m.monthlyOutflow, 1);
+  const cogsPct = Math.min(100, (m.cogsPack / base) * 100);
+  const adsPct = Math.min(100 - cogsPct, (m.adSpend / base) * 100);
+  const fixedGstPct = Math.min(100 - cogsPct - adsPct, ((m.fixedOverheads + m.gstOutflow) / base) * 100);
+  const netPct = Math.max(0, 100 - cogsPct - adsPct - fixedGstPct);
+
+  const bCogs = document.getElementById('cpBarCogs');
+  const bAds = document.getElementById('cpBarAds');
+  const bFix = document.getElementById('cpBarFixedGst');
+  const bNet = document.getElementById('cpBarNet');
+  if (bCogs) bCogs.style.width = cogsPct.toFixed(1) + '%';
+  if (bAds) bAds.style.width = adsPct.toFixed(1) + '%';
+  if (bFix) bFix.style.width = fixedGstPct.toFixed(1) + '%';
+  if (bNet) bNet.style.width = netPct.toFixed(1) + '%';
+
+  const noteEl = document.getElementById('cpActionNote');
+  if (noteEl) {
+    if (m.bufferAfterFloat < 0) {
+      noteEl.textContent = 'Alert: COD transit float exceeds your opening bank balance. Shift 15% of COD orders to UPI to unlock ' + cpFmtInr(m.prepaidUnlock) + ' immediately.';
+    } else if (m.dailyNet < 0) {
+      noteEl.textContent = 'Burning ' + cpFmtInr(Math.abs(m.dailyNet)) + '/day. Trim ad spend or raise prepaid share to extend runway.';
+    } else {
+      noteEl.textContent = 'Healthy surplus: shifting 15% of COD to UPI frees ' + cpFmtInr(m.prepaidUnlock) + ' in working capital.';
+    }
+  }
+}
+
+function getSavedCashPulseSnapshots() {
+  try {
+    const raw = localStorage.getItem(CP_SAVED_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.slice(0, 6);
+    }
+  } catch (e) {}
+  return [];
+}
+
+function renderSavedCashPulseBar() {
+  const container = document.getElementById('cpSavedList');
+  if (!container) return;
+  const list = getSavedCashPulseSnapshots();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No saved snapshots yet. Click "+ Save Snapshot" to store up to 6 cashflow scenarios locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const label = escapeHtml(item.label || ('Snapshot #' + (idx + 1)));
+    const bal = escapeHtml(item.bal90 || '');
+    return '<span class="bf-saved-chip" onclick="loadSavedCashPulseSnapshot(' + idx + ')" title="Load snapshot">'
+      + '<span>' + label + (bal ? ' (' + bal + ')' : '') + '</span>'
+      + '<button type="button" class="bf-chip-del" aria-label="Delete snapshot" onclick="deleteSavedCashPulseSnapshot(' + idx + ', event)">&times;</button>'
+      + '</span>';
+  }).join('');
+}
+
+function saveCashPulseSnapshot() {
+  const labelEl = document.getElementById('cpSaveLabel');
+  const m = computeCashPulseMetrics();
+  const defaultLabel = 'Rev ' + cpFmtInr(m.monthlyRev) + ' (' + m.codShare + '% COD)';
+  const label = (labelEl && labelEl.value.trim()) ? labelEl.value.trim().slice(0, 32) : defaultLabel;
+
+  const data = {};
+  CP_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+
+  const list = getSavedCashPulseSnapshots();
+  list.unshift({ label, bal90: cpFmtInr(m.balance90), savedAt: new Date().toISOString(), data });
+  try {
+    localStorage.setItem(CP_SAVED_KEY, JSON.stringify(list.slice(0, 6)));
+  } catch (e) {}
+  if (labelEl) labelEl.value = '';
+  renderSavedCashPulseBar();
+}
+
+function loadSavedCashPulseSnapshot(idx) {
+  const list = getSavedCashPulseSnapshots();
+  const item = list[idx];
+  if (!item || !item.data) return;
+  CP_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && item.data[id] !== undefined) el.value = item.data[id];
+  });
+  calcCashPulse();
+}
+
+function deleteSavedCashPulseSnapshot(idx, ev) {
+  if (ev && ev.stopPropagation) ev.stopPropagation();
+  const list = getSavedCashPulseSnapshots();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem(CP_SAVED_KEY, JSON.stringify(list));
+  } catch (e) {}
+  renderSavedCashPulseBar();
+}
+
+function exportCashPulseCsv() {
+  const m = computeCashPulseMetrics();
+  const headers = ['Day', 'Opening_Balance_INR', 'Prepaid_Inflow_INR', 'COD_Settled_INR', 'Daily_Outflow_INR', 'Closing_Balance_INR', 'COD_Trapped_Float_INR'];
+  const rows = [headers.map(escapeCsvCell).join(',')];
+
+  const dailyPrepaid = m.dailyRev * (1 - m.codShare / 100);
+  let bal = m.openingBank;
+  for (let day = 1; day <= 90; day++) {
+    const codSettled = day > m.codLag ? m.dailyCodSales : 0;
+    const closing = bal + dailyPrepaid + codSettled - m.dailyOutflow;
+    rows.push([
+      day,
+      bal.toFixed(2),
+      dailyPrepaid.toFixed(2),
+      codSettled.toFixed(2),
+      m.dailyOutflow.toFixed(2),
+      closing.toFixed(2),
+      m.codTrapped.toFixed(2)
+    ].map(escapeCsvCell).join(','));
+    bal = closing;
+  }
+
+  const csvContent = '\uFEFF' + rows.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'kitedesk-cashpulse-90day-cashflow.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function copyCashPulseSummary(btn) {
+  const m = computeCashPulseMetrics();
+  const summary = [
+    'CashPulse 90-Day Cashflow Summary (KiteDesk Studio)',
+    'Opening Bank Balance: ' + cpFmtInr(m.openingBank),
+    'Monthly Revenue: ' + cpFmtInr(m.monthlyRev) + ' (' + m.codShare + '% COD @ T+' + m.codLag + 'd lag)',
+    'Monthly Outflow: ' + cpFmtInr(m.monthlyOutflow),
+    'Daily Cash Surplus/Burn: ' + (m.dailyNet >= 0 ? '+' : '') + cpFmtInr(m.dailyNet) + '/day',
+    'Cash Trapped in COD Transit: ' + cpFmtInr(m.codTrapped),
+    '90-Day Projected Balance: ' + cpFmtInr(m.balance90) + ' (' + m.runwayStatus + ')',
+    'Prepaid-Switch Unlock (15% COD -> UPI): ' + cpFmtInr(m.prepaidUnlock)
+  ].join('\n');
+  copyWithFallback(summary, btn);
 }

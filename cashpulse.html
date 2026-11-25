@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>CashPulse by KiteDesk — Indian D2C Cashflow, COD Remittance Lag &amp; 90-Day Runway Planner</title>
+  <meta name="description" content="Calculate daily cash burn or surplus, working capital trapped in COD remittance lag, 90-day projected bank balance, and prepaid UPI cash unlock for Indian D2C brands and SMBs." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/cashpulse.html" />
+  <meta property="og:title" content="CashPulse by KiteDesk — Indian D2C Cashflow, COD Remittance Lag & 90-Day Runway Planner" />
+  <meta property="og:description" content="100% browser-local 90-day cashflow & COD remittance lag planner for Indian D2C brands, kiranas, and agencies." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/cashpulse.html" />
+  <meta property="og:site_name" content="KiteDesk Studio" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CashPulse Indian D2C Cashflow & COD Remittance Lag Planner",
+  "url": "https://srivastavt37-sys.github.io/kitedesk-web/cashpulse.html",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "description": "Free 100% client-side 90-day cashflow, COD remittance lag, and prepaid UPI working-capital unlock planner for Indian D2C sellers and SMBs.",
+  "featureList": [
+    "Daily cash surplus or burn calculation",
+    "Cash trapped in COD courier transit",
+    "90-day projected bank balance & runway status",
+    "15% COD-to-UPI prepaid cash unlock estimator",
+    "90-day CSV cashflow export & localStorage snapshots"
+  ]
+}
+  </script>
+</head>
+<body data-brand="cashpulse">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand-group">
+        <a href="cashpulse.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <span>CashPulse</span>
+        </a>
+        <a href="index.html" class="by-kitedesk">by KiteDesk</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="cashpulse.html" class="active">CashPulse</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html">Journal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div>
+            <h1>CashPulse — D2C Cashflow, COD Lag &amp; 90-Day Runway</h1>
+            <p>Spot cash trapped in courier COD transit before Meta Ads and GST outflows drain your bank account.</p>
+          </div>
+        </div>
+        <div class="sub-hero-actions" role="group" aria-label="Indian SMB Cashflow Presets">
+          <button type="button" class="chip cp-preset-btn active" onclick="applyCashPulsePreset('d2c_apparel', this)">D2C Apparel (&#8377;18L/mo)</button>
+          <button type="button" class="chip cp-preset-btn" onclick="applyCashPulsePreset('kirana', this)">Kirana + Hyperlocal</button>
+          <button type="button" class="chip cp-preset-btn" onclick="applyCashPulsePreset('agency', this)">Freelance / Agency</button>
+        </div>
+      </div>
+
+      <div class="bf-history-bar" id="cpHistoryBar" aria-label="Saved Cashflow Snapshots" style="margin-bottom: 14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0;">
+          <span class="mini-badge" style="flex-shrink:0;">Saved Snapshots</span>
+          <div id="cpSavedList" class="bf-saved-chips"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;">
+          <input type="text" id="cpSaveLabel" placeholder="Snapshot label (e.g. Nov Festive)" maxlength="32" style="width:185px;padding:4px 8px;font-size:0.76rem;" />
+          <button type="button" class="btn btn-sm btn-outline" onclick="saveCashPulseSnapshot()">+ Save Snapshot</button>
+          <button type="button" id="cpExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportCashPulseCsv()">Export 90-Day Cashflow (.csv)</button>
+        </div>
+      </div>
+
+      <div class="tool-layout">
+        <div class="card form-card">
+          <h3>1. Bank Balance, Revenue &amp; COD Lag</h3>
+          <div class="form-row">
+            <label>Opening Bank Balance (&#8377;)
+              <input type="number" class="mono-input" id="cpOpeningBank" value="450000" min="0" step="5000" oninput="calcCashPulse()" />
+            </label>
+            <label>Monthly Revenue (&#8377;)
+              <input type="number" class="mono-input" id="cpMonthlyRev" value="1800000" min="0" step="10000" oninput="calcCashPulse()" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>COD Share (%)
+              <input type="number" class="mono-input" id="cpCodShare" value="62" min="0" max="100" step="1" oninput="calcCashPulse()" />
+            </label>
+            <label>COD Remittance Lag (Days)
+              <input type="number" class="mono-input" id="cpCodLag" value="6" min="0" max="45" step="1" oninput="calcCashPulse()" />
+            </label>
+          </div>
+
+          <h3 style="margin-top:8px;">2. Monthly Cash Outflows</h3>
+          <div class="form-row">
+            <label>Monthly Ad Spend (&#8377;)
+              <input type="number" class="mono-input" id="cpAdSpend" value="360000" min="0" step="5000" oninput="calcCashPulse()" />
+            </label>
+            <label>Monthly COGS &amp; Packaging (&#8377;)
+              <input type="number" class="mono-input" id="cpCogsPack" value="680000" min="0" step="5000" oninput="calcCashPulse()" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Fixed Overheads &amp; Salaries (&#8377;)
+              <input type="number" class="mono-input" id="cpFixedOverheads" value="240000" min="0" step="5000" oninput="calcCashPulse()" />
+            </label>
+            <label>Net GST Outflow (&#8377;/mo)
+              <input type="number" class="mono-input" id="cpGstOutflow" value="145000" min="0" step="5000" oninput="calcCashPulse()" />
+            </label>
+          </div>
+          <p class="muted" style="margin:0;">Models T+1 UPI settlements vs. T+N courier COD payouts, daily Meta/Google ad debits, COGS restocking, fixed salaries, and GSTR-3B outflow.</p>
+        </div>
+
+        <div class="card form-card">
+          <h3>3. 90-Day Cashflow &amp; Runway Output</h3>
+          <div class="kpi-grid">
+            <div class="kpi-box"><span>Daily Cash Surplus / Burn</span><strong id="cpDailyNet">&#8377;0</strong></div>
+            <div class="kpi-box"><span>Cash Trapped in COD Transit</span><strong id="cpCodTrapped">&#8377;0</strong></div>
+            <div class="kpi-box"><span>90-Day Projected Bank Balance</span><strong id="cpBalance90">&#8377;0</strong></div>
+            <div class="kpi-box"><span>Runway Status</span><strong id="cpRunwayStatus">Cashflow Positive</strong></div>
+          </div>
+
+          <div class="cost-bar-wrap">
+            <div class="cost-bar">
+              <div id="cpBarCogs" class="cost-seg-cogs" style="width:38%;"></div>
+              <div id="cpBarAds" class="cost-seg-ops" style="width:20%;"></div>
+              <div id="cpBarFixedGst" class="cost-seg-tax" style="width:21%;"></div>
+              <div id="cpBarNet" class="cost-seg-profit" style="width:21%;"></div>
+            </div>
+            <div class="cost-legend">
+              <span class="leg-cogs">COGS &amp; Pack</span>
+              <span class="leg-ops">Ad Spend</span>
+              <span class="leg-tax">Overheads + GST</span>
+              <span class="leg-profit">Net Cash Surplus</span>
+            </div>
+          </div>
+
+          <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
+            <div style="width:100%;border-top:2px solid var(--brand);padding-top:8px;"><span>Prepaid-Switch Cash Unlock (15% COD &rarr; UPI)</span><strong id="cpPrepaidUnlock" style="color:var(--brand);">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Day 30 Projected Balance</span><strong id="cpBalance30">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Day 60 Projected Balance</span><strong id="cpBalance60">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Total Monthly Cash Outflow</span><strong id="cpMonthlyOutflow">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Effective Bank Buffer After COD Float</span><strong id="cpBufferAfterFloat">&#8377;0</strong></div>
+          </div>
+
+          <div class="tool-actions">
+            <button type="button" class="btn btn-primary" onclick="copyCashPulseSummary(this)">Copy Cashflow Summary</button>
+            <button type="button" class="btn btn-outline" onclick="exportCashPulseCsv()">Download 90-Day CSV</button>
+          </div>
+          <p class="muted" id="cpActionNote" style="margin:4px 0 0;"></p>
+        </div>
+      </div>
+
+      <section class="card" style="margin-top: 28px;">
+        <span class="eyebrow">Working Capital Benchmark</span>
+        <h2 style="margin-top:4px;">How COD Remittance Lag Compares to UPI &amp; B2B Retainers</h2>
+        <div class="table-wrap" style="overflow-x:auto;margin-top:14px;">
+          <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);text-align:left;">
+                <th style="padding:10px 8px;">Payment Mode</th>
+                <th style="padding:10px 8px;">Typical Payout Lag</th>
+                <th style="padding:10px 8px;">Trapped Float on &#8377;18L/mo</th>
+                <th style="padding:10px 8px;">Best Mitigation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:10px 8px;"><strong>UPI / Prepaid Cards</strong></td>
+                <td style="padding:10px 8px;">T+1 to T+2 days</td>
+                <td style="padding:10px 8px;">&#8377;22,800 (at 38% share)</td>
+                <td style="padding:10px 8px;">Offer &#8377;50&ndash;&#8377;75 UPI checkout discount via <a href="marginmint.html">MarginMint</a></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:10px 8px;"><strong>Courier COD (Standard)</strong></td>
+                <td style="padding:10px 8px;">T+6 to T+9 days</td>
+                <td style="padding:10px 8px;">&#8377;2,23,200 (at 62% share, T+6)</td>
+                <td style="padding:10px 8px;">Send <a href="tapping.html">TapPing</a> WhatsApp UPI pay link before dispatch</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;"><strong>B2B / Agency Retainers</strong></td>
+                <td style="padding:10px 8px;">Net-15 to Net-30</td>
+                <td style="padding:10px 8px;">&#8377;2,40,000+ (15-day cycle)</td>
+                <td style="padding:10px 8px;">Embed UPI QR &amp; advance terms on <a href="billfold.html">BillFold</a> invoices</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk</span><span class="studio-pill">Studio</span>
+        </a>
+        <p class="footer-note">Zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, CopyCraft, and CashPulse.</p>
+      </div>
+      <div>
+        <h4>Sub-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold &mdash; GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing &mdash; WhatsApp &amp; QR</a></li>
+          <li><a href="marginmint.html">MarginMint &mdash; D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft &mdash; Bio &amp; SERP Studio</a></li>
+          <li><a href="cashpulse.html">CashPulse &mdash; 90-Day Cashflow &amp; COD Lag</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About KiteDesk</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. All tools run locally in your browser.</span>
+      <a href="sitemap.xml">Sitemap</a>
+    </div>
+  </footer>
+
+  <script>
+    const CASHPULSE_PRESETS = {
+      d2c_apparel: { openingBank: 450000, monthlyRev: 1800000, codShare: 62, codLag: 6, adSpend: 360000, cogsPack: 680000, fixedOverheads: 240000, gstOutflow: 145000 },
+      kirana:      { openingBank: 180000, monthlyRev: 750000,  codShare: 35, codLag: 2, adSpend: 25000,  cogsPack: 560000, fixedOverheads: 65000,  gstOutflow: 28000 },
+      agency:      { openingBank: 320000, monthlyRev: 480000,  codShare: 20, codLag: 15, adSpend: 30000, cogsPack: 45000,  fixedOverheads: 140000, gstOutflow: 62000 }
+    };
+
+    function applyCashPulsePreset(key, btnEl) {
+      const p = CASHPULSE_PRESETS[key];
+      if (!p) return;
+      document.getElementById('cpOpeningBank').value = p.openingBank;
+      document.getElementById('cpMonthlyRev').value = p.monthlyRev;
+      document.getElementById('cpCodShare').value = p.codShare;
+      document.getElementById('cpCodLag').value = p.codLag;
+      document.getElementById('cpAdSpend').value = p.adSpend;
+      document.getElementById('cpCogsPack').value = p.cogsPack;
+      document.getElementById('cpFixedOverheads').value = p.fixedOverheads;
+      document.getElementById('cpGstOutflow').value = p.gstOutflow;
+
+      document.querySelectorAll('.cp-preset-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      if (btnEl) btnEl.classList.add('active');
+
+      if (typeof calcCashPulse === 'function') {
+        calcCashPulse();
+      }
+    }
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

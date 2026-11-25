@@ -51,6 +51,12 @@ body[data-brand="marginmint"] {
   --brand-soft: #ccfbf1;
   --brand-accent: #f59e0b;
 }
+body[data-brand="cashpulse"] {
+  --brand: #0369a1;
+  --brand-dark: #075985;
+  --brand-soft: #e0f2fe;
+  --brand-accent: #10b981;
+}
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -312,6 +318,7 @@ a:hover { color: var(--brand-dark); }
 }
 .text-link { font-weight: 700; font-size: 0.9rem; color: var(--brand); }
 .cards-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.cards-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
 .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .card {
   background: var(--surface);
@@ -335,6 +342,7 @@ a:hover { color: var(--brand-dark); }
 .subbrand-card.is-tapping { border-top-color: #059669; }
 .subbrand-card.is-copycraft { border-top-color: #c2410c; }
 .subbrand-card.is-marginmint { border-top-color: #0d9488; }
+.subbrand-card.is-cashpulse { border-top-color: #0369a1; }
 .subbrand-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .subbrand-title-wrap { display: flex; align-items: center; gap: 12px; }
 .subbrand-icon {
@@ -352,6 +360,7 @@ a:hover { color: var(--brand-dark); }
 .is-tapping .subbrand-icon { background: #059669; }
 .is-copycraft .subbrand-icon { background: #c2410c; }
 .is-marginmint .subbrand-icon { background: #0d9488; }
+.is-cashpulse .subbrand-icon { background: #0369a1; }
 .subbrand-head h3 { margin: 0; font-size: 1.25rem; }
 .subbrand-head span { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
 .subbrand-features {
@@ -1154,7 +1163,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 @media (max-width: 900px) {
-  .hero-grid, .cards-4, .cards-3, .tool-layout, .footer-grid, .char-meters, .mini-grid, .media-showcase { grid-template-columns: 1fr; }
+  .hero-grid, .cards-5, .cards-4, .cards-3, .tool-layout, .footer-grid, .char-meters, .mini-grid, .media-showcase { grid-template-columns: 1fr; }
   .vol-dims-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .search-input { min-width: 0; width: 100%; }
   .nav-toggle { display: block; }
