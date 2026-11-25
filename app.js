@@ -3377,6 +3377,9 @@ function computeCashPulseMetrics() {
 
   const shiftPts = Math.min(codShare, 15);
   const prepaidUnlock = dailyRev * (shiftPts / 100) * codLag;
+  const safeBuffer15d = (dailyOutflow * 15) + codTrapped;
+  const safeBufferGap = openingBank - safeBuffer15d;
+  const belowSafeBuffer = openingBank < safeBuffer15d;
 
   let runwayStatus = 'Cashflow Positive';
   if (dailyNet < 0) {
@@ -3400,7 +3403,7 @@ function computeCashPulseMetrics() {
     adSpend, cogsPack, fixedOverheads, gstOutflow,
     dailyRev, dailyCodSales, monthlyOutflow, dailyOutflow, dailyNet,
     codTrapped, balance30, balance60, balance90, bufferAfterFloat,
-    prepaidUnlock, runwayStatus
+    prepaidUnlock, safeBuffer15d, safeBufferGap, belowSafeBuffer, runwayStatus
   };
 }
 
@@ -3443,6 +3446,18 @@ function calcCashPulse() {
   if (bufEl) {
     bufEl.textContent = cpFmtInr(m.bufferAfterFloat);
     bufEl.style.color = m.bufferAfterFloat >= 0 ? 'var(--ink, #0f172a)' : 'var(--danger, #dc2626)';
+  }
+  const safeBufEl = document.getElementById('cpSafeBuffer15d');
+  if (safeBufEl) safeBufEl.textContent = cpFmtInr(m.safeBuffer15d);
+  const safeStatusEl = document.getElementById('cpSafeBufferStatus');
+  if (safeStatusEl) {
+    if (m.belowSafeBuffer) {
+      safeStatusEl.textContent = 'Below Safe Buffer (-' + cpFmtInr(Math.abs(m.safeBufferGap)) + ')';
+      safeStatusEl.style.color = 'var(--danger, #dc2626)';
+    } else {
+      safeStatusEl.textContent = 'Safe (+' + cpFmtInr(m.safeBufferGap) + ' cushion)';
+      safeStatusEl.style.color = 'var(--success, #059669)';
+    }
   }
 
   const base = Math.max(m.monthlyRev, m.monthlyOutflow, 1);
