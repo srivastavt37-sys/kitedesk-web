@@ -2042,6 +2042,27 @@ function buildWhatsApp() {
   if (chatPreviewEl) {
     chatPreviewEl.textContent = taggedMsg || 'No pre-filled message (opens blank chat)';
   }
+  const msgStatsEl = document.getElementById('waMsgStats');
+  if (msgStatsEl) {
+    const msgLen = taggedMsg.length;
+    let readability = 'Above mobile fold';
+    let color = '#059669';
+    if (msgLen === 0) {
+      readability = 'Blank chat';
+      color = '#64748b';
+    } else if (msgLen > 4096) {
+      readability = 'Exceeds 4,096 limit';
+      color = '#dc2626';
+    } else if (msgLen > 1024) {
+      readability = 'Truncated on mobile fold';
+      color = '#c2410c';
+    } else if (msgLen > 240) {
+      readability = 'Multi-scroll · Good';
+      color = '#0f4c5c';
+    }
+    msgStatsEl.textContent = `${msgLen} / 1,024 fold · 4,096 max · ${readability}`;
+    msgStatsEl.style.color = color;
+  }
   const outEl = document.getElementById('waOutput');
   if (outEl) outEl.value = url;
   const lenEl = document.getElementById('waLinkLen');

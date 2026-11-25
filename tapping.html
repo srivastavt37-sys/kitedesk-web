@@ -122,6 +122,7 @@
               <button type="button" class="chip" onclick="setWaTemplate('Hi! Can you share bulk / wholesale pricing for my store?', this)">Wholesale Inquiry</button>
               <button type="button" class="chip" onclick="setWaTemplate('Hi! Confirming my Order #[Order ID]. Please share the UPI QR so I can switch from COD to Prepaid and save ₹75 + get priority dispatch.', this)">COD &rarr; UPI ₹75 Switch</button>
               <button type="button" class="chip" onclick="setWaTemplate('Hi! Loved my recent order #[Order ID] — sharing my 5-star Google review screenshot. Please send my ₹100 repeat-order UPI code!', this)">5-Star Review + Repeat</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! I left items in my cart (Order #[Order ID]). Please share the UPI link so I can claim my ₹100 prepaid discount before stock runs out.', this)">Abandoned Cart ₹100 UPI</button>
             </div>
           </div>
           <label>Channel Source Tag <span class="muted">(Optional — appends [Ref: ...] to track where the chat came from)</span>
@@ -133,7 +134,11 @@
               <option value="Counter Standee">Counter Standee</option>
             </select>
           </label>
-          <label>Custom Pre-filled Customer Message
+          <label>
+            <span style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span>Custom Pre-filled Customer Message</span>
+              <span id="waMsgStats" class="muted" style="font-family:var(--font-mono, 'JetBrains Mono', monospace); font-size:0.76rem; font-weight:600; color:#059669;">106 / 1,024 fold · 4,096 max · Above mobile fold</span>
+            </span>
             <textarea id="waMsg" rows="3" oninput="buildWhatsApp()">Hi! I saw your catalog and want to place an order. Please share available sizes and payment link.</textarea>
             <div class="preset-chips" style="margin-top:6px;" aria-label="Quick token insert">
               <button type="button" class="chip" style="padding:3px 9px;font-size:0.72rem;" onclick="insertWaToken('Order ID: #____')">+ Order ID</button>
