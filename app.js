@@ -2450,15 +2450,22 @@ function updateFormatter() {
       kwStatusEl.textContent = 'Optional keyword check';
       kwStatusEl.style.color = 'var(--muted)';
     } else {
-      const inTitle = serpTitle.toLowerCase().includes(kw);
-      const inDesc = cleanDesc.toLowerCase().includes(kw);
-      if (inTitle && inDesc) {
+      const countOcc = (haystack, needle) => (needle ? haystack.toLowerCase().split(needle).length - 1 : 0);
+      const titleHits = countOcc(serpTitle, kw);
+      const descHits = countOcc(cleanDesc, kw);
+      if (titleHits > 2 || descHits > 3) {
+        const warns = [];
+        if (titleHits > 2) warns.push(`Title ${titleHits}x (>2)`);
+        if (descHits > 3) warns.push(`Desc ${descHits}x (>3)`);
+        kwStatusEl.textContent = `Stuffing risk: ${warns.join(', ')}`;
+        kwStatusEl.style.color = '#c2410c';
+      } else if (titleHits > 0 && descHits > 0) {
         kwStatusEl.textContent = 'Matched in Title + Desc \u2713';
         kwStatusEl.style.color = '#059669';
-      } else if (inTitle) {
+      } else if (titleHits > 0) {
         kwStatusEl.textContent = 'Title only';
         kwStatusEl.style.color = '#0f4c5c';
-      } else if (inDesc) {
+      } else if (descHits > 0) {
         kwStatusEl.textContent = 'Desc only';
         kwStatusEl.style.color = '#0f4c5c';
       } else {
@@ -3185,6 +3192,55 @@ function copySerpMetaTags(btn) {
     const orig = btn.textContent;
     btn.textContent = 'Copied <meta> Tags ✓';
     setTimeout(() => btn.textContent = orig, 1600);
+  }
+}
+
+function copySerpJsonLd(btn) {
+  const titleText = (document.getElementById('serpTitleInput')?.value || '').trim() || 'Your Brand — Official Store & Custom Orders';
+  const descRaw = (document.getElementById('fmtInput')?.value || '').replace(/\s+/g, ' ').trim();
+  const descText = descRaw || 'Shop quality products with fast pan-India dispatch and UPI support.';
+  const urlText = (document.getElementById('serpUrlInput')?.value || '').trim() || 'https://kitedesk.in/shop/festive-jootis';
+  const schemaTypeRaw = (document.getElementById('schemaTypeSelect')?.value || 'WebPage').trim();
+  const allowedTypes = ['WebPage', 'Product', 'LocalBusiness'];
+  const schemaType = allowedTypes.includes(schemaTypeRaw) ? schemaTypeRaw : 'WebPage';
+  const labelBrand = (document.getElementById('ccSaveLabel')?.value || '').trim();
+  let hostBrand = '';
+  try {
+    hostBrand = new URL(urlText).hostname.replace(/^www\./i, '');
+  } catch (_) {
+    hostBrand = '';
+  }
+  const brandName = labelBrand || (titleText.includes('|') ? titleText.split('|')[0].trim() : '') || hostBrand || 'KiteDesk Seller';
+
+  const schemaObj = {
+    '@context': 'https://schema.org',
+    '@type': schemaType,
+    name: titleText,
+    description: descText,
+    url: urlText
+  };
+
+  if (schemaType === 'Product') {
+    schemaObj.brand = { '@type': 'Brand', name: brandName };
+  } else if (schemaType === 'LocalBusiness') {
+    const cityVal = (document.getElementById('gbpCityInput')?.value || '').trim();
+    const serviceVal = (document.getElementById('gbpServiceInput')?.value || '').trim();
+    schemaObj.address = cityVal
+      ? { '@type': 'PostalAddress', addressLocality: cityVal, addressCountry: 'IN' }
+      : { '@type': 'PostalAddress', addressCountry: 'IN' };
+    if (serviceVal) schemaObj.makesOffer = serviceVal;
+  } else {
+    schemaObj.publisher = { '@type': 'Organization', name: brandName };
+  }
+
+  const safeJson = JSON.stringify(schemaObj, null, 2).replace(/</g, '\\u003c');
+  const scriptBlock = `<script type="application/ld+json">\n${safeJson}\n<\/script>`;
+  copyWithFallback(scriptBlock, btn);
+  if (btn) {
+    if (!btn.dataset.origLabel) btn.dataset.origLabel = btn.textContent;
+    btn.textContent = 'Copied JSON-LD ✓';
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(() => { btn.textContent = btn.dataset.origLabel; }, 1600);
   }
 }
 
