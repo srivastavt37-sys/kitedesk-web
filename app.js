@@ -1608,6 +1608,31 @@ function renderInvoice() {
     wordsEl.textContent = numberToIndianWords(total, cur);
   }
 
+  const gstr1El = document.getElementById('prevGstr1Bucket');
+  if (gstr1El) {
+    const cleanToGstin = (toGstin || '').trim().toUpperCase();
+    const isValidBuyerGstin = GSTIN_REGEX.test(cleanToGstin) && Boolean(GST_STATE_CODES[cleanToGstin.slice(0, 2)]);
+    let gstr1Label = 'B2CS · Table 7';
+    let gstr1Title = 'GSTR-1 Table 7: Unregistered / Intra-state or Inter-state B2C supply <= ₹2,50,000';
+    let gstr1Bg = '#f1f5f9';
+    let gstr1Color = '#334155';
+    if (isValidBuyerGstin) {
+      gstr1Label = 'B2B · Table 4A';
+      gstr1Title = 'GSTR-1 Table 4A: Taxable B2B supply to registered GSTIN';
+      gstr1Bg = '#eff6ff';
+      gstr1Color = '#1e3a8a';
+    } else if (cur === '₹' && taxMode === 'igst' && total > 250000) {
+      gstr1Label = 'B2CL · Table 5A';
+      gstr1Title = 'GSTR-1 Table 5A: Inter-state B2C Large invoice > ₹2,50,000';
+      gstr1Bg = '#fef3c7';
+      gstr1Color = '#92400e';
+    }
+    gstr1El.textContent = gstr1Label;
+    gstr1El.setAttribute('title', gstr1Title);
+    gstr1El.style.background = gstr1Bg;
+    gstr1El.style.color = gstr1Color;
+  }
+
   const ewayAlertEl = document.getElementById('prevEwayAlert');
   if (ewayAlertEl) {
     if (cur === '₹' && total >= 50000) {
