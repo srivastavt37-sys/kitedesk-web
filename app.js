@@ -1601,6 +1601,19 @@ function renderInvoice() {
     wordsEl.textContent = numberToIndianWords(total, cur);
   }
 
+  const ewayAlertEl = document.getElementById('prevEwayAlert');
+  if (ewayAlertEl) {
+    if (cur === '₹' && total >= 50000) {
+      const formattedTotal = total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const modeNote = taxMode === 'igst' ? 'Inter-state dispatch (IGST): ' : '';
+      ewayAlertEl.style.display = 'block';
+      ewayAlertEl.innerHTML = `<strong>E-Way Bill Required (GST Rule 138):</strong> ${escapeHtml(modeNote)}Consignment value is ₹${escapeHtml(formattedTotal)} (≥ ₹50,000). Generate Part-A &amp; Part-B on ewaybillgst.gov.in before dispatch to avoid Section 129 transit penalties.`;
+    } else {
+      ewayAlertEl.style.display = 'none';
+      ewayAlertEl.textContent = '';
+    }
+  }
+
   const upiWrap = document.getElementById('prevUpiWrap');
   if (upiWrap) {
     if (upiId && cur === '₹') {
