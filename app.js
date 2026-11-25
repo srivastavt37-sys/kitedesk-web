@@ -2515,6 +2515,26 @@ function updateFormatter() {
       }
     }
   }
+
+  const indiaHookEl = document.getElementById('serpIndiaHookStatus');
+  if (indiaHookEl) {
+    const combinedSerp = `${serpTitle} ${cleanDesc}`.trim();
+    const hooks = [];
+    if (/(?:₹\s?\d|\brs\.?\s?\d)/i.test(combinedSerp)) hooks.push('₹ price');
+    if (/(?:\d+\s?%|\bflat\s+\d+|\bunder\s+₹?\d+)/i.test(combinedSerp)) hooks.push('% off');
+    if (/\b(upi|cod|gst|prepaid|cash on delivery)\b/i.test(combinedSerp)) hooks.push('UPI/COD/GST');
+    if (/\b(\d{6}|open|hours|timings?|am|pm|daily|dispatch|jaipur|surat|delhi|mumbai|bengaluru|bangalore|pune|hyderabad|chennai|kolkata|ahmedabad|lucknow|indore|kochi|chandigarh|noida|gurgaon|gurugram)\b/i.test(combinedSerp)) hooks.push('city/pin/hours');
+    if (hooks.length >= 2) {
+      indiaHookEl.textContent = `Hooks: ${hooks.join(' + ')} \u2713`;
+      indiaHookEl.style.color = '#059669';
+    } else if (hooks.length === 1) {
+      indiaHookEl.textContent = `1 hook (${hooks[0]}) — add UPI/COD, % off, or city/hours`;
+      indiaHookEl.style.color = '#0f4c5c';
+    } else {
+      indiaHookEl.textContent = 'Missing ₹ price, % off, UPI/COD/GST, or city/hours';
+      indiaHookEl.style.color = '#c2410c';
+    }
+  }
 }
 
 let serpDeviceMode = 'desktop';
