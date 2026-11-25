@@ -1462,6 +1462,7 @@ function renderInvoice() {
   const taxRate = Number(document.getElementById('invTax')?.value) || 0;
   const taxMode = document.getElementById('invTaxMode')?.value || 'cgst_sgst';
   const discount = Math.max(0, Number(document.getElementById('invDiscount')?.value) || 0);
+  const shipping = Math.max(0, Number(document.getElementById('invShipping')?.value) || 0);
   const fromName = document.getElementById('invFrom')?.value || 'Your Business';
   const fromGstin = document.getElementById('invFromGstin')?.value || '';
   const toName = document.getElementById('invTo')?.value || 'Customer';
