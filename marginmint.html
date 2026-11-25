@@ -147,11 +147,11 @@
             <label>Payment / Gateway Fee (%)
               <input type="number" class="mono-input" id="mmFee" value="2.5" step="0.1" min="0" oninput="calcMargin()" />
             </label>
+            <label>Marketplace Commission (%)
+              <input type="number" class="mono-input" id="mmMktFee" value="0" step="0.5" min="0" max="60" oninput="calcMargin()" />
+            </label>
             <label>Included GST Rate (%)
               <input type="number" class="mono-input" id="mmGst" value="12" min="0" max="28" oninput="calcMargin()" />
-            </label>
-            <label>Ad CPA / Placed Order
-              <input type="number" class="mono-input" id="mmCpa" value="0" min="0" oninput="calcMargin()" />
             </label>
           </div>
           <div class="form-row">
@@ -160,6 +160,9 @@
             </label>
             <label>Reverse Shipping (&#8377;)
               <input type="number" class="mono-input" id="mmRevShip" value="75" min="0" oninput="calcMargin()" />
+            </label>
+            <label>Ad CPA / Placed Order
+              <input type="number" class="mono-input" id="mmCpa" value="0" min="0" oninput="calcMargin()" />
             </label>
           </div>
           <div class="form-row">
@@ -213,7 +216,8 @@
           </div>
           <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
             <div style="width:100%;"><span>Included GST Portion</span><strong id="mmGstAmt">&#8377;0.00</strong></div>
-            <div style="width:100%;"><span>Gateway / Platform Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
+            <div style="width:100%;"><span>Gateway Fee</span><strong id="mmFeeAmt">&#8377;0.00</strong></div>
+            <div style="width:100%;"><span>Platform Fee</span><strong id="mmMktFeeAmt">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>COD RTO Drag per Delivered Order</span><strong id="mmRtoAmt">&#8377;0.00</strong></div>
             <div style="width:100%;"><span>RTO Loss / 100 Orders</span><strong id="mmRtoLoss100">&#8377;0</strong></div>
             <div style="width:100%;"><span>100-Order Net Profit (After RTO)</span><strong id="mmNet100AfterRto">&#8377;0</strong></div>

@@ -531,7 +531,7 @@ const MM_SAVED_KEY = 'mm_saved_skus';
 const MM_FIELD_IDS = [
   'mmCur', 'mmSell', 'mmCogs', 'mmShip', 'mmPack',
   'mmDeadWt', 'mmLen', 'mmWid', 'mmHgt', 'mmSlabRate',
-  'mmFee', 'mmGst', 'mmRto', 'mmRevShip', 'mmCpa',
+  'mmFee', 'mmMktFee', 'mmGst', 'mmRto', 'mmRevShip', 'mmCpa',
   'mmPrepaidShare', 'mmPrepaidDisc', 'mmMonthlyOrders'
 ];
 
@@ -625,14 +625,16 @@ function exportMarginScenariosCsv() {
     const pack = Number(f.mmPack) || 0;
     const ship = Number(f.mmShip) || 0;
     const feePct = Number(f.mmFee) || 0;
+    const mktFeePct = Math.max(0, Number(f.mmMktFee) || 0);
     const rtoPct = Number(f.mmRto) || 0;
 
     const feeAmt = sell * (feePct / 100);
+    const mktFeeAmt = sell * (mktFeePct / 100);
     const gstAmt = sell - (sell / (1 + gstPct / 100));
     const rtoLossPerDelivered = rtoPct > 0 && rtoPct < 100
       ? ((rtoPct / 100) / (1 - rtoPct / 100)) * (ship * 1.8 + pack)
       : 0;
-    const opsTotal = ship + pack + feeAmt + rtoLossPerDelivered;
+    const opsTotal = ship + pack + feeAmt + mktFeeAmt + rtoLossPerDelivered;
     const totalCost = cogs + opsTotal + gstAmt;
     const net = sell - totalCost;
     const breakevenRoas = net > 0 ? (sell / net) : 0;
@@ -2950,6 +2952,7 @@ function calcMargin() {
   const ship = Number(document.getElementById('mmShip')?.value) || 0;
   const pack = Number(document.getElementById('mmPack')?.value) || 0;
   const feePct = Number(document.getElementById('mmFee')?.value) || 0;
+  const mktFeePct = Math.max(0, Number(document.getElementById('mmMktFee')?.value) || 0);
   const gstPct = Number(document.getElementById('mmGst')?.value) || 0;
   const rtoPct = Math.min(90, Math.max(0, Number(document.getElementById('mmRto')?.value) || 0));
   const revShipRaw = Number(document.getElementById('mmRevShip')?.value);
@@ -2960,13 +2963,14 @@ function calcMargin() {
   calcVolumetricWeight(false);
 
   const feeAmt = sell * (feePct / 100);
+  const mktFeeAmt = sell * (mktFeePct / 100);
   const gstAmt = sell - (sell / (1 + gstPct / 100));
   const rtoCostPerReturn = ship + revShip + pack;
   const rtoLossPerDelivered = rtoPct > 0 && rtoPct < 100
     ? ((rtoPct / 100) / (1 - rtoPct / 100)) * rtoCostPerReturn
     : 0;
 
-  const opsTotal = ship + pack + feeAmt + rtoLossPerDelivered;
+  const opsTotal = ship + pack + feeAmt + mktFeeAmt + rtoLossPerDelivered;
   const totalCost = cogs + opsTotal + gstAmt;
   const net = sell - totalCost;
   const marginPct = sell > 0 ? (net / sell) * 100 : 0;
@@ -2978,6 +2982,8 @@ function calcMargin() {
   document.getElementById('mmRoas').textContent = breakevenRoas > 0 ? `${breakevenRoas.toFixed(2)}x` : 'N/A';
   document.getElementById('mmCostTotal').textContent = `${cur}${totalCost.toFixed(2)}`;
   document.getElementById('mmFeeAmt').textContent = `${cur}${feeAmt.toFixed(2)}`;
+  const mktFeeEl = document.getElementById('mmMktFeeAmt');
+  if (mktFeeEl) mktFeeEl.textContent = `${cur}${mktFeeAmt.toFixed(2)}`;
   document.getElementById('mmGstAmt').textContent = `${cur}${gstAmt.toFixed(2)}`;
   const rtoEl = document.getElementById('mmRtoAmt');
   if (rtoEl) rtoEl.textContent = `${cur}${rtoLossPerDelivered.toFixed(2)}`;
@@ -2996,7 +3002,7 @@ function calcMargin() {
   }
 
   const exGstRev = sell / (1 + gstPct / 100);
-  const contribBeforeAds = exGstRev - cogs - pack - ship - feeAmt - rtoLossPerDelivered;
+  const contribBeforeAds = exGstRev - cogs - pack - ship - feeAmt - mktFeeAmt - rtoLossPerDelivered;
   const contribEl = document.getElementById('mmContribProfit');
   if (contribEl) {
     const contribPct = exGstRev > 0 ? (contribBeforeAds / exGstRev) * 100 : 0;
@@ -3013,8 +3019,9 @@ function calcMargin() {
   const codNetPerPlaced = net * (1 - rtoFrac);
   const prepaidSell = Math.max(0, sell - prepaidDisc);
   const prepaidFee = prepaidSell * (feePct / 100);
+  const prepaidMktFee = prepaidSell * (mktFeePct / 100);
   const prepaidGst = prepaidSell - (prepaidSell / (1 + gstPct / 100));
-  const prepaidNetPerOrder = prepaidSell - cogs - ship - pack - prepaidFee - prepaidGst;
+  const prepaidNetPerOrder = prepaidSell - cogs - ship - pack - prepaidFee - prepaidMktFee - prepaidGst;
 
   const blended100 = (prepaidShare * prepaidNetPerOrder) + ((100 - prepaidShare) * codNetPerPlaced);
   const allCod100 = 100 * codNetPerPlaced;
@@ -3032,7 +3039,7 @@ function calcMargin() {
     gainEl.style.color = codGain >= 0 ? 'var(--brand)' : 'var(--danger)';
   }
 
-  const prepaidProfitAtZeroDisc = sell - cogs - ship - pack - feeAmt - gstAmt;
+  const prepaidProfitAtZeroDisc = sell - cogs - ship - pack - feeAmt - mktFeeAmt - gstAmt;
   const maxSafePrepaidDisc = Math.max(0, prepaidProfitAtZeroDisc - codNetPerPlaced);
   const maxPrepaidDiscEl = document.getElementById('mmMaxPrepaidDisc');
   if (maxPrepaidDiscEl) {
@@ -3051,7 +3058,7 @@ function calcMargin() {
   const cpa = Math.max(0, Number(document.getElementById('mmCpa')?.value) || 0);
   const cpaPerDelivered = cpa / (1 - rtoFrac);
   const fixedDeliveredCost = cogs + ship + pack + rtoLossPerDelivered + cpaPerDelivered;
-  const targetMrpDenom = (1 / (1 + gstPct / 100)) - (feePct / 100) - 0.20;
+  const targetMrpDenom = (1 / (1 + gstPct / 100)) - (feePct / 100) - (mktFeePct / 100) - 0.20;
   const targetMrp = targetMrpDenom > 0 ? fixedDeliveredCost / targetMrpDenom : 0;
   const targetMrpEl = document.getElementById('mmTargetMrp');
   if (targetMrpEl) {
