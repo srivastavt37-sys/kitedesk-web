@@ -3576,6 +3576,8 @@ function calcCashPulse() {
   if (b60El) b60El.textContent = cpFmtInr(m.balance60);
   const outEl = document.getElementById('cpMonthlyOutflow');
   if (outEl) outEl.textContent = cpFmtInr(m.monthlyOutflow);
+  const breakEvenEl = document.getElementById('cpBreakEvenDaily');
+  if (breakEvenEl) breakEvenEl.textContent = cpFmtInr(m.dailyOutflow) + '/day';
   const bufEl = document.getElementById('cpBufferAfterFloat');
   if (bufEl) {
     bufEl.textContent = cpFmtInr(m.bufferAfterFloat);
