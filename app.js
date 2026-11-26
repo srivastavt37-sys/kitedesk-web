@@ -3560,6 +3560,25 @@ function calcCashPulse() {
   }
 }
 
+function shiftCashPulseUpi(deltaPct) {
+  const codEl = document.getElementById('cpCodShare');
+  if (!codEl) return null;
+  const before = computeCashPulseMetrics();
+  const shift = Number.isFinite(Number(deltaPct)) ? Math.max(0, Number(deltaPct)) : 20;
+  const nextCod = Math.max(0, Math.round((before.codShare - shift) * 10) / 10);
+  codEl.value = String(nextCod);
+  calcCashPulse();
+  const after = computeCashPulseMetrics();
+  const actualShift = Math.max(0, Math.round((before.codShare - after.codShare) * 10) / 10);
+  const floatUnlocked = Math.max(0, before.codTrapped - after.codTrapped);
+  const noteEl = document.getElementById('cpActionNote');
+  if (noteEl) {
+    noteEl.textContent = 'Simulated +' + actualShift + '% UPI shift (COD ' + before.codShare + '% -> ' + after.codShare + '%): unlocked '
+      + cpFmtInr(floatUnlocked) + ' in COD float; 90-day bank balance is now ' + cpFmtInr(after.balance90) + ' (' + after.runwayStatus + ').';
+  }
+  return { before, after, actualShift, floatUnlocked };
+}
+
 function getSavedCashPulseSnapshots() {
   try {
     const raw = localStorage.getItem(CP_SAVED_KEY);
