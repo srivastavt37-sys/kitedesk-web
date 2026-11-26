@@ -2599,6 +2599,25 @@ function updateFormatter() {
       indiaHookEl.style.color = '#c2410c';
     }
   }
+
+  const ogStatusEl = document.getElementById('serpOgStatus');
+  if (ogStatusEl) {
+    const ogTitleLen = serpTitle.trim().length;
+    const ogDescLen = cleanDesc.length;
+    if (ogDescLen === 0) {
+      ogStatusEl.textContent = 'Add description for WhatsApp og:description';
+      ogStatusEl.style.color = 'var(--muted)';
+    } else if (ogTitleLen <= 60 && ogDescLen <= 110) {
+      ogStatusEl.textContent = `OG Ready (${ogTitleLen}/60 title · ${ogDescLen}/110 desc) \u2713`;
+      ogStatusEl.style.color = '#059669';
+    } else {
+      const warns = [];
+      if (ogTitleLen > 60) warns.push(`og:title ${ogTitleLen}/60`);
+      if (ogDescLen > 110) warns.push(`og:description ${ogDescLen}/110`);
+      ogStatusEl.textContent = `WhatsApp trim risk: ${warns.join(', ')}`;
+      ogStatusEl.style.color = '#c2410c';
+    }
+  }
 }
 
 let serpDeviceMode = 'desktop';
@@ -3310,7 +3329,7 @@ function copySerpMetaTags(btn) {
   const titleText = (document.getElementById('serpTitleInput')?.value || '').trim() || 'Your Brand — Official Store & Custom Orders';
   const descRaw = (document.getElementById('fmtInput')?.value || '').replace(/\s+/g, ' ').trim();
   const descText = descRaw || 'Shop quality products with fast pan-India dispatch and UPI support.';
-  const metaHtml = `<title>${escapeHtml(titleText)}</title>\n<meta name="description" content="${escapeHtml(descText)}" />`;
+  const metaHtml = `<title>${escapeHtml(titleText)}</title>\n<meta name="description" content="${escapeHtml(descText)}" />\n<meta property="og:title" content="${escapeHtml(titleText)}" />\n<meta property="og:description" content="${escapeHtml(descText)}" />`;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(metaHtml);
   } else {
