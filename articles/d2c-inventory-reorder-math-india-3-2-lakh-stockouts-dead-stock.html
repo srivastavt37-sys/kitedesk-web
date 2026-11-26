@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>D2C Inventory Reorder Math in India: Avoiding ₹3.2 Lakh in Stockouts &amp; Dead Stock During Peak Sale Weeks — KiteDesk Studio</title>
+  <meta name="description" content="An 18-unit/day hero SKU with a 14-day supplier lead time, 7-day safety buffer, and ₹240 landed cost hits its reorder point at 378 units. Missing that trigger by 10 days or over-ordering slow sizes costs ₹3,20,000 across lost contribution margin and trapped dead stock." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/articles/d2c-inventory-reorder-math-india-3-2-lakh-stockouts-dead-stock.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="D2C Inventory Reorder Math in India: Avoiding ₹3.2 Lakh in Stockouts &amp; Dead Stock During Peak Sale Weeks" />
+  <meta property="og:description" content="An 18-unit/day hero SKU with a 14-day supplier lead time, 7-day safety buffer, and ₹240 landed cost hits its reorder point at 378 units. Missing that trigger by 10 days or over-ordering slow sizes costs ₹3,20,000 across lost contribution margin and trapped dead stock." />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/articles/d2c-inventory-reorder-math-india-3-2-lakh-stockouts-dead-stock.html" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="D2C Inventory Reorder Math in India: Avoiding ₹3.2 Lakh in Stockouts &amp; Dead Stock During Peak Sale Weeks" />
+  <meta name="twitter:description" content="An 18-unit/day hero SKU with a 14-day supplier lead time, 7-day safety buffer, and ₹240 landed cost hits its reorder point at 378 units. Missing that trigger by 10 days or over-ordering slow sizes costs ₹3,20,000 across lost contribution margin and trapped dead stock." />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "D2C Inventory Reorder Math in India: Avoiding ₹3.2 Lakh in Stockouts & Dead Stock During Peak Sale Weeks",
+  "description": "An 18-unit/day hero SKU with a 14-day supplier lead time, 7-day safety buffer, and ₹240 landed cost hits its reorder point at 378 units. Missing that trigger by 10 days or over-ordering slow sizes costs ₹3,20,000 across lost contribution margin and trapped dead stock.",
+  "image": "https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg",
+  "datePublished": "2026-11-26",
+  "dateModified": "2026-11-26",
+  "author": {
+    "@type": "Organization",
+    "name": "KiteDesk Studio"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "KiteDesk Studio"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://srivastavt37-sys.github.io/kitedesk-web/articles/d2c-inventory-reorder-math-india-3-2-lakh-stockouts-dead-stock.html"
+  }
+}
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        <span>KiteDesk</span><span class="studio-pill">Studio</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="cashpulse.html">CashPulse</a>
+        <a href="stockpulse.html">StockPulse</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html" class="active">Journal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width:860px;">
+      <p style="margin-bottom:16px;"><a href="journal.html" class="text-link">&larr; Back to Daily Growth Journal</a></p>
+      <article class="card" style="padding:32px;">
+        <div class="post-meta" style="margin-bottom:12px;">
+          <span class="tag">Operations</span>
+          <span>November 26, 2026 &bull; 9 min read</span>
+        </div>
+        <h1 style="margin-top:0;">D2C Inventory Reorder Math in India: Avoiding ₹3.2 Lakh in Stockouts &amp; Dead Stock During Peak Sale Weeks</h1>
+        <p class="lead" style="color:var(--ink-secondary);">An 18-unit/day hero SKU with a 14-day supplier lead time, 7-day safety buffer, and ₹240 landed cost hits its reorder point at 378 units. Missing that trigger by 10 days or over-ordering slow sizes costs ₹3,20,000 across lost contribution margin and trapped dead stock.</p>
+        <img src="images/marginmint-preview.jpg" alt="D2C Inventory Reorder Math in India: Avoiding ₹3.2 Lakh in Stockouts &amp; Dead Stock During Peak Sale Weeks" style="width:100%;border-radius:12px;margin:18px 0 24px;" />
+        <div class="article-body">
+          <p>Most Indian D2C founders blame Meta Ads CPA or courier RTO when cash dries up right after a Diwali or End-of-Season sale. In practice, the leak usually starts three weeks earlier inside a spreadsheet where nobody tracked supplier lead time against daily unit velocity.</p>
+
+<p>When your hero SKU runs out of stock for 10 days during a peak sale week, you do not just lose top-line revenue. You burn paid ad momentum, lose repeat buyers to marketplace alternatives, and still pay fixed warehouse rent and salaries. On the flip side, panic-ordering 1,000 extra units of slower variants locks ₹1.5 lakh to ₹2 lakh in cartons that sit on racks for five months.</p>
+
+<p>You can stop both leaks with five lines of arithmetic. In this playbook, we walk through the exact Indian rupee math on an 18-unit/day skincare serum with a 14-day supplier lead time, a 7-day safety buffer, and a ₹240 landed unit cost—showing how a ₹3.2 lakh annual hit happens and how to prevent it using <a href="stockpulse.html">StockPulse</a>.</p>
+
+<h2>1. The ₹3.2 Lakh Inventory Trap: Stockout Loss vs. Dead-Stock Lock</h2>
+
+<p>Inventory mistakes hit an Indian D2C brand from two opposite directions. Both damage your bank balance, even though only one shows up as an obvious emergency.</p>
+
+<p>Consider a personal-care D2C brand selling a 30ml Vitamin C face serum at ₹899 (GST inclusive) with a landed cost of ₹240 per bottle. Landed cost includes contract manufacturing (₹185), outer carton and dropper bottle packaging (₹32), and inward transport from Baddi or Surat to your Delhi NCR or Bengaluru fulfillment hub (₹23).</p>
+
+<p>Suppose your baseline velocity is <strong>18 units per day</strong>. After 18% GST, ₹75 forward shipping, ₹48 payment gateway or COD handling, and ₹190 Meta CPA, your net contribution margin before fixed overheads is roughly <strong>₹210 per delivered unit</strong>. You can verify your exact per-order net margin inside <a href="marginmint.html">MarginMint</a> before placing any purchase order.</p>
+
+<p>Now look at what happens in a typical 90-day festive quarter when reorder math is guessed instead of calculated:</p>
+
+<ul>
+  <li><strong>Stockout Lost Margin (₹1,35,000):</strong> During a 12-day peak sale window, daily demand jumps from 18 units to 32 units/day, but your supplier PO was placed 8 days too late. You go out of stock for 10 peak days (losing 320 orders at ₹210 contribution margin = ₹67,200) plus another 14 days of degraded Meta Ads pixel learning and lower organic rank post-restock (losing ~323 incremental units = ₹67,800). Total lost margin: <strong>₹1,35,000</strong>.</li>
+  <li><strong>Dead-Stock Capital Lock (₹1,85,000):</strong> To avoid running out again, the founder over-orders 770 extra units across two slow-moving variants (a tinted variant and a 100ml jumbo pack) at ₹240 landed cost. That locks <strong>₹1,84,800</strong> (rounded to ₹1,85,000) in slow cartons that take 6 months to clear at a 30% discount.</li>
+</ul>
+
+<p>Combined, those two avoidable errors cost the business <strong>₹3,20,000 (₹3.2 lakh)</strong> in one quarter: ₹1.35 lakh in vanished contribution margin and ₹1.85 lakh in trapped working capital.</p>
+
+<h2>2. The Core Reorder Point Formula for Indian Supply Chains</h2>
+
+<p>Every SKU needs a hard numerical trigger called the <strong>Reorder Point (ROP)</strong>. When your available warehouse count touches or drops below the ROP, you issue a Purchase Order (PO) that same afternoon—no waiting for Monday morning meetings.</p>
+
+<p>The formula is straightforward:</p>
+
+<p><strong>Reorder Point (Units) = (Daily Units Sold &times; Supplier Lead Time Days) + (Daily Units Sold &times; Safety Buffer Days)</strong></p>
+
+<p>Let us plug in our 18-unit/day hero serum:</p>
+
+<ul>
+  <li><strong>Daily Units Sold:</strong> 18 units/day (30-day trailing average).</li>
+  <li><strong>Supplier Lead Time:</strong> 14 days (covers PO confirmation, batch filling, labeling, and surface transport from Baddi/Mumbai to your warehouse).</li>
+  <li><strong>Safety Buffer:</strong> 7 days (absorbs 2–3 day highway delays, festival transporter strikes, or a sudden 25% Meta Ads ROAS spike).</li>
+</ul>
+
+<p><strong>Lead-Time Demand:</strong> 18 &times; 14 = <strong>252 units</strong>.<br />
+<strong>Safety Stock Reserve:</strong> 18 &times; 7 = <strong>126 units</strong>.<br />
+<strong>Reorder Point (ROP):</strong> 252 + 126 = <strong>378 units</strong>.</p>
+
+<p>If your warehouse currently holds <strong>320 units</strong>, your Days of Stock Left is <code>320 / 18 = 17.8 days</code>. That sounds comfortable until you compare it against your 21-day combined lead and safety window. Because 320 is already below 378, <a href="stockpulse.html">StockPulse</a> flags the SKU as <strong>Order Today</strong>. If you wait until stock drops to 150 units (8.3 days left), a 14-day supplier cycle guarantees a 6-day stockout.</p>
+
+<h2>3. How Much to Order: 30-Day Reorder Quantity &amp; PO Cash Math</h2>
+
+<p>Knowing <em>when</em> to order is half the equation. Knowing <em>how much</em> to order prevents the ₹1.85 lakh dead-stock trap.</p>
+
+<p>For fast-moving Indian D2C SKUs with 2-week to 3-week supplier cycles, ordering 30 days of forward sales plus any deficit below your Reorder Point keeps warehouse shelves full without bloating working capital:</p>
+
+<p><strong>30-Day Reorder Qty = max(0, ceil((30 &times; Daily Units Sold) + (Reorder Point &minus; Current Stock)))</strong></p>
+
+<p>Using our 320-unit on-hand example:</p>
+
+<ul>
+  <li><strong>30-Day Sales Requirement:</strong> 30 &times; 18 = 540 units.</li>
+  <li><strong>ROP Deficit:</strong> 378 &minus; 320 = 58 units.</li>
+  <li><strong>30-Day Reorder Qty:</strong> 540 + 58 = <strong>598 units</strong> (round to 600 units if your factory carton MOQ is 50 units).</li>
+  <li><strong>PO Cash Required:</strong> 598 &times; ₹240 = <strong>₹1,43,520</strong>.</li>
+  <li><strong>Capital Currently Tied in Stock:</strong> 320 &times; ₹240 = <strong>₹76,800</strong>.</li>
+</ul>
+
+<p>Notice what happens if you blindly order 1,500 units just to negotiate a ₹12/unit factory discount (₹228 instead of ₹240). You save ₹18,000 on paper, but your PO cash outlay jumps from ₹1,43,520 to ₹3,42,000—an extra <strong>₹1,98,480</strong> pulled straight out of your bank account for 83 days of cover. Before accepting any bulk MOQ discount, run that extra ₹1.98 lakh outflow through <a href="cashpulse.html">CashPulse</a> to confirm your 90-day bank balance can survive T+6 COD remittance delays.</p>
+
+<h2>4. Category Benchmarks: Lead Times &amp; Safety Buffers Across India</h2>
+
+<p>Not every Indian business operates on a 14-day manufacturing cycle. A kirana or hyperlocal grocery store restocks from local distributors in 48 hours, while festive apparel brands waiting on Surat dyeing mills and stitching units face 21 to 30 days of lead time.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Business Type</th>
+      <th>Sample Hero SKU</th>
+      <th>Daily Velocity</th>
+      <th>Lead Time + Safety</th>
+      <th>Reorder Point</th>
+      <th>Unit Cost (₹)</th>
+      <th>30-Day PO Cash (at ROP)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>D2C Skincare</strong></td>
+      <td>Vitamin C Serum 30ml</td>
+      <td>18 units/day</td>
+      <td>14d + 7d = 21d</td>
+      <td>378 units</td>
+      <td>₹240</td>
+      <td>₹1,29,600 (540 units)</td>
+    </tr>
+    <tr>
+      <td><strong>Festive Apparel</strong></td>
+      <td>Embroidered Kurta Set</td>
+      <td>12 units/day</td>
+      <td>21d + 10d = 31d</td>
+      <td>372 units</td>
+      <td>₹520</td>
+      <td>₹1,87,200 (360 units)</td>
+    </tr>
+    <tr>
+      <td><strong>Kirana Fast-Mover</strong></td>
+      <td>Mustard Oil 1L</td>
+      <td>45 units/day</td>
+      <td>3d + 3d = 6d</td>
+      <td>270 units</td>
+      <td>₹145</td>
+      <td>₹1,95,750 (1,350 units)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can load all three of these exact profiles with one click inside <a href="stockpulse.html">StockPulse</a> and adjust the numbers to match your own warehouse counts.</p>
+
+<h2>5. Three Status Zones: Order Today, Order Within 7 Days, Healthy Stock</h2>
+
+<p>Instead of checking 40 SKUs manually every morning, group your catalog into three clear operational bands:</p>
+
+<ol>
+  <li><strong>Order Today (Current Stock &le; Reorder Point):</strong> Your remaining inventory cannot cover a full supplier lead cycle plus safety buffer. Copy the Supplier PO Brief directly from <a href="stockpulse.html">StockPulse</a>, send it on WhatsApp or email to your vendor, and log the expected dispatch date.</li>
+  <li><strong>Order Within 7 Days (Days Left &le; Lead Time + Safety Buffer + 7):</strong> You are 1 week away from hitting your trigger. Use this window to audit packaging stock (monocartons, bubble wrap, thermal labels), check supplier credit terms, and confirm cash availability in <a href="cashpulse.html">CashPulse</a>.</li>
+  <li><strong>Healthy Stock (Days Left &gt; Lead Time + Safety Buffer + 7):</strong> Do not place a PO yet. If Days Left exceeds 75 days on a non-seasonal SKU, you have excess capital tied up—consider bundling it with a hero SKU using <a href="marginmint.html">MarginMint</a> or running a prepaid WhatsApp clearance broadcast via <a href="tapping.html">TapPing</a>.</li>
+</ol>
+
+<h2>6. Peak Sale Week Adjustments: Why 18 Units/Day Becomes 32 Units/Day</h2>
+
+<p>Trailing 30-day velocity works for normal months, but it breaks during Independence Day, Diwali, Navratri, and End-of-Season sales. If your normal run rate is 18 units/day and your Meta + Google Ads budget doubles for a 10-day festive sprint, your daily velocity can jump 1.7x to 2x.</p>
+
+<p>Here is how to adjust your PO 25 days before a major sale:</p>
+
+<ul>
+  <li><strong>Calculate Peak Velocity:</strong> Multiply baseline daily sales by your historical sale multiplier (for example, 18 &times; 1.75 = 31.5, rounded to 32 units/day).</li>
+  <li><strong>Add 3 Extra Buffer Days:</strong> Courier hubs in Bhiwandi, Gurugram, and Bengaluru slow down during festive peaks. Bump your safety buffer from 7 days to 10 days.</li>
+  <li><strong>Re-run ROP:</strong> At 32 units/day with 14-day lead time and 10-day buffer, your sale-prep ROP rises to <code>32 &times; 24 = 768 units</code>—more than double your normal 378-unit trigger.</li>
+</ul>
+
+<p>Crucially, do not apply that 1.75x multiplier to C-grade variants (such as XXL sizes or niche shades). Apply it strictly to your top 20% A-grade SKUs that generate 80% of revenue. That single rule keeps you in stock on winners while preventing ₹1.85 lakh of post-sale dead stock.</p>
+
+<h2>7. Connecting Inventory Reorders to GST, Cashflow &amp; Product Copy</h2>
+
+<p>Inventory planning never sits in isolation. Every PO you raise touches four other parts of your operation:</p>
+
+<ul>
+  <li><strong>Working Capital &amp; COD Lag:</strong> When a supplier asks for 50% advance (₹71,760 on a ₹1,43,520 PO) and 50% on dispatch, map those two dates against your courier T+6 COD payouts in <a href="cashpulse.html">CashPulse</a>. Shifting just 15% of buyers from COD to UPI lowers trapped courier float and funds your next PO without a short-term loan.</li>
+  <li><strong>Unit Economics &amp; RTO Drag:</strong> If a SKU has a 24% COD RTO rate, remember that returned units re-enter your warehouse 12 to 18 days later—often with crushed outer cartons. Factor repackaging cost into your landed unit cost in <a href="marginmint.html">MarginMint</a>.</li>
+  <li><strong>Supplier &amp; B2B GST Invoicing:</strong> When liquidating slow-moving stock to local retailers or corporate gifting buyers, generate clean CGST/SGST or IGST tax invoices with embedded UPI QR codes in <a href="billfold.html">BillFold</a> so B2B buyers pay on delivery.</li>
+  <li><strong>Clearance &amp; Bundle Merchandising:</strong> If you do spot overstocked SKUs with 90+ days of cover, rewrite their product titles, meta descriptions, and WhatsApp offer copy in <a href="copycraft.html">CopyCraft</a> and pair them with a <a href="tapping.html">TapPing</a> one-tap WhatsApp checkout link to convert dead stock back into bank cash within 14 days.</li>
+</ul>
+
+<h2>8. Step-by-Step Weekly Inventory Routine (15 Minutes Every Monday)</h2>
+
+<p>You do not need an expensive ₹15,000/month ERP subscription to run tight inventory control for a 10-to-50 SKU catalog. Follow this 15-minute Monday routine:</p>
+
+<ol>
+  <li>Export your last 30 days of unit sales by SKU from Shopify, WooCommerce, or your marketplace dashboard.</li>
+  <li>Open <a href="stockpulse.html">StockPulse</a> and load each top SKU into your local <strong>SKU Watchlist</strong> (stored privately in your browser's <code>localStorage</code> with zero server uploads).</li>
+  <li>Click <strong>Export Reorder Plan (.csv)</strong> to download a clean table showing Reorder Point, Days Left, Status, 30-Day Reorder Qty, PO Cash Required, and Capital Tied in Stock.</li>
+  <li>For every SKU marked <strong>Order Today</strong>, click <strong>Copy Supplier PO Brief</strong> and send it directly to your manufacturer or distributor before noon.</li>
+  <li>Sum the PO Cash Required column and check it against your 30-day projected bank balance in <a href="cashpulse.html">CashPulse</a>.</li>
+</ol>
+
+<p>Running that 15-minute check every Monday turns inventory from a reactive cash crisis into a predictable weekly rhythm—protecting both your ₹1.35 lakh peak-sale contribution margin and your ₹1.85 lakh working capital buffer.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk</span><span class="studio-pill">Studio</span>
+        </a>
+        <p class="footer-note">Zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, CopyCraft, CashPulse, and StockPulse.</p>
+      </div>
+      <div>
+        <h4>Micro-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold &mdash; GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing &mdash; WhatsApp &amp; QR Links</a></li>
+          <li><a href="marginmint.html">MarginMint &mdash; D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft &mdash; Bio &amp; SERP Studio</a></li>
+          <li><a href="cashpulse.html">CashPulse &mdash; 90-Day Cashflow &amp; COD Lag</a></li>
+          <li><a href="stockpulse.html">StockPulse &mdash; Inventory Reorder &amp; PO Cash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company &amp; Legal</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About the Studio</a></li>
+          <li><a href="contact.html">Request a Tool</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. 100% client-side execution &bull; Zero server data storage.</span>
+      <span>Built for Indian &amp; global independent sellers.</span>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

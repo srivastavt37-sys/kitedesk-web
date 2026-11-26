@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>StockPulse by KiteDesk — Indian D2C Inventory Reorder Point, Safety Stock &amp; PO Cash Planner</title>
+  <meta name="description" content="Calculate inventory reorder point, days of stock left, 30-day PO quantity, PO cash required in INR, and capital tied in stock for Indian D2C brands and SMBs." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/stockpulse.html" />
+  <meta property="og:title" content="StockPulse by KiteDesk — Indian D2C Inventory Reorder Point, Safety Stock & PO Cash Planner" />
+  <meta property="og:description" content="100% browser-local inventory reorder point, safety stock, and PO cash planner for Indian D2C brands, kiranas, and apparel sellers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/stockpulse.html" />
+  <meta property="og:site_name" content="KiteDesk Studio" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "StockPulse Indian D2C Inventory Reorder Point & PO Cash Planner",
+  "url": "https://srivastavt37-sys.github.io/kitedesk-web/stockpulse.html",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "description": "Free 100% client-side inventory reorder point, safety stock, days-of-stock status, and PO cash planner for Indian D2C sellers and SMBs.",
+  "featureList": [
+    "Reorder point (units) with supplier lead time and safety buffer",
+    "Days of stock left and live Order Today / Order Within 7 Days / Healthy Stock status",
+    "30-day reorder quantity and PO cash required in INR",
+    "Capital tied in stock calculation",
+    "Watchlist localStorage persistence, CSV reorder export, and Supplier PO brief copy"
+  ]
+}
+  </script>
+</head>
+<body data-brand="stockpulse">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand-group">
+        <a href="stockpulse.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+          <span>StockPulse</span>
+        </a>
+        <a href="index.html" class="by-kitedesk">by KiteDesk</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="cashpulse.html">CashPulse</a>
+        <a href="stockpulse.html" class="active">StockPulse</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html">Journal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <div>
+            <h1>StockPulse — Inventory Reorder Point &amp; PO Cash Planner</h1>
+            <p>Prevent peak-sale stockouts and dead-stock cash lock with exact Indian supplier lead-time math.</p>
+          </div>
+        </div>
+        <div class="sub-hero-actions" role="group" aria-label="Indian SMB Inventory Presets">
+          <button type="button" class="chip sp-preset-btn active" onclick="applyStockPulsePreset('skincare_serum', this)">Hero Skincare Serum</button>
+          <button type="button" class="chip sp-preset-btn" onclick="applyStockPulsePreset('festive_apparel', this)">Festive Apparel</button>
+          <button type="button" class="chip sp-preset-btn" onclick="applyStockPulsePreset('kirana_fast', this)">Kirana Fast-Mover</button>
+        </div>
+      </div>
+
+      <div class="bf-history-bar" id="spWatchlistBar" aria-label="Saved SKU Watchlist" style="margin-bottom: 14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0;">
+          <span class="mini-badge" style="flex-shrink:0;">SKU Watchlist</span>
+          <div id="spSavedList" class="bf-saved-chips"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;">
+          <button type="button" class="btn btn-sm btn-outline" onclick="saveStockPulseWatchlist()">+ Save SKU to Watchlist</button>
+          <button type="button" id="spExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportStockPulseCsv()">Export Reorder Plan (.csv)</button>
+        </div>
+      </div>
+
+      <div class="tool-layout">
+        <div class="card form-card">
+          <h3>1. SKU Velocity &amp; Lead Time</h3>
+          <div class="form-row">
+            <label>SKU Name
+              <input type="text" id="spSkuName" value="Hero Skincare Serum (30ml)" maxlength="48" oninput="calcStockPulse()" />
+            </label>
+            <label>Daily Units Sold
+              <input type="number" class="mono-input" id="spDailySales" value="18" min="0" step="1" oninput="calcStockPulse()" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Supplier Lead Time (Days)
+              <input type="number" class="mono-input" id="spLeadDays" value="14" min="0" max="120" step="1" oninput="calcStockPulse()" />
+            </label>
+            <label>Safety Buffer (Days)
+              <input type="number" class="mono-input" id="spSafetyDays" value="7" min="0" max="60" step="1" oninput="calcStockPulse()" />
+            </label>
+          </div>
+
+          <h3 style="margin-top:8px;">2. On-Hand Stock &amp; Unit Cost</h3>
+          <div class="form-row">
+            <label>Current Stock on Hand (Units)
+              <input type="number" class="mono-input" id="spCurrentStock" value="320" min="0" step="1" oninput="calcStockPulse()" />
+            </label>
+            <label>Unit Landed Cost (&#8377;)
+              <input type="number" class="mono-input" id="spUnitCost" value="240" min="0" step="1" oninput="calcStockPulse()" />
+            </label>
+          </div>
+          <p class="muted" style="margin:0;">Includes factory price, inward freight, and box/label cost per unit. Reorder Point = Daily Sales &times; (Lead Time + Safety Buffer).</p>
+        </div>
+
+        <div class="card form-card">
+          <h3>3. Reorder Point &amp; PO Cash Output</h3>
+          <div class="kpi-grid">
+            <div class="kpi-box"><span>Reorder Point (Units)</span><strong id="spReorderPoint">0 units</strong></div>
+            <div class="kpi-box"><span>Days of Stock Left</span><strong id="spDaysLeft">0.0 days</strong></div>
+            <div class="kpi-box"><span>Reorder Status</span><strong id="spStockStatus">Healthy Stock</strong></div>
+            <div class="kpi-box"><span>30-Day Reorder Qty</span><strong id="spReorderQty">0 units</strong></div>
+          </div>
+
+          <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
+            <div style="width:100%;border-top:2px solid var(--brand);padding-top:8px;"><span>PO Cash Required (&#8377;)</span><strong id="spPoCash" style="color:var(--brand);">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Capital Tied in Stock (&#8377;)</span><strong id="spCapitalTied">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Lead-Time Demand (Units)</span><strong id="spLeadDemand">0 units</strong></div>
+            <div style="width:100%;"><span>Safety Stock Reserve (Units)</span><strong id="spSafetyUnits">0 units</strong></div>
+          </div>
+
+          <div class="tool-actions">
+            <button type="button" class="btn btn-primary" onclick="copyStockPulsePoBrief(this)">Copy Supplier PO Brief</button>
+            <button type="button" class="btn btn-outline" onclick="exportStockPulseCsv()">Download Reorder CSV</button>
+          </div>
+          <p class="muted" id="spActionNote" style="margin:4px 0 0;"></p>
+        </div>
+      </div>
+
+      <section class="card" style="margin-top: 28px;">
+        <span class="eyebrow">Inventory Planning Benchmark</span>
+        <h2 style="margin-top:4px;">Indian D2C &amp; SMB Reorder Buffers by Category</h2>
+        <div class="table-wrap" style="overflow-x:auto;margin-top:14px;">
+          <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);text-align:left;">
+                <th style="padding:10px 8px;">Category</th>
+                <th style="padding:10px 8px;">Typical Lead Time</th>
+                <th style="padding:10px 8px;">Safety Buffer</th>
+                <th style="padding:10px 8px;">Recommended Cash Check</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:10px 8px;"><strong>Skincare / Personal Care</strong></td>
+                <td style="padding:10px 8px;">14&ndash;21 days</td>
+                <td style="padding:10px 8px;">7 days</td>
+                <td style="padding:10px 8px;">Verify 90-day runway in <a href="cashpulse.html">CashPulse</a> before paying 50% advance</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:10px 8px;"><strong>Festive Apparel</strong></td>
+                <td style="padding:10px 8px;">21&ndash;30 days</td>
+                <td style="padding:10px 8px;">10 days</td>
+                <td style="padding:10px 8px;">Check RTO drag on new sizes in <a href="marginmint.html">MarginMint</a></td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;"><strong>Kirana Fast-Mover</strong></td>
+                <td style="padding:10px 8px;">2&ndash;4 days</td>
+                <td style="padding:10px 8px;">3 days</td>
+                <td style="padding:10px 8px;">Raise GST purchase/sale bills via <a href="billfold.html">BillFold</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk</span><span class="studio-pill">Studio</span>
+        </a>
+        <p class="footer-note">Zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, CopyCraft, CashPulse, and StockPulse.</p>
+      </div>
+      <div>
+        <h4>Sub-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold &mdash; GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing &mdash; WhatsApp &amp; QR</a></li>
+          <li><a href="marginmint.html">MarginMint &mdash; D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft &mdash; Bio &amp; SERP Studio</a></li>
+          <li><a href="cashpulse.html">CashPulse &mdash; 90-Day Cashflow &amp; COD Lag</a></li>
+          <li><a href="stockpulse.html">StockPulse &mdash; Inventory Reorder &amp; PO Cash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About KiteDesk</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. All tools run locally in your browser.</span>
+      <a href="sitemap.xml">Sitemap</a>
+    </div>
+  </footer>
+
+  <script>
+    const STOCKPULSE_PRESETS = {
+      skincare_serum:  { skuName: 'Hero Skincare Serum (30ml)', dailySales: 18, leadDays: 14, safetyDays: 7,  currentStock: 320, unitCost: 240 },
+      festive_apparel: { skuName: 'Festive Kurta Set',          dailySales: 12, leadDays: 21, safetyDays: 10, currentStock: 420, unitCost: 520 },
+      kirana_fast:     { skuName: 'Cold-Pressed Mustard Oil 1L',dailySales: 45, leadDays: 3,  safetyDays: 3,  currentStock: 210, unitCost: 145 }
+    };
+
+    function applyStockPulsePreset(key, btnEl) {
+      const p = STOCKPULSE_PRESETS[key];
+      if (!p) return;
+      document.getElementById('spSkuName').value = p.skuName;
+      document.getElementById('spDailySales').value = p.dailySales;
+      document.getElementById('spLeadDays').value = p.leadDays;
+      document.getElementById('spSafetyDays').value = p.safetyDays;
+      document.getElementById('spCurrentStock').value = p.currentStock;
+      document.getElementById('spUnitCost').value = p.unitCost;
+
+      document.querySelectorAll('.sp-preset-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      if (btnEl) btnEl.classList.add('active');
+
+      if (typeof calcStockPulse === 'function') {
+        calcStockPulse();
+      }
+    }
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

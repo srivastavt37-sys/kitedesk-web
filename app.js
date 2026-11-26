@@ -524,6 +524,10 @@ buildWhatsApp();
     calcCashPulse();
     renderSavedCashPulseBar();
   }
+  if (document.getElementById("spDailySales")) {
+    calcStockPulse();
+    renderSavedStockPulseBar();
+  }
 });
 
 /* === MarginMint Saved SKU Scenarios (localStorage, max 6) === */
@@ -3735,4 +3739,245 @@ function copyCashPulseSummary(btn) {
     'Prepaid-Switch Unlock (15% COD -> UPI): ' + cpFmtInr(m.prepaidUnlock)
   ].join('\n');
   copyWithFallback(summary, btn);
+}
+
+
+/* === StockPulse — Inventory Reorder Point, Safety Stock & PO Cash Planner === */
+const SP_SAVED_KEY = 'sp_saved_watchlist';
+
+function spSafeNum(id, fallback = 0) {
+  const el = document.getElementById(id);
+  if (!el) return fallback;
+  const n = Number(el.value);
+  return Number.isFinite(n) && n >= 0 ? n : fallback;
+}
+
+function spFmtInr(n) {
+  const val = Math.round(Number.isFinite(n) ? n : 0);
+  const absStr = Math.abs(val).toLocaleString('en-IN');
+  return (val < 0 ? '-₹' : '₹') + absStr;
+}
+
+function computeStockPulseMetrics() {
+  const skuNameEl = document.getElementById('spSkuName');
+  const skuName = ((skuNameEl && skuNameEl.value) || 'Hero SKU').trim() || 'Hero SKU';
+  const dailySales = spSafeNum('spDailySales', 0);
+  const leadDays = spSafeNum('spLeadDays', 0);
+  const safetyDays = spSafeNum('spSafetyDays', 0);
+  const currentStock = spSafeNum('spCurrentStock', 0);
+  const unitCost = spSafeNum('spUnitCost', 0);
+
+  const leadDemand = Math.ceil(dailySales * leadDays);
+  const safetyUnits = Math.ceil(dailySales * safetyDays);
+  const reorderPoint = leadDemand + safetyUnits;
+  const daysLeft = dailySales > 0 ? currentStock / dailySales : (currentStock > 0 ? 999 : 0);
+
+  let stockStatus = 'Healthy Stock';
+  if (dailySales > 0) {
+    if (currentStock <= reorderPoint) {
+      stockStatus = 'Order Today';
+    } else if (daysLeft <= leadDays + safetyDays + 7) {
+      stockStatus = 'Order Within 7 Days';
+    }
+  } else if (currentStock === 0) {
+    stockStatus = 'Order Today';
+  }
+
+  const reorderQty = dailySales > 0
+    ? Math.max(0, Math.ceil((30 * dailySales) + (reorderPoint - currentStock)))
+    : 0;
+  const poCash = reorderQty * unitCost;
+  const capitalTied = currentStock * unitCost;
+
+  return {
+    skuName,
+    dailySales,
+    leadDays,
+    safetyDays,
+    currentStock,
+    unitCost,
+    leadDemand,
+    safetyUnits,
+    reorderPoint,
+    daysLeft,
+    stockStatus,
+    reorderQty,
+    poCash,
+    capitalTied
+  };
+}
+
+function calcStockPulse() {
+  if (!document.getElementById('spDailySales')) return;
+  const m = computeStockPulseMetrics();
+
+  const ropEl = document.getElementById('spReorderPoint');
+  const daysEl = document.getElementById('spDaysLeft');
+  const statusEl = document.getElementById('spStockStatus');
+  const qtyEl = document.getElementById('spReorderQty');
+  const poEl = document.getElementById('spPoCash');
+  const capEl = document.getElementById('spCapitalTied');
+  const leadDemEl = document.getElementById('spLeadDemand');
+  const safeUnitsEl = document.getElementById('spSafetyUnits');
+  const noteEl = document.getElementById('spActionNote');
+
+  if (ropEl) ropEl.textContent = m.reorderPoint.toLocaleString('en-IN') + ' units';
+  if (daysEl) daysEl.textContent = m.dailySales > 0 ? m.daysLeft.toFixed(1) + ' days' : (m.currentStock > 0 ? '999+ days' : '0.0 days');
+  if (statusEl) {
+    statusEl.textContent = m.stockStatus;
+    statusEl.style.color = m.stockStatus === 'Order Today'
+      ? '#b91c1c'
+      : (m.stockStatus === 'Order Within 7 Days' ? '#b45309' : '#059669');
+  }
+  if (qtyEl) qtyEl.textContent = m.reorderQty.toLocaleString('en-IN') + ' units';
+  if (poEl) poEl.textContent = spFmtInr(m.poCash);
+  if (capEl) capEl.textContent = spFmtInr(m.capitalTied);
+  if (leadDemEl) leadDemEl.textContent = m.leadDemand.toLocaleString('en-IN') + ' units';
+  if (safeUnitsEl) safeUnitsEl.textContent = m.safetyUnits.toLocaleString('en-IN') + ' units';
+
+  if (noteEl) {
+    if (m.stockStatus === 'Order Today') {
+      noteEl.textContent = 'Alert: On-hand stock (' + m.currentStock.toLocaleString('en-IN') + ') is at or below your ' + m.reorderPoint.toLocaleString('en-IN') + '-unit reorder point. Issue a PO for ' + m.reorderQty.toLocaleString('en-IN') + ' units (' + spFmtInr(m.poCash) + ') today.';
+    } else if (m.stockStatus === 'Order Within 7 Days') {
+      noteEl.textContent = 'Heads up: Stock hits your reorder point within 7 days. Schedule supplier production and reserve ' + spFmtInr(m.poCash) + ' for the next PO.';
+    } else {
+      noteEl.textContent = 'Healthy buffer: ' + m.daysLeft.toFixed(1) + ' days of cover on hand (' + spFmtInr(m.capitalTied) + ' tied in stock).';
+    }
+  }
+}
+
+function getSavedStockPulseWatchlist() {
+  try {
+    const raw = localStorage.getItem(SP_SAVED_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.slice(0, 8);
+    }
+  } catch (e) {}
+  return [];
+}
+
+function renderSavedStockPulseBar() {
+  const container = document.getElementById('spSavedList');
+  if (!container) return;
+  const list = getSavedStockPulseWatchlist();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No SKUs in watchlist yet. Click "+ Save SKU to Watchlist" to track multiple SKUs locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const safeSku = escapeHtml((item.skuName || 'Saved SKU').slice(0, 32));
+    const safeMeta = escapeHtml((item.stockStatus || 'Healthy Stock') + ' • ' + (item.reorderPoint || 0) + 'u ROP');
+    return `
+      <span class="bf-saved-chip" onclick="loadStockPulseWatchlistItem(${idx})" title="Click to load ${safeSku}">
+        <span>${safeSku} &bull; <span class="muted" style="font-weight:400;">${safeMeta}</span></span>
+        <button type="button" class="bf-saved-del" onclick="deleteStockPulseWatchlistItem(${idx}, event)" aria-label="Remove ${safeSku}" title="Remove SKU">&times;</button>
+      </span>
+    `;
+  }).join('');
+}
+
+function saveStockPulseWatchlist() {
+  if (!document.getElementById('spDailySales')) return;
+  const m = computeStockPulseMetrics();
+  const entry = {
+    skuName: m.skuName.slice(0, 48),
+    dailySales: m.dailySales,
+    leadDays: m.leadDays,
+    safetyDays: m.safetyDays,
+    currentStock: m.currentStock,
+    unitCost: m.unitCost,
+    reorderPoint: m.reorderPoint,
+    stockStatus: m.stockStatus,
+    savedAt: Date.now()
+  };
+  const existing = getSavedStockPulseWatchlist().filter(
+    item => (item.skuName || '').toLowerCase() !== entry.skuName.toLowerCase()
+  );
+  const trimmed = [entry, ...existing].slice(0, 8);
+  try {
+    localStorage.setItem(SP_SAVED_KEY, JSON.stringify(trimmed));
+  } catch (e) {}
+  renderSavedStockPulseBar();
+}
+
+function loadStockPulseWatchlistItem(idx) {
+  const list = getSavedStockPulseWatchlist();
+  const item = list[idx];
+  if (!item) return;
+  document.getElementById('spSkuName').value = item.skuName || '';
+  document.getElementById('spDailySales').value = item.dailySales ?? 0;
+  document.getElementById('spLeadDays').value = item.leadDays ?? 0;
+  document.getElementById('spSafetyDays').value = item.safetyDays ?? 0;
+  document.getElementById('spCurrentStock').value = item.currentStock ?? 0;
+  document.getElementById('spUnitCost').value = item.unitCost ?? 0;
+  document.querySelectorAll('.sp-preset-btn').forEach(b => b.classList.remove('active'));
+  calcStockPulse();
+}
+
+function deleteStockPulseWatchlistItem(idx, ev) {
+  if (ev) ev.stopPropagation();
+  const list = getSavedStockPulseWatchlist();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem(SP_SAVED_KEY, JSON.stringify(list));
+  } catch (e) {}
+  renderSavedStockPulseBar();
+}
+
+function exportStockPulseCsv() {
+  const m = computeStockPulseMetrics();
+  let list = getSavedStockPulseWatchlist();
+  const rows = [
+    ['SKU Name', 'Daily Sales', 'Lead Time (Days)', 'Safety Buffer (Days)', 'Current Stock', 'Unit Cost (INR)', 'Reorder Point (Units)', 'Days Left', 'Status', '30-Day Reorder Qty', 'PO Cash Required (INR)', 'Capital Tied in Stock (INR)'].map(escapeCsvCell).join(',')
+  ];
+
+  const items = list.length ? list : [m];
+  items.forEach(item => {
+    const dSales = Number(item.dailySales) || 0;
+    const lDays = Number(item.leadDays) || 0;
+    const sDays = Number(item.safetyDays) || 0;
+    const cStock = Number(item.currentStock) || 0;
+    const uCost = Number(item.unitCost) || 0;
+    const rop = Math.ceil(dSales * lDays) + Math.ceil(dSales * sDays);
+    const dLeft = dSales > 0 ? (cStock / dSales).toFixed(1) : (cStock > 0 ? '999+' : '0.0');
+    let st = 'Healthy Stock';
+    if (dSales > 0) {
+      if (cStock <= rop) st = 'Order Today';
+      else if (cStock / dSales <= lDays + sDays + 7) st = 'Order Within 7 Days';
+    } else if (cStock === 0) {
+      st = 'Order Today';
+    }
+    const rQty = dSales > 0 ? Math.max(0, Math.ceil((30 * dSales) + (rop - cStock))) : 0;
+    const poCash = rQty * uCost;
+    const capTied = cStock * uCost;
+    rows.push([
+      item.skuName || 'SKU', dSales, lDays, sDays, cStock, uCost, rop, dLeft, st, rQty, poCash, capTied
+    ].map(escapeCsvCell).join(','));
+  });
+
+  const csvContent = '\uFEFF' + rows.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'kitedesk-stockpulse-reorder-plan.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function copyStockPulsePoBrief(btn) {
+  const m = computeStockPulseMetrics();
+  const brief = [
+    'Purchase Order Brief — ' + m.skuName + ' (StockPulse by KiteDesk)',
+    'Current Stock on Hand: ' + m.currentStock.toLocaleString('en-IN') + ' units (' + (m.dailySales > 0 ? m.daysLeft.toFixed(1) + ' days cover' : '0 daily sales') + ')',
+    'Reorder Point (ROP): ' + m.reorderPoint.toLocaleString('en-IN') + ' units (' + m.leadDays + 'd lead + ' + m.safetyDays + 'd safety)',
+    'Status: ' + m.stockStatus,
+    'Requested 30-Day Order Quantity: ' + m.reorderQty.toLocaleString('en-IN') + ' units',
+    'Estimated PO Value @ ' + spFmtInr(m.unitCost) + '/unit: ' + spFmtInr(m.poCash),
+    'Please confirm production slot and dispatch ETA.'
+  ].join('\n');
+  copyWithFallback(brief, btn);
 }
