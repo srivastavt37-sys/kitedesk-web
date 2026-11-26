@@ -102,11 +102,14 @@
             <label>Selling Price (incl. GST)
               <input type="number" class="mono-input" id="mmSell" value="1499" min="0" oninput="calcMargin()" />
             </label>
-            <label>Product COGS
+            <label>Unit COGS
               <input type="number" class="mono-input" id="mmCogs" value="540" min="0" oninput="calcMargin()" />
             </label>
           </div>
           <div class="form-row">
+            <label>Units / Bundle Qty
+              <input type="number" class="mono-input" id="mmQty" value="1" min="1" max="50" step="1" oninput="calcMargin()" />
+            </label>
             <label>Forward Courier Cost
               <input type="number" class="mono-input" id="mmShip" value="85" min="0" oninput="calcMargin()" />
             </label>

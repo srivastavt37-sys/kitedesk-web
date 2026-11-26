@@ -529,7 +529,7 @@ buildWhatsApp();
 /* === MarginMint Saved SKU Scenarios (localStorage, max 6) === */
 const MM_SAVED_KEY = 'mm_saved_skus';
 const MM_FIELD_IDS = [
-  'mmCur', 'mmSell', 'mmCogs', 'mmShip', 'mmPack',
+  'mmCur', 'mmSell', 'mmCogs', 'mmQty', 'mmShip', 'mmPack',
   'mmDeadWt', 'mmLen', 'mmWid', 'mmHgt', 'mmSlabRate',
   'mmFee', 'mmMktFee', 'mmGst', 'mmRto', 'mmRevShip', 'mmCpa',
   'mmPrepaidShare', 'mmPrepaidDisc', 'mmMonthlyOrders'
@@ -621,7 +621,9 @@ function exportMarginScenariosCsv() {
     const f = item.fields || {};
     const sell = Number(f.mmSell) || 0;
     const gstPct = Number(f.mmGst) || 0;
-    const cogs = Number(f.mmCogs) || 0;
+    const qtyRaw = Number(f.mmQty);
+    const qty = Number.isFinite(qtyRaw) && qtyRaw >= 1 ? Math.round(qtyRaw) : 1;
+    const cogs = (Number(f.mmCogs) || 0) * qty;
     const pack = Number(f.mmPack) || 0;
     const ship = Number(f.mmShip) || 0;
     const feePct = Number(f.mmFee) || 0;
@@ -3026,7 +3028,10 @@ function applyVolumetricShip() {
 
 function calcMargin() {
   const sell = Number(document.getElementById('mmSell')?.value) || 0;
-  const cogs = Number(document.getElementById('mmCogs')?.value) || 0;
+  const unitCogs = Number(document.getElementById('mmCogs')?.value) || 0;
+  const qtyRaw = Number(document.getElementById('mmQty')?.value);
+  const qty = Number.isFinite(qtyRaw) && qtyRaw >= 1 ? Math.round(qtyRaw) : 1;
+  const cogs = unitCogs * qty;
   const ship = Number(document.getElementById('mmShip')?.value) || 0;
   const pack = Number(document.getElementById('mmPack')?.value) || 0;
   const feePct = Number(document.getElementById('mmFee')?.value) || 0;
