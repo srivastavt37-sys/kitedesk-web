@@ -2018,6 +2018,20 @@ function setWaTemplate(text, btn) {
   }
 }
 
+function resetTapPingMsg() {
+  const el = document.getElementById('waMsg');
+  if (el) {
+    el.value = '';
+    if (typeof el.focus === 'function') el.focus();
+  }
+  const bars = document.querySelectorAll('.preset-chips');
+  bars.forEach(bar => {
+    bar.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  });
+  buildWhatsApp();
+}
+window.resetTapPingMsg = resetTapPingMsg;
+
 
 function insertWaToken(token) {
   const el = document.getElementById('waMsg');

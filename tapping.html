@@ -123,6 +123,8 @@
               <button type="button" class="chip" onclick="setWaTemplate('Hi! Confirming my Order #[Order ID]. Please share the UPI QR so I can switch from COD to Prepaid and save ₹75 + get priority dispatch.', this)">COD &rarr; UPI ₹75 Switch</button>
               <button type="button" class="chip" onclick="setWaTemplate('Hi! Loved my recent order #[Order ID] — sharing my 5-star Google review screenshot. Please send my ₹100 repeat-order UPI code!', this)">5-Star Review + Repeat</button>
               <button type="button" class="chip" onclick="setWaTemplate('Hi! I left items in my cart (Order #[Order ID]). Please share the UPI link so I can claim my ₹100 prepaid discount before stock runs out.', this)">Abandoned Cart ₹100 UPI</button>
+              <button type="button" class="chip" onclick="setWaTemplate('Hi! Confirming my COD order #[Order ID] for PIN: ______ (Landmark: ____). Please share the UPI QR so I can switch to Prepaid and save ₹50!', this)">COD Pin-Code Confirm</button>
+              <button type="button" class="chip" style="border-style:dashed;color:var(--ink-secondary,#475569);" onclick="resetTapPingMsg()">Reset Message</button>
             </div>
           </div>
           <label>Channel Source Tag <span class="muted">(Optional — appends [Ref: ...] to track where the chat came from)</span>
