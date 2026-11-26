@@ -1633,6 +1633,25 @@ function renderInvoice() {
     gstr1El.style.color = gstr1Color;
   }
 
+  const supplyEl = document.getElementById('prevSupplyType');
+  if (supplyEl) {
+    const cleanFromGstin = (fromGstin || '').trim().toUpperCase();
+    const cleanToGstin = (toGstin || '').trim().toUpperCase();
+    const fromCode = GSTIN_REGEX.test(cleanFromGstin) && GST_STATE_CODES[cleanFromGstin.slice(0, 2)] ? cleanFromGstin.slice(0, 2) : '';
+    const toCode = GSTIN_REGEX.test(cleanToGstin) && GST_STATE_CODES[cleanToGstin.slice(0, 2)] ? cleanToGstin.slice(0, 2) : '';
+    const posCode = toCode || fromCode;
+    const posState = posCode ? GST_STATE_CODES[posCode] : '';
+    let supplyMode = 'Intra-State CGST+SGST';
+    if (taxMode === 'none' || taxRate === 0) {
+      supplyMode = 'Tax Exempt / 0% GST';
+    } else if (taxMode === 'igst' || (fromCode && toCode && fromCode !== toCode)) {
+      supplyMode = 'Inter-State IGST';
+    }
+    supplyEl.textContent = posState
+      ? `Place of Supply: ${posState} (${posCode}) · ${supplyMode}`
+      : `Place of Supply: ${supplyMode}`;
+  }
+
   const ewayAlertEl = document.getElementById('prevEwayAlert');
   if (ewayAlertEl) {
     if (cur === '₹' && total >= 50000) {
