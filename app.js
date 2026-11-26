@@ -3788,6 +3788,10 @@ function computeStockPulseMetrics() {
     : 0;
   const poCash = reorderQty * unitCost;
   const capitalTied = currentStock * unitCost;
+  const excessUnits = daysLeft > 45
+    ? Math.max(0, Math.round(currentStock - (45 * dailySales)))
+    : 0;
+  const excessCashUnlock = Math.round(excessUnits * unitCost);
 
   return {
     skuName,
@@ -3803,7 +3807,9 @@ function computeStockPulseMetrics() {
     stockStatus,
     reorderQty,
     poCash,
-    capitalTied
+    capitalTied,
+    excessUnits,
+    excessCashUnlock
   };
 }
 
@@ -3817,6 +3823,7 @@ function calcStockPulse() {
   const qtyEl = document.getElementById('spReorderQty');
   const poEl = document.getElementById('spPoCash');
   const capEl = document.getElementById('spCapitalTied');
+  const excessEl = document.getElementById('spExcessCashUnlock');
   const leadDemEl = document.getElementById('spLeadDemand');
   const safeUnitsEl = document.getElementById('spSafetyUnits');
   const noteEl = document.getElementById('spActionNote');
@@ -3832,6 +3839,15 @@ function calcStockPulse() {
   if (qtyEl) qtyEl.textContent = m.reorderQty.toLocaleString('en-IN') + ' units';
   if (poEl) poEl.textContent = spFmtInr(m.poCash);
   if (capEl) capEl.textContent = spFmtInr(m.capitalTied);
+  if (excessEl) {
+    if (m.daysLeft > 45 && m.excessCashUnlock > 0) {
+      excessEl.textContent = spFmtInr(m.excessCashUnlock) + ' (' + m.excessUnits.toLocaleString('en-IN') + ' excess units)';
+      excessEl.style.color = '#b45309';
+    } else {
+      excessEl.textContent = '₹0 (Lean Stock)';
+      excessEl.style.color = '#059669';
+    }
+  }
   if (leadDemEl) leadDemEl.textContent = m.leadDemand.toLocaleString('en-IN') + ' units';
   if (safeUnitsEl) safeUnitsEl.textContent = m.safetyUnits.toLocaleString('en-IN') + ' units';
 
