@@ -3613,6 +3613,19 @@ function calcCashPulse() {
     }
   }
 
+  const adRatioEl = document.getElementById('cpAdRatio');
+  if (adRatioEl) {
+    if (m.monthlyRev > 0) {
+      const adRatio = (m.adSpend / m.monthlyRev) * 100;
+      const isSafe = adRatio <= 25;
+      adRatioEl.textContent = adRatio.toFixed(1) + '% \u00b7 ' + (isSafe ? 'Safe (<= 25%)' : 'High (> 25% cap)');
+      adRatioEl.style.color = isSafe ? 'var(--success, #059669)' : 'var(--warning, #d97706)';
+    } else {
+      adRatioEl.textContent = m.adSpend > 0 ? 'No Revenue \u00b7 High (> 25% cap)' : '0.0% \u00b7 Safe (<= 25%)';
+      adRatioEl.style.color = m.adSpend > 0 ? 'var(--danger, #dc2626)' : 'var(--success, #059669)';
+    }
+  }
+
   const base = Math.max(m.monthlyRev, m.monthlyOutflow, 1);
   const cogsPct = Math.min(100, (m.cogsPack / base) * 100);
   const adsPct = Math.min(100 - cogsPct, (m.adSpend / base) * 100);
