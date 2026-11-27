@@ -3813,6 +3813,17 @@ function computeStockPulseMetrics() {
     ? Math.max(0, Math.round(currentStock - (45 * dailySales)))
     : 0;
   const excessCashUnlock = Math.round(excessUnits * unitCost);
+  const daysUntilReorder = Math.floor(daysLeft - (leadDays + safetyDays));
+  let orderByDateLabel = 'Order Today (Past Trigger)';
+  if (Number.isFinite(daysUntilReorder) && daysUntilReorder > 0) {
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + daysUntilReorder);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dd = String(targetDate.getDate()).padStart(2, '0');
+    const mmm = months[targetDate.getMonth()];
+    const yyyy = targetDate.getFullYear();
+    orderByDateLabel = dd + ' ' + mmm + ' ' + yyyy;
+  }
 
   return {
     skuName,
@@ -3825,6 +3836,8 @@ function computeStockPulseMetrics() {
     safetyUnits,
     reorderPoint,
     daysLeft,
+    daysUntilReorder,
+    orderByDateLabel,
     stockStatus,
     reorderQty,
     poCash,
@@ -3847,6 +3860,7 @@ function calcStockPulse() {
   const excessEl = document.getElementById('spExcessCashUnlock');
   const leadDemEl = document.getElementById('spLeadDemand');
   const safeUnitsEl = document.getElementById('spSafetyUnits');
+  const orderByEl = document.getElementById('spOrderByDate');
   const noteEl = document.getElementById('spActionNote');
 
   if (ropEl) ropEl.textContent = m.reorderPoint.toLocaleString('en-IN') + ' units';
@@ -3871,6 +3885,10 @@ function calcStockPulse() {
   }
   if (leadDemEl) leadDemEl.textContent = m.leadDemand.toLocaleString('en-IN') + ' units';
   if (safeUnitsEl) safeUnitsEl.textContent = m.safetyUnits.toLocaleString('en-IN') + ' units';
+  if (orderByEl) {
+    orderByEl.textContent = m.orderByDateLabel;
+    orderByEl.style.color = m.daysUntilReorder <= 0 ? '#b91c1c' : '#0f4c5c';
+  }
 
   if (noteEl) {
     if (m.stockStatus === 'Order Today') {
