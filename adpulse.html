@@ -94,7 +94,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;">
           <button type="button" class="btn btn-sm btn-outline" onclick="saveAdPulseCampaign()">+ Save Campaign</button>
-          <button type="button" id="apExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportAdPulseCsv()">Export Ad Plan (.csv)</button>
+          <button type="button" id="apClearSavedBtn" class="btn btn-sm btn-secondary" onclick="clearAdPulseSavedCampaigns()" style="display:none;">Clear Saved</button>
         </div>
       </div>
 
@@ -152,7 +152,9 @@
             <div style="width:100%;"><span>90-Day LTV Profit After Repeat Orders (&#8377;)</span><strong id="apLtvProfit">&#8377;0</strong></div>
             <div style="width:100%;"><span>Delivered Revenue (Net of RTO)</span><strong id="apDeliveredRev">&#8377;0</strong></div>
             <div style="width:100%;"><span>First-Order Contribution Before Ads</span><strong id="apFirstContrib">&#8377;0</strong></div>
-            <div style="width:100%;"><span>Break-Even MER Required</span><strong id="apBreakEvenMer">0.00&times;</strong></div>
+            <div style="width:100%;"><span>Break-Even MER Required (Delivered)</span><strong id="apBreakEvenMer">0.00&times;</strong></div>
+            <div style="width:100%;"><span>Break-Even Platform ROAS (Pre-RTO)</span><strong id="apBreakEvenRoas">0.00&times;</strong></div>
+            <div style="width:100%;"><span>Max Safe CPC (Day-1 Break-Even)</span><strong id="apMaxSafeCpc">&#8377;0.00</strong></div>
           </div>
 
           <div class="tool-actions">

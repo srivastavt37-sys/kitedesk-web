@@ -4132,6 +4132,8 @@ function computeAdPulseMetrics() {
   const firstOrderNetProfit = firstOrderContrib - adSpend;
   const ltvNetProfit = (firstOrderContrib * repeatMult) - adSpend;
   const breakEvenMer = grossMarginPct > 0 ? 100 / grossMarginPct : 0;
+  const breakEvenRoas = (grossMarginPct > 0 && rtoRatePct < 100) ? breakEvenMer / (1 - rtoRatePct / 100) : 0;
+  const maxSafeCpc = (cvr / 100) * (1 - rtoRatePct / 100) * aov * (grossMarginPct / 100);
 
   let paybackStatus = 'Negative Unit Economics';
   if (estOrders > 0 && adSpend > 0) {
@@ -4163,6 +4165,8 @@ function computeAdPulseMetrics() {
     firstOrderNetProfit,
     ltvNetProfit,
     breakEvenMer,
+    breakEvenRoas,
+    maxSafeCpc,
     paybackStatus
   };
 }
@@ -4180,6 +4184,8 @@ function calcAdPulse() {
   const delRevEl = document.getElementById('apDeliveredRev');
   const contribEl = document.getElementById('apFirstContrib');
   const beMerEl = document.getElementById('apBreakEvenMer');
+  const beRoasEl = document.getElementById('apBreakEvenRoas');
+  const maxCpcEl = document.getElementById('apMaxSafeCpc');
   const noteEl = document.getElementById('apActionNote');
 
   if (ordersEl) ordersEl.textContent = m.estOrders.toLocaleString('en-IN') + ' orders';
@@ -4202,6 +4208,11 @@ function calcAdPulse() {
   if (delRevEl) delRevEl.textContent = apFmtInr(m.deliveredRevenue);
   if (contribEl) contribEl.textContent = apFmtInr(m.firstOrderContrib);
   if (beMerEl) beMerEl.textContent = m.breakEvenMer > 0 ? m.breakEvenMer.toFixed(2) + '×' : '—';
+  if (beRoasEl) beRoasEl.textContent = m.breakEvenRoas > 0 ? m.breakEvenRoas.toFixed(2) + '×' : '—';
+  if (maxCpcEl) {
+    maxCpcEl.textContent = m.maxSafeCpc > 0 ? '₹' + m.maxSafeCpc.toFixed(2) : '₹0.00';
+    maxCpcEl.style.color = (m.cpc > 0 && m.cpc <= m.maxSafeCpc) ? '#059669' : '#b91c1c';
+  }
 
   if (noteEl) {
     if (m.paybackStatus === 'Profitable Day 1') {
@@ -4227,8 +4238,10 @@ function getSavedAdPulseCampaigns() {
 
 function renderSavedAdPulseBar() {
   const container = document.getElementById('apSavedList');
+  const clearBtn = document.getElementById('apClearSavedBtn');
   if (!container) return;
   const list = getSavedAdPulseCampaigns();
+  if (clearBtn) clearBtn.style.display = list.length ? 'inline-flex' : 'none';
   if (!list.length) {
     container.innerHTML = '<span class="muted" style="font-size:0.8rem;">No saved campaigns yet.</span>';
     return;
@@ -4290,6 +4303,13 @@ function deleteAdPulseCampaign(idx, ev) {
   list.splice(idx, 1);
   try {
     localStorage.setItem(AP_SAVED_KEY, JSON.stringify(list));
+  } catch (e) {}
+  renderSavedAdPulseBar();
+}
+
+function clearAdPulseSavedCampaigns() {
+  try {
+    localStorage.removeItem(AP_SAVED_KEY);
   } catch (e) {}
   renderSavedAdPulseBar();
 }
@@ -4362,7 +4382,8 @@ function copyAdPulseBrief(btn) {
     'Media Buyer Brief — ' + m.campaignName + ' (AdPulse by KiteDesk)',
     'Monthly Ad Budget: ' + apFmtInr(m.adSpend) + ' | Target CPC: ' + apFmtInr(m.cpc) + ' | CVR: ' + m.cvr.toFixed(1) + '%',
     'Estimated Monthly Orders: ' + m.estOrders.toLocaleString('en-IN') + ' | Max Target CPA: ' + apFmtInr(m.blendedCpa),
-    'Delivered MER (Net of ' + m.rtoRatePct.toFixed(0) + '% RTO): ' + m.blendedMer.toFixed(2) + 'x (Break-Even MER: ' + m.breakEvenMer.toFixed(2) + 'x)',
+    'Delivered MER (Net of ' + m.rtoRatePct.toFixed(0) + '% RTO): ' + m.blendedMer.toFixed(2) + 'x (Break-Even MER: ' + m.breakEvenMer.toFixed(2) + 'x | Platform ROAS Guardrail: ' + m.breakEvenRoas.toFixed(2) + 'x)',
+    'Max Safe CPC (Day-1 Break-Even): ₹' + m.maxSafeCpc.toFixed(2),
     'First-Order Net Ad Profit: ' + apFmtInr(m.firstOrderNetProfit),
     '90-Day LTV Profit (' + m.repeatMult.toFixed(2) + 'x Repeat): ' + apFmtInr(m.ltvNetProfit),
     'Payback Status: ' + m.paybackStatus
