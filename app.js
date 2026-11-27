@@ -3120,6 +3120,18 @@ function calcMargin() {
     contribEl.textContent = `${cur}${contribBeforeAds.toFixed(2)} (${contribPct.toFixed(1)}% Ex-GST)`;
     contribEl.style.color = contribBeforeAds >= 0 ? 'var(--brand)' : 'var(--danger)';
   }
+  const breakEvenRoasEl = document.getElementById('mmBreakEvenRoas');
+  if (breakEvenRoasEl) {
+    const cm2 = contribBeforeAds;
+    const cm2Roas = (cm2 > 0 && sell > 0) ? (sell / cm2) : 0;
+    if (Number.isFinite(cm2Roas) && cm2Roas > 0) {
+      breakEvenRoasEl.textContent = `${cm2Roas.toFixed(2)}\u00d7`;
+      breakEvenRoasEl.style.color = 'var(--brand)';
+    } else {
+      breakEvenRoasEl.textContent = 'Unprofitable';
+      breakEvenRoasEl.style.color = 'var(--danger)';
+    }
+  }
 
   const prepaidShareRaw = Number(document.getElementById('mmPrepaidShare')?.value);
   const prepaidShare = Number.isFinite(prepaidShareRaw) ? Math.min(100, Math.max(0, prepaidShareRaw)) : 35;
