@@ -1487,6 +1487,9 @@ function renderInvoice() {
   const docType = document.getElementById('invDocType')?.value || 'TAX INVOICE';
   const prevDocTypeEl = document.getElementById('prevDocType');
   if (prevDocTypeEl) prevDocTypeEl.textContent = docType;
+  const copyLabel = document.getElementById('invCopyLabel')?.value || 'Original for Recipient';
+  const prevCopyLabelEl = document.getElementById('prevCopyLabel');
+  if (prevCopyLabelEl) prevCopyLabelEl.textContent = copyLabel;
   document.getElementById('prevFrom').textContent = fromName;
   document.getElementById('prevFromGstin').textContent = fromGstin ? `GSTIN: ${fromGstin}` : '';
   document.getElementById('prevTo').textContent = toName;
@@ -1774,6 +1777,7 @@ function copyBillfoldWaMsg(btn) {
 
 function resetInvoice() {
   if (document.getElementById('invDocType')) document.getElementById('invDocType').value = 'TAX INVOICE';
+  if (document.getElementById('invCopyLabel')) document.getElementById('invCopyLabel').value = 'Original for Recipient';
   if (document.getElementById('invTo')) document.getElementById('invTo').value = '';
   if (document.getElementById('invToGstin')) document.getElementById('invToGstin').value = '';
   if (document.getElementById('invDiscount')) document.getElementById('invDiscount').value = '0';

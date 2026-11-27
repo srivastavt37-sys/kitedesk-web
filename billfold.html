@@ -128,6 +128,13 @@
                 <option value="&euro;">&euro; EUR</option>
               </select>
             </label>
+            <label>Copy Tag (Rule 48)
+              <select id="invCopyLabel" onchange="renderInvoice()">
+                <option value="Original for Recipient">Original for Recipient</option>
+                <option value="Duplicate for Transporter">Duplicate for Transporter</option>
+                <option value="Triplicate for Supplier">Triplicate for Supplier</option>
+              </select>
+            </label>
           </div>
           <div class="form-row">
             <label>Tax Mode
@@ -204,7 +211,10 @@
         <div class="card invoice-preview" id="invoicePreview">
           <div class="inv-top">
             <div>
-              <span class="inv-badge" id="prevDocType">TAX INVOICE</span>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+                <span class="inv-badge" id="prevDocType" style="margin-bottom:0;">TAX INVOICE</span>
+                <span id="prevCopyLabel" style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--primary,#1e3a8a);border:1px solid rgba(30,58,138,0.22);background:rgba(30,58,138,0.06);padding:2px 7px;border-radius:999px;">Original for Recipient</span>
+              </div>
               <h2 id="prevFrom" style="margin-bottom:2px;">KiteDesk Crafts</h2>
               <div class="muted mono-val" id="prevFromGstin"></div>
             </div>
