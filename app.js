@@ -719,6 +719,7 @@ function getPostWordCount(post) {
 function getPostBodyHtml(post) {
   if (!post) return '';
   if (post.bodyHtml) return post.bodyHtml;
+  if (post.contentHtml) return post.contentHtml;
   const raw = post.content || post.body || '';
   if (Array.isArray(raw)) {
     return raw.map(p => `<p>${escapeHtml(p)}</p>`).join('');
