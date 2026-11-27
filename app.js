@@ -528,6 +528,10 @@ buildWhatsApp();
     calcStockPulse();
     renderSavedStockPulseBar();
   }
+  if (document.getElementById("apAdSpend")) {
+    calcAdPulse();
+    renderSavedAdPulseBar();
+  }
 });
 
 /* === MarginMint Saved SKU Scenarios (localStorage, max 6) === */
@@ -4091,3 +4095,278 @@ function copyStockPulsePoBrief(btn) {
   ].join('\n');
   copyWithFallback(brief, btn);
 }
+
+/* === AdPulse — Meta & Google Ad Spend, MER & Payback Planner === */
+const AP_SAVED_KEY = 'kitedesk_adpulse_saved_v1';
+
+function apFmtInr(n) {
+  const num = Number.isFinite(n) ? n : 0;
+  const abs = Math.round(Math.abs(num)).toLocaleString('en-IN');
+  return (num < 0 ? '-₹' : '₹') + abs;
+}
+
+function computeAdPulseMetrics() {
+  const num = (id, fallback = 0) => {
+    const el = document.getElementById(id);
+    if (!el) return fallback;
+    const v = parseFloat(el.value);
+    return Number.isFinite(v) ? v : fallback;
+  };
+  const nameEl = document.getElementById('apCampaignName');
+  const campaignName = ((nameEl && nameEl.value) || 'D2C Ad Campaign').trim();
+  const adSpend = Math.max(0, num('apAdSpend', 0));
+  const cpc = Math.max(0, num('apCpc', 0));
+  const cvr = Math.max(0, Math.min(100, num('apCvr', 0)));
+  const aov = Math.max(0, num('apAov', 0));
+  const grossMarginPct = Math.max(0, Math.min(100, num('apGrossMargin', 0)));
+  const rtoRatePct = Math.max(0, Math.min(100, num('apRtoRate', 0)));
+  const repeatMult = Math.max(1, num('apRepeatMult', 1.35));
+
+  const clicks = cpc > 0 ? Math.floor(adSpend / cpc) : 0;
+  const estOrders = Math.round(clicks * (cvr / 100));
+  const blendedCpa = estOrders > 0 ? adSpend / estOrders : 0;
+  const deliveredOrders = estOrders * (1 - rtoRatePct / 100);
+  const deliveredRevenue = deliveredOrders * aov;
+  const blendedMer = adSpend > 0 ? deliveredRevenue / adSpend : 0;
+  const firstOrderContrib = deliveredRevenue * (grossMarginPct / 100);
+  const firstOrderNetProfit = firstOrderContrib - adSpend;
+  const ltvNetProfit = (firstOrderContrib * repeatMult) - adSpend;
+  const breakEvenMer = grossMarginPct > 0 ? 100 / grossMarginPct : 0;
+
+  let paybackStatus = 'Negative Unit Economics';
+  if (estOrders > 0 && adSpend > 0) {
+    if (firstOrderNetProfit >= 0) {
+      paybackStatus = 'Profitable Day 1';
+    } else if (ltvNetProfit >= 0) {
+      paybackStatus = 'Breaks Even via Repeat';
+    }
+  } else if (adSpend === 0 && estOrders === 0) {
+    paybackStatus = 'Negative Unit Economics';
+  }
+
+  return {
+    campaignName,
+    adSpend,
+    cpc,
+    cvr,
+    aov,
+    grossMarginPct,
+    rtoRatePct,
+    repeatMult,
+    clicks,
+    estOrders,
+    blendedCpa,
+    deliveredOrders,
+    deliveredRevenue,
+    blendedMer,
+    firstOrderContrib,
+    firstOrderNetProfit,
+    ltvNetProfit,
+    breakEvenMer,
+    paybackStatus
+  };
+}
+
+function calcAdPulse() {
+  if (!document.getElementById('apAdSpend')) return;
+  const m = computeAdPulseMetrics();
+
+  const ordersEl = document.getElementById('apEstOrders');
+  const cpaEl = document.getElementById('apBlendedCpa');
+  const merEl = document.getElementById('apBlendedMer');
+  const statusEl = document.getElementById('apPaybackStatus');
+  const firstEl = document.getElementById('apFirstOrderProfit');
+  const ltvEl = document.getElementById('apLtvProfit');
+  const delRevEl = document.getElementById('apDeliveredRev');
+  const contribEl = document.getElementById('apFirstContrib');
+  const beMerEl = document.getElementById('apBreakEvenMer');
+  const noteEl = document.getElementById('apActionNote');
+
+  if (ordersEl) ordersEl.textContent = m.estOrders.toLocaleString('en-IN') + ' orders';
+  if (cpaEl) cpaEl.textContent = m.estOrders > 0 ? apFmtInr(m.blendedCpa) : '₹0';
+  if (merEl) merEl.textContent = m.blendedMer.toFixed(2) + '×';
+  if (statusEl) {
+    statusEl.textContent = m.paybackStatus;
+    statusEl.style.color = m.paybackStatus === 'Profitable Day 1'
+      ? '#059669'
+      : (m.paybackStatus === 'Breaks Even via Repeat' ? '#b45309' : '#b91c1c');
+  }
+  if (firstEl) {
+    firstEl.textContent = apFmtInr(m.firstOrderNetProfit);
+    firstEl.style.color = m.firstOrderNetProfit >= 0 ? '#059669' : '#b91c1c';
+  }
+  if (ltvEl) {
+    ltvEl.textContent = apFmtInr(m.ltvNetProfit);
+    ltvEl.style.color = m.ltvNetProfit >= 0 ? '#059669' : '#b91c1c';
+  }
+  if (delRevEl) delRevEl.textContent = apFmtInr(m.deliveredRevenue);
+  if (contribEl) contribEl.textContent = apFmtInr(m.firstOrderContrib);
+  if (beMerEl) beMerEl.textContent = m.breakEvenMer > 0 ? m.breakEvenMer.toFixed(2) + '×' : '—';
+
+  if (noteEl) {
+    if (m.paybackStatus === 'Profitable Day 1') {
+      noteEl.textContent = 'Scale-ready: Delivered MER (' + m.blendedMer.toFixed(2) + '×) clears your ' + m.breakEvenMer.toFixed(2) + '× break-even MER on Day 1, generating ' + apFmtInr(m.firstOrderNetProfit) + ' net ad profit.';
+    } else if (m.paybackStatus === 'Breaks Even via Repeat') {
+      noteEl.textContent = 'Repeat-dependent: First orders lose ' + apFmtInr(Math.abs(m.firstOrderNetProfit)) + ', but ' + m.repeatMult.toFixed(2) + '× 90-day repeat lifts cohort net profit to ' + apFmtInr(m.ltvNetProfit) + '. Check CashPulse runway before scaling.';
+    } else {
+      noteEl.textContent = 'Stop-loss alert: Blended MER (' + m.blendedMer.toFixed(2) + '×) sits below your ' + m.breakEvenMer.toFixed(2) + '× break-even MER. Lower RTO, lift AOV via bundles, or cut CPC before adding budget.';
+    }
+  }
+}
+
+function getSavedAdPulseCampaigns() {
+  try {
+    const raw = localStorage.getItem(AP_SAVED_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.slice(0, 8);
+    }
+  } catch (e) {}
+  return [];
+}
+
+function renderSavedAdPulseBar() {
+  const container = document.getElementById('apSavedList');
+  if (!container) return;
+  const list = getSavedAdPulseCampaigns();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.8rem;">No saved campaigns yet.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const label = escapeHtml((item.campaignName || 'Campaign').slice(0, 26));
+    const badge = item.paybackStatus === 'Profitable Day 1' ? 'Day 1 +' : (item.paybackStatus === 'Breaks Even via Repeat' ? 'Repeat BE' : 'Loss');
+    return '<span class="bf-saved-chip">' +
+      '<button type="button" class="bf-saved-load" onclick="loadAdPulseCampaign(' + idx + ')">' + label + ' (' + escapeHtml(badge) + ')</button>' +
+      '<button type="button" class="bf-saved-del" aria-label="Remove saved campaign" onclick="deleteAdPulseCampaign(' + idx + ', event)">&times;</button>' +
+      '</span>';
+  }).join('');
+}
+
+function saveAdPulseCampaign() {
+  const m = computeAdPulseMetrics();
+  const list = getSavedAdPulseCampaigns();
+  const existingIdx = list.findIndex(x => (x.campaignName || '').toLowerCase() === m.campaignName.toLowerCase());
+  const entry = {
+    campaignName: m.campaignName,
+    adSpend: m.adSpend,
+    cpc: m.cpc,
+    cvr: m.cvr,
+    aov: m.aov,
+    grossMargin: m.grossMarginPct,
+    rtoRate: m.rtoRatePct,
+    repeatMult: m.repeatMult,
+    paybackStatus: m.paybackStatus,
+    savedAt: Date.now()
+  };
+  if (existingIdx >= 0) list.splice(existingIdx, 1);
+  list.unshift(entry);
+  try {
+    localStorage.setItem(AP_SAVED_KEY, JSON.stringify(list.slice(0, 8)));
+  } catch (e) {}
+  renderSavedAdPulseBar();
+}
+
+function loadAdPulseCampaign(idx) {
+  const list = getSavedAdPulseCampaigns();
+  const item = list[idx];
+  if (!item) return;
+  const setVal = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined) el.value = v; };
+  setVal('apCampaignName', item.campaignName);
+  setVal('apAdSpend', item.adSpend);
+  setVal('apCpc', item.cpc);
+  setVal('apCvr', item.cvr);
+  setVal('apAov', item.aov);
+  setVal('apGrossMargin', item.grossMargin);
+  setVal('apRtoRate', item.rtoRate);
+  setVal('apRepeatMult', item.repeatMult);
+  document.querySelectorAll('.ap-preset-btn').forEach(b => b.classList.remove('active'));
+  calcAdPulse();
+}
+
+function deleteAdPulseCampaign(idx, ev) {
+  if (ev) ev.stopPropagation();
+  const list = getSavedAdPulseCampaigns();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem(AP_SAVED_KEY, JSON.stringify(list));
+  } catch (e) {}
+  renderSavedAdPulseBar();
+}
+
+function exportAdPulseCsv() {
+  const saved = getSavedAdPulseCampaigns();
+  const m = computeAdPulseMetrics();
+  const items = saved.length ? saved : [{
+    campaignName: m.campaignName,
+    adSpend: m.adSpend,
+    cpc: m.cpc,
+    cvr: m.cvr,
+    aov: m.aov,
+    grossMargin: m.grossMarginPct,
+    rtoRate: m.rtoRatePct,
+    repeatMult: m.repeatMult
+  }];
+
+  const headers = [
+    'Campaign Name', 'Monthly Ad Budget (INR)', 'Blended CPC (INR)', 'CVR (%)',
+    'AOV (INR)', 'Gross Margin (%)', 'RTO Rate (%)', '90-Day Repeat Multiplier',
+    'Estimated Monthly Orders', 'Blended CPA (INR)', 'Blended ROAS / MER',
+    'First-Order Net Ad Profit (INR)', '90-Day LTV Profit (INR)', 'Payback Status'
+  ];
+  const rows = [headers.map(escapeCsvCell).join(',')];
+
+  items.forEach(item => {
+    const spend = Math.max(0, parseFloat(item.adSpend) || 0);
+    const cpc = Math.max(0, parseFloat(item.cpc) || 0);
+    const cvr = Math.max(0, Math.min(100, parseFloat(item.cvr) || 0));
+    const aov = Math.max(0, parseFloat(item.aov) || 0);
+    const gm = Math.max(0, Math.min(100, parseFloat(item.grossMargin) || 0));
+    const rto = Math.max(0, Math.min(100, parseFloat(item.rtoRate) || 0));
+    const rep = Math.max(1, parseFloat(item.repeatMult) || 1);
+
+    const clicks = cpc > 0 ? Math.floor(spend / cpc) : 0;
+    const orders = Math.round(clicks * (cvr / 100));
+    const cpa = orders > 0 ? Math.round(spend / orders) : 0;
+    const delRev = orders * (1 - rto / 100) * aov;
+    const mer = spend > 0 ? (delRev / spend).toFixed(2) : '0.00';
+    const contrib = delRev * (gm / 100);
+    const firstNet = Math.round(contrib - spend);
+    const ltvNet = Math.round((contrib * rep) - spend);
+    let status = 'Negative Unit Economics';
+    if (orders > 0 && spend > 0) {
+      if (firstNet >= 0) status = 'Profitable Day 1';
+      else if (ltvNet >= 0) status = 'Breaks Even via Repeat';
+    }
+    rows.push([
+      item.campaignName || 'Campaign', spend, cpc, cvr, aov, gm, rto, rep,
+      orders, cpa, mer + 'x', firstNet, ltvNet, status
+    ].map(escapeCsvCell).join(','));
+  });
+
+  const csvContent = '\uFEFF' + rows.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'kitedesk-adpulse-plan.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function copyAdPulseBrief(btn) {
+  const m = computeAdPulseMetrics();
+  const brief = [
+    'Media Buyer Brief — ' + m.campaignName + ' (AdPulse by KiteDesk)',
+    'Monthly Ad Budget: ' + apFmtInr(m.adSpend) + ' | Target CPC: ' + apFmtInr(m.cpc) + ' | CVR: ' + m.cvr.toFixed(1) + '%',
+    'Estimated Monthly Orders: ' + m.estOrders.toLocaleString('en-IN') + ' | Max Target CPA: ' + apFmtInr(m.blendedCpa),
+    'Delivered MER (Net of ' + m.rtoRatePct.toFixed(0) + '% RTO): ' + m.blendedMer.toFixed(2) + 'x (Break-Even MER: ' + m.breakEvenMer.toFixed(2) + 'x)',
+    'First-Order Net Ad Profit: ' + apFmtInr(m.firstOrderNetProfit),
+    '90-Day LTV Profit (' + m.repeatMult.toFixed(2) + 'x Repeat): ' + apFmtInr(m.ltvNetProfit),
+    'Payback Status: ' + m.paybackStatus
+  ].join('\n');
+  copyWithFallback(brief, btn);
+}
+

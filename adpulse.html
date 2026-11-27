@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>AdPulse by KiteDesk — Indian D2C Meta &amp; Google Ad Spend, MER &amp; Payback Planner</title>
+  <meta name="description" content="Calculate estimated monthly orders, blended CPA, blended ROAS / MER, first-order net ad profit, and 90-day LTV profit after repeat orders for Indian D2C Meta & Google Ads." />
+  <link rel="canonical" href="https://srivastavt37-sys.github.io/kitedesk-web/adpulse.html" />
+  <meta property="og:title" content="AdPulse by KiteDesk — Indian D2C Meta & Google Ad Spend, MER & Payback Planner" />
+  <meta property="og:description" content="100% browser-local Meta & Google ad spend, blended MER, RTO-adjusted first-order profit, and 90-day repeat payback planner for Indian D2C brands." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://srivastavt37-sys.github.io/kitedesk-web/adpulse.html" />
+  <meta property="og:site_name" content="KiteDesk Studio" />
+  <meta property="og:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://srivastavt37-sys.github.io/kitedesk-web/images/marginmint-preview.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AdPulse Indian D2C Meta & Google Ad Spend, MER & Payback Planner",
+  "url": "https://srivastavt37-sys.github.io/kitedesk-web/adpulse.html",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "description": "Free 100% client-side Meta & Google Ad spend, blended CPA, MER, first-order net profit, and 90-day repeat payback planner for Indian D2C sellers.",
+  "featureList": [
+    "Estimated monthly orders, blended CPA in INR, and RTO-adjusted blended ROAS / MER",
+    "First-order net ad profit and 90-day LTV profit after repeat orders",
+    "Live Payback Status Badge: Profitable Day 1, Breaks Even via Repeat, or Negative Unit Economics",
+    "3 Indian D2C presets: Apparel Meta Ads, Skincare CTWA + UPI, and High-Ticket Electronics",
+    "Saved campaign localStorage persistence, CSV ad plan export, and Media Buyer Brief copy"
+  ]
+}
+  </script>
+</head>
+<body data-brand="adpulse">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand-group">
+        <a href="adpulse.html" class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+          <span>AdPulse</span>
+        </a>
+        <a href="index.html" class="by-kitedesk">by KiteDesk</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Studio</a>
+        <a href="billfold.html">BillFold</a>
+        <a href="tapping.html">TapPing</a>
+        <a href="marginmint.html">MarginMint</a>
+        <a href="copycraft.html">CopyCraft</a>
+        <a href="cashpulse.html">CashPulse</a>
+        <a href="stockpulse.html">StockPulse</a>
+        <a href="adpulse.html" class="active">AdPulse</a>
+        <a href="tools.html">Tools</a>
+        <a href="journal.html">Journal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="sub-hero-banner">
+        <div class="sub-hero-left">
+          <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></div>
+          <div>
+            <h1>AdPulse — Meta &amp; Google Ad Spend, MER &amp; Payback Planner</h1>
+            <p>Model blended CPA, RTO-adjusted MER, Day-1 ad profit, and 90-day repeat payback before scaling budget.</p>
+          </div>
+        </div>
+        <div class="sub-hero-actions" role="group" aria-label="Indian D2C Campaign Presets">
+          <button type="button" class="chip ap-preset-btn active" onclick="applyAdPulsePreset('apparel_meta', this)">Apparel Meta Ads</button>
+          <button type="button" class="chip ap-preset-btn" onclick="applyAdPulsePreset('skincare_ctwa', this)">Skincare CTWA + UPI</button>
+          <button type="button" class="chip ap-preset-btn" onclick="applyAdPulsePreset('electronics_google', this)">High-Ticket Electronics</button>
+        </div>
+      </div>
+
+      <div class="bf-history-bar" id="apSavedBar" aria-label="Saved Campaigns" style="margin-bottom: 14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0;">
+          <span class="mini-badge" style="flex-shrink:0;">Saved Campaigns</span>
+          <div id="apSavedList" class="bf-saved-chips"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;">
+          <button type="button" class="btn btn-sm btn-outline" onclick="saveAdPulseCampaign()">+ Save Campaign</button>
+          <button type="button" id="apExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportAdPulseCsv()">Export Ad Plan (.csv)</button>
+        </div>
+      </div>
+
+      <div class="tool-layout">
+        <div class="card form-card">
+          <h3>1. Campaign Budget &amp; Funnel Inputs</h3>
+          <div class="form-row">
+            <label>Campaign Name
+              <input type="text" id="apCampaignName" value="Festive Kurta Meta Prospecting" maxlength="48" oninput="calcAdPulse()" />
+            </label>
+            <label>Monthly Ad Budget (&#8377;)
+              <input type="number" class="mono-input" id="apAdSpend" value="150000" min="0" step="1000" oninput="calcAdPulse()" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Blended CPC (&#8377;)
+              <input type="number" class="mono-input" id="apCpc" value="11" min="0" step="0.5" oninput="calcAdPulse()" />
+            </label>
+            <label>Conversion Rate (%)
+              <input type="number" class="mono-input" id="apCvr" value="2.1" min="0" max="100" step="0.1" oninput="calcAdPulse()" />
+            </label>
+          </div>
+
+          <h3 style="margin-top:8px;">2. Unit Economics &amp; 90-Day Repeat</h3>
+          <div class="form-row">
+            <label>Average Order Value (&#8377;)
+              <input type="number" class="mono-input" id="apAov" value="1599" min="0" step="10" oninput="calcAdPulse()" />
+            </label>
+            <label>Gross Margin Before Ads (%)
+              <input type="number" class="mono-input" id="apGrossMargin" value="58" min="0" max="100" step="1" oninput="calcAdPulse()" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>RTO Loss Rate (%)
+              <input type="number" class="mono-input" id="apRtoRate" value="18" min="0" max="100" step="1" oninput="calcAdPulse()" />
+            </label>
+            <label>90-Day Repeat Multiplier
+              <input type="number" class="mono-input" id="apRepeatMult" value="1.35" min="1" max="5" step="0.05" oninput="calcAdPulse()" />
+            </label>
+          </div>
+          <p class="muted" style="margin:0;">MER is calculated on <strong>delivered revenue</strong> after RTO losses. A 1.35&times; repeat multiplier assumes 35% extra contribution from 90-day repeat orders at &#8377;0 extra ad spend.</p>
+        </div>
+
+        <div class="card form-card">
+          <h3>3. MER, Net Ad Profit &amp; Payback Output</h3>
+          <div class="kpi-grid">
+            <div class="kpi-box"><span>Estimated Monthly Orders</span><strong id="apEstOrders">0 orders</strong></div>
+            <div class="kpi-box"><span>Blended CPA</span><strong id="apBlendedCpa">&#8377;0</strong></div>
+            <div class="kpi-box"><span>Blended ROAS / MER</span><strong id="apBlendedMer">0.00&times;</strong></div>
+            <div class="kpi-box"><span>Payback Status</span><strong id="apPaybackStatus">Negative Unit Economics</strong></div>
+          </div>
+
+          <div class="inv-totals" style="align-items:stretch;width:100%;margin:0;">
+            <div style="width:100%;border-top:2px solid var(--brand);padding-top:8px;"><span>First-Order Net Ad Profit (&#8377;)</span><strong id="apFirstOrderProfit" style="color:var(--brand);">&#8377;0</strong></div>
+            <div style="width:100%;"><span>90-Day LTV Profit After Repeat Orders (&#8377;)</span><strong id="apLtvProfit">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Delivered Revenue (Net of RTO)</span><strong id="apDeliveredRev">&#8377;0</strong></div>
+            <div style="width:100%;"><span>First-Order Contribution Before Ads</span><strong id="apFirstContrib">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Break-Even MER Required</span><strong id="apBreakEvenMer">0.00&times;</strong></div>
+          </div>
+
+          <div class="tool-actions">
+            <button type="button" class="btn btn-primary" onclick="copyAdPulseBrief(this)">Copy Media Buyer Brief</button>
+            <button type="button" class="btn btn-outline" onclick="exportAdPulseCsv()">Export Ad Plan (.csv)</button>
+          </div>
+          <p class="muted" id="apActionNote" style="margin:4px 0 0;"></p>
+        </div>
+      </div>
+
+      <section class="card" style="margin-top: 28px;">
+        <span class="eyebrow">Paid Acquisition Benchmarks</span>
+        <h2 style="margin-top:4px;">Indian D2C Paid Ad &amp; MER Guardrails by Channel</h2>
+        <div class="table-wrap" style="overflow-x:auto;margin-top:14px;">
+          <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);text-align:left;">
+                <th style="padding:10px 8px;">Channel / Funnel</th>
+                <th style="padding:10px 8px;">Typical CPC</th>
+                <th style="padding:10px 8px;">Target Delivered MER</th>
+                <th style="padding:10px 8px;">Companion Studio Check</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:10px 8px;"><strong>Apparel Meta Prospecting</strong></td>
+                <td style="padding:10px 8px;">&#8377;9&ndash;&#8377;14</td>
+                <td style="padding:10px 8px;">2.2&times;&ndash;2.8&times;</td>
+                <td style="padding:10px 8px;">Verify SKU-level RTO drag in <a href="marginmint.html">MarginMint</a></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:10px 8px;"><strong>Skincare CTWA + UPI</strong></td>
+                <td style="padding:10px 8px;">&#8377;7&ndash;&#8377;12</td>
+                <td style="padding:10px 8px;">1.6&times;&ndash;2.1&times; (repeat-driven)</td>
+                <td style="padding:10px 8px;">Build WhatsApp close flows in <a href="tapping.html">TapPing</a></td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;"><strong>High-Ticket Google Shopping</strong></td>
+                <td style="padding:10px 8px;">&#8377;15&ndash;&#8377;25</td>
+                <td style="padding:10px 8px;">3.0&times;+</td>
+                <td style="padding:10px 8px;">Check 90-day cash runway in <a href="cashpulse.html">CashPulse</a> &amp; stock in <a href="stockpulse.html">StockPulse</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 10 12 22 2 10 12 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+          <span>KiteDesk</span><span class="studio-pill">Studio</span>
+        </a>
+        <p class="footer-note">Zero-signup, browser-first business micro-brands: BillFold, TapPing, MarginMint, CopyCraft, CashPulse, StockPulse, and AdPulse.</p>
+      </div>
+      <div>
+        <h4>Sub-Brands</h4>
+        <ul>
+          <li><a href="billfold.html">BillFold &mdash; GST &amp; UPI Invoicing</a></li>
+          <li><a href="tapping.html">TapPing &mdash; WhatsApp &amp; QR</a></li>
+          <li><a href="marginmint.html">MarginMint &mdash; D2C Profit &amp; RTO</a></li>
+          <li><a href="copycraft.html">CopyCraft &mdash; Bio &amp; SERP Studio</a></li>
+          <li><a href="cashpulse.html">CashPulse &mdash; 90-Day Cashflow &amp; COD Lag</a></li>
+          <li><a href="stockpulse.html">StockPulse &mdash; Inventory Reorder &amp; PO Cash</a></li>
+          <li><a href="adpulse.html">AdPulse &mdash; Meta &amp; Google Ad MER Planner</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="tools.html">All Studio Tools</a></li>
+          <li><a href="journal.html">Daily Growth Journal</a></li>
+          <li><a href="about.html">About KiteDesk</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 KiteDesk Studio. All tools run locally in your browser.</span>
+      <a href="sitemap.xml">Sitemap</a>
+    </div>
+  </footer>
+
+  <script>
+    const ADPULSE_PRESETS = {
+      apparel_meta:       { campaignName: 'Festive Kurta Meta Prospecting', adSpend: 150000, cpc: 11,   cvr: 2.1, aov: 1599, grossMargin: 58, rtoRate: 18, repeatMult: 1.35 },
+      skincare_ctwa:      { campaignName: 'Vitamin C Serum CTWA + UPI',     adSpend: 100000, cpc: 9.5,  cvr: 1.6, aov: 849,  grossMargin: 62, rtoRate: 14, repeatMult: 1.55 },
+      electronics_google: { campaignName: 'ANC Earbuds Google Shopping',    adSpend: 200000, cpc: 18,   cvr: 1.4, aov: 2499, grossMargin: 38, rtoRate: 15, repeatMult: 1.15 }
+    };
+
+    function applyAdPulsePreset(key, btnEl) {
+      const p = ADPULSE_PRESETS[key];
+      if (!p) return;
+      document.getElementById('apCampaignName').value = p.campaignName;
+      document.getElementById('apAdSpend').value = p.adSpend;
+      document.getElementById('apCpc').value = p.cpc;
+      document.getElementById('apCvr').value = p.cvr;
+      document.getElementById('apAov').value = p.aov;
+      document.getElementById('apGrossMargin').value = p.grossMargin;
+      document.getElementById('apRtoRate').value = p.rtoRate;
+      document.getElementById('apRepeatMult').value = p.repeatMult;
+
+      document.querySelectorAll('.ap-preset-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      if (btnEl) btnEl.classList.add('active');
+
+      if (typeof calcAdPulse === 'function') {
+        calcAdPulse();
+      }
+    }
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

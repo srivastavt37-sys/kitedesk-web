@@ -63,6 +63,12 @@ body[data-brand="stockpulse"] {
   --brand-soft: #e0e7ff;
   --brand-accent: #f59e0b;
 }
+body[data-brand="adpulse"] {
+  --brand: #be123c;
+  --brand-dark: #9f1239;
+  --brand-soft: #ffe4e6;
+  --brand-accent: #f59e0b;
+}
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -350,6 +356,7 @@ a:hover { color: var(--brand-dark); }
 .subbrand-card.is-marginmint { border-top-color: #0d9488; }
 .subbrand-card.is-cashpulse { border-top-color: #0369a1; }
 .subbrand-card.is-stockpulse { border-top-color: #4f46e5; }
+.subbrand-card.is-adpulse { border-top-color: #be123c; }
 .subbrand-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .subbrand-title-wrap { display: flex; align-items: center; gap: 12px; }
 .subbrand-icon {
@@ -369,6 +376,7 @@ a:hover { color: var(--brand-dark); }
 .is-marginmint .subbrand-icon { background: #0d9488; }
 .is-cashpulse .subbrand-icon { background: #0369a1; }
 .is-stockpulse .subbrand-icon { background: #4f46e5; }
+.is-adpulse .subbrand-icon { background: #be123c; }
 .subbrand-head h3 { margin: 0; font-size: 1.25rem; }
 .subbrand-head span { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
 .subbrand-features {
