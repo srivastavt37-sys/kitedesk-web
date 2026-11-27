@@ -3855,6 +3855,21 @@ function computeStockPulseMetrics() {
     orderByDateLabel = dd + ' ' + mmm + ' ' + yyyy;
   }
 
+  const annualTurns = currentStock > 0 ? (dailySales * 365) / currentStock : 0;
+  let turnsBand = 'Stockout';
+  if (currentStock > 0) {
+    if (annualTurns < 4) {
+      turnsBand = 'Slow Capital';
+    } else if (annualTurns <= 12) {
+      turnsBand = 'Healthy Turns';
+    } else {
+      turnsBand = 'Fast-Mover';
+    }
+  }
+  const turnsLabel = currentStock > 0
+    ? annualTurns.toFixed(1) + '× · ' + turnsBand
+    : '0.0× · Stockout';
+
   return {
     skuName,
     dailySales,
@@ -3873,7 +3888,10 @@ function computeStockPulseMetrics() {
     poCash,
     capitalTied,
     excessUnits,
-    excessCashUnlock
+    excessCashUnlock,
+    annualTurns,
+    turnsBand,
+    turnsLabel
   };
 }
 
@@ -3891,6 +3909,7 @@ function calcStockPulse() {
   const leadDemEl = document.getElementById('spLeadDemand');
   const safeUnitsEl = document.getElementById('spSafetyUnits');
   const orderByEl = document.getElementById('spOrderByDate');
+  const turnsEl = document.getElementById('spTurns');
   const noteEl = document.getElementById('spActionNote');
 
   if (ropEl) ropEl.textContent = m.reorderPoint.toLocaleString('en-IN') + ' units';
@@ -3918,6 +3937,12 @@ function calcStockPulse() {
   if (orderByEl) {
     orderByEl.textContent = m.orderByDateLabel;
     orderByEl.style.color = m.daysUntilReorder <= 0 ? '#b91c1c' : '#0f4c5c';
+  }
+  if (turnsEl) {
+    turnsEl.textContent = m.turnsLabel;
+    turnsEl.style.color = m.currentStock <= 0 || m.annualTurns < 4
+      ? '#b91c1c'
+      : (m.annualTurns <= 12 ? '#059669' : '#0f4c5c');
   }
 
   if (noteEl) {
