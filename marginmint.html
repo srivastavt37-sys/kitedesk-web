@@ -88,6 +88,7 @@
           <input type="text" id="mmSaveLabel" placeholder="SKU label (e.g. Jootis 1499)" maxlength="32" style="width:170px;padding:4px 8px;font-size:0.76rem;" />
           <button type="button" class="btn btn-sm btn-outline" onclick="saveMarginScenario()">+ Save SKU</button>
           <button type="button" id="mmExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportMarginScenariosCsv()">Export SKUs (.csv)</button>
+          <button type="button" id="mmClearSavedBtn" class="btn btn-sm btn-outline" onclick="clearSavedMarginScenarios()">Clear Saved</button>
         </div>
       </div>
 
@@ -237,6 +238,9 @@
             <div style="width:100%;"><span>Break-Even Orders / Month</span><strong id="mmBreakEvenOrders">0 orders</strong></div>
             <div style="width:100%;"><span>Orders Needed for Goal</span><strong id="mmOrdersForGoal">0 orders</strong></div>
             <div style="width:100%;"><span>Monthly RTO Cash Burn</span><strong id="mmMonthlyRtoBurn">&#8377;0</strong></div>
+            <div style="width:100%;border-top:1px dashed var(--line, #e2e8f0);padding-top:8px;margin-top:4px;"><span>Offer A: Prepaid Discount (100 Orders)</span><strong id="mmOfferPrepaid100">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Offer B: Free Shipping Only (30% UPI, 100 Orders)</span><strong id="mmOfferFreeShip100">&#8377;0</strong></div>
+            <div style="width:100%;"><span>Prepaid vs Free Shipping Verdict</span><strong id="mmOfferVerdict">Calculating...</strong></div>
           </div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;">
             <button type="button" class="btn btn-sm btn-outline" id="mmCopyBtn" onclick="copyMarginSummary(this)">Copy Margin Breakdown</button>

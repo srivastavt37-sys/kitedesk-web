@@ -604,6 +604,14 @@ function saveMarginScenario() {
   renderSavedMarginBar();
 }
 
+function clearSavedMarginScenarios() {
+  try {
+    localStorage.removeItem(MM_SAVED_KEY);
+  } catch (e) {}
+  renderSavedMarginBar();
+}
+window.clearSavedMarginScenarios = clearSavedMarginScenarios;
+
 
 function exportMarginScenariosCsv() {
   let list = getSavedMarginScenarios();
@@ -3241,6 +3249,33 @@ function calcMargin() {
   if (monthlyRtoEl) {
     monthlyRtoEl.textContent = `${cur}${Math.round(monthlyRtoBurn).toLocaleString('en-IN')}`;
     monthlyRtoEl.style.color = monthlyRtoBurn > 0 ? 'var(--danger)' : 'var(--brand)';
+  }
+
+  const offerPrepaid100 = blended100;
+  const offerFreeShip100 = (30 * prepaidProfitAtZeroDisc) + (70 * codNetPerPlaced);
+  const offerDelta = offerPrepaid100 - offerFreeShip100;
+  const offerPrepaidEl = document.getElementById('mmOfferPrepaid100');
+  if (offerPrepaidEl) {
+    offerPrepaidEl.textContent = `${cur}${Math.round(offerPrepaid100).toLocaleString('en-IN')}`;
+    offerPrepaidEl.style.color = offerPrepaid100 >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+  const offerFreeShipEl = document.getElementById('mmOfferFreeShip100');
+  if (offerFreeShipEl) {
+    offerFreeShipEl.textContent = `${cur}${Math.round(offerFreeShip100).toLocaleString('en-IN')}`;
+    offerFreeShipEl.style.color = offerFreeShip100 >= 0 ? 'var(--brand)' : 'var(--danger)';
+  }
+  const offerVerdictEl = document.getElementById('mmOfferVerdict');
+  if (offerVerdictEl) {
+    if (Math.abs(offerDelta) < 1) {
+      offerVerdictEl.textContent = 'Tie (Equal Net Margin)';
+      offerVerdictEl.style.color = 'var(--ink-secondary, #475569)';
+    } else if (offerDelta > 0) {
+      offerVerdictEl.textContent = `Prepaid Discount wins (+${cur}${Math.round(offerDelta).toLocaleString('en-IN')})`;
+      offerVerdictEl.style.color = 'var(--brand)';
+    } else {
+      offerVerdictEl.textContent = `Free Shipping wins (+${cur}${Math.round(Math.abs(offerDelta)).toLocaleString('en-IN')})`;
+      offerVerdictEl.style.color = 'var(--brand)';
+    }
   }
 
   if (sell > 0) {
