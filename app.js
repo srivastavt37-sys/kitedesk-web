@@ -3095,6 +3095,13 @@ function deleteSavedCopyCraftDraft(idx, ev) {
   renderSavedCopyCraftBar();
 }
 
+function clearSavedCopyCraftDrafts() {
+  try {
+    localStorage.removeItem('cc_saved_drafts');
+  } catch (e) {}
+  renderSavedCopyCraftBar();
+}
+
 function exportCopyCraftDraftsCsv() {
   let list = getSavedCopyCraftDrafts();
   if (!list.length) {
@@ -3579,6 +3586,64 @@ function copySerpJsonLd(btn) {
   if (btn) {
     if (!btn.dataset.origLabel) btn.dataset.origLabel = btn.textContent;
     btn.textContent = 'Copied JSON-LD ✓';
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(() => { btn.textContent = btn.dataset.origLabel; }, 1600);
+  }
+}
+
+function copyFullSeoHeadPack(btn) {
+  const titleText = (document.getElementById('serpTitleInput')?.value || '').trim() || 'Your Brand — Official Store & Custom Orders';
+  const descRaw = (document.getElementById('fmtInput')?.value || '').replace(/\s+/g, ' ').trim();
+  const descText = descRaw || 'Shop quality products with fast pan-India dispatch and UPI support.';
+  const urlText = (document.getElementById('serpUrlInput')?.value || '').trim() || 'https://kitedesk.in/shop/festive-jootis';
+  const schemaTypeRaw = (document.getElementById('schemaTypeSelect')?.value || 'WebPage').trim();
+  const allowedTypes = ['WebPage', 'Product', 'LocalBusiness'];
+  const schemaType = allowedTypes.includes(schemaTypeRaw) ? schemaTypeRaw : 'WebPage';
+  const labelBrand = (document.getElementById('ccSaveLabel')?.value || '').trim();
+  let hostBrand = '';
+  try {
+    hostBrand = new URL(urlText).hostname.replace(/^www\./i, '');
+  } catch (_) {
+    hostBrand = '';
+  }
+  const brandName = labelBrand || (titleText.includes('|') ? titleText.split('|')[0].trim() : '') || hostBrand || 'KiteDesk Seller';
+
+  const schemaObj = {
+    '@context': 'https://schema.org',
+    '@type': schemaType,
+    name: titleText,
+    description: descText,
+    url: urlText
+  };
+
+  if (schemaType === 'Product') {
+    schemaObj.brand = { '@type': 'Brand', name: brandName };
+  } else if (schemaType === 'LocalBusiness') {
+    const cityVal = (document.getElementById('gbpCityInput')?.value || '').trim();
+    const serviceVal = (document.getElementById('gbpServiceInput')?.value || '').trim();
+    schemaObj.address = cityVal
+      ? { '@type': 'PostalAddress', addressLocality: cityVal, addressCountry: 'IN' }
+      : { '@type': 'PostalAddress', addressCountry: 'IN' };
+    if (serviceVal) schemaObj.makesOffer = serviceVal;
+  } else {
+    schemaObj.publisher = { '@type': 'Organization', name: brandName };
+  }
+
+  const safeJson = JSON.stringify(schemaObj, null, 2).replace(/</g, '\\u003c');
+  const headPack = [
+    `<title>${escapeHtml(titleText)}</title>`,
+    `<meta name="description" content="${escapeHtml(descText)}" />`,
+    `<link rel="canonical" href="${escapeHtml(urlText)}" />`,
+    `<meta property="og:title" content="${escapeHtml(titleText)}" />`,
+    `<meta property="og:description" content="${escapeHtml(descText)}" />`,
+    `<meta property="og:url" content="${escapeHtml(urlText)}" />`,
+    `<script type="application/ld+json">\n${safeJson}\n<\/script>`
+  ].join('\n');
+
+  copyWithFallback(headPack, btn);
+  if (btn) {
+    if (!btn.dataset.origLabel) btn.dataset.origLabel = btn.textContent;
+    btn.textContent = 'Copied SEO Head Pack ✓';
     clearTimeout(btn._copyTimer);
     btn._copyTimer = setTimeout(() => { btn.textContent = btn.dataset.origLabel; }, 1600);
   }
