@@ -507,6 +507,7 @@ window.downloadTapPingQrSvg = downloadTapPingQrSvg;
 buildWhatsApp();
     updateStandeeBrand();
     renderSavedTapPingBar();
+    renderSavedTapPingTemplates();
   }
   if (document.getElementById("fmtInput")) {
     updateFormatter();
@@ -2393,6 +2394,92 @@ function saveTapPingLink() {
   } catch (e) {}
   if (labelInput) labelInput.value = '';
   renderSavedTapPingBar();
+}
+
+function clearSavedTapPingLinks() {
+  try {
+    localStorage.removeItem('tp_saved_links');
+  } catch (e) {}
+  renderSavedTapPingBar();
+}
+
+function getSavedTapPingTemplates() {
+  try {
+    const raw = localStorage.getItem('tp_custom_templates');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.slice(0, 8);
+    }
+  } catch (e) {}
+  return [];
+}
+
+function renderSavedTapPingTemplates() {
+  const container = document.getElementById('tpCustomTplList');
+  if (!container) return;
+  const list = getSavedTapPingTemplates();
+  if (!list.length) {
+    container.innerHTML = '<span class="muted" style="font-size:0.75rem;">No custom templates yet. Type a message above and click "+ Save Template" to store up to 8 locally.</span>';
+    return;
+  }
+  container.innerHTML = list.map((item, idx) => {
+    const safeName = escapeHtml((item.name || 'Template').slice(0, 28));
+    const safePreview = escapeHtml((item.msg || '').replace(/\s+/g, ' ').trim().slice(0, 26));
+    return `
+      <span class="bf-saved-chip" onclick="loadSavedTapPingTemplate(${idx})" title="Click to load template ${safeName}">
+        <span>${safeName}${safePreview ? ` &bull; <span class="muted" style="font-weight:400;">${safePreview}</span>` : ''}</span>
+        <button type="button" class="bf-saved-del" onclick="deleteSavedTapPingTemplate(${idx}, event)" aria-label="Delete template ${safeName}" title="Remove template">&times;</button>
+      </span>
+    `;
+  }).join('');
+}
+
+function saveTapPingCustomTemplate() {
+  const msgEl = document.getElementById('waMsg');
+  if (!msgEl) return;
+  const msg = msgEl.value.trim();
+  if (!msg) return;
+  const nameInput = document.getElementById('tpCustomTplName');
+  const rawName = (nameInput?.value || '').trim() || msg.slice(0, 24) || 'Custom Template';
+  const entry = {
+    name: rawName.slice(0, 28),
+    msg: msg.slice(0, 1000)
+  };
+  const list = getSavedTapPingTemplates().filter(item => (item.name || '').toLowerCase() !== entry.name.toLowerCase());
+  list.unshift(entry);
+  try {
+    localStorage.setItem('tp_custom_templates', JSON.stringify(list.slice(0, 8)));
+  } catch (e) {}
+  if (nameInput) nameInput.value = '';
+  renderSavedTapPingTemplates();
+}
+
+function loadSavedTapPingTemplate(idx) {
+  const list = getSavedTapPingTemplates();
+  const item = list[idx];
+  if (!item) return;
+  const msgEl = document.getElementById('waMsg');
+  if (msgEl) {
+    msgEl.value = item.msg || '';
+    if (typeof buildWhatsApp === 'function') buildWhatsApp();
+  }
+}
+
+function deleteSavedTapPingTemplate(idx, ev) {
+  if (ev) ev.stopPropagation();
+  const list = getSavedTapPingTemplates();
+  list.splice(idx, 1);
+  try {
+    localStorage.setItem('tp_custom_templates', JSON.stringify(list));
+  } catch (e) {}
+  renderSavedTapPingTemplates();
+}
+
+function clearSavedTapPingTemplates() {
+  try {
+    localStorage.removeItem('tp_custom_templates');
+  } catch (e) {}
+  renderSavedTapPingTemplates();
 }
 
 function loadSavedTapPingLink(idx) {
