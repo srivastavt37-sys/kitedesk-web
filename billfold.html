@@ -91,6 +91,7 @@
                 <button type="button" class="btn btn-sm btn-outline" onclick="exportSavedInvoicesJson()" title="Export saved invoices as JSON backup">Export JSON</button>
                 <button type="button" class="btn btn-sm btn-outline" id="bfExportCsvBtn" onclick="exportSavedInvoicesCsv()" title="Export GST sales register as CSV for CA reconciliation">Export Sales Register (.csv)</button>
                 <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('bfImportJsonInput').click()" title="Import saved invoices from JSON backup">Import JSON</button>
+                <button type="button" class="btn btn-sm btn-outline" id="bfClearSavedBtn" onclick="clearSavedInvoices()" title="Clear all saved invoices from browser localStorage">Clear Register</button>
                 <input type="file" id="bfImportJsonInput" accept="application/json,.json" style="display:none;" onchange="importSavedInvoicesJson(event)" />
               </div>
             </div>
@@ -268,6 +269,7 @@
               <div class="no-print" style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;">
                 <button type="button" class="btn btn-sm btn-outline" id="copyUpiLinkBtn" onclick="copyBillfoldUpiLink(this)" style="font-size:0.72rem;padding:4px 10px;">Copy upi://pay Link</button>
                 <button type="button" class="btn btn-sm btn-outline" id="bfCopyWaMsgBtn" onclick="copyBillfoldWaMsg(this)" style="font-size:0.72rem;padding:4px 10px;">Copy WhatsApp Payment Message</button>
+                <button type="button" class="btn btn-sm btn-outline" id="bfCopyReminderBtn" onclick="copyBillfoldPaymentReminder(this)" style="font-size:0.72rem;padding:4px 10px;">Copy Payment Reminder</button>
               </div>
             </div>
           </div>

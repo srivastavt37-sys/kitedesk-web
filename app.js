@@ -1088,6 +1088,15 @@ function deleteSavedInvoice(idx, ev) {
   renderSavedInvoicesBar();
 }
 
+function clearSavedInvoices() {
+  try {
+    localStorage.setItem('bf_saved_invoices', '[]');
+  } catch (e) {}
+  renderSavedInvoicesBar();
+  setBackupStatus('Cleared saved sales register from browser storage.', false);
+}
+window.clearSavedInvoices = clearSavedInvoices;
+
 function setBackupStatus(msg, isError) {
   const el = document.getElementById('bfBackupStatus');
   if (!el) return;
@@ -1747,6 +1756,42 @@ function copyBillfoldUpiLink(btn) {
   }
 }
 
+
+function copyBillfoldPaymentReminder(btn) {
+  const toName = (document.getElementById('invTo')?.value || 'there').trim() || 'there';
+  const fromName = (document.getElementById('invFrom')?.value || 'Our Store').trim() || 'Our Store';
+  const invNum = (document.getElementById('invNum')?.value || 'Invoice').trim() || 'Invoice';
+  const invDate = (document.getElementById('invDate')?.value || '').trim();
+  const totalText = (document.getElementById('prevTotal')?.textContent || '₹0.00').trim();
+  const advPaid = Number(window._currentBillfoldAdvancePaid) || 0;
+  const balPay = Number(window._currentBillfoldBalancePayable);
+  const curSym = window._currentBillfoldCurrency || '₹';
+  const upiId = (document.getElementById('invUpi')?.value || '').trim();
+  const dueText = advPaid > 0 && Number.isFinite(balPay) ? `${curSym}${balPay.toFixed(2)}` : totalText;
+  const dateNote = invDate ? ` dated ${invDate}` : '';
+  const upiLine = upiId ? `\nUPI ID: ${upiId}` : '';
+  const uriLine = window._currentBillfoldUpiUri ? `\nPay via UPI: ${window._currentBillfoldUpiUri}` : '';
+  const msg = `Hi ${toName},\n\nGentle payment reminder for Invoice ${invNum}${dateNote} from ${fromName}.\nAmount Due: ${dueText}${upiLine}${uriLine}\n\nPlease share the UTR / screenshot once paid. Thank you!`;
+  const finish = () => {
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied Reminder!';
+    setTimeout(() => { btn.textContent = orig; }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(msg).then(finish).catch(() => {});
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = msg;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    finish();
+  }
+  return msg;
+}
+window.copyBillfoldPaymentReminder = copyBillfoldPaymentReminder;
 
 function copyBillfoldWaMsg(btn) {
   const uri = window._currentBillfoldUpiUri || '';
