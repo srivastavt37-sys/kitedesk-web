@@ -3973,11 +3973,31 @@ function getSavedStockPulseWatchlist() {
 
 function renderSavedStockPulseBar() {
   const container = document.getElementById('spSavedList');
+  const summaryEl = document.getElementById('spWatchlistSummary');
   if (!container) return;
   const list = getSavedStockPulseWatchlist();
   if (!list.length) {
     container.innerHTML = '<span class="muted" style="font-size:0.76rem;">No SKUs in watchlist yet. Click "+ Save SKU to Watchlist" to track multiple SKUs locally.</span>';
+    if (summaryEl) summaryEl.textContent = '';
     return;
+  }
+  let totalPoCash = 0;
+  let urgentCount = 0;
+  list.forEach(item => {
+    const dSales = Number(item.dailySales) || 0;
+    const lDays = Number(item.leadDays) || 0;
+    const sDays = Number(item.safetyDays) || 0;
+    const cStock = Number(item.currentStock) || 0;
+    const uCost = Number(item.unitCost) || 0;
+    const rop = Math.ceil(dSales * lDays) + Math.ceil(dSales * sDays);
+    const rQty = dSales > 0 ? Math.max(0, Math.ceil((30 * dSales) + (rop - cStock))) : 0;
+    totalPoCash += rQty * uCost;
+    if ((dSales > 0 && cStock / dSales <= lDays + sDays + 7) || (dSales === 0 && cStock === 0)) {
+      urgentCount += 1;
+    }
+  });
+  if (summaryEl) {
+    summaryEl.textContent = `Watchlist PO: ${spFmtInr(totalPoCash)} (${list.length} SKU${list.length === 1 ? '' : 's'}, ${urgentCount} urgent)`;
   }
   container.innerHTML = list.map((item, idx) => {
     const safeSku = escapeHtml((item.skuName || 'Saved SKU').slice(0, 32));
@@ -3989,6 +4009,37 @@ function renderSavedStockPulseBar() {
       </span>
     `;
   }).join('');
+}
+
+function clearStockPulseWatchlist() {
+  try {
+    localStorage.removeItem(SP_SAVED_KEY);
+  } catch (e) {}
+  renderSavedStockPulseBar();
+  const noteEl = document.getElementById('spActionNote');
+  if (noteEl) noteEl.textContent = 'Cleared saved SKU watchlist.';
+}
+
+let spDelayStressActive = false;
+function stressTestStockPulseDelay(days) {
+  const leadEl = document.getElementById('spLeadDays');
+  const btn = document.getElementById('spDelayStressBtn');
+  const noteEl = document.getElementById('spActionNote');
+  if (!leadEl) return;
+  const cur = Math.max(0, parseFloat(leadEl.value) || 0);
+  const delta = Number(days) || 7;
+  if (!spDelayStressActive) {
+    leadEl.value = String(Math.min(120, cur + delta));
+    spDelayStressActive = true;
+    if (btn) btn.textContent = `Reset +${delta}d Delay`;
+    if (noteEl) noteEl.textContent = `Stress-test active: simulated +${delta}-day supplier delay.`;
+  } else {
+    leadEl.value = String(Math.max(0, cur - delta));
+    spDelayStressActive = false;
+    if (btn) btn.textContent = `+${delta}d Supplier Delay Stress-Test`;
+    if (noteEl) noteEl.textContent = 'Supplier delay stress-test cleared.';
+  }
+  calcStockPulse();
 }
 
 function saveStockPulseWatchlist() {

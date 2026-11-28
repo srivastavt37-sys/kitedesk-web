@@ -93,8 +93,10 @@
           <div id="spSavedList" class="bf-saved-chips"></div>
         </div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;">
+          <span id="spWatchlistSummary" class="muted" style="font-size:0.76rem;font-family:'JetBrains Mono',monospace;"></span>
           <button type="button" class="btn btn-sm btn-outline" onclick="saveStockPulseWatchlist()">+ Save SKU to Watchlist</button>
           <button type="button" id="spExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportStockPulseCsv()">Export Reorder Plan (.csv)</button>
+          <button type="button" id="spClearWatchlistBtn" class="btn btn-sm btn-outline" onclick="clearStockPulseWatchlist()">Clear Watchlist</button>
         </div>
       </div>
 
@@ -151,7 +153,7 @@
 
           <div class="tool-actions">
             <button type="button" class="btn btn-primary" onclick="copyStockPulsePoBrief(this)">Copy Supplier PO Brief</button>
-            <button type="button" class="btn btn-outline" onclick="exportStockPulseCsv()">Download Reorder CSV</button>
+            <button type="button" id="spDelayStressBtn" class="btn btn-outline" onclick="stressTestStockPulseDelay(7)">+7d Supplier Delay Stress-Test</button>
           </div>
           <p class="muted" id="spActionNote" style="margin:4px 0 0;"></p>
         </div>
