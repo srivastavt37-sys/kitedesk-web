@@ -3747,6 +3747,15 @@ function deleteSavedCashPulseSnapshot(idx, ev) {
   renderSavedCashPulseBar();
 }
 
+function clearSavedCashPulseSnapshots() {
+  try {
+    localStorage.removeItem(CP_SAVED_KEY);
+  } catch (e) {}
+  renderSavedCashPulseBar();
+  const noteEl = document.getElementById('cpActionNote');
+  if (noteEl) noteEl.textContent = 'Cleared all saved CashPulse snapshots from this browser.';
+}
+
 function exportCashPulseCsv() {
   const m = computeCashPulseMetrics();
   const headers = ['Day', 'Opening_Balance_INR', 'Prepaid_Inflow_INR', 'COD_Settled_INR', 'Daily_Outflow_INR', 'Closing_Balance_INR', 'COD_Trapped_Float_INR'];
@@ -3783,14 +3792,22 @@ function exportCashPulseCsv() {
 
 function copyCashPulseSummary(btn) {
   const m = computeCashPulseMetrics();
+  const adRatio = m.monthlyRev > 0 ? ((m.adSpend / m.monthlyRev) * 100).toFixed(1) + '%' : (m.adSpend > 0 ? 'No Revenue' : '0.0%');
+  const adStatus = (m.monthlyRev > 0 && (m.adSpend / m.monthlyRev) * 100 <= 25) ? 'Safe <= 25%' : 'High > 25% cap';
+  const bufStatus = m.belowSafeBuffer
+    ? 'Below 15d Safe Buffer (-' + cpFmtInr(Math.abs(m.safeBufferGap)) + ')'
+    : 'Safe (+' + cpFmtInr(m.safeBufferGap) + ' cushion)';
   const summary = [
-    'CashPulse 90-Day Cashflow Summary (KiteDesk Studio)',
-    'Opening Bank Balance: ' + cpFmtInr(m.openingBank),
+    'CashPulse Founder Cashflow & Runway Brief (KiteDesk Studio)',
+    'Opening Bank Balance: ' + cpFmtInr(m.openingBank) + ' | Buffer After COD Float: ' + cpFmtInr(m.bufferAfterFloat),
+    '15-Day Safe Opening Cash: ' + cpFmtInr(m.safeBuffer15d) + ' (' + bufStatus + ')',
     'Monthly Revenue: ' + cpFmtInr(m.monthlyRev) + ' (' + m.codShare + '% COD @ T+' + m.codLag + 'd lag)',
-    'Monthly Outflow: ' + cpFmtInr(m.monthlyOutflow),
+    'Monthly Outflow: ' + cpFmtInr(m.monthlyOutflow) + ' | Break-Even Daily Rev: ' + cpFmtInr(m.dailyOutflow) + '/day',
+    'Ad Spend % of Revenue: ' + adRatio + ' (' + adStatus + ')',
     'Daily Cash Surplus/Burn: ' + (m.dailyNet >= 0 ? '+' : '') + cpFmtInr(m.dailyNet) + '/day',
     'Cash Trapped in COD Transit: ' + cpFmtInr(m.codTrapped),
-    '90-Day Projected Balance: ' + cpFmtInr(m.balance90) + ' (' + m.runwayStatus + ')',
+    'Projected Bank Balance: 30d ' + cpFmtInr(m.balance30) + ' | 60d ' + cpFmtInr(m.balance60) + ' | 90d ' + cpFmtInr(m.balance90),
+    'Runway Status: ' + m.runwayStatus,
     'Prepaid-Switch Unlock (15% COD -> UPI): ' + cpFmtInr(m.prepaidUnlock)
   ].join('\n');
   copyWithFallback(summary, btn);

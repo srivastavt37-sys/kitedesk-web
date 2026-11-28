@@ -96,7 +96,7 @@
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;">
           <input type="text" id="cpSaveLabel" placeholder="Snapshot label (e.g. Nov Festive)" maxlength="32" style="width:185px;padding:4px 8px;font-size:0.76rem;" />
           <button type="button" class="btn btn-sm btn-outline" onclick="saveCashPulseSnapshot()">+ Save Snapshot</button>
-          <button type="button" id="cpExportCsvBtn" class="btn btn-sm btn-outline" onclick="exportCashPulseCsv()">Export 90-Day Cashflow (.csv)</button>
+          <button type="button" id="cpClearSavedBtn" class="btn btn-sm btn-outline" onclick="clearSavedCashPulseSnapshots()">Clear Saved</button>
         </div>
       </div>
 
@@ -177,7 +177,7 @@
           </div>
 
           <div class="tool-actions">
-            <button type="button" class="btn btn-primary" onclick="copyCashPulseSummary(this)">Copy Cashflow Summary</button>
+            <button type="button" id="cpCopyBriefBtn" class="btn btn-primary" onclick="copyCashPulseSummary(this)">Copy Founder Cashflow Brief</button>
             <button type="button" class="btn btn-outline" onclick="exportCashPulseCsv()">Download 90-Day CSV</button>
           </div>
           <p class="muted" id="cpActionNote" style="margin:4px 0 0;"></p>
